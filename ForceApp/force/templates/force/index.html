@@ -1,0 +1,11 @@
+{% extends "force/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'force/index.js' %}"></script>
+{% endblock %}
