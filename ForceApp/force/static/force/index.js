@@ -1,9 +1,11 @@
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');
 
-    // // canvas.width = window.innerWidth;
+    canvas.width = window.innerWidth * 0.6;
+    canvas.height = window.innerHeight * 0.6;
     // // make rectangle 
     // ctx.fillStyle = 'red';
     // ctx.fillRect(20, 20, 150, 100);
@@ -119,26 +121,208 @@ document.addEventListener('DOMContentLoaded', function() {
     // }
     // update();
 
-    const image = document.getElementById('source');
+    // const image = document.getElementById('source');
 
-    const player = {
-        w: 50,
-        h: 70,
-        x: 20,
-        y: 200,
-        speed: 5,
-        dx: 0,
-        dy: 0
+    // const player = {
+    //     w: 50,
+    //     h: 70,
+    //     x: 20,
+    //     y: 200,
+    //     speed: 10,
+    //     dx: 0,
+    //     dy: 0
+    // }
+
+    // function clear() {
+    //     ctx.clearRect(0,0, canvas.clientWidth, canvas.height);
+    // }
+
+    // function newPos() {
+    //     player.x += player.dx;
+    //     player.y += player.dy;
+
+    //     detectWalls();
+    // }
+
+    // function detectWalls() {
+    //     // Left wall
+    //     if (player.x < 0) {
+    //         player.x = 0;
+    //     }
+
+    //     // Right wall
+    //     if (player.x + player.w > canvas.width) {
+    //         player.x = canvas.width - player.w;
+    //     }
+
+    //     // Top wall
+    //     if (player.y < 0) {
+    //         player.y = 0;
+    //     }
+
+    //     // Bottom wall
+    //     if (player.y + player.h > canvas.height) {
+    //         player.y = canvas.height - player.h;
+    //     }
+    // }
+
+    // image.addEventListener('load', () => {
+
+    //     function drawPlayer() {
+    //         ctx.drawImage(image, player.x, player.y, player.w, player.h)
+    //     }
+    
+    //     function update() {
+    //         clear();
+    //         drawPlayer();
+    //         newPos();
+    //         requestAnimationFrame(update);
+    //     }
+    //     update();
+
+    //     function moveUp() {
+    //         player.dy = -player.speed;
+    //     }
+    //     function moveDown() {
+    //         player.dy = player.speed;
+    //     }
+    //     function moveRight() {
+    //         player.dx = player.speed;
+    //     }
+    //     function moveLeft() {
+    //         player.dx = -player.speed;
+    //     }
+
+    //     function keyDown(event) {
+    //         if (event.key === 'ArrowRight' || event.key === 'Right') {
+    //             moveRight();
+    //         } else if (event.key === 'ArrowLeft' || event.key === 'Left') {
+    //             moveLeft();
+    //         } else if (event.key === 'ArrowUp' || event.key === 'Up') {
+    //             moveUp();
+    //         } else if (event.key === 'ArrowDown' || event.key === 'Down') {
+    //             moveDown();
+    //         }
+    //     }
+
+    //     function keyUp(event) {
+    //         if (
+    //             event.key === 'Right' ||
+    //             event.key === 'ArrowRight' ||
+    //             event.key === 'Left' ||
+    //             event.key === 'ArrowLeft' ||
+    //             event.key === 'Up' ||
+    //             event.key === 'ArrowUp' ||
+    //             event.key === 'Down' ||
+    //             event.key === 'ArrowDown'
+    //         ) {
+    //             player.dx = 0;
+    //             player.dy = 0;
+    //         }
+    //     }
+
+    //     document.addEventListener('keydown', keyDown);
+    //     document.addEventListener('keyup', keyUp);
+    // })
+
+    var mouse = {
+        x: undefined,
+        y: undefined
     }
 
-    function drawPlayer() {
-        ctx.drawImage(image, player.x, player.y, player.w, player.h)
+    var maxRadius = 40;
+    var minRadius = 2;
+
+    var colorArray = [
+        '#ffaa',
+        '#99ffaaa',
+        '#00ff00',
+        '#4411aa',
+        '#ff1100'
+
+    ];
+
+    canvas.addEventListener('mousemove', function(event) {
+        var rect = canvas.getBoundingClientRect();
+
+        mouse.x = event.clientX - rect.left;
+        mouse.y = event.clientY - rect.top;
+        
+    })
+
+    function Circle(x, y, dx, dy, radius) {
+        this.x = x;
+        this.y = y;
+        this.dx = dx;
+        this.dy = dy;
+        this.radius = radius;
+        this.minRadius = radius;
+        this.color = colorArray[ Math.round(Math.random()*(colorArray.length-1)) ];
+        
+        this.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+            
+            // ctx.strokeStyle = 'blue';
+            // ctx.stroke();
+
+            // ctx.font = '30px Arial';
+            // ctx.fillStyle = 'black';
+            // ctx.fillText(`x: ${this.x.toFixed(2)}, y: ${this.y.toFixed(2)}`, this.x, this.y)
+            // ctx.fillText(`x: ${mouse.x.toFixed(2)}, y: ${mouse.y.toFixed(2)}`, mouse.x, mouse.y)
+            
+            ctx.fillStyle = this.color
+            ctx.fill();
+        }
+
+        this.update = function() {
+            if (this.x + this.radius > canvas.width ||
+                this.x - this.radius < 0) {
+                this.dx = -this.dx;
+            }
+    
+            if (this.y + this.radius > canvas.height ||
+                this.y - this.radius < 0) {
+                this.dy = -this.dy;
+            }
+            this.x += this.dx;
+            this.y += this.dy;
+
+            // interactivity
+
+            if (Math.abs(mouse.x - this.x) < 50 && 
+                Math.abs(mouse.y - this.y) < 50) {
+                if (this.radius < maxRadius) {
+                    this.radius += 1;
+                }
+            } else if (this.radius > this.minRadius) {
+                this.radius -= 1;
+            }
+
+            this.draw();
+        }
     }
 
-    function update() {
-        drawPlayer();
+    var circleArray = [];
+
+    for (var i = 0; i < 800; i++) {
+        var radius = Math.random() * 3 + 1;
+        var x = Math.max(radius, Math.random() * canvas.width - radius);
+        var y = Math.max(radius, Math.random() * canvas.height - radius);
+        var dx = (Math.random() - 0.5) * 3;
+        var dy = (Math.random() - 0.5) * 3;
+        circleArray.push(new Circle(x, y, dx, dy, radius));
     }
 
-    update();
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        for (var i = 0; i < circleArray.length; i++) {
+            circleArray[i].update();
+        }
+    }    
+
+    animate();
 })
+// https://www.youtube.com/watch?v=vxljFhP2krI&list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&index=4
