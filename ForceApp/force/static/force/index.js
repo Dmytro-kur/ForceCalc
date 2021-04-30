@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     canvas.width = window.innerWidth * 0.6;
     canvas.height = window.innerHeight * 0.6;
     // // make rectangle 
-    // ctx.fillStyle = 'red';
-    // ctx.fillRect(20, 20, 150, 100);
-    // ctx.fillStyle = 'blue';
+    // ctx.fillStyle = '#1AC8DB';
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
     // ctx.fillRect(200, 20, 150, 100);
 
     // // create outline of rectangle
@@ -226,12 +225,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // })
 
     var mouse = {
-        x: undefined,
-        y: undefined
+        x: 0,
+        y: 0
     }
 
     var maxRadius = 40;
 
+    var scale = 1;
+    var ds = 0.3
     var colorArray = [
         '#2C3E50',
         '#E74C3C',
@@ -246,7 +247,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         mouse.x = event.clientX - rect.left;
         mouse.y = event.clientY - rect.top;
+
         
+    })
+
+    canvas.addEventListener('wheel', function(event) {
+        
+        if (event.deltaY/100 === 1) {
+            scale = 1 + ds
+        } else if (event.deltaY/100 === -1) {
+            scale = 1/(1 + ds)
+        }
+        init();
+        // console.log(scale)
     })
 
     window.addEventListener('resize', function() {
@@ -267,19 +280,15 @@ document.addEventListener('DOMContentLoaded', function() {
         this.color = colorArray[ Math.round(Math.random()*(colorArray.length-1)) ];
         
         this.draw = function() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
             
             // ctx.strokeStyle = 'blue';
             // ctx.stroke();
-
-            // ctx.font = '30px Arial';
-            // ctx.fillStyle = 'black';
-            // ctx.fillText(`x: ${this.x.toFixed(2)}, y: ${this.y.toFixed(2)}`, this.x, this.y)
-            // ctx.fillText(`x: ${mouse.x.toFixed(2)}, y: ${mouse.y.toFixed(2)}`, mouse.x, mouse.y)
             
             ctx.fillStyle = this.color
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
             ctx.fill();
+    
         }
 
         this.update = function() {
@@ -314,27 +323,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function init() {
 
+        ctx.clearRect(0, 0, canvas.width + 100, canvas.height + 100);
+
+        ctx.scale(scale, scale);
+
         circleArray = [];
 
         for (var i = 0; i < 800; i++) {
             var radius = Math.random() * 3 + 1;
             var x = Math.max(radius, Math.random() * canvas.width - radius);
             var y = Math.max(radius, Math.random() * canvas.height - radius);
-            var dx = (Math.random() - 0.5)*0.5;
-            var dy = (Math.random() - 0.5)*0.5;
-            var dr = 0.3;
+            var dx = (Math.random() - 0.5)*0.5;// 0.5;
+            var dy = (Math.random() - 0.5)*0.5;// 0.5;
+            var dr = 0.3;// 0.3;
             circleArray.push(new Circle(x, y, dx, dy, dr, radius));
         }
     }
-
+    
     function animate() {
         requestAnimationFrame(animate);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        ctx.fillStyle = '#74BDCB';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         for (var i = 0; i < circleArray.length; i++) {
             circleArray[i].update();
         }
-    }    
+
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText(`x: ${mouse.x.toFixed(2)}, y: ${mouse.y.toFixed(2)}`, mouse.x, mouse.y)
+
+    }
 
     init();
 
