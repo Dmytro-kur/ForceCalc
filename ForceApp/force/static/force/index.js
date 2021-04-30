@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var maxRadius = 40;
 
     var scale = 1;
-    var ds = 0.3
+    var ds = 0.1
     var colorArray = [
         '#2C3E50',
         '#E74C3C',
@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
 
         ctx.clearRect(0, 0, canvas.width + 100, canvas.height + 100);
-
+        console.log(scale)
         ctx.scale(scale, scale);
 
         circleArray = [];
