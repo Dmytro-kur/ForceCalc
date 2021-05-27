@@ -1,0 +1,35 @@
+{% extends "force/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <h1>Force Travel Calculation</h1>
+
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
+    
+    <button class="btn btn-primary btn-sm">Na</button>
+    <label for="Na">Na</label>
+    <input id="Na" type="text">
+
+    <button class="btn btn-primary btn-sm">Nb</button>
+    <label for="Na">Nb</label>
+    <input id="Nb" type="text">
+
+    <button class="btn btn-primary btn-sm">F</button>
+    <label for="F">F</label>
+    <input id="F" type="text">
+
+    <button class="btn btn-primary btn-sm">mu</button>
+    <label for="mu">mu</label>
+    <input id="mu" type="text">
+
+    <button class="btn btn-primary btn-sm">f</button>
+    <label for="f">f</label>
+    <input id="f" type="text">
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'force/calculation.js' %}"></script>
+{% endblock %}

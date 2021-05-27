@@ -16,7 +16,6 @@ class Project(models.Model):
     def __str__(self):
         return f"{self.project_number} {self.project_name}. {self.assembly_number}"
 
-
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)

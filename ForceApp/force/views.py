@@ -62,3 +62,7 @@ def register(request):
     else:
         return render(request, "force/register.html")
 
+@login_required
+def calculation(request):
+    return render(request, 'force/calculation.html')
+
