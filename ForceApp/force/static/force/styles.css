@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #333;
+    background-color: #333 !important;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -12,6 +12,31 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
     margin: 0;
+}
+
+a:link {
+    color: green;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:visited {
+    color: pink;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+}
+a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+p, h1, h2, label {
+    color:aliceblue;
 }
 
 #canvas {
