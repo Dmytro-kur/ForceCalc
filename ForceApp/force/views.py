@@ -62,6 +62,45 @@ def register(request):
     else:
         return render(request, "force/register.html")
 
+def projects(request):
+
+    # Get filters
+    datetime = request.GET.get("datetime")
+    project_number = request.GET.get("project_number")
+    project_name = request.GET.get("project_name")
+    assembly_number = request.GET.get("assembly_number")
+    username = request.GET.get("user")
+    user = User.objects.get(username=username)
+
+    projects = Project.objects.all()
+
+    # make queries
+    if datetime:
+        projects = projects.filter(datetime=datetime)
+    if project_number:
+        projects = projects.filter(project_number=project_number)
+    if project_name:
+        projects = projects.filter(project_name=project_name)
+    if assembly_number:
+        projects = projects.filter(assembly_number=assembly_number)
+    if user:
+        projects = projects.filter(user=user)
+
+    # Get start and end points
+    start = int(request.GET.get("start"))
+    end = int(request.GET.get("end"))
+
+    # Generate list of projects
+    projects = projects.order_by("-datetime")[start:end]
+
+    # Artificially delay speed of response
+    # time.sleep(0.3)
+
+    # Return list of projects
+    return JsonResponse([project.serialize() for project in projects] + 
+    [{"project_count": Project.objects.all().count()}], safe=False)
+
+
 @login_required
 def calculation(request):
     return render(request, 'force/calculation.html')

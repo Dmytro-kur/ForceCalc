@@ -14,5 +14,5 @@ admin.site.register(Contact)
 admin.site.register(Plunger)
 admin.site.register(Spring)
 admin.site.register(Angles)
-admin.site.register(Unknown_variables)
+admin.site.register(Variables)
 

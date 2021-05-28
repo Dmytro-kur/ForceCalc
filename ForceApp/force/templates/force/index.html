@@ -3,7 +3,24 @@
 
 {% block body %}
 
-    <h1>Starting page</h1>
+    <h1>Home page</h1>
+    <input type="text" id="myQuery" placeholder="Search..">
+
+    <table id="homeTable">
+        <tr class="header">
+            <th>Id</th>
+            <th>Datetime</th>
+            <th>Project number</th>
+            <th>Project name</th>
+            <th>Assembly number</th>
+            <th>User</th>
+        </tr>
+    </table>
+
     <a href="{% url 'calculation' %}">Calculation</a>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'force/filter.js' %}"></script>
 {% endblock %}
