@@ -5,8 +5,8 @@
 body {
     background-color: #333 !important;
     color: #fff;
-    display: flex;
-    flex-direction: column;
+    display: block;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
     font-family: Arial, Helvetica, sans-serif;
@@ -50,6 +50,10 @@ th {
 .table_content:hover {
     cursor: pointer;
     color: coral;
+}
+
+.paginator {
+    color:chocolate;
 }
 
 #canvas {

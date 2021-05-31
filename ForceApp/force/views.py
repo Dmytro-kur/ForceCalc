@@ -11,17 +11,7 @@ from django.core.paginator import Paginator
 from .models import *
 
 def index(request):
-    
-    if request.method == "GET":
-        projects = Project.objects.all()
-        projects = projects.order_by("-datetime")[0:10]
-
-        # Artificially delay speed of response
-        # time.sleep(0.3)
-
-        return render(request, 'force/index.html', {
-            'projects': projects,
-        })
+    return render(request, 'force/index.html')
 
 def login_view(request):
     if request.method == "POST":
@@ -77,9 +67,10 @@ def projects(request, query):
     
     if query == "all":
 
-        # Get start and end points
-        start = int(request.GET.get("start"))
-        end = int(request.GET.get("end"))
+        # Get page number
+        page = int(request.GET.get("page"))
+        end = page*10
+        start = end - 10
 
         # Generate list of projects
         projects = Project.objects.order_by("-datetime")[start:end]
@@ -88,8 +79,8 @@ def projects(request, query):
         # time.sleep(0.3)
 
         # Return list of projects
-        return JsonResponse([project.serialize() for project in projects], safe=False)
-
+        return JsonResponse([{"projects_count": Project.objects.count()}] + 
+        [project.serialize() for project in projects], safe=False)
 
     projects_user = Project.objects.none()
     projects_email = Project.objects.none()
@@ -118,9 +109,10 @@ def projects(request, query):
     projects_all = projects.union(projects_user, projects_email,
                              projects_num, projects_name, projects_ass)
 
-    # Get start and end points
-    start = int(request.GET.get("start"))
-    end = int(request.GET.get("end"))
+    # Get page number
+    page = int(request.GET.get("page"))
+    end = page*10
+    start = end - 10
 
     # Generate list of projects
     projects = projects_all.order_by("-datetime")[start:end]
@@ -129,7 +121,9 @@ def projects(request, query):
     # time.sleep(0.3)
 
     # Return list of projects
-    return JsonResponse([project.serialize() for project in projects], safe=False)
+    
+    return JsonResponse([{"projects_count": projects_all.count()}] + 
+    [project.serialize() for project in projects], safe=False)
 
 
 @login_required
