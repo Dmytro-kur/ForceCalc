@@ -10,6 +10,6 @@ urlpatterns = [
     path("calculation", views.calculation, name="calculation"),
 
     # API Routes
-    path("projects", views.projects, name="projects")
+    path("projects/<str:query>", views.projects, name="projects")
 
 ]

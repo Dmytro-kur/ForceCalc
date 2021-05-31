@@ -28,10 +28,9 @@ class Project(models.Model):
         return f"{self.project_number} {self.project_name}. {self.assembly_number}"
 
     def serialize(self):
-        datetime = self.datetime.strftime("%d/%m/%Y %H:%M:%S")
+        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
-            "id": self.id,
-            "user": [self.user.email, self.user.username],
+            "user": {"username": self.user.username, "email": self.user.email},
             "project_number": self.project_number,
             "project_name": self.project_name,
             "assembly_number": self.assembly_number,

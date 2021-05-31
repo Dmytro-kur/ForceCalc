@@ -6,11 +6,22 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.core.paginator import Paginator
 
 from .models import *
 
 def index(request):
-    return render(request, 'force/index.html')
+    
+    if request.method == "GET":
+        projects = Project.objects.all()
+        projects = projects.order_by("-datetime")[0:10]
+
+        # Artificially delay speed of response
+        # time.sleep(0.3)
+
+        return render(request, 'force/index.html', {
+            'projects': projects,
+        })
 
 def login_view(request):
     if request.method == "POST":
@@ -62,43 +73,63 @@ def register(request):
     else:
         return render(request, "force/register.html")
 
-def projects(request):
+def projects(request, query):
+    
+    if query == "all":
 
-    # Get filters
-    datetime = request.GET.get("datetime")
-    project_number = request.GET.get("project_number")
-    project_name = request.GET.get("project_name")
-    assembly_number = request.GET.get("assembly_number")
-    username = request.GET.get("user")
-    user = User.objects.get(username=username)
+        # Get start and end points
+        start = int(request.GET.get("start"))
+        end = int(request.GET.get("end"))
 
-    projects = Project.objects.all()
+        # Generate list of projects
+        projects = Project.objects.order_by("-datetime")[start:end]
+
+        # Artificially delay speed of response
+        # time.sleep(0.3)
+
+        # Return list of projects
+        return JsonResponse([project.serialize() for project in projects], safe=False)
+
+
+    projects_user = Project.objects.none()
+    projects_email = Project.objects.none()
+    projects_num = Project.objects.none()
+    projects_name = Project.objects.none()
+    projects_ass = Project.objects.none()
 
     # make queries
-    if datetime:
-        projects = projects.filter(datetime=datetime)
-    if project_number:
-        projects = projects.filter(project_number=project_number)
-    if project_name:
-        projects = projects.filter(project_name=project_name)
-    if assembly_number:
-        projects = projects.filter(assembly_number=assembly_number)
-    if user:
-        projects = projects.filter(user=user)
+    try:
+        user_name = User.objects.filter(username__icontains=query).first()
+        projects_user = Project.objects.filter(user=user_name)
+    except User.DoesNotExist:
+        pass
+    
+    try:
+        user_email = User.objects.filter(email__icontains=query).first()
+        projects_email = Project.objects.filter(user=user_email)
+    except User.DoesNotExist:
+        pass
+
+    projects_num = Project.objects.filter(project_number__icontains=query)
+    projects_name = Project.objects.filter(project_name__icontains=query)
+    projects_ass = Project.objects.filter(assembly_number__icontains=query)
+
+    projects = Project.objects.none()
+    projects_all = projects.union(projects_user, projects_email,
+                             projects_num, projects_name, projects_ass)
 
     # Get start and end points
     start = int(request.GET.get("start"))
     end = int(request.GET.get("end"))
 
     # Generate list of projects
-    projects = projects.order_by("-datetime")[start:end]
+    projects = projects_all.order_by("-datetime")[start:end]
 
     # Artificially delay speed of response
     # time.sleep(0.3)
 
     # Return list of projects
-    return JsonResponse([project.serialize() for project in projects] + 
-    [{"project_count": Project.objects.all().count()}], safe=False)
+    return JsonResponse([project.serialize() for project in projects], safe=False)
 
 
 @login_required
