@@ -78,7 +78,6 @@ class Search extends React.Component {
             this.updatePage(this.state.query, this.state.page + 1);
             this.pagesCount(this.state.query, this.state.page + 1);
         }
-        
     }
 
     previousPage = () => {
@@ -89,7 +88,6 @@ class Search extends React.Component {
             this.updatePage(this.state.query, this.state.page - 1);
             this.pagesCount(this.state.query, this.state.page - 1);
         }
-        
     }
 
     firstPage = () => {

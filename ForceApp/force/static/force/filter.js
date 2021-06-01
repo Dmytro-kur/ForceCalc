@@ -59,7 +59,5 @@ function link_calc() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
     link_calc();
-
 })
