@@ -50,7 +50,7 @@ th {
 .table_content:hover {
     cursor: pointer;
     color: coral;
-    
+    background: transparent;
 }
 
 .paginator {

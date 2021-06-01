@@ -26,20 +26,19 @@ class Search extends React.Component {
                 </table>
                 <div className="paginator">
                     <span>
-                        <a onClick={this.CheckVisibility}>&laquo; first</a>
-                        <a onClick={this.CheckVisibility}> previous </a>
+                        <a className="paginator_items" onClick={this.firstPage}>&laquo; first</a>
+                        <a className="paginator_items" onClick={this.previousPage}> previous </a>
                         <span> Page {this.state.page} of {this.state.pages}.</span>
-                        <a onClick={this.CheckVisibility}> next </a>
-                        <a onClick={this.CheckVisibility}> last &raquo;</a>
+                        <a className="paginator_items" onClick={this.nextPage}> next </a>
+                        <a className="paginator_items" onClick={this.lastPage}> last &raquo;</a>
                     </span>
                 </div>
             </div>
         );
     }
 
-    startPage = () => {
-        projects_retrieve(this.state.query, this.state.page)
-        projects_count(this.state.query, this.state.page)
+    pagesCount = (query, page) => {
+        projects_count(query, page)
         .then((projects_count) => {
             this.setState({
                 pages: Math.ceil(projects_count/10)
@@ -50,49 +49,65 @@ class Search extends React.Component {
         });
     }
 
-    updateQuery = (event) => {
-        this.setState({
-            query: event.target.value
-        });
+    startPage = () => {
+        projects_retrieve(this.state.query, this.state.page)
+        this.pagesCount(this.state.query, this.state.page)
+    }
+
+    updatePage = (query, page) => {
         document.querySelectorAll('.table_content')
         .forEach(el => {
             el.remove()
         });
-        projects_retrieve(event.target.value, this.state.page);
+        projects_retrieve(query, page);
     }
+
+    updateQuery = (event) => {
+        this.setState({
+            query: event.target.value
+        });
+        this.updatePage(event.target.value, this.state.page);
+        this.pagesCount(event.target.value, this.state.page);
+    }
+
+    nextPage = () => {
+        if (this.state.page < this.state.pages) {
+            this.setState({
+                page: this.state.page + 1
+            });
+            this.updatePage(this.state.query, this.state.page + 1);
+            this.pagesCount(this.state.query, this.state.page + 1);
+        }
+        
+    }
+
+    previousPage = () => {
+        if (this.state.page > 1) {
+            this.setState({
+                page: this.state.page - 1
+            });
+            this.updatePage(this.state.query, this.state.page - 1);
+            this.pagesCount(this.state.query, this.state.page - 1);
+        }
+        
+    }
+
+    firstPage = () => {
+        this.setState({
+            page: 1
+        });
+        this.updatePage(this.state.query, 1);
+        this.pagesCount(this.state.query, 1);
+    }
+
+    lastPage = () => {
+        this.setState({
+            page: this.state.pages
+        });
+        this.updatePage(this.state.query, this.state.pages);
+        this.pagesCount(this.state.query, this.state.pages);
+    }
+
 }
 
 ReactDOM.render(<Search />, document.querySelector('#myQuery'));
-
-
-
-// class Paginator extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             page: "1",
-//             pages: "1",
-//         };
-//         this.page_number_refinement();
-//     }
-    
-//     render() {
-//         return (
-//             <div className="paginator">
-//                 <span>
-//                     <a onClick={this.CheckVisibility}>&laquo; first</a>
-//                     <a> previous </a>
-//                     <span> Page {this.state.page} of {this.state.pages}.</span>
-//                     <a> next </a>
-//                     <a> last &raquo;</a>
-//                 </span>
-//             </div>
-//         );
-//     }
-
-//     page_number_refinement() {
-        
-//     }
-// }
-
-// ReactDOM.render(<Paginator />, document.querySelector('#paginator'));
