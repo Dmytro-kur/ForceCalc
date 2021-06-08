@@ -128,4 +128,3 @@ def projects(request, query):
 @login_required
 def calculation(request):
     return render(request, 'force/calculation.html')
-
