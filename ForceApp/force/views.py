@@ -6,11 +6,20 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 from .models import *
+from django.forms import ModelForm
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = ['project_number','project_name','assembly_number']
 
 def index(request):
-    return render(request, 'force/index.html')
+    return render(request, 'force/index.html', {
+        "projectForm": ProjectForm(),
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -61,6 +70,13 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "force/register.html")
+
+@csrf_exempt
+@login_required
+def new_project(request):
+
+    print(request.body)
+    
 
 def projects(request, query):
     
@@ -123,7 +139,6 @@ def projects(request, query):
     
     return JsonResponse([{"projects_count": projects_all.count()}] + 
     [project.serialize() for project in projects], safe=False)
-
 
 @login_required
 def calculation(request):

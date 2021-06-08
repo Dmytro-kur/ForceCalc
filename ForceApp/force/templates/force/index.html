@@ -5,7 +5,11 @@
 
     <h1>Home page</h1>
 
-    <h3>New project</h3>
+    {% if user.is_authenticated %}
+        <h3>New project</h3>
+        {{ projectForm.as_p }}
+        <button id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>
+    {% endif %}
 
     <div id="myQuery"></div>
     

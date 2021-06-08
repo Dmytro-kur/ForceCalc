@@ -60,4 +60,30 @@ function link_calc() {
 
 document.addEventListener('DOMContentLoaded', () => {
     link_calc();
+
+    document.querySelector('#post_new_project').addEventListener('click', () => {
+        fetch('/new_project', {
+            method: 'POST',
+            body: JSON.stringify({
+                content: "Hello!",
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                alert('Please, Log In');
+                document.location.pathname="/";
+            }
+        })
+        .then(() => {
+            console.log("Hello!")
+        })
+        .catch(error => {
+            console.error(error);
+        });
+            
+        
+    
+    })
 })

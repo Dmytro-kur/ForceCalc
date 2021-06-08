@@ -22,6 +22,7 @@ class Project(models.Model):
     project_number = models.CharField(max_length=6, primary_key=True)
     project_name = models.CharField(max_length=255)
     assembly_number = models.CharField(max_length=8)
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_projects")
 
     def __str__(self):
