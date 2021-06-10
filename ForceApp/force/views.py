@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 from .models import *
 from django.forms import ModelForm
+import ast
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -75,7 +76,14 @@ def register(request):
 @login_required
 def new_project(request):
 
+    # print("Project Form structure:", ProjectForm())
     print(request.body)
+    byte_str = request.body
+    dict_str = byte_str.decode("UTF-8")
+    mydata = ast.literal_eval(dict_str)
+    print(repr(mydata))
+
+    return JsonResponse({"message": "There is no content"}, status=201)
     
 
 def projects(request, query):

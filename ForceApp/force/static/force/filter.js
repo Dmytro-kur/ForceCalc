@@ -62,28 +62,33 @@ document.addEventListener('DOMContentLoaded', () => {
     link_calc();
 
     document.querySelector('#post_new_project').addEventListener('click', () => {
+        
+        let project_number = document.querySelector('#id_project_number').value;
+        let project_name = document.querySelector('#id_project_name').value;
+        let assembly_number = document.querySelector('#id_assembly_number').value;
+        
         fetch('/new_project', {
             method: 'POST',
             body: JSON.stringify({
-                content: "Hello!",
+                project_number: project_number,
+                project_name: project_name,
+                assembly_number: assembly_number,
             })
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                alert('Please, Log In');
-                document.location.pathname="/";
-            }
-        })
-        .then(() => {
-            console.log("Hello!")
+        // .then(response => {
+        //     if (response.ok) {
+        //         return response.json();
+        //     } else {
+        //         alert('Please, Log In');
+        //         document.location.pathname="/";
+        //     }
+        // })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result.message)
         })
         .catch(error => {
             console.error(error);
         });
-            
-        
-    
     })
 })
