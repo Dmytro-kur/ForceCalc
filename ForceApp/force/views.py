@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseBadRequest
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -76,15 +77,22 @@ def register(request):
 @login_required
 def new_project(request):
 
-    # print("Project Form structure:", ProjectForm())
-    print(request.body)
     byte_str = request.body
     dict_str = byte_str.decode("UTF-8")
     mydata = ast.literal_eval(dict_str)
-    print(repr(mydata))
-
-    return JsonResponse({"message": "There is no content"}, status=201)
     
+    project_data = ProjectForm(mydata)
+
+    if project_data.is_valid():
+
+        project_creator = project_data.save(commit=False)
+        project_creator.user = request.user
+        project_creator.save()
+
+        return JsonResponse({"message": "New project is created."}, status=201)
+    else:
+        print(project_data.errors["project_number"])
+        return JsonResponse({"error": project_data.errors["project_number"][0]}, status=400)
 
 def projects(request, query):
     

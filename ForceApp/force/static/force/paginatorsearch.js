@@ -55,10 +55,7 @@ class Search extends React.Component {
     }
 
     updatePage = (query, page) => {
-        document.querySelectorAll('.table_content')
-        .forEach(el => {
-            el.remove()
-        });
+        remove_list();
         projects_retrieve(query, page);
     }
 
