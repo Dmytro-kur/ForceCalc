@@ -14,10 +14,12 @@ function projects_retrieve(query, page) {
             const user_td = document.createElement('td');
 
             new_tr.className = "table_content";
-            date_td.innerHTML = `${project.datetime}`;
-            num_td.innerHTML = `${project.project_number}`;
-            name_td.innerHTML = `${project.project_name}`;
-            ass_td.innerHTML = `${project.assembly_number}`;
+            new_tr.dataset.id = project.project_number;
+
+            date_td.innerHTML = project.datetime;
+            num_td.innerHTML = project.project_number;
+            name_td.innerHTML = project.project_name;
+            ass_td.innerHTML = project.assembly_number;
             user_td.innerHTML = `${project.user.username} (${project.user.email})`;
 
             new_tr.append(date_td);
@@ -60,7 +62,7 @@ function link_calc() {
     document.querySelectorAll('.table_content')
     .forEach(row => {
         row.onclick = () => {
-            window.location.pathname = "/calculation"
+            window.location.pathname = `/calculation/${row.dataset.id}`
         }
     })
 }
@@ -96,5 +98,4 @@ document.addEventListener('DOMContentLoaded', () => {
             })      
         })
     }
-
 })

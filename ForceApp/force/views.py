@@ -18,6 +18,31 @@ class ProjectForm(ModelForm):
         model = Project
         fields = ['project_number','project_name','assembly_number']
 
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['contact_key','mu','contactCoord_X', 'contactCoord_Y']
+
+class PlungerForm(ModelForm):
+    class Meta:
+        model = Plunger
+        fields = ['plunger_key','a','b', 'f']
+
+class SpringForm(ModelForm):
+    class Meta:
+        model = Spring
+        fields = ['spring_key','springStiff','freeLen', 'springLen']
+
+class AnglesForm(ModelForm):
+    class Meta:
+        model = Angles
+        fields = ['angles_key','plungerFric','N', 'FN']
+
+class VariablesForm(ModelForm):
+    class Meta:
+        model = Variables
+        fields = ['variables_key','Na','Nb', 'N']
+
 def index(request):
     return render(request, 'force/index.html', {
         "projectForm": ProjectForm(),
@@ -77,26 +102,70 @@ def register(request):
 @login_required
 def new_project(request):
 
-    byte_str = request.body
-    dict_str = byte_str.decode("UTF-8")
-    mydata = ast.literal_eval(dict_str)
-    
-    project_data = ProjectForm(mydata)
+    if request.method == "POST":
+        byte_str = request.body
+        dict_str = byte_str.decode("UTF-8")
+        mydata = ast.literal_eval(dict_str)
+        
+        project_data = ProjectForm(mydata)
 
-    if project_data.is_valid():
+        if project_data.is_valid():
 
-        project_creator = project_data.save(commit=False)
-        project_creator.user = request.user
-        project_creator.save()
+            project_creator = project_data.save(commit=False)
+            project_creator.user = request.user
+            project_creator.save()
 
-        return JsonResponse({"message": "New project is created."}, status=201)
-    else:
-        print(project_data.errors["project_number"])
-        return JsonResponse({"error": project_data.errors["project_number"][0]}, status=400)
+            return JsonResponse({"message": "New project is created."}, status=201)
+        else:
+            print(project_data.errors["project_number"])
+            return JsonResponse({"error": project_data.errors["project_number"][0]}, status=400)
 
 def projects(request, query):
     
-    if query == "all":
+    if request.method == "GET":
+        if query == "all":
+
+            # Get page number
+            page = int(request.GET.get("page"))
+            end = page*10
+            start = end - 10
+
+            # Generate list of projects
+            projects = Project.objects.order_by("-datetime")[start:end]
+
+            # Artificially delay speed of response
+            # time.sleep(0.3)
+
+            # Return list of projects
+            return JsonResponse([{"projects_count": Project.objects.count()}] + 
+            [project.serialize() for project in projects], safe=False)
+
+        projects_user = Project.objects.none()
+        projects_email = Project.objects.none()
+        projects_num = Project.objects.none()
+        projects_name = Project.objects.none()
+        projects_ass = Project.objects.none()
+
+        # make queries
+        try:
+            user_name = User.objects.filter(username__icontains=query).first()
+            projects_user = Project.objects.filter(user=user_name)
+        except User.DoesNotExist:
+            pass
+        
+        try:
+            user_email = User.objects.filter(email__icontains=query).first()
+            projects_email = Project.objects.filter(user=user_email)
+        except User.DoesNotExist:
+            pass
+
+        projects_num = Project.objects.filter(project_number__icontains=query)
+        projects_name = Project.objects.filter(project_name__icontains=query)
+        projects_ass = Project.objects.filter(assembly_number__icontains=query)
+
+        projects = Project.objects.none()
+        projects_all = projects.union(projects_user, projects_email,
+                                projects_num, projects_name, projects_ass)
 
         # Get page number
         page = int(request.GET.get("page"))
@@ -104,58 +173,28 @@ def projects(request, query):
         start = end - 10
 
         # Generate list of projects
-        projects = Project.objects.order_by("-datetime")[start:end]
+        projects = projects_all.order_by("-datetime")[start:end]
 
         # Artificially delay speed of response
         # time.sleep(0.3)
 
         # Return list of projects
-        return JsonResponse([{"projects_count": Project.objects.count()}] + 
+        
+        return JsonResponse([{"projects_count": projects_all.count()}] + 
         [project.serialize() for project in projects], safe=False)
 
-    projects_user = Project.objects.none()
-    projects_email = Project.objects.none()
-    projects_num = Project.objects.none()
-    projects_name = Project.objects.none()
-    projects_ass = Project.objects.none()
-
-    # make queries
-    try:
-        user_name = User.objects.filter(username__icontains=query).first()
-        projects_user = Project.objects.filter(user=user_name)
-    except User.DoesNotExist:
-        pass
-    
-    try:
-        user_email = User.objects.filter(email__icontains=query).first()
-        projects_email = Project.objects.filter(user=user_email)
-    except User.DoesNotExist:
-        pass
-
-    projects_num = Project.objects.filter(project_number__icontains=query)
-    projects_name = Project.objects.filter(project_name__icontains=query)
-    projects_ass = Project.objects.filter(assembly_number__icontains=query)
-
-    projects = Project.objects.none()
-    projects_all = projects.union(projects_user, projects_email,
-                             projects_num, projects_name, projects_ass)
-
-    # Get page number
-    page = int(request.GET.get("page"))
-    end = page*10
-    start = end - 10
-
-    # Generate list of projects
-    projects = projects_all.order_by("-datetime")[start:end]
-
-    # Artificially delay speed of response
-    # time.sleep(0.3)
-
-    # Return list of projects
-    
-    return JsonResponse([{"projects_count": projects_all.count()}] + 
-    [project.serialize() for project in projects], safe=False)
-
 @login_required
-def calculation(request):
-    return render(request, 'force/calculation.html')
+def calculation(request, project):
+
+    if request.method == "GET":
+        project_inst = Project.objects.get(project_number=project)
+        contacts = project_inst.contacts.all()
+        print(contacts)
+
+        return render(request, 'force/calculation.html', {
+            "ContactForm": ContactForm(),
+            "PlungerForm": PlungerForm(),
+            "SpringForm": SpringForm(),
+            "AnglesForm": AnglesForm(),
+            "VariablesForm": VariablesForm(),
+        })

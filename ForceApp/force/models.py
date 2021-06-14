@@ -41,28 +41,28 @@ class Project(models.Model):
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, primary_key=True)
+    contact_key = models.CharField(max_length=255, primary_key=True)
 
     mu = models.FloatField()
     contactCoord_X = models.FloatField()
     contactCoord_Y = models.FloatField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_contacts")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contacts")
 
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.contact_key}"
 
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, primary_key=True)
+    plunger_key = models.CharField(max_length=255, primary_key=True)
 
     a = models.FloatField()
     b = models.FloatField()
     f = models.FloatField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_plungers")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="plungers")
 
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.plunger_key}"
 
     def is_valid_plunger(self):
         return round(self.a, 5) > 0 and round(self.b, 5) > 0
@@ -70,15 +70,15 @@ class Plunger(models.Model):
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, primary_key=True)
+    spring_key = models.CharField(max_length=255, primary_key=True)
 
     springStiff = models.FloatField()
     freeLen = models.FloatField()
     springLen = models.FloatField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_springs")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="springs")
 
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.spring_key}"
 
     def is_valid_spring(self):
         return round(self.freeLen, 5) > round(self.springLen, 5)
@@ -89,15 +89,15 @@ class Spring(models.Model):
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, primary_key=True)
+    angles_key = models.CharField(max_length=255, primary_key=True)
 
     plungerFric = models.FloatField()
     N = models.FloatField()
     FN = models.FloatField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_angles")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="angles")
 
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.angles_key}"
 
     def is_valid_angle(self):
         return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
@@ -105,15 +105,15 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, primary_key=True)
+    variables_key = models.CharField(max_length=255, primary_key=True)
 
     Na = models.FloatField()
     Nb = models.FloatField()
     N = models.FloatField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_variables")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
 
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.variables_key}"
 
     def calc_vars(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
 
