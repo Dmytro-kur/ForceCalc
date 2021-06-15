@@ -8,19 +8,61 @@
     <canvas id="canvas" width="600" height="600"></canvas>
     <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
     
-    <p>Contact object:</p>
+    {% if Contacts %}
+        <p><label for="contacts">Choose contact:</label></p>
+        <select name="contacts" id="contacts">
+            {% for contact in Contacts %}
+                <option value="{{ contact.contact_key }}">{{ contact.contact_key }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+    
     <p>{{ ContactForm.as_p }}</p>
 
-    <p>Plunger object:</p>
+    <hr style="color:aliceblue;">
+
+    {% if Plungers %}
+        <p><label for="plungers">Choose Plunger:</label></p>
+        <select name="plungers" id="plungers">
+            {% for plunger in Plungers %}
+                <option value="{{ plunger.plunger_key }}">{{ plunger.plunger_key }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+
     <p>{{ PlungerForm.as_p }}</p>
-
-    <p>Spring object:</p>
+    <hr style="color:aliceblue;">
+    {% if Springs %}
+        <p><label for="springs">Choose Spring:</label></p>
+        <select name="springs" id="springs">
+            {% for spring in Springs %}
+                <option value="{{ spring.spring_key }}">{{ spring.spring_key }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+    
     <p>{{ SpringForm.as_p }}</p>
-
-    <p>Angles object:</p>
+    <hr style="color:aliceblue;">
+    {% if Angles %}
+        <p><label for="angles">Choose Angles:</label></p>
+        <select name="angles" id="angles">
+            {% for angles in Angles %}
+                <option value="{{ angles.angles_key }}">{{ angles.angles_key }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+    
     <p>{{ AnglesForm.as_p }}</p>
+    <hr style="color:aliceblue;">
+    {% if Variables %}
+        <p><label for="variables">Choose Variables:</label></p>
+        <select name="variables" id="variables">
+            {% for variables in Variables %}
+                <option value="{{ variables.variables_key }}">{{ variables.variables_key }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
 
-    <p>Variables object:</p>
     <p>{{ VariablesForm.as_p }}</p>
 
     <button class="btn btn-primary btn-sm">Calculate</button>

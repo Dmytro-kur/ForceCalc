@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 from .models import *
 from django.forms import ModelForm
+from django import forms
 import ast
 
 class ProjectForm(ModelForm):
@@ -21,27 +22,54 @@ class ProjectForm(ModelForm):
 class ContactForm(ModelForm):
     class Meta:
         model = Contact
-        fields = ['contact_key','mu','contactCoord_X', 'contactCoord_Y']
+        fields = ['mu','contactCoord_X', 'contactCoord_Y']
 
 class PlungerForm(ModelForm):
     class Meta:
         model = Plunger
-        fields = ['plunger_key','a','b', 'f']
+        fields = ['a','b', 'f']
 
 class SpringForm(ModelForm):
     class Meta:
         model = Spring
-        fields = ['spring_key','springStiff','freeLen', 'springLen']
+        fields = ['springStiff','freeLen', 'springLen']
 
 class AnglesForm(ModelForm):
     class Meta:
         model = Angles
-        fields = ['angles_key','plungerFric','N', 'FN']
+        fields = ['plungerFric','N', 'FN']
 
 class VariablesForm(ModelForm):
     class Meta:
         model = Variables
-        fields = ['variables_key','Na','Nb', 'N']
+        fields = ['Na','Nb', 'N']
+
+# class SelectForm(forms.Form):
+
+#     YEAR_IN_SCHOOL_CHOICES = [
+#         ('FR', 'Freshman'),
+#         ('SO', 'Sophomore'),
+#         ('JR', 'Junior'),
+#         ('SR', 'Senior'),
+#         ('GR', 'Graduate'),
+#     ]
+#     select_project = forms.ChoiceField(choices=YEAR_IN_SCHOOL_CHOICES)
+    #     required=False, initial='Your name',
+    # help_text='A valid email address, please.', disabled=True)
+
+# default_data = {'name': 'Your name', 'url': 'http://'}
+# f = CommentForm(default_data, auto_id=False)
+# f = forms.Char Field(required=False)
+# f.clean('foo')
+# print(f.as_ul()))
+# print(f.as_table())
+# print(f.as_p())
+# name = forms.CharField(error_messages={'required': 'Please enter your name'})
+# name.clean('')
+# Traceback (most recent call last):
+#   ...
+# ValidationError: ['Please enter your name']
+
 
 def index(request):
     return render(request, 'force/index.html', {
@@ -189,12 +217,23 @@ def calculation(request, project):
     if request.method == "GET":
         project_inst = Project.objects.get(project_number=project)
         contacts = project_inst.contacts.all()
-        print(contacts)
+        plungers = project_inst.plungers.all()
+        springs = project_inst.springs.all()
+        angles = project_inst.angles.all()
+        variables = project_inst.variables.all()
 
         return render(request, 'force/calculation.html', {
+            "Contacts": contacts,
+            "Plungers": plungers,
+            "Springs": springs,
+            "Angles": angles,
+            "Variables": variables,
             "ContactForm": ContactForm(),
             "PlungerForm": PlungerForm(),
             "SpringForm": SpringForm(),
             "AnglesForm": AnglesForm(),
             "VariablesForm": VariablesForm(),
         })
+    
+    if request.method == "POST":
+        pass
