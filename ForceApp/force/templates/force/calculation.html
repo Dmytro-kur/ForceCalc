@@ -10,15 +10,30 @@
     
     {% if Contacts %}
         <p><label for="contacts">Choose contact:</label></p>
-        <select name="contacts" id="contacts">
+        <p><select name="contacts" id="contacts">
+            <option value="unknown" selected>Unknown</option>
             {% for contact in Contacts %}
                 <option value="{{ contact.contact_key }}">{{ contact.contact_key }}</option>
             {% endfor %}
         </select>
+        <button class="btn btn-success btn-sm">New</button>
+        <button class="btn btn-success btn-sm">Save</button>
+        <button class="btn btn-success btn-sm">Delete</button></p>
+        <p>
+            <label for id="id_mu">Friction in contact <span style="font-style: italic;">&mu;</span>:</label>
+            <input type="number" name="mu" step="any" required id="id_mu">
+        </p>
+        <p>
+            <label for id="id_contactCoord_X">Contact Point X Coordinate (mm):</label>
+            <input type="number" name="contactCoord_X" step="any" required id="id_contactCoord_X">
+        </p>
+        <p>
+            <label for id="id_contactCoord_Y">Contact Point Y Coordinate (mm):</label>
+            <input type="number" name="contactCoord_Y" step="any" required id="id_contactCoord_Y">
+        </p>
+
     {% endif %}
     
-    <p>{{ ContactForm.as_p }}</p>
-
     <hr style="color:aliceblue;">
 
     {% if Plungers %}
@@ -28,6 +43,9 @@
                 <option value="{{ plunger.plunger_key }}">{{ plunger.plunger_key }}</option>
             {% endfor %}
         </select>
+        <button class="btn btn-success btn-sm">New</button>
+        <button class="btn btn-success btn-sm">Save</button>
+        <button class="btn btn-success btn-sm">Delete</button>
     {% endif %}
 
     <p>{{ PlungerForm.as_p }}</p>
@@ -39,6 +57,9 @@
                 <option value="{{ spring.spring_key }}">{{ spring.spring_key }}</option>
             {% endfor %}
         </select>
+        <button class="btn btn-success btn-sm">New</button>
+        <button class="btn btn-success btn-sm">Save</button>
+        <button class="btn btn-success btn-sm">Delete</button>
     {% endif %}
     
     <p>{{ SpringForm.as_p }}</p>
@@ -50,6 +71,9 @@
                 <option value="{{ angles.angles_key }}">{{ angles.angles_key }}</option>
             {% endfor %}
         </select>
+        <button class="btn btn-success btn-sm">New</button>
+        <button class="btn btn-success btn-sm">Save</button>
+        <button class="btn btn-success btn-sm">Delete</button>
     {% endif %}
     
     <p>{{ AnglesForm.as_p }}</p>
@@ -61,6 +85,9 @@
                 <option value="{{ variables.variables_key }}">{{ variables.variables_key }}</option>
             {% endfor %}
         </select>
+        <button class="btn btn-success btn-sm">New</button>
+        <button class="btn btn-success btn-sm">Save</button>
+        <button class="btn btn-success btn-sm">Delete</button>
     {% endif %}
 
     <p>{{ VariablesForm.as_p }}</p>

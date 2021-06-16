@@ -11,6 +11,8 @@ urlpatterns = [
 
     # API Routes
     path("projects/<str:query>", views.projects, name="projects"),
-    path("new_project", views.new_project, name="new_project")
-
+    path("new_project", views.new_project, name="new_project"),
+    path("contact/<str:value>", views.contact, name="contact"),
+    
+    
 ]

@@ -44,33 +44,6 @@ class VariablesForm(ModelForm):
         model = Variables
         fields = ['Na','Nb', 'N']
 
-# class SelectForm(forms.Form):
-
-#     YEAR_IN_SCHOOL_CHOICES = [
-#         ('FR', 'Freshman'),
-#         ('SO', 'Sophomore'),
-#         ('JR', 'Junior'),
-#         ('SR', 'Senior'),
-#         ('GR', 'Graduate'),
-#     ]
-#     select_project = forms.ChoiceField(choices=YEAR_IN_SCHOOL_CHOICES)
-    #     required=False, initial='Your name',
-    # help_text='A valid email address, please.', disabled=True)
-
-# default_data = {'name': 'Your name', 'url': 'http://'}
-# f = CommentForm(default_data, auto_id=False)
-# f = forms.Char Field(required=False)
-# f.clean('foo')
-# print(f.as_ul()))
-# print(f.as_table())
-# print(f.as_p())
-# name = forms.CharField(error_messages={'required': 'Please enter your name'})
-# name.clean('')
-# Traceback (most recent call last):
-#   ...
-# ValidationError: ['Please enter your name']
-
-
 def index(request):
     return render(request, 'force/index.html', {
         "projectForm": ProjectForm(),
@@ -237,3 +210,14 @@ def calculation(request, project):
     
     if request.method == "POST":
         pass
+
+@login_required
+def contact(request, value):
+
+    if request.method == "GET":
+
+        print("THIS IS A REQUEST:",request.GET['project'])
+        # project_inst = Project.objects.get(project_number=request.GET.get("project"))
+        # contact = project_inst.contacts.get(contact_key=value)
+
+        return JsonResponse({"contact": 1}, status=201)

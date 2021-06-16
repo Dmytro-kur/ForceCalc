@@ -1,6 +1,30 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    if (document.querySelector("#contacts")) {
+        document.querySelector("#contacts").addEventListener('change', (event) => {
+            const val = event.target.value
+            const path = window.location.pathname.slice(13)
+            console.log(val)
+            console.log()
+            fetch(`/contact/${val}?project=${path}`)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result.contact)
+            })
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');
 
