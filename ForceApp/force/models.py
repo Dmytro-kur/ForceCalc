@@ -19,7 +19,7 @@ class Project(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
 
-    project_number = models.CharField(max_length=6, primary_key=True)
+    project_number = models.CharField(max_length=6, unique=True)
     project_name = models.CharField(max_length=255)
     assembly_number = models.CharField(max_length=8)
 
@@ -31,6 +31,7 @@ class Project(models.Model):
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
+            "id": self.id,
             "user": {"username": self.user.username, "email": self.user.email},
             "project_number": self.project_number,
             "project_name": self.project_name,
@@ -41,7 +42,7 @@ class Project(models.Model):
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    contact_key = models.CharField(max_length=255, primary_key=True)
+    contact_key = models.CharField(max_length=255, unique=True)
 
     mu = models.FloatField()
     contactCoord_X = models.FloatField()
@@ -51,10 +52,21 @@ class Contact(models.Model):
     def __str__(self):
         return f"{self.contact_key}"
 
+    def serialize(self):
+        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+        return {
+            "id": self.id,
+            "contact_key": self.contact_key,
+            "mu": self.mu,
+            "contactCoord_X": self.contactCoord_X,
+            "contactCoord_Y": self.contactCoord_Y,
+            "datetime": datetime,
+        }
+
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    plunger_key = models.CharField(max_length=255, primary_key=True)
+    plunger_key = models.CharField(max_length=255, unique=True)
 
     a = models.FloatField()
     b = models.FloatField()
@@ -70,7 +82,7 @@ class Plunger(models.Model):
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    spring_key = models.CharField(max_length=255, primary_key=True)
+    spring_key = models.CharField(max_length=255, unique=True)
 
     springStiff = models.FloatField()
     freeLen = models.FloatField()
@@ -89,7 +101,7 @@ class Spring(models.Model):
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    angles_key = models.CharField(max_length=255, primary_key=True)
+    angles_key = models.CharField(max_length=255, unique=True)
 
     plungerFric = models.FloatField()
     N = models.FloatField()
@@ -105,11 +117,11 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    variables_key = models.CharField(max_length=255, primary_key=True)
+    variables_key = models.CharField(max_length=255, unique=True)
 
     Na = models.FloatField()
     Nb = models.FloatField()
-    N = models.FloatField()
+    NR = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
 
     def __str__(self):

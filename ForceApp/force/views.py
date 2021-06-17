@@ -42,7 +42,7 @@ class AnglesForm(ModelForm):
 class VariablesForm(ModelForm):
     class Meta:
         model = Variables
-        fields = ['Na','Nb', 'N']
+        fields = ['Na','Nb', 'NR']
 
 def index(request):
     return render(request, 'force/index.html', {
@@ -185,10 +185,10 @@ def projects(request, query):
         [project.serialize() for project in projects], safe=False)
 
 @login_required
-def calculation(request, project):
+def calculation(request, project_num):
 
     if request.method == "GET":
-        project_inst = Project.objects.get(project_number=project)
+        project_inst = Project.objects.get(pk=int(project_num))
         contacts = project_inst.contacts.all()
         plungers = project_inst.plungers.all()
         springs = project_inst.springs.all()
@@ -196,6 +196,7 @@ def calculation(request, project):
         variables = project_inst.variables.all()
 
         return render(request, 'force/calculation.html', {
+            "project": project_inst,
             "Contacts": contacts,
             "Plungers": plungers,
             "Springs": springs,
@@ -215,9 +216,14 @@ def calculation(request, project):
 def contact(request, value):
 
     if request.method == "GET":
-
-        print("THIS IS A REQUEST:",request.GET['project'])
-        # project_inst = Project.objects.get(project_number=request.GET.get("project"))
-        # contact = project_inst.contacts.get(contact_key=value)
-
-        return JsonResponse({"contact": 1}, status=201)
+        if value != 0:
+            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
+            contact = project_inst.contacts.get(pk=value)
+            
+            return JsonResponse(contact.serialize(), safe=False)
+        elif value == 0:
+            return JsonResponse({
+                "mu": "",
+                "contactCoord_X": "",
+                "contactCoord_Y": "",
+            }, safe=False)

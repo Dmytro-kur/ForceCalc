@@ -7,12 +7,12 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
-    path("calculation/<str:project>", views.calculation, name="calculation"),
+    path("calculation/<int:project_num>", views.calculation, name="calculation"),
 
     # API Routes
     path("projects/<str:query>", views.projects, name="projects"),
     path("new_project", views.new_project, name="new_project"),
-    path("contact/<str:value>", views.contact, name="contact"),
+    path("contact/<int:value>", views.contact, name="contact"),
     
     
 ]

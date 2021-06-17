@@ -5,25 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector("#contacts").addEventListener('change', (event) => {
             const val = event.target.value
             const path = window.location.pathname.slice(13)
-            console.log(val)
-            console.log()
-            fetch(`/contact/${val}?project=${path}`)
+            fetch(`/contact/${val}?project_num=${path}`)
             .then(response => response.json())
             .then(result => {
-                console.log(result.contact)
+                document.querySelector('input#id_mu').value = result.mu;
+                document.querySelector('input#id_contactCoord_X').value = result.contactCoord_X;
+                document.querySelector('input#id_contactCoord_Y').value = result.contactCoord_Y;
+            })
+            .catch(err => {
+                console.log(err)
             })
         })
     }
-
-
-
-
-
-
-
-
-
-
 
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');

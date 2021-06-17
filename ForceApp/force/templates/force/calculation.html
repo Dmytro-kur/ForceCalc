@@ -4,6 +4,8 @@
 {% block body %}
 
     <h1>Force Travel Calculation</h1>
+    <h2>{{ project.project_number }} <h4>{{ project.project_name }}</h4></h2>
+    <h6>was created {{ project.datetime }}</h6>
 
     <canvas id="canvas" width="600" height="600"></canvas>
     <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
@@ -11,9 +13,9 @@
     {% if Contacts %}
         <p><label for="contacts">Choose contact:</label></p>
         <p><select name="contacts" id="contacts">
-            <option value="unknown" selected>Unknown</option>
+            <option value="0" selected>Unknown</option>
             {% for contact in Contacts %}
-                <option value="{{ contact.contact_key }}">{{ contact.contact_key }}</option>
+                <option value="{{ contact.id }}">{{ contact.contact_key }}</option>
             {% endfor %}
         </select>
         <button class="btn btn-success btn-sm">New</button>
@@ -33,64 +35,123 @@
         </p>
 
     {% endif %}
-    
+
     <hr style="color:aliceblue;">
 
     {% if Plungers %}
         <p><label for="plungers">Choose Plunger:</label></p>
-        <select name="plungers" id="plungers">
+        <p><select name="plungers" id="plungers">
+            <option value="0" selected>Unknown</option>
             {% for plunger in Plungers %}
-                <option value="{{ plunger.plunger_key }}">{{ plunger.plunger_key }}</option>
+                <option value="{{ plunger.id }}">{{ plunger.plunger_key }}</option>
             {% endfor %}
         </select>
         <button class="btn btn-success btn-sm">New</button>
         <button class="btn btn-success btn-sm">Save</button>
-        <button class="btn btn-success btn-sm">Delete</button>
+        <button class="btn btn-success btn-sm">Delete</button></p>
+        <!-- a = models.FloatField()
+        b = models.FloatField()
+        f = models.FloatField() -->
+        <p>
+            <label for id="id_a">Distance between contact point and point B (mm):</label>
+            <input type="number" name="a" step="any" required id="id_a">
+        </p>
+        <p>
+            <label for id="id_b">Distance between point A and point B (mm):</label>
+            <input type="number" name="b" step="any" required id="id_b">
+        </p>
+        <p>
+            <label for id="id_f">Friction in Plunger joints:</label>
+            <input type="number" name="f" step="any" required id="id_f">
+        </p>
     {% endif %}
 
-    <p>{{ PlungerForm.as_p }}</p>
     <hr style="color:aliceblue;">
     {% if Springs %}
         <p><label for="springs">Choose Spring:</label></p>
-        <select name="springs" id="springs">
+        <p><select name="springs" id="springs">
+            <option value="0" selected>Unknown</option>
             {% for spring in Springs %}
-                <option value="{{ spring.spring_key }}">{{ spring.spring_key }}</option>
+                <option value="{{ spring.id }}">{{ spring.spring_key }}</option>
             {% endfor %}
         </select>
         <button class="btn btn-success btn-sm">New</button>
         <button class="btn btn-success btn-sm">Save</button>
-        <button class="btn btn-success btn-sm">Delete</button>
+        <button class="btn btn-success btn-sm">Delete</button></p>
+        <!-- springStiff = models.FloatField()
+        freeLen = models.FloatField()
+        springLen = models.FloatField() -->
+        <p>
+            <label for id="id_springStiff">Spring stiffness (N/mm):</label>
+            <input type="number" name="springStiff" step="any" required id="id_springStiff">
+        </p>
+        <p>
+            <label for id="id_freeLen">Free Spring Length (mm):</label>
+            <input type="number" name="freeLen" step="any" required id="id_freeLen">
+        </p>
+        <p>
+            <label for id="id_springLen">Spring Length (mm):</label>
+            <input type="number" name="springLen" step="any" required id="id_springLen">
+        </p>
     {% endif %}
     
-    <p>{{ SpringForm.as_p }}</p>
     <hr style="color:aliceblue;">
     {% if Angles %}
         <p><label for="angles">Choose Angles:</label></p>
-        <select name="angles" id="angles">
+        <p><select name="angles" id="angles">
+            <option value="0" selected>Unknown</option>
             {% for angles in Angles %}
-                <option value="{{ angles.angles_key }}">{{ angles.angles_key }}</option>
+                <option value="{{ angles.id }}">{{ angles.angles_key }}</option>
             {% endfor %}
         </select>
         <button class="btn btn-success btn-sm">New</button>
         <button class="btn btn-success btn-sm">Save</button>
-        <button class="btn btn-success btn-sm">Delete</button>
+        <button class="btn btn-success btn-sm">Delete</button></p>
+        <!-- plungerFric = models.FloatField()
+        N = models.FloatField()
+        FN = models.FloatField() -->
+        <p>
+            <label for id="id_plungerFric">Direction of Plunger Friction Forces (deg):</label>
+            <input type="number" name="plungerFric" step="any" required id="id_plungerFric">
+        </p>
+        <p>
+            <label for id="id_N">Direction of Normal Reaction (deg):</label>
+            <input type="number" name="N" step="any" required id="id_N">
+        </p>
+        <p>
+            <label for id="id_FN">Direction of Friction Force in Contact (deg):</label>
+            <input type="number" name="FN" step="any" required id="id_FN">
+        </p>
     {% endif %}
     
-    <p>{{ AnglesForm.as_p }}</p>
     <hr style="color:aliceblue;">
     {% if Variables %}
         <p><label for="variables">Choose Variables:</label></p>
-        <select name="variables" id="variables">
+        <p><select name="variables" id="variables">
+            <option value="0" selected>Unknown</option>
             {% for variables in Variables %}
-                <option value="{{ variables.variables_key }}">{{ variables.variables_key }}</option>
+                <option value="{{ variables.id }}">{{ variables.variables_key }}</option>
             {% endfor %}
         </select>
         <button class="btn btn-success btn-sm">New</button>
         <button class="btn btn-success btn-sm">Save</button>
-        <button class="btn btn-success btn-sm">Delete</button>
+        <button class="btn btn-success btn-sm">Delete</button></p>
+        <!-- Na = models.FloatField()
+        Nb = models.FloatField()
+        NR = models.FloatField() -->
+        <p>
+            <label for id="id_Na">:</label>
+            <input type="number" name="Na" step="any" required id="id_Na">
+        </p>
+        <p>
+            <label for id="id_Nb">:</label>
+            <input type="number" name="Nb" step="any" required id="id_Nb">
+        </p>
+        <p>
+            <label for id="id_NR">:</label>
+            <input type="number" name="NR" step="any" required id="id_NR">
+        </p>
     {% endif %}
-
-    <p>{{ VariablesForm.as_p }}</p>
 
     <button class="btn btn-primary btn-sm">Calculate</button>
 
