@@ -57,9 +57,9 @@ class Contact(models.Model):
         return {
             "id": self.id,
             "contact_key": self.contact_key,
-            "mu": self.mu,
-            "contactCoord_X": self.contactCoord_X,
-            "contactCoord_Y": self.contactCoord_Y,
+            "v1": self.mu,
+            "v2": self.contactCoord_X,
+            "v3": self.contactCoord_Y,
             "datetime": datetime,
         }
 
@@ -78,6 +78,17 @@ class Plunger(models.Model):
 
     def is_valid_plunger(self):
         return round(self.a, 5) > 0 and round(self.b, 5) > 0
+
+    def serialize(self):
+        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+        return {
+            "id": self.id,
+            "plunger_key": self.plunger_key,
+            "v1": self.a,
+            "v2": self.b,
+            "v3": self.f,
+            "datetime": datetime,
+        }
 
 class Spring(models.Model):
 
@@ -98,6 +109,17 @@ class Spring(models.Model):
     def force(self):
         return self.springStiff*(self.freeLen - self.springLen)
 
+    def serialize(self):
+        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+        return {
+            "id": self.id,
+            "spring_key": self.spring_key,
+            "v1": self.springStiff,
+            "v2": self.freeLen,
+            "v3": self.springLen,
+            "datetime": datetime,
+        }
+
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
@@ -113,6 +135,17 @@ class Angles(models.Model):
 
     def is_valid_angle(self):
         return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
+
+    def serialize(self):
+        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+        return {
+            "id": self.id,
+            "angles_key": self.angles_key,
+            "v1": self.plungerFric,
+            "v2": self.N,
+            "v3": self.FN,
+            "datetime": datetime,
+        }
 
 class Variables(models.Model):
 
@@ -135,3 +168,14 @@ class Variables(models.Model):
         v1 = np.array([-F, 0, 0])
         c1 = np.linalg.solve(M1, v1)
         return c1
+
+    def serialize(self):
+        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+        return {
+            "id": self.id,
+            "variables_key": self.variables_key,
+            "v1": self.Na,
+            "v2": self.Nb,
+            "v3": self.NR,
+            "datetime": datetime,
+        }

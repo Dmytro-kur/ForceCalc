@@ -1,22 +1,30 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-
-    if (document.querySelector("#contacts")) {
-        document.querySelector("#contacts").addEventListener('change', (event) => {
+function fill_value(id, func_name, var_id1, var_id2, var_id3) {
+    if (document.querySelector(id)) {
+        document.querySelector(id).addEventListener('change', (event) => {
             const val = event.target.value
             const path = window.location.pathname.slice(13)
-            fetch(`/contact/${val}?project_num=${path}`)
+            fetch(`/${func_name}/${val}?project_num=${path}`)
             .then(response => response.json())
             .then(result => {
-                document.querySelector('input#id_mu').value = result.mu;
-                document.querySelector('input#id_contactCoord_X').value = result.contactCoord_X;
-                document.querySelector('input#id_contactCoord_Y').value = result.contactCoord_Y;
+                document.querySelector(`input#${var_id1}`).value = result.v1;
+                document.querySelector(`input#${var_id2}`).value = result.v2;
+                document.querySelector(`input#${var_id3}`).value = result.v3;
             })
             .catch(err => {
                 console.log(err)
             })
         })
     }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    fill_value("#contacts", "contact", "id_mu", "id_contactCoord_X", "id_contactCoord_Y");
+    fill_value("#plungers", "plunger", "id_a", "id_b", "id_f");
+    fill_value("#springs", "spring", "id_springStiff", "id_freeLen", "id_springLen");
+    fill_value("#angles", "angles", "id_plungerFric", "id_N", "id_FN");
+    fill_value("#variables", "variables", "id_Na", "id_Nb", "id_NR");
 
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');

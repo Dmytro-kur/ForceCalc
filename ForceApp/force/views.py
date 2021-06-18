@@ -223,7 +223,71 @@ def contact(request, value):
             return JsonResponse(contact.serialize(), safe=False)
         elif value == 0:
             return JsonResponse({
-                "mu": "",
-                "contactCoord_X": "",
-                "contactCoord_Y": "",
+                "v1": "",
+                "v2": "",
+                "v3": "",
+            }, safe=False)
+
+@login_required
+def plunger(request, value):
+
+    if request.method == "GET":
+        if value != 0:
+            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
+            contact = project_inst.plungers.get(pk=value)
+            
+            return JsonResponse(contact.serialize(), safe=False)
+        elif value == 0:
+            return JsonResponse({
+                "v1": "",
+                "v2": "",
+                "v3": "",
+            }, safe=False)
+
+@login_required
+def spring(request, value):
+
+    if request.method == "GET":
+        if value != 0:
+            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
+            contact = project_inst.springs.get(pk=value)
+            
+            return JsonResponse(contact.serialize(), safe=False)
+        elif value == 0:
+            return JsonResponse({
+                "v1": "",
+                "v2": "",
+                "v3": "",
+            }, safe=False)
+
+@login_required
+def angles(request, value):
+
+    if request.method == "GET":
+        if value != 0:
+            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
+            contact = project_inst.angles.get(pk=value)
+            
+            return JsonResponse(contact.serialize(), safe=False)
+        elif value == 0:
+            return JsonResponse({
+                "v1": "",
+                "v2": "",
+                "v3": "",
+            }, safe=False)
+
+@login_required
+def variables(request, value):
+
+    if request.method == "GET":
+        if value != 0:
+            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
+            contact = project_inst.variables.get(pk=value)
+            
+            return JsonResponse(contact.serialize(), safe=False)
+        elif value == 0:
+            return JsonResponse({
+                "v1": "",
+                "v2": "",
+                "v3": "",
             }, safe=False)

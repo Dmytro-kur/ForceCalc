@@ -14,7 +14,6 @@ function projects_retrieve(query, page) {
             const user_td = document.createElement('td');
 
             new_tr.className = "table_content";
-            console.log(project)
             new_tr.dataset.id = project.id;
 
             date_td.innerHTML = project.datetime;

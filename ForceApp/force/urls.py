@@ -13,6 +13,9 @@ urlpatterns = [
     path("projects/<str:query>", views.projects, name="projects"),
     path("new_project", views.new_project, name="new_project"),
     path("contact/<int:value>", views.contact, name="contact"),
-    
-    
+    path("plunger/<int:value>", views.plunger, name="plunger"),
+    path("spring/<int:value>", views.spring, name="spring"),
+    path("angles/<int:value>", views.angles, name="angles"),
+    path("variables/<int:value>", views.variables, name="variables"),
+
 ]
