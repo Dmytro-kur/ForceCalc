@@ -7,8 +7,11 @@
 
     {% if user.is_authenticated %}
         <h3>New project</h3>
-        {{ projectForm.as_p }}
-        <button id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>
+        <form action="">
+            {% csrf_token %}
+            {{ projectForm.as_p }}
+            <button type="submit" id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>
+        </form>
     {% endif %}
 
     <div id="myQuery"></div>

@@ -251,30 +251,35 @@ def calculation(request, project_num):
 def contact(request, value):
 
     if request.method == "GET":
-        if value != 0:
+
+        # print("request.GET.get(\"num\"):", 
+        # type(request.GET.get("num")), 
+        # request.GET.get("num"))
+
+        if int(request.GET.get("num")) != 0:
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.contacts.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
-        elif value == 0:
+        elif int(request.GET.get("num")) == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
             }, safe=False)
 
-    if request.method == "POST":
-        contact_data = ProjectForm(request.POST)
-        project_inst = Project.objects.get(pk=value)
+    # if request.method == "POST":
+    #     contact_data = ProjectForm(request.POST)
+    #     project_inst = Project.objects.get(pk=value)
 
-        if contact_data.is_valid():
-            contact_creator = contact_data.save(commit=False)
-            contact_creator.project = project_inst
-            contact_creator.save()
+    #     if contact_data.is_valid():
+    #         contact_creator = contact_data.save(commit=False)
+    #         contact_creator.project = project_inst
+    #         contact_creator.save()
 
-            return JsonResponse({"message": "New Contact was added."}, status=201)
-        else: 
-            return JsonResponse({"error": contact_data.errors["project_number"][0]}, status=400)
+    #         return JsonResponse({"message": "New Contact was added."}, status=201)
+    #     else: 
+    #         return JsonResponse({"error": contact_data.errors["project_number"][0]}, status=400)
 
 
 @login_required
