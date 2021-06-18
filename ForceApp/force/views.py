@@ -8,11 +8,13 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.utils.translation import gettext_lazy as _
 
 from .models import *
 from django.forms import ModelForm
 from django import forms
 import ast
+
 
 class ProjectForm(ModelForm):
     class Meta:
@@ -22,27 +24,60 @@ class ProjectForm(ModelForm):
 class ContactForm(ModelForm):
     class Meta:
         model = Contact
-        fields = ['mu','contactCoord_X', 'contactCoord_Y']
+        fields = ['contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y']
+        labels = {
+            'contact_key': _('Name of the Contact'),
+            'mu': _('Friction in Contact μ'),
+            'contactCoord_X': _('Contact Point X Coordinate (mm)'),
+            'contactCoord_Y': _('Contact Point Y Coordinate (mm)'),
+        }
+        # help_texts = {
+        #     'name': _('Some useful help text.'),
+        # }
 
 class PlungerForm(ModelForm):
     class Meta:
         model = Plunger
-        fields = ['a','b', 'f']
+        fields = ['plunger_key', 'a','b', 'f']
+        labels = {
+            'plunger_key': _('Name of the Plunger'),
+            'a': _('Distance between Contact Point and Point B (mm)'),
+            'b': _('Distance between Point A and Point (mm)'),
+            'f': _('Friction in Plunger Joints'),
+        }
 
 class SpringForm(ModelForm):
     class Meta:
         model = Spring
-        fields = ['springStiff','freeLen', 'springLen']
+        fields = ['spring_key', 'springStiff','freeLen', 'springLen']
+        labels = {
+            'spring_key': _('Name of the Spring'),
+            'springStiff': _('Spring Stiffness (N/mm)'),
+            'freeLen': _('Free Spring Length (N/mm)'),
+            'springLen': _('Spring Length (N/mm)'),
+        }
 
 class AnglesForm(ModelForm):
     class Meta:
         model = Angles
-        fields = ['plungerFric','N', 'FN']
+        fields = ['angles_key', 'plungerFric','N', 'FN']
+        labels = {
+            'angles_key': _('Name of the Angles'),
+            'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
+            'N': _('Direction of Normal Reaction (deg)'),
+            'FN': _('Direction of Friction Force in Contact (deg)'),
+        }
 
 class VariablesForm(ModelForm):
     class Meta:
         model = Variables
-        fields = ['Na','Nb', 'NR']
+        fields = ['variables_key', 'Na','Nb', 'NR']
+        labels = {
+            'angles_key': _('Name of the Variables'),
+            'Na': _('Force Reaction in Point A (N)'),
+            'Nb': _('Force Reaction in Point B (N)'),
+            'NR': _('Force Reaction in Contact Point (N)'),
+        }
 
 def index(request):
     return render(request, 'force/index.html', {
@@ -217,8 +252,8 @@ def contact(request, value):
 
     if request.method == "GET":
         if value != 0:
-            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
-            contact = project_inst.contacts.get(pk=value)
+            project_inst = Project.objects.get(pk=value)
+            contact = project_inst.contacts.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
         elif value == 0:
@@ -227,6 +262,20 @@ def contact(request, value):
                 "v2": "",
                 "v3": "",
             }, safe=False)
+
+    if request.method == "POST":
+        contact_data = ProjectForm(request.POST)
+        project_inst = Project.objects.get(pk=value)
+
+        if contact_data.is_valid():
+            contact_creator = contact_data.save(commit=False)
+            contact_creator.project = project_inst
+            contact_creator.save()
+
+            return JsonResponse({"message": "New Contact was added."}, status=201)
+        else: 
+            return JsonResponse({"error": contact_data.errors["project_number"][0]}, status=400)
+
 
 @login_required
 def plunger(request, value):
