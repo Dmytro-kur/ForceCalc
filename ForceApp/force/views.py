@@ -84,6 +84,7 @@ def index(request):
         "projectForm": ProjectForm(),
     })
 
+@csrf_protect
 def login_view(request):
     if request.method == "POST":
 
@@ -107,6 +108,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
+@csrf_protect
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -134,7 +136,7 @@ def register(request):
     else:
         return render(request, "force/register.html")
 
-@csrf_exempt
+@csrf_protect
 @login_required
 def new_project(request):
 

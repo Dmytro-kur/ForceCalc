@@ -7,7 +7,7 @@
 
     {% if user.is_authenticated %}
         <h3>New project</h3>
-        <form action="">
+        <form method="post">
             {% csrf_token %}
             {{ projectForm.as_p }}
             <button type="submit" id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>

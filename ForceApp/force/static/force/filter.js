@@ -68,16 +68,25 @@ function link_calc() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+
     link_calc();
     if (document.querySelector('#post_new_project')) {
-        document.querySelector('#post_new_project').addEventListener('click', () => {
+        document.querySelector('#post_new_project').onsubmit = () => {
         
             let project_number = document.querySelector('#id_project_number').value;
             let project_name = document.querySelector('#id_project_name').value;
             let assembly_number = document.querySelector('#id_assembly_number').value;
-            
-            fetch('/new_project', {
+
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const request = new Request(
+                '/new_project',
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+
+            fetch(request, {
                 method: 'POST',
+                mode: 'same-origin',
                 body: JSON.stringify({
                     project_number: project_number,
                     project_name: project_name,
@@ -95,8 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(() => {
                 projects_retrieve("", 1);
-            })      
-        })
+            })
+            return false;
+        }
     }
 
 
