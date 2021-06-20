@@ -15,7 +15,14 @@ from django.forms import ModelForm
 from django import forms
 import ast
 
+def parse_from_js(request_body):
 
+    byte_str = request_body
+    dict_str = byte_str.decode("UTF-8")
+    mydata = ast.literal_eval(dict_str)
+
+    return mydata
+        
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
@@ -141,10 +148,8 @@ def register(request):
 def new_project(request):
 
     if request.method == "POST":
-        byte_str = request.body
-        dict_str = byte_str.decode("UTF-8")
-        mydata = ast.literal_eval(dict_str)
-        
+
+        mydata = parse_from_js(request.body)
         project_data = ProjectForm(mydata)
 
         if project_data.is_valid():
@@ -249,20 +254,17 @@ def calculation(request, project_num):
     if request.method == "POST":
         pass
 
+@csrf_protect
 @login_required
 def contact(request, value):
 
     if request.method == "GET":
-
-        # print("request.GET.get(\"num\"):", 
-        # type(request.GET.get("num")), 
-        # request.GET.get("num"))
-
         if int(request.GET.get("num")) != 0:
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.contacts.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
+
         elif int(request.GET.get("num")) == 0:
             return JsonResponse({
                 "v1": "",
@@ -270,78 +272,84 @@ def contact(request, value):
                 "v3": "",
             }, safe=False)
 
-    # if request.method == "POST":
-    #     contact_data = ProjectForm(request.POST)
-    #     project_inst = Project.objects.get(pk=value)
+    if request.method == "POST":
 
-    #     if contact_data.is_valid():
-    #         contact_creator = contact_data.save(commit=False)
-    #         contact_creator.project = project_inst
-    #         contact_creator.save()
+        mydata = parse_from_js(request.body)
 
-    #         return JsonResponse({"message": "New Contact was added."}, status=201)
-    #     else: 
-    #         return JsonResponse({"error": contact_data.errors["project_number"][0]}, status=400)
+        contact_data = ContactForm(mydata)
+        project_inst = Project.objects.get(pk=value)
 
+        if contact_data.is_valid():
+            contact_creator = contact_data.save(commit=False)
+            contact_creator.project = project_inst
+            contact_creator.save()
 
+            return JsonResponse({"message": "New Contact was added."}, status=201)
+        else: 
+            return JsonResponse({"error": contact_data.errors["project_number"][0]}, status=400)
+
+@csrf_protect
 @login_required
 def plunger(request, value):
 
     if request.method == "GET":
-        if value != 0:
-            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
-            contact = project_inst.plungers.get(pk=value)
+        if request.GET.get("num") != 0:
+            project_inst = Project.objects.get(pk=value)
+            contact = project_inst.plungers.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
-        elif value == 0:
+        elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
             }, safe=False)
 
+@csrf_protect
 @login_required
 def spring(request, value):
 
     if request.method == "GET":
-        if value != 0:
-            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
-            contact = project_inst.springs.get(pk=value)
+        if request.GET.get("num") != 0:
+            project_inst = Project.objects.get(pk=value)
+            contact = project_inst.springs.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
-        elif value == 0:
+        elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
             }, safe=False)
 
+@csrf_protect
 @login_required
 def angles(request, value):
 
     if request.method == "GET":
-        if value != 0:
-            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
-            contact = project_inst.angles.get(pk=value)
+        if request.GET.get("num") != 0:
+            project_inst = Project.objects.get(pk=value)
+            contact = project_inst.angles.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
-        elif value == 0:
+        elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
             }, safe=False)
 
+@csrf_protect
 @login_required
 def variables(request, value):
 
     if request.method == "GET":
-        if value != 0:
-            project_inst = Project.objects.get(pk=request.GET.get("project_num"))
-            contact = project_inst.variables.get(pk=value)
+        if request.GET.get("num") != 0:
+            project_inst = Project.objects.get(pk=value)
+            contact = project_inst.variables.get(pk=request.GET.get("num"))
             
             return JsonResponse(contact.serialize(), safe=False)
-        elif value == 0:
+        elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",

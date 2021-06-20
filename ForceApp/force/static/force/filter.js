@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     link_calc();
     if (document.querySelector('#post_new_project')) {
-        document.querySelector('#post_new_project').onsubmit = () => {
+        document.querySelector('#post_new_project').onclick = () => {
         
             let project_number = document.querySelector('#id_project_number').value;
             let project_name = document.querySelector('#id_project_name').value;
@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(() => {
                 projects_retrieve("", 1);
             })
-            return false;
         }
     }
 

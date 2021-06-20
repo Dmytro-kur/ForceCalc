@@ -25,6 +25,69 @@ document.addEventListener('DOMContentLoaded', function() {
     fill_value("#angles", "angles", "plungerFric", "N", "FN");
     fill_value("#variables", "variables", "Na", "Nb", "NR");
 
+    document.querySelector('#new_contact_btn').addEventListener('click', () => {
+        
+        if (document.querySelector('#new_contact').style.display === 'none') {
+            
+            document.querySelector('#id_contact_key').value = '';
+            document.querySelector('#id_mu').value = '';
+            document.querySelector('#id_contactCoord_X').value = '';
+            document.querySelector('#id_contactCoord_Y').value = '';
+            document.querySelector('#new_contact').style.display = 'block';
+            document.querySelector('#save_contact_btn').style.display = 'block';
+        } else {
+            document.querySelector('#id_contact_key').value = '';
+            document.querySelector('#id_mu').value = '';
+            document.querySelector('#id_contactCoord_X').value = '';
+            document.querySelector('#id_contactCoord_Y').value = '';
+            document.querySelector('#new_contact').style.display = 'none';
+            document.querySelector('#save_contact_btn').style.display = 'none';
+        }
+    })
+
+    document.querySelector('#save_contact_btn').addEventListener('click', () => {
+            
+        let contact_key = document.querySelector('#id_contact_key').value;
+        let mu = document.querySelector('#id_mu').value;
+        let contactCoord_X = document.querySelector('#id_contactCoord_X').value;
+        let contactCoord_Y = document.querySelector('#id_contactCoord_Y').value;
+
+        const path = window.location.pathname.slice(13)
+
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const request = new Request(
+            `/contact/${path}?num=none`,
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify({
+                contact_key: contact_key,
+                mu: mu,
+                contactCoord_X: contactCoord_X,
+                contactCoord_Y: contactCoord_Y,
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.error) {
+                alert(result.error)
+            } else {
+                console.log(result)
+            }
+        })
+        
+        document.querySelector('#id_contact_key').value = '';
+        document.querySelector('#id_mu').value = '';
+        document.querySelector('#id_contactCoord_X').value = '';
+        document.querySelector('#id_contactCoord_Y').value = '';
+        document.querySelector('#new_contact').style.display = 'none';
+        document.querySelector('#save_contact_btn').style.display = 'none';
+
+
+    })
 
 
     const canvas = document.getElementById('canvas')

@@ -10,16 +10,19 @@
     <canvas id="canvas" width="600" height="600"></canvas>
     <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
     
-    <p><label for="contacts">Choose contact:</label></p>
-    <p><button id="new_contact" class="btn btn-success btn-sm">New</button></p>
+    <form method="post">{% csrf_token %}</form>
 
-    <div id="ContactForm" style="display: none;">
+    <p><label for="contacts">Choose contact:</label></p>
+    <p>
+        <button id="new_contact_btn" class="btn btn-success btn-sm">New</button>
+        <button style="display: none;" id="save_contact_btn" class="btn btn-success btn-sm">Save</button>
+    </p>
+
+    <div id="new_contact" style="display: none;">
         {{ ContactForm.as_p }}
     </div>
 
     {% if Contacts %} 
-        <p><button id="save_contact" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_contact" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="contacts" id="contacts">
             <option value="0" selected>Unknown</option>
             {% for contact in Contacts %}
@@ -39,20 +42,21 @@
             <input type="number" name="contactCoord_Y" step="any" required id="contactCoord_Y">
         </p>
 
+        <p>
+            <button style="display: none;" id="edit_contact_btn" class="btn btn-success btn-sm">Edit</button>
+            <button style="display: none;" id="delete_contact_btn" class="btn btn-success btn-sm">Delete</button>
+        </p>
+
     {% endif %}
 
     <hr style="color:aliceblue;">
 
     <p><label for="plungers">Choose Plunger:</label></p>
-    <p><button id="new_plunger" class="btn btn-success btn-sm">New</button></p>
+    <p><button id="new_plunger_btn" class="btn btn-success btn-sm">New</button></p>
     
-    <div id="PlungerForm" style="display: none;">
-        {{ PlungerForm.as_p }}
-    </div>
-
     {% if Plungers %}
-        <p><button id="save_plunger" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_plunger" class="btn btn-success btn-sm">Delete</button></p>
+        <p><button id="save_plunger_btn" class="btn btn-success btn-sm">Save</button>
+        <button id="delete_plunger_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="plungers" id="plungers">
             <option value="0" selected>Unknown</option>
             {% for plunger in Plungers %}
@@ -60,9 +64,6 @@
             {% endfor %}
         </select></p>
     
-        <!-- a = models.FloatField()
-        b = models.FloatField()
-        f = models.FloatField() -->
         <p>
             <label for id="a">Distance between Contact Point and Point B (mm):</label>
             <input type="number" name="a" step="any" required id="a">
@@ -80,15 +81,11 @@
     <hr style="color:aliceblue;">
 
     <p><label for="springs">Choose Spring:</label></p>
-    <p><button id="new_spring" class="btn btn-success btn-sm">New</button></p>
-
-    <div id="SpringForm" style="display: none;">
-        {{ SpringForm.as_p }}
-    </div>
+    <p><button id="new_spring_btn" class="btn btn-success btn-sm">New</button></p>
 
     {% if Springs %}
-        <p><button id="save_spring" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_spring" class="btn btn-success btn-sm">Delete</button></p>
+        <p><button id="save_spring_btn" class="btn btn-success btn-sm">Save</button>
+        <button id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="springs" id="springs">
             <option value="0" selected>Unknown</option>
             {% for spring in Springs %}
@@ -96,9 +93,6 @@
             {% endfor %}
         </select></p>
 
-        <!-- springStiff = models.FloatField()
-        freeLen = models.FloatField()
-        springLen = models.FloatField() -->
         <p>
             <label for id="springStiff">Spring Stiffness (N/mm):</label>
             <input type="number" name="springStiff" step="any" required id="springStiff">
@@ -116,15 +110,11 @@
     <hr style="color:aliceblue;">
 
     <p><label for="angles">Choose Angles:</label></p>
-    <p><button id="new_angles" class="btn btn-success btn-sm">New</button></p>
-
-    <div id="AnglesForm" style="display: none;">
-        {{ AnglesForm.as_p }}
-    </div>
+    <p><button id="new_angles_btn" class="btn btn-success btn-sm">New</button></p>
 
     {% if Angles %}
-        <p><button id="save_angles" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_angles" class="btn btn-success btn-sm">Delete</button></p>
+        <p><button id="save_angles_btn" class="btn btn-success btn-sm">Save</button>
+        <button id="delete_angles_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="angles" id="angles">
             <option value="0" selected>Unknown</option>
             {% for angles in Angles %}
@@ -132,9 +122,6 @@
             {% endfor %}
         </select></p>
         
-        <!-- plungerFric = models.FloatField()
-        N = models.FloatField()
-        FN = models.FloatField() -->
         <p>
             <label for id="plungerFric">Direction of Plunger Friction Forces (deg):</label>
             <input type="number" name="plungerFric" step="any" required id="plungerFric">
@@ -152,24 +139,18 @@
     <hr style="color:aliceblue;">
 
     <p><label for="variables">Choose Variables:</label></p>
-    <p><button id="new_variables" class="btn btn-success btn-sm">New</button></p>
+    <p><button id="new_variables_btn" class="btn btn-success btn-sm">New</button></p>
         
-    <div id="VariablesForm" style="display: none;">
-        {{ VariablesForm.as_p }}
-    </div>
-
     {% if Variables %}
-        <p><button id="save_variables" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_variables" class="btn btn-success btn-sm">Delete</button></p>
+        <p><button id="save_variables_btn" class="btn btn-success btn-sm">Save</button>
+        <button id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="variables" id="variables">
             <option value="0" selected>Unknown</option>
             {% for variables in Variables %}
                 <option value="{{ variables.id }}">{{ variables.variables_key }}</option>
             {% endfor %}
         </select></p>
-        <!-- Na = models.FloatField()
-        Nb = models.FloatField()
-        NR = models.FloatField() -->
+
         <p>
             <label for id="Na">Force Reaction in Point A (N):</label>
             <input type="number" name="Na" step="any" required id="Na">
