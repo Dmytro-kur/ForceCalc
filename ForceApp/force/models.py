@@ -57,9 +57,9 @@ class Contact(models.Model):
         return {
             "id": self.id,
             "contact_key": self.contact_key,
-            "v1": self.mu,
-            "v2": self.contactCoord_X,
-            "v3": self.contactCoord_Y,
+            "var1": self.mu,
+            "var2": self.contactCoord_X,
+            "var3": self.contactCoord_Y,
             "datetime": datetime,
         }
 
@@ -84,9 +84,9 @@ class Plunger(models.Model):
         return {
             "id": self.id,
             "plunger_key": self.plunger_key,
-            "v1": self.a,
-            "v2": self.b,
-            "v3": self.f,
+            "var1": self.a,
+            "var2": self.b,
+            "var3": self.f,
             "datetime": datetime,
         }
 
@@ -114,9 +114,9 @@ class Spring(models.Model):
         return {
             "id": self.id,
             "spring_key": self.spring_key,
-            "v1": self.springStiff,
-            "v2": self.freeLen,
-            "v3": self.springLen,
+            "var1": self.springStiff,
+            "var2": self.freeLen,
+            "var3": self.springLen,
             "datetime": datetime,
         }
 
@@ -141,9 +141,9 @@ class Angles(models.Model):
         return {
             "id": self.id,
             "angles_key": self.angles_key,
-            "v1": self.plungerFric,
-            "v2": self.N,
-            "v3": self.FN,
+            "var1": self.plungerFric,
+            "var2": self.N,
+            "var3": self.FN,
             "datetime": datetime,
         }
 
@@ -174,8 +174,8 @@ class Variables(models.Model):
         return {
             "id": self.id,
             "variables_key": self.variables_key,
-            "v1": self.Na,
-            "v2": self.Nb,
-            "v3": self.NR,
+            "var1": self.Na,
+            "var2": self.Nb,
+            "var3": self.NR,
             "datetime": datetime,
         }

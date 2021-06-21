@@ -1,20 +1,101 @@
-function fill_value(id, func_name, var_id1, var_id2, var_id3) {
+function fill_value(id, func_name, var1, var2, var3) {
+
+    document.querySelector(`#new_${func_name}_btn`).addEventListener('click', () => {
+
+        if (document.querySelector(`#new_${func_name}`).style.display === 'none') {
+
+            document.querySelector(`#id_${func_name}_key`).value = '';
+            document.querySelector(`#id_${var1}`).value = '';
+            document.querySelector(`#id_${var2}`).value = '';
+            document.querySelector(`#id_${var3}`).value = '';
+            document.querySelector(`#new_${func_name}`).style.display = 'block';
+            document.querySelector(`#save_${func_name}_btn`).style.display = 'block';
+        } else {
+            document.querySelector(`#id_${func_name}_key`).value = '';
+            document.querySelector(`#id_${var1}`).value = '';
+            document.querySelector(`#id_${var2}`).value = '';
+            document.querySelector(`#id_${var3}`).value = '';
+            document.querySelector(`#new_${func_name}`).style.display = 'none';
+            document.querySelector(`#save_${func_name}_btn`).style.display = 'none';
+        }
+    })
+
     if (document.querySelector(id)) {
         document.querySelector(id).addEventListener('change', (event) => {
+
             const val = event.target.value
             const path = window.location.pathname.slice(13)
+
+            if (val !== '0') {
+                document.querySelector(`#edit_${func_name}_btn`).style.display = 'block';
+                document.querySelector(`#delete_${func_name}_btn`).style.display = 'block';
+            } else if (val === '0') {
+                document.querySelector(`#edit_${func_name}_btn`).style.display = 'none';
+                document.querySelector(`#delete_${func_name}_btn`).style.display = 'none';
+            }
+
             fetch(`/${func_name}/${path}?num=${val}`)
             .then(response => response.json())
             .then(result => {
-                document.querySelector(`input#${var_id1}`).value = result.v1;
-                document.querySelector(`input#${var_id2}`).value = result.v2;
-                document.querySelector(`input#${var_id3}`).value = result.v3;
+                document.querySelector(`input#${var1}`).value = result.var1;
+                document.querySelector(`input#${var2}`).value = result.var2;
+                document.querySelector(`input#${var3}`).value = result.var3;
             })
             .catch(err => {
                 console.log(err)
             })
         })
     }
+
+    document.querySelector(`#save_${func_name}_btn`).addEventListener('click', () => {
+
+        let key = document.querySelector(`#id_${func_name}_key`).value;
+        let v1 = document.querySelector(`#id_${var1}`).value;
+        let v2 = document.querySelector(`#id_${var2}`).value;
+        let v3 = document.querySelector(`#id_${var3}`).value;
+
+        const path = window.location.pathname.slice(13)
+
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const request = new Request(
+            `/${func_name}/${path}?num=none`,
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify({
+                key: key,
+                var1: v1,
+                var2: v2,
+                var3: v3,
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.error) {
+
+                console.log(result.error)
+            } else {
+
+                const newOption = document.createElement('option');
+                newOption.value = result.id;
+                newOption.innerHTML = result.key;
+
+                document.querySelector(id).append(newOption)
+            }
+        })
+
+        document.querySelector(`#id_${func_name}_key`).value = '';
+        document.querySelector(`#id_${var1}`).value = '';
+        document.querySelector(`#id_${var2}`).value = '';
+        document.querySelector(`#id_${var3}`).value = '';
+        document.querySelector(`#new_${func_name}`).style.display = 'none';
+        document.querySelector(`#save_${func_name}_btn`).style.display = 'none';
+    })
+
+    
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -24,71 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
     fill_value("#springs", "spring", "springStiff", "freeLen", "springLen");
     fill_value("#angles", "angles", "plungerFric", "N", "FN");
     fill_value("#variables", "variables", "Na", "Nb", "NR");
-
-    document.querySelector('#new_contact_btn').addEventListener('click', () => {
-        
-        if (document.querySelector('#new_contact').style.display === 'none') {
-            
-            document.querySelector('#id_contact_key').value = '';
-            document.querySelector('#id_mu').value = '';
-            document.querySelector('#id_contactCoord_X').value = '';
-            document.querySelector('#id_contactCoord_Y').value = '';
-            document.querySelector('#new_contact').style.display = 'block';
-            document.querySelector('#save_contact_btn').style.display = 'block';
-        } else {
-            document.querySelector('#id_contact_key').value = '';
-            document.querySelector('#id_mu').value = '';
-            document.querySelector('#id_contactCoord_X').value = '';
-            document.querySelector('#id_contactCoord_Y').value = '';
-            document.querySelector('#new_contact').style.display = 'none';
-            document.querySelector('#save_contact_btn').style.display = 'none';
-        }
-    })
-
-    document.querySelector('#save_contact_btn').addEventListener('click', () => {
-            
-        let contact_key = document.querySelector('#id_contact_key').value;
-        let mu = document.querySelector('#id_mu').value;
-        let contactCoord_X = document.querySelector('#id_contactCoord_X').value;
-        let contactCoord_Y = document.querySelector('#id_contactCoord_Y').value;
-
-        const path = window.location.pathname.slice(13)
-
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const request = new Request(
-            `/contact/${path}?num=none`,
-            {headers: {'X-CSRFToken': csrftoken}}
-        );
-
-        fetch(request, {
-            method: 'POST',
-            mode: 'same-origin',
-            body: JSON.stringify({
-                contact_key: contact_key,
-                mu: mu,
-                contactCoord_X: contactCoord_X,
-                contactCoord_Y: contactCoord_Y,
-            })
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.error) {
-                alert(result.error)
-            } else {
-                console.log(result)
-            }
-        })
-        
-        document.querySelector('#id_contact_key').value = '';
-        document.querySelector('#id_mu').value = '';
-        document.querySelector('#id_contactCoord_X').value = '';
-        document.querySelector('#id_contactCoord_Y').value = '';
-        document.querySelector('#new_contact').style.display = 'none';
-        document.querySelector('#save_contact_btn').style.display = 'none';
-
-
-    })
-
 
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');

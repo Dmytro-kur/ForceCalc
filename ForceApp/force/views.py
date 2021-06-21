@@ -160,7 +160,6 @@ def new_project(request):
 
             return JsonResponse({"message": "New project is created."}, status=201)
         else:
-            print(project_data.errors["project_number"])
             return JsonResponse({"error": project_data.errors["project_number"][0]}, status=400)
 
 def projects(request, query):
@@ -263,30 +262,38 @@ def contact(request, value):
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.contacts.get(pk=request.GET.get("num"))
             
-            return JsonResponse(contact.serialize(), safe=False)
+            return JsonResponse(contact.serialize())
 
         elif int(request.GET.get("num")) == 0:
             return JsonResponse({
-                "v1": "",
-                "v2": "",
-                "v3": "",
-            }, safe=False)
+                "var1": "",
+                "var2": "",
+                "var3": "",
+            })
 
     if request.method == "POST":
 
         mydata = parse_from_js(request.body)
+        
+        mydata['contact_key'] = mydata['key']
+        mydata['mu'] = mydata['var1']
+        mydata['contactCoord_X'] = mydata['var2']
+        mydata['contactCoord_Y'] = mydata['var3']
 
         contact_data = ContactForm(mydata)
-        project_inst = Project.objects.get(pk=value)
 
         if contact_data.is_valid():
-            contact_creator = contact_data.save(commit=False)
-            contact_creator.project = project_inst
-            contact_creator.save()
+            project_inst = Project.objects.get(pk=value)
+            contact = contact_data.save(commit=False)
+            contact.project = project_inst
+            contact.save()
 
-            return JsonResponse({"message": "New Contact was added."}, status=201)
+            return JsonResponse({
+                "key": contact.contact_key,
+                "id": contact.id,
+            })
         else: 
-            return JsonResponse({"error": contact_data.errors["project_number"][0]}, status=400)
+            return JsonResponse({"error": contact_data.errors}, status=400)
 
 @csrf_protect
 @login_required
@@ -297,13 +304,13 @@ def plunger(request, value):
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.plungers.get(pk=request.GET.get("num"))
             
-            return JsonResponse(contact.serialize(), safe=False)
+            return JsonResponse(contact.serialize())
         elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
-            }, safe=False)
+            })
 
 @csrf_protect
 @login_required
@@ -314,13 +321,13 @@ def spring(request, value):
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.springs.get(pk=request.GET.get("num"))
             
-            return JsonResponse(contact.serialize(), safe=False)
+            return JsonResponse(contact.serialize())
         elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
-            }, safe=False)
+            })
 
 @csrf_protect
 @login_required
@@ -331,13 +338,13 @@ def angles(request, value):
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.angles.get(pk=request.GET.get("num"))
             
-            return JsonResponse(contact.serialize(), safe=False)
+            return JsonResponse(contact.serialize())
         elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
-            }, safe=False)
+            })
 
 @csrf_protect
 @login_required
@@ -348,10 +355,10 @@ def variables(request, value):
             project_inst = Project.objects.get(pk=value)
             contact = project_inst.variables.get(pk=request.GET.get("num"))
             
-            return JsonResponse(contact.serialize(), safe=False)
+            return JsonResponse(contact.serialize())
         elif request.GET.get("num") == 0:
             return JsonResponse({
                 "v1": "",
                 "v2": "",
                 "v3": "",
-            }, safe=False)
+            })
