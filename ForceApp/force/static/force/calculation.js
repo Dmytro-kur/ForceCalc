@@ -75,15 +75,12 @@ function fill_value(id, item, var1, var2, var3) {
         .then(response => response.json())
         .then(result => {
             if (result.error) {
-
                 console.log(result.error)
             } else {
-
                 console.log(result.message)
                 const newOption = document.createElement('option');
                 newOption.value = result.id;
                 newOption.innerHTML = result.key;
-
                 document.querySelector(id).append(newOption)
             }
         })
@@ -96,73 +93,82 @@ function fill_value(id, item, var1, var2, var3) {
         // document.querySelector(`#save_${item}_btn`).style.display = 'none';
     })
 
-    document.querySelector(`#edit_${item}_btn`).addEventListener('click', () => {
+    if (document.querySelector(`#edit_${item}_btn`)) {
+        document.querySelector(`#edit_${item}_btn`).addEventListener('click', () => {
 
-        if (document.querySelector(id).value !== "0") {
-
-            let v1 = document.querySelector(`input#${var1}`).value;
-            let v2 = document.querySelector(`input#${var2}`).value;
-            let v3 = document.querySelector(`input#${var3}`).value;
+            if (document.querySelector(id).value !== "0") {
     
-            const project_num = window.location.pathname.slice(13)
-            const option_num = document.querySelector(id).value;
-
-            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            const request = new Request(
-                `/parameter/${item}/${project_num}?num=${option_num}`,
-                {headers: {'X-CSRFToken': csrftoken}}
-            );
+                let v1 = document.querySelector(`input#${var1}`).value;
+                let v2 = document.querySelector(`input#${var2}`).value;
+                let v3 = document.querySelector(`input#${var3}`).value;
+        
+                const project_num = window.location.pathname.slice(13)
+                const option_num = document.querySelector(id).value;
     
-            fetch(request, {
-                method: 'PUT',
-                mode: 'same-origin',
-                body: JSON.stringify({
-                    var1: v1,
-                    var2: v2,
-                    var3: v3,
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const request = new Request(
+                    `/parameter/${item}/${project_num}?num=${option_num}`,
+                    {headers: {'X-CSRFToken': csrftoken}}
+                );
+        
+                fetch(request, {
+                    method: 'PUT',
+                    mode: 'same-origin',
+                    body: JSON.stringify({
+                        var1: v1,
+                        var2: v2,
+                        var3: v3,
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.error) {
-    
-                    console.log(result.error)
-                } else {
-    
-                    console.log(result.message)
-                }
-            })
-        }
-    })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+        
+                        console.log(result.error)
+                    } else {
+        
+                        console.log(result.message)
+                    }
+                })
+            }
+        })
+    }
 
-    document.querySelector(`#delete_${item}_btn`).addEventListener('click', () => {
+    if (document.querySelector(`#delete_${item}_btn`)) {
+        document.querySelector(`#delete_${item}_btn`).addEventListener('click', () => {
 
-        if (document.querySelector(id).value !== "0") {
+            if (document.querySelector(id).value !== "0") {
+        
+                const project_num = window.location.pathname.slice(13)
+                const option_num = document.querySelector(id).value;
     
-            const project_num = window.location.pathname.slice(13)
-            const option_num = document.querySelector(id).value;
-
-            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            const request = new Request(
-                `/parameter/${item}/${project_num}?num=${option_num}`,
-                {headers: {'X-CSRFToken': csrftoken}}
-            );
-            fetch(request, {
-                method: 'DELETE',
-                mode: 'same-origin',
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.error) {
-                    console.log(result.error)
-                } else {
-                    const x = document.querySelector(id)
-                    x.remove(x.selectedIndex)
-                    console.log(result.message)
-                }
-            })
-        }
-    })
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const request = new Request(
+                    `/parameter/${item}/${project_num}?num=${option_num}`,
+                    {headers: {'X-CSRFToken': csrftoken}}
+                );
+                fetch(request, {
+                    method: 'DELETE',
+                    mode: 'same-origin',
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+                        console.log(result.error)
+                    } else {
+                        const x = document.querySelector(id)
+                        x.remove(x.selectedIndex)
+                        console.log(result.message)
+                        document.querySelector(`input#${var1}`).value = '';
+                        document.querySelector(`input#${var2}`).value = '';
+                        document.querySelector(`input#${var3}`).value = '';
+                        document.querySelector(`#edit_${item}_btn`).style.display = 'none';
+                        document.querySelector(`#delete_${item}_btn`).style.display = 'none';
+                    }
+                })
+            }
+        })
+    }
 
 
 

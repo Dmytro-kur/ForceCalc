@@ -22,32 +22,32 @@
         {{ ContactForm.as_p }}
     </div>
 
-    {% if Contacts %} 
-        <p><select name="contacts" id="contacts">
-            <option value="0" selected>Unknown</option>
+    <p><select name="contacts" id="contacts">
+        <option value="0" selected>Unknown</option>
+        {% if Contacts %} 
             {% for contact in Contacts %}
                 <option value="{{ contact.id }}">{{ contact.key }}</option>
             {% endfor %}
+        {% endif %}
         </select></p>
-        <p>
-            <label for id="mu">Friction in Contact <span style="font-style: italic;">&mu;</span>:</label>
-            <input type="number" name="mu" step="any" required id="mu">
-        </p>
-        <p>
-            <label for id="contactCoord_X">Contact Point X Coordinate (mm):</label>
-            <input type="number" name="contactCoord_X" step="any" required id="contactCoord_X">
-        </p>
-        <p>
-            <label for id="contactCoord_Y">Contact Point Y Coordinate (mm):</label>
-            <input type="number" name="contactCoord_Y" step="any" required id="contactCoord_Y">
-        </p>
+    <p>
+        <label for id="mu">Friction in Contact <span style="font-style: italic;">&mu;</span>:</label>
+        <input type="number" name="mu" step="any" required id="mu">
+    </p>
+    <p>
+        <label for id="contactCoord_X">Contact Point X Coordinate (mm):</label>
+        <input type="number" name="contactCoord_X" step="any" required id="contactCoord_X">
+    </p>
+    <p>
+        <label for id="contactCoord_Y">Contact Point Y Coordinate (mm):</label>
+        <input type="number" name="contactCoord_Y" step="any" required id="contactCoord_Y">
+    </p>
 
-        <p>
-            <button style="display: none;" id="edit_contact_btn" class="btn btn-success btn-sm">Edit</button>
-            <button style="display: none;" id="delete_contact_btn" class="btn btn-success btn-sm">Delete</button>
-        </p>
+    <p>
+        <button style="display: none;" id="edit_contact_btn" class="btn btn-success btn-sm">Edit</button>
+        <button style="display: none;" id="delete_contact_btn" class="btn btn-success btn-sm">Delete</button>
+    </p>
 
-    {% endif %}
 
     <hr style="color:aliceblue;">
     <!-- Plunger ------------------------------------------------------------------------------>
