@@ -1,25 +1,29 @@
 function fill_value(id, item, var1, var2, var3) {
 
-    document.querySelector(`#new_${item}_btn`).addEventListener('click', () => {
+// new -------------------------------------------------------------------------------->
+    if (item !== "variables") {
+        document.querySelector(`#new_${item}_btn`).addEventListener('click', () => {
 
-        if (document.querySelector(`#new_${item}`).style.display === 'none') {
+            if (document.querySelector(`#new_${item}`).style.display === 'none') {
+    
+                document.querySelector(`#id_${item}_key`).value = '';
+                document.querySelector(`#id_${var1}`).value = '';
+                document.querySelector(`#id_${var2}`).value = '';
+                document.querySelector(`#id_${var3}`).value = '';
+                document.querySelector(`#new_${item}`).style.display = 'block';
+                document.querySelector(`#save_${item}_btn`).style.display = 'block';
+            } else {
+                document.querySelector(`#id_${item}_key`).value = '';
+                document.querySelector(`#id_${var1}`).value = '';
+                document.querySelector(`#id_${var2}`).value = '';
+                document.querySelector(`#id_${var3}`).value = '';
+                document.querySelector(`#new_${item}`).style.display = 'none';
+                document.querySelector(`#save_${item}_btn`).style.display = 'none';
+            }
+        })
+    }
 
-            document.querySelector(`#id_${item}_key`).value = '';
-            document.querySelector(`#id_${var1}`).value = '';
-            document.querySelector(`#id_${var2}`).value = '';
-            document.querySelector(`#id_${var3}`).value = '';
-            document.querySelector(`#new_${item}`).style.display = 'block';
-            document.querySelector(`#save_${item}_btn`).style.display = 'block';
-        } else {
-            document.querySelector(`#id_${item}_key`).value = '';
-            document.querySelector(`#id_${var1}`).value = '';
-            document.querySelector(`#id_${var2}`).value = '';
-            document.querySelector(`#id_${var3}`).value = '';
-            document.querySelector(`#new_${item}`).style.display = 'none';
-            document.querySelector(`#save_${item}_btn`).style.display = 'none';
-        }
-    })
-
+// select changes -------------------------------------------------------------------------------->
     if (document.querySelector(id)) {
         document.querySelector(id).addEventListener('change', (event) => {
 
@@ -27,10 +31,14 @@ function fill_value(id, item, var1, var2, var3) {
             const path = window.location.pathname.slice(13)
 
             if (val !== '0') {
-                document.querySelector(`#edit_${item}_btn`).style.display = 'block';
+                if (item !== "variables") {
+                    document.querySelector(`#edit_${item}_btn`).style.display = 'block';
+                }
                 document.querySelector(`#delete_${item}_btn`).style.display = 'block';
             } else if (val === '0') {
-                document.querySelector(`#edit_${item}_btn`).style.display = 'none';
+                if (item !== "variables") {
+                    document.querySelector(`#edit_${item}_btn`).style.display = 'none';
+                }
                 document.querySelector(`#delete_${item}_btn`).style.display = 'none';
             }
 
@@ -47,53 +55,57 @@ function fill_value(id, item, var1, var2, var3) {
         })
     }
 
-    document.querySelector(`#save_${item}_btn`).addEventListener('click', () => {
+// save -------------------------------------------------------------------------------->
+    if (item !== "variables") {
+        document.querySelector(`#save_${item}_btn`).addEventListener('click', () => {
 
-        let key = document.querySelector(`#id_${item}_key`).value;
-        let v1 = document.querySelector(`#id_${var1}`).value;
-        let v2 = document.querySelector(`#id_${var2}`).value;
-        let v3 = document.querySelector(`#id_${var3}`).value;
-
-        const path = window.location.pathname.slice(13)
-
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const request = new Request(
-            `/parameter/${item}/${path}?num=none`,
-            {headers: {'X-CSRFToken': csrftoken}}
-        );
-
-        fetch(request, {
-            method: 'POST',
-            mode: 'same-origin',
-            body: JSON.stringify({
-                key: key,
-                var1: v1,
-                var2: v2,
-                var3: v3,
+            let key = document.querySelector(`#id_${item}_key`).value;
+            let v1 = document.querySelector(`#id_${var1}`).value;
+            let v2 = document.querySelector(`#id_${var2}`).value;
+            let v3 = document.querySelector(`#id_${var3}`).value;
+    
+            const path = window.location.pathname.slice(13)
+    
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const request = new Request(
+                `/parameter/${item}/${path}?num=none`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+    
+            fetch(request, {
+                method: 'POST',
+                mode: 'same-origin',
+                body: JSON.stringify({
+                    key: key,
+                    var1: v1,
+                    var2: v2,
+                    var3: v3,
+                })
             })
+            .then(response => response.json())
+            .then(result => {
+                if (result.error) {
+                    console.log(result.error)
+                } else {
+                    console.log(result.message)
+                    const newOption = document.createElement('option');
+                    newOption.value = result.id;
+                    newOption.innerHTML = result.key;
+                    document.querySelector(id).append(newOption)
+                }
+            })
+    
+            document.querySelector(`#id_${item}_key`).value = '';
+            document.querySelector(`#id_${var1}`).value = '';
+            document.querySelector(`#id_${var2}`).value = '';
+            document.querySelector(`#id_${var3}`).value = '';
         })
-        .then(response => response.json())
-        .then(result => {
-            if (result.error) {
-                console.log(result.error)
-            } else {
-                console.log(result.message)
-                const newOption = document.createElement('option');
-                newOption.value = result.id;
-                newOption.innerHTML = result.key;
-                document.querySelector(id).append(newOption)
-            }
-        })
+    
+    }
 
-        document.querySelector(`#id_${item}_key`).value = '';
-        document.querySelector(`#id_${var1}`).value = '';
-        document.querySelector(`#id_${var2}`).value = '';
-        document.querySelector(`#id_${var3}`).value = '';
-        // document.querySelector(`#new_${item}`).style.display = 'none';
-        // document.querySelector(`#save_${item}_btn`).style.display = 'none';
-    })
-
-    if (document.querySelector(`#edit_${item}_btn`)) {
+// edit -------------------------------------------------------------------------------->
+    if (item !== "variables") {
+            if (document.querySelector(`#edit_${item}_btn`)) {
         document.querySelector(`#edit_${item}_btn`).addEventListener('click', () => {
 
             if (document.querySelector(id).value !== "0") {
@@ -133,7 +145,10 @@ function fill_value(id, item, var1, var2, var3) {
             }
         })
     }
+    
+    }
 
+// delete -------------------------------------------------------------------------------->
     if (document.querySelector(`#delete_${item}_btn`)) {
         document.querySelector(`#delete_${item}_btn`).addEventListener('click', () => {
 
@@ -162,7 +177,9 @@ function fill_value(id, item, var1, var2, var3) {
                         document.querySelector(`input#${var1}`).value = '';
                         document.querySelector(`input#${var2}`).value = '';
                         document.querySelector(`input#${var3}`).value = '';
-                        document.querySelector(`#edit_${item}_btn`).style.display = 'none';
+                        if (item !== "variables") {
+                            document.querySelector(`#edit_${item}_btn`).style.display = 'none';
+                        }
                         document.querySelector(`#delete_${item}_btn`).style.display = 'none';
                     }
                 })
