@@ -281,6 +281,7 @@ def calculation(request, project_num):
 @login_required
 def parameter(request, item, value):
 
+# value - project number
     if request.method == "GET":
         if int(request.GET.get("num")) != 0:
             inst = Project.objects.get(pk=value)
@@ -349,8 +350,7 @@ def parameter(request, item, value):
                 "key": param.key,
                 "id": param.id,
                 "message": "Parameter was successfully added",
-
-            })
+            }, status=201)
         else: 
             return JsonResponse({"error": data.errors}, status=400)
 
@@ -401,9 +401,48 @@ def parameter(request, item, value):
             param = data.save()
             return JsonResponse({
                 "message": "Parameter was successfully edited",
-            })
+            }, status=200)
         else: 
             return JsonResponse({"error": data.errors}, status=400)
 
     if request.method == "DELETE":
-        pass
+        inst = Project.objects.get(pk=value)
+        if item == "contact":
+            a = inst.contacts.get(pk=request.GET.get("num"))
+            key = a.key
+            a.delete()
+            return JsonResponse({
+                "message": f"Contact {key} was successfully deleted",
+            }, status=200)
+
+        if item == "plunger":
+            a = inst.plungers.get(pk=request.GET.get("num"))
+            key = a.key
+            a.delete()
+            return JsonResponse({
+                "message": f"Contact {key} was successfully deleted",
+            }, status=200)
+
+        if item == "spring":
+            a = inst.springs.get(pk=request.GET.get("num"))
+            key = a.key
+            a.delete()
+            return JsonResponse({
+                "message": f"Contact {key} was successfully deleted",
+            }, status=200)
+
+        if item == "angles":
+            a = inst.angles.get(pk=request.GET.get("num"))
+            key = a.key
+            a.delete()
+            return JsonResponse({
+                "message": f"Contact {key} was successfully deleted",
+            }, status=200)
+
+        if item == "variables":
+            a = inst.variables.get(pk=request.GET.get("num"))
+            key = a.key
+            a.delete()
+            return JsonResponse({
+                "message": f"Contact {key} was successfully deleted",
+            }, status=200)

@@ -92,15 +92,14 @@ function fill_value(id, item, var1, var2, var3) {
         document.querySelector(`#id_${var1}`).value = '';
         document.querySelector(`#id_${var2}`).value = '';
         document.querySelector(`#id_${var3}`).value = '';
-        document.querySelector(`#new_${item}`).style.display = 'none';
-        document.querySelector(`#save_${item}_btn`).style.display = 'none';
+        // document.querySelector(`#new_${item}`).style.display = 'none';
+        // document.querySelector(`#save_${item}_btn`).style.display = 'none';
     })
 
     document.querySelector(`#edit_${item}_btn`).addEventListener('click', () => {
 
         if (document.querySelector(id).value !== "0") {
 
-            let key = document.querySelector(id).value;
             let v1 = document.querySelector(`input#${var1}`).value;
             let v2 = document.querySelector(`input#${var2}`).value;
             let v3 = document.querySelector(`input#${var3}`).value;
@@ -134,9 +133,37 @@ function fill_value(id, item, var1, var2, var3) {
                 }
             })
         }
-
-
     })
+
+    document.querySelector(`#delete_${item}_btn`).addEventListener('click', () => {
+
+        if (document.querySelector(id).value !== "0") {
+    
+            const project_num = window.location.pathname.slice(13)
+            const option_num = document.querySelector(id).value;
+
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const request = new Request(
+                `/parameter/${item}/${project_num}?num=${option_num}`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+            fetch(request, {
+                method: 'DELETE',
+                mode: 'same-origin',
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.error) {
+                    console.log(result.error)
+                } else {
+                    const x = document.querySelector(id)
+                    x.remove(x.selectedIndex)
+                    console.log(result.message)
+                }
+            })
+        }
+    })
+
 
 
 }
