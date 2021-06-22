@@ -1,22 +1,22 @@
-function fill_value(id, func_name, var1, var2, var3) {
+function fill_value(id, item, var1, var2, var3) {
 
-    document.querySelector(`#new_${func_name}_btn`).addEventListener('click', () => {
+    document.querySelector(`#new_${item}_btn`).addEventListener('click', () => {
 
-        if (document.querySelector(`#new_${func_name}`).style.display === 'none') {
+        if (document.querySelector(`#new_${item}`).style.display === 'none') {
 
-            document.querySelector(`#id_${func_name}_key`).value = '';
+            document.querySelector(`#id_${item}_key`).value = '';
             document.querySelector(`#id_${var1}`).value = '';
             document.querySelector(`#id_${var2}`).value = '';
             document.querySelector(`#id_${var3}`).value = '';
-            document.querySelector(`#new_${func_name}`).style.display = 'block';
-            document.querySelector(`#save_${func_name}_btn`).style.display = 'block';
+            document.querySelector(`#new_${item}`).style.display = 'block';
+            document.querySelector(`#save_${item}_btn`).style.display = 'block';
         } else {
-            document.querySelector(`#id_${func_name}_key`).value = '';
+            document.querySelector(`#id_${item}_key`).value = '';
             document.querySelector(`#id_${var1}`).value = '';
             document.querySelector(`#id_${var2}`).value = '';
             document.querySelector(`#id_${var3}`).value = '';
-            document.querySelector(`#new_${func_name}`).style.display = 'none';
-            document.querySelector(`#save_${func_name}_btn`).style.display = 'none';
+            document.querySelector(`#new_${item}`).style.display = 'none';
+            document.querySelector(`#save_${item}_btn`).style.display = 'none';
         }
     })
 
@@ -27,14 +27,14 @@ function fill_value(id, func_name, var1, var2, var3) {
             const path = window.location.pathname.slice(13)
 
             if (val !== '0') {
-                document.querySelector(`#edit_${func_name}_btn`).style.display = 'block';
-                document.querySelector(`#delete_${func_name}_btn`).style.display = 'block';
+                document.querySelector(`#edit_${item}_btn`).style.display = 'block';
+                document.querySelector(`#delete_${item}_btn`).style.display = 'block';
             } else if (val === '0') {
-                document.querySelector(`#edit_${func_name}_btn`).style.display = 'none';
-                document.querySelector(`#delete_${func_name}_btn`).style.display = 'none';
+                document.querySelector(`#edit_${item}_btn`).style.display = 'none';
+                document.querySelector(`#delete_${item}_btn`).style.display = 'none';
             }
 
-            fetch(`/${func_name}/${path}?num=${val}`)
+            fetch(`/parameter/${item}/${path}?num=${val}`)
             .then(response => response.json())
             .then(result => {
                 document.querySelector(`input#${var1}`).value = result.var1;
@@ -47,9 +47,9 @@ function fill_value(id, func_name, var1, var2, var3) {
         })
     }
 
-    document.querySelector(`#save_${func_name}_btn`).addEventListener('click', () => {
+    document.querySelector(`#save_${item}_btn`).addEventListener('click', () => {
 
-        let key = document.querySelector(`#id_${func_name}_key`).value;
+        let key = document.querySelector(`#id_${item}_key`).value;
         let v1 = document.querySelector(`#id_${var1}`).value;
         let v2 = document.querySelector(`#id_${var2}`).value;
         let v3 = document.querySelector(`#id_${var3}`).value;
@@ -58,7 +58,7 @@ function fill_value(id, func_name, var1, var2, var3) {
 
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         const request = new Request(
-            `/${func_name}/${path}?num=none`,
+            `/parameter/${item}/${path}?num=none`,
             {headers: {'X-CSRFToken': csrftoken}}
         );
 
@@ -79,6 +79,7 @@ function fill_value(id, func_name, var1, var2, var3) {
                 console.log(result.error)
             } else {
 
+                console.log(result.message)
                 const newOption = document.createElement('option');
                 newOption.value = result.id;
                 newOption.innerHTML = result.key;
@@ -87,15 +88,57 @@ function fill_value(id, func_name, var1, var2, var3) {
             }
         })
 
-        document.querySelector(`#id_${func_name}_key`).value = '';
+        document.querySelector(`#id_${item}_key`).value = '';
         document.querySelector(`#id_${var1}`).value = '';
         document.querySelector(`#id_${var2}`).value = '';
         document.querySelector(`#id_${var3}`).value = '';
-        document.querySelector(`#new_${func_name}`).style.display = 'none';
-        document.querySelector(`#save_${func_name}_btn`).style.display = 'none';
+        document.querySelector(`#new_${item}`).style.display = 'none';
+        document.querySelector(`#save_${item}_btn`).style.display = 'none';
     })
 
+    document.querySelector(`#edit_${item}_btn`).addEventListener('click', () => {
+
+        if (document.querySelector(id).value !== "0") {
+
+            let key = document.querySelector(id).value;
+            let v1 = document.querySelector(`input#${var1}`).value;
+            let v2 = document.querySelector(`input#${var2}`).value;
+            let v3 = document.querySelector(`input#${var3}`).value;
     
+            const project_num = window.location.pathname.slice(13)
+            const option_num = document.querySelector(id).value;
+
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const request = new Request(
+                `/parameter/${item}/${project_num}?num=${option_num}`,
+                {headers: {'X-CSRFToken': csrftoken}}
+            );
+    
+            fetch(request, {
+                method: 'PUT',
+                mode: 'same-origin',
+                body: JSON.stringify({
+                    var1: v1,
+                    var2: v2,
+                    var3: v3,
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.error) {
+    
+                    console.log(result.error)
+                } else {
+    
+                    console.log(result.message)
+                }
+            })
+        }
+
+
+    })
+
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {

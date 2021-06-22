@@ -42,7 +42,7 @@ class Project(models.Model):
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    contact_key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255, unique=True)
 
     mu = models.FloatField()
     contactCoord_X = models.FloatField()
@@ -50,13 +50,13 @@ class Contact(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contacts")
 
     def __str__(self):
-        return f"{self.contact_key}"
+        return f"{self.key}"
 
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "contact_key": self.contact_key,
+            "key": self.key,
             "var1": self.mu,
             "var2": self.contactCoord_X,
             "var3": self.contactCoord_Y,
@@ -66,7 +66,7 @@ class Contact(models.Model):
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    plunger_key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255, unique=True)
 
     a = models.FloatField()
     b = models.FloatField()
@@ -74,7 +74,7 @@ class Plunger(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="plungers")
 
     def __str__(self):
-        return f"{self.plunger_key}"
+        return f"{self.key}"
 
     def is_valid_plunger(self):
         return round(self.a, 5) > 0 and round(self.b, 5) > 0
@@ -83,7 +83,7 @@ class Plunger(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "plunger_key": self.plunger_key,
+            "key": self.key,
             "var1": self.a,
             "var2": self.b,
             "var3": self.f,
@@ -93,7 +93,7 @@ class Plunger(models.Model):
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    spring_key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255, unique=True)
 
     springStiff = models.FloatField()
     freeLen = models.FloatField()
@@ -101,7 +101,7 @@ class Spring(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="springs")
 
     def __str__(self):
-        return f"{self.spring_key}"
+        return f"{self.key}"
 
     def is_valid_spring(self):
         return round(self.freeLen, 5) > round(self.springLen, 5)
@@ -113,7 +113,7 @@ class Spring(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "spring_key": self.spring_key,
+            "key": self.key,
             "var1": self.springStiff,
             "var2": self.freeLen,
             "var3": self.springLen,
@@ -123,7 +123,7 @@ class Spring(models.Model):
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    angles_key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255, unique=True)
 
     plungerFric = models.FloatField()
     N = models.FloatField()
@@ -131,7 +131,7 @@ class Angles(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="angles")
 
     def __str__(self):
-        return f"{self.angles_key}"
+        return f"{self.key}"
 
     def is_valid_angle(self):
         return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
@@ -140,7 +140,7 @@ class Angles(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "angles_key": self.angles_key,
+            "key": self.key,
             "var1": self.plungerFric,
             "var2": self.N,
             "var3": self.FN,
@@ -150,7 +150,7 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    variables_key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255, unique=True)
 
     Na = models.FloatField()
     Nb = models.FloatField()
@@ -158,7 +158,7 @@ class Variables(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
 
     def __str__(self):
-        return f"{self.variables_key}"
+        return f"{self.key}"
 
     def calc_vars(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
 
@@ -173,7 +173,7 @@ class Variables(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "variables_key": self.variables_key,
+            "key": self.key,
             "var1": self.Na,
             "var2": self.Nb,
             "var3": self.NR,

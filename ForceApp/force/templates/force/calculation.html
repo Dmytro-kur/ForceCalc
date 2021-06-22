@@ -11,7 +11,7 @@
     <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
     
     <form method="post">{% csrf_token %}</form>
-
+    <!-- Contact ------------------------------------------------------------------------------>
     <p><label for="contacts">Choose contact:</label></p>
     <p>
         <button id="new_contact_btn" class="btn btn-success btn-sm">New</button>
@@ -26,7 +26,7 @@
         <p><select name="contacts" id="contacts">
             <option value="0" selected>Unknown</option>
             {% for contact in Contacts %}
-                <option value="{{ contact.id }}">{{ contact.contact_key }}</option>
+                <option value="{{ contact.id }}">{{ contact.key }}</option>
             {% endfor %}
         </select></p>
         <p>
@@ -50,20 +50,24 @@
     {% endif %}
 
     <hr style="color:aliceblue;">
-
+    <!-- Plunger ------------------------------------------------------------------------------>
     <p><label for="plungers">Choose Plunger:</label></p>
-    <p><button id="new_plunger_btn" class="btn btn-success btn-sm">New</button></p>
+    <p>
+        <button id="new_plunger_btn" class="btn btn-success btn-sm">New</button>
+        <button style="display: none;" id="save_plunger_btn" class="btn btn-success btn-sm">Save</button>
+    </p>
+    
+    <div id="new_plunger" style="display: none;">
+        {{ PlungerForm.as_p }}
+    </div>
     
     {% if Plungers %}
-        <p><button id="save_plunger_btn" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_plunger_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="plungers" id="plungers">
             <option value="0" selected>Unknown</option>
             {% for plunger in Plungers %}
-                <option value="{{ plunger.id }}">{{ plunger.plunger_key }}</option>
+                <option value="{{ plunger.id }}">{{ plunger.key }}</option>
             {% endfor %}
         </select></p>
-    
         <p>
             <label for id="a">Distance between Contact Point and Point B (mm):</label>
             <input type="number" name="a" step="any" required id="a">
@@ -76,23 +80,34 @@
             <label for id="f">Friction in Plunger Joints:</label>
             <input type="number" name="f" step="any" required id="f">
         </p>
+
+        <p>
+            <button style="display: none;" id="edit_plunger_btn" class="btn btn-success btn-sm">Edit</button>
+            <button style="display: none;" id="delete_plunger_btn" class="btn btn-success btn-sm">Delete</button>
+        </p>
+
     {% endif %}
 
     <hr style="color:aliceblue;">
-
+    <!-- Spring ------------------------------------------------------------------------------>
     <p><label for="springs">Choose Spring:</label></p>
-    <p><button id="new_spring_btn" class="btn btn-success btn-sm">New</button></p>
+
+    <p>
+        <button id="new_spring_btn" class="btn btn-success btn-sm">New</button>
+        <button style="display: none;" id="save_spring_btn" class="btn btn-success btn-sm">Save</button>
+    </p>
+    
+    <div id="new_spring" style="display: none;">
+        {{ SpringForm.as_p }}
+    </div>
 
     {% if Springs %}
-        <p><button id="save_spring_btn" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="springs" id="springs">
             <option value="0" selected>Unknown</option>
             {% for spring in Springs %}
-                <option value="{{ spring.id }}">{{ spring.spring_key }}</option>
+                <option value="{{ spring.id }}">{{ spring.key }}</option>
             {% endfor %}
         </select></p>
-
         <p>
             <label for id="springStiff">Spring Stiffness (N/mm):</label>
             <input type="number" name="springStiff" step="any" required id="springStiff">
@@ -105,20 +120,30 @@
             <label for id="springLen">Spring Length (mm):</label>
             <input type="number" name="springLen" step="any" required id="springLen">
         </p>
+
+        <p>
+            <button style="display: none;" id="edit_spring_btn" class="btn btn-success btn-sm">Edit</button>
+            <button style="display: none;" id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button>
+        </p>
     {% endif %}
     
     <hr style="color:aliceblue;">
-
+    <!-- Angles ------------------------------------------------------------------------------>
     <p><label for="angles">Choose Angles:</label></p>
-    <p><button id="new_angles_btn" class="btn btn-success btn-sm">New</button></p>
+    <p>
+        <button id="new_angles_btn" class="btn btn-success btn-sm">New</button>
+        <button style="display: none;" id="save_angles_btn" class="btn btn-success btn-sm">Save</button>
+    </p>
+    
+    <div id="new_angles" style="display: none;">
+        {{ AnglesForm.as_p }}
+    </div>
 
     {% if Angles %}
-        <p><button id="save_angles_btn" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_angles_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="angles" id="angles">
             <option value="0" selected>Unknown</option>
             {% for angles in Angles %}
-                <option value="{{ angles.id }}">{{ angles.angles_key }}</option>
+                <option value="{{ angles.id }}">{{ angles.key }}</option>
             {% endfor %}
         </select></p>
         
@@ -134,20 +159,30 @@
             <label for id="FN">Direction of Friction Force in Contact (deg):</label>
             <input type="number" name="FN" step="any" required id="FN">
         </p>
+        <p>
+            <button style="display: none;" id="edit_angles_btn" class="btn btn-success btn-sm">Edit</button>
+            <button style="display: none;" id="delete_angles_btn" class="btn btn-success btn-sm">Delete</button>
+        </p>
+        
     {% endif %}
     
     <hr style="color:aliceblue;">
-
+    <!-- Variables ------------------------------------------------------------------------------>
     <p><label for="variables">Choose Variables:</label></p>
-    <p><button id="new_variables_btn" class="btn btn-success btn-sm">New</button></p>
+    <p>
+        <button id="new_variables_btn" class="btn btn-success btn-sm">New</button>
+        <button style="display: none;" id="save_variables_btn" class="btn btn-success btn-sm">Save</button>
+    </p>
+    
+    <div id="new_variables" style="display: none;">
+        {{ VariablesForm.as_p }}
+    </div>
         
     {% if Variables %}
-        <p><button id="save_variables_btn" class="btn btn-success btn-sm">Save</button>
-        <button id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button></p>
         <p><select name="variables" id="variables">
             <option value="0" selected>Unknown</option>
             {% for variables in Variables %}
-                <option value="{{ variables.id }}">{{ variables.variables_key }}</option>
+                <option value="{{ variables.id }}">{{ variables.key }}</option>
             {% endfor %}
         </select></p>
 
@@ -163,6 +198,11 @@
             <label for id="NR">Force Reaction in Contact Point (N):</label>
             <input type="number" name="NR" step="any" required id="NR">
         </p>
+        <p>
+            <button style="display: none;" id="edit_variables_btn" class="btn btn-success btn-sm">Edit</button>
+            <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
+        </p>
+        
     {% endif %}
 
     <button class="btn btn-primary btn-sm">Calculate</button>

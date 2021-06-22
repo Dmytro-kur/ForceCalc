@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.utils.translation import gettext_lazy as _
 
 from .models import *
-from django.forms import ModelForm
 from django import forms
 import ast
 
@@ -23,15 +22,20 @@ def parse_from_js(request_body):
 
     return mydata
         
-class ProjectForm(ModelForm):
+class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['project_number','project_name','assembly_number']
 
-class ContactForm(ModelForm):
+class ContactForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['key'].widget.attrs.update({
+            'id': 'id_contact_key'
+        })
     class Meta:
         model = Contact
-        fields = ['contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y']
+        fields = ['key', 'mu', 'contactCoord_X', 'contactCoord_Y']
         labels = {
             'contact_key': _('Name of the Contact'),
             'mu': _('Friction in Contact μ'),
@@ -42,45 +46,65 @@ class ContactForm(ModelForm):
         #     'name': _('Some useful help text.'),
         # }
 
-class PlungerForm(ModelForm):
+class PlungerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['key'].widget.attrs.update({
+            'id': 'id_plunger_key'
+        })
     class Meta:
         model = Plunger
-        fields = ['plunger_key', 'a','b', 'f']
+        fields = ['key', 'a','b', 'f']
         labels = {
-            'plunger_key': _('Name of the Plunger'),
+            'key': _('Name of the Plunger'),
             'a': _('Distance between Contact Point and Point B (mm)'),
             'b': _('Distance between Point A and Point (mm)'),
             'f': _('Friction in Plunger Joints'),
         }
 
-class SpringForm(ModelForm):
+class SpringForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['key'].widget.attrs.update({
+            'id': 'id_spring_key'
+        })
     class Meta:
         model = Spring
-        fields = ['spring_key', 'springStiff','freeLen', 'springLen']
+        fields = ['key', 'springStiff','freeLen', 'springLen']
         labels = {
-            'spring_key': _('Name of the Spring'),
+            'key': _('Name of the Spring'),
             'springStiff': _('Spring Stiffness (N/mm)'),
             'freeLen': _('Free Spring Length (N/mm)'),
             'springLen': _('Spring Length (N/mm)'),
         }
 
-class AnglesForm(ModelForm):
+class AnglesForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['key'].widget.attrs.update({
+            'id': 'id_angles_key'
+        })
     class Meta:
         model = Angles
-        fields = ['angles_key', 'plungerFric','N', 'FN']
+        fields = ['key', 'plungerFric','N', 'FN']
         labels = {
-            'angles_key': _('Name of the Angles'),
+            'key': _('Name of the Angles'),
             'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
             'N': _('Direction of Normal Reaction (deg)'),
             'FN': _('Direction of Friction Force in Contact (deg)'),
         }
 
-class VariablesForm(ModelForm):
+class VariablesForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['key'].widget.attrs.update({
+            'id': 'id_variables_key'
+        })
     class Meta:
         model = Variables
-        fields = ['variables_key', 'Na','Nb', 'NR']
+        fields = ['key', 'Na','Nb', 'NR']
         labels = {
-            'angles_key': _('Name of the Variables'),
+            'key': _('Name of the Variables'),
             'Na': _('Force Reaction in Point A (N)'),
             'Nb': _('Force Reaction in Point B (N)'),
             'NR': _('Force Reaction in Contact Point (N)'),
@@ -255,14 +279,24 @@ def calculation(request, project_num):
 
 @csrf_protect
 @login_required
-def contact(request, value):
+def parameter(request, item, value):
 
     if request.method == "GET":
         if int(request.GET.get("num")) != 0:
-            project_inst = Project.objects.get(pk=value)
-            contact = project_inst.contacts.get(pk=request.GET.get("num"))
-            
-            return JsonResponse(contact.serialize())
+            inst = Project.objects.get(pk=value)
+
+            if item == "contact":
+                param = inst.contacts.get(pk=request.GET.get("num"))
+            if item == "plunger":
+                param = inst.plungers.get(pk=request.GET.get("num"))
+            if item == "spring":
+                param = inst.springs.get(pk=request.GET.get("num"))
+            if item == "angles":
+                param = inst.angles.get(pk=request.GET.get("num"))
+            if item == "variables":
+                param = inst.variables.get(pk=request.GET.get("num"))
+                
+            return JsonResponse(param.serialize())
 
         elif int(request.GET.get("num")) == 0:
             return JsonResponse({
@@ -275,90 +309,101 @@ def contact(request, value):
 
         mydata = parse_from_js(request.body)
         
-        mydata['contact_key'] = mydata['key']
-        mydata['mu'] = mydata['var1']
-        mydata['contactCoord_X'] = mydata['var2']
-        mydata['contactCoord_Y'] = mydata['var3']
+        if item == "contact":
+            mydata['mu'] = mydata['var1']
+            mydata['contactCoord_X'] = mydata['var2']
+            mydata['contactCoord_Y'] = mydata['var3']
+            data = ContactForm(mydata)
 
-        contact_data = ContactForm(mydata)
+        if item == "plunger":
+            mydata['a'] = mydata['var1']
+            mydata['b'] = mydata['var2']
+            mydata['f'] = mydata['var3']
+            data = PlungerForm(mydata)
 
-        if contact_data.is_valid():
-            project_inst = Project.objects.get(pk=value)
-            contact = contact_data.save(commit=False)
-            contact.project = project_inst
-            contact.save()
+        if item == "spring":
+            mydata['springStiff'] = mydata['var1']
+            mydata['freeLen'] = mydata['var2']
+            mydata['springLen'] = mydata['var3']
+            data = SpringForm(mydata)
+
+        if item == "angles":
+            mydata['plungerFric'] = mydata['var1']
+            mydata['N'] = mydata['var2']
+            mydata['FN'] = mydata['var3']
+            data = AnglesForm(mydata)
+
+        if item == "variables":
+            mydata['Na'] = mydata['var1']
+            mydata['Nb'] = mydata['var2']
+            mydata['NR'] = mydata['var3']
+            data = VariablesForm(mydata)
+
+        if data.is_valid():
+            inst = Project.objects.get(pk=value)
+            param = data.save(commit=False)
+            param.project = inst
+            param.save()
 
             return JsonResponse({
-                "key": contact.contact_key,
-                "id": contact.id,
+                "key": param.key,
+                "id": param.id,
+                "message": "Parameter was successfully added",
+
             })
         else: 
-            return JsonResponse({"error": contact_data.errors}, status=400)
+            return JsonResponse({"error": data.errors}, status=400)
 
-@csrf_protect
-@login_required
-def plunger(request, value):
+    if request.method == "PUT":
+        mydata = parse_from_js(request.body)
 
-    if request.method == "GET":
-        if request.GET.get("num") != 0:
-            project_inst = Project.objects.get(pk=value)
-            contact = project_inst.plungers.get(pk=request.GET.get("num"))
-            
-            return JsonResponse(contact.serialize())
-        elif request.GET.get("num") == 0:
+        if item == "contact":
+            a = Contact.objects.get(pk=request.GET.get("num"))
+            mydata['key'] = a.key
+            mydata['mu'] = mydata['var1']
+            mydata['contactCoord_X'] = mydata['var2']
+            mydata['contactCoord_Y'] = mydata['var3']
+            data = ContactForm(mydata, instance=a)
+
+        if item == "plunger":
+            a = Plunger.objects.get(pk=request.GET.get("num"))
+            mydata['key'] = a.key
+            mydata['a'] = mydata['var1']
+            mydata['b'] = mydata['var2']
+            mydata['f'] = mydata['var3']
+            data = PlungerForm(mydata, instance=a)
+
+        if item == "spring":
+            a = Spring.objects.get(pk=request.GET.get("num"))
+            mydata['key'] = a.key
+            mydata['springStiff'] = mydata['var1']
+            mydata['freeLen'] = mydata['var2']
+            mydata['springLen'] = mydata['var3']
+            data = SpringForm(mydata, instance=a)
+
+        if item == "angles":
+            a = Angles.objects.get(pk=request.GET.get("num"))
+            mydata['key'] = a.key
+            mydata['plungerFric'] = mydata['var1']
+            mydata['N'] = mydata['var2']
+            mydata['FN'] = mydata['var3']
+            data = AnglesForm(mydata, instance=a)
+
+        if item == "variables":
+            a = Variables.objects.get(pk=request.GET.get("num"))
+            mydata['key'] = a.key
+            mydata['Na'] = mydata['var1']
+            mydata['Nb'] = mydata['var2']
+            mydata['NR'] = mydata['var3']
+            data = VariablesForm(mydata, instance=a)
+
+        if data.is_valid():
+            param = data.save()
             return JsonResponse({
-                "v1": "",
-                "v2": "",
-                "v3": "",
+                "message": "Parameter was successfully edited",
             })
+        else: 
+            return JsonResponse({"error": data.errors}, status=400)
 
-@csrf_protect
-@login_required
-def spring(request, value):
-
-    if request.method == "GET":
-        if request.GET.get("num") != 0:
-            project_inst = Project.objects.get(pk=value)
-            contact = project_inst.springs.get(pk=request.GET.get("num"))
-            
-            return JsonResponse(contact.serialize())
-        elif request.GET.get("num") == 0:
-            return JsonResponse({
-                "v1": "",
-                "v2": "",
-                "v3": "",
-            })
-
-@csrf_protect
-@login_required
-def angles(request, value):
-
-    if request.method == "GET":
-        if request.GET.get("num") != 0:
-            project_inst = Project.objects.get(pk=value)
-            contact = project_inst.angles.get(pk=request.GET.get("num"))
-            
-            return JsonResponse(contact.serialize())
-        elif request.GET.get("num") == 0:
-            return JsonResponse({
-                "v1": "",
-                "v2": "",
-                "v3": "",
-            })
-
-@csrf_protect
-@login_required
-def variables(request, value):
-
-    if request.method == "GET":
-        if request.GET.get("num") != 0:
-            project_inst = Project.objects.get(pk=value)
-            contact = project_inst.variables.get(pk=request.GET.get("num"))
-            
-            return JsonResponse(contact.serialize())
-        elif request.GET.get("num") == 0:
-            return JsonResponse({
-                "v1": "",
-                "v2": "",
-                "v3": "",
-            })
+    if request.method == "DELETE":
+        pass
