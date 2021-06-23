@@ -202,83 +202,90 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth * 0.6;
-    canvas.height = window.innerHeight * 0.6;
-    // // make rectangle 
-    // ctx.fillStyle = '#1AC8DB';
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // ctx.fillRect(200, 20, 150, 100);
+    // canvas.width = window.innerWidth * 0.6;
+    // canvas.height = window.innerHeight * 0.6;
 
-    // // create outline of rectangle
-    // ctx.lineWidth = 0.5;
-    // ctx.strokeStyle = 'green';
-    // ctx.strokeRect(100, 200, 150, 100);
+    canvas.width = 900;
+    canvas.height = 500;
 
-    // // clear out part of the rectangle
-    // ctx.clearRect(25, 25, 140, 90);
+    // make rectangle 
+    ctx.fillStyle = '#1AC8DB';
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(250, 200, 150, 100);
 
-    // // fill text
-    // ctx.font = '30px Arial';
-    // ctx.fillStyle = 'black';
-    // ctx.fillText('Hello, world!', 400, 50)
+    // create outline of rectangle
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = 'green';
+    ctx.strokeRect(100, 200, 150, 100);
 
-    // //stroke text
-    // ctx.lineWidth = 0.5;
-    // ctx.strokeStyle = 'orange';
-    // ctx.strokeText('Hello, world!', 400, 100);
+    // clear out part of the rectangle
+    ctx.clearRect(255, 205, 140, 90);
+
+    // fill text
+    ctx.font = '30px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText('Hello, world!', 250, 205)
+
+    //stroke text
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = 'orange';
+    ctx.strokeText('Hello, world!', 250, 255);
 
     // Paths
-    // // triangle
-    // ctx.beginPath();
-    // ctx.moveTo(50, 50);
-    // ctx.lineTo(150, 50);
-    // ctx.lineTo(100, 200);
-    // ctx.lineTo(50, 50);
-    // // ctx.closePath();
-    // ctx.fillStyle = 'coral';
-    // ctx.fill(); //or ctx.stroke();
+    // triangle
+    ctx.fillStyle = 'coral';
+    ctx.beginPath();
+    ctx.moveTo(50, 50);
+    ctx.lineTo(150, 50);
+    ctx.lineTo(100, 200);
+    ctx.lineTo(50, 50);
+    ctx.closePath();
+    
+    ctx.fill(); //or ctx.stroke();
 
-    // ctx.beginPath();
-    // ctx.moveTo(200, 50);
-    // ctx.lineTo(150, 200);
-    // ctx.lineTo(250, 200);
-    // ctx.closePath();
-    // ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(200, 50);
+    ctx.lineTo(150, 200);
+    ctx.lineTo(250, 200);
+    ctx.closePath();
+    ctx.stroke();
 
-    // // rectangle
-    // ctx.beginPath();
-    // ctx.rect(300, 50, 150, 100);
-    // ctx.fillStyle = 'teal';
-    // ctx.fill();
+    // rectangle
+    ctx.beginPath();
+    ctx.rect(300, 50, 150, 100);
+    ctx.fillStyle = 'teal';
+    ctx.fill();
 
-    // // arc (circles)
-    // ctx.beginPath();
+    // arc (circles)
+    ctx.beginPath();
 
-    // // canvas variables
+    // canvas variables
 
-    // const centerX = canvas.width/2;
-    // const centerY = canvas.height/2;
+    const centerX = canvas.width/2;
+    const centerY = canvas.height/2;
 
-    // ctx.arc(centerX, centerY, 200, 40, 0, Math.PI * 2, );
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 5;
+    ctx.arc(centerX, centerY, 100, 0, Math.PI * 2 * 0.75);
 
-    // // move to mouth
-    // ctx.moveTo(centerX + 100, centerY);
+    // move to mouth
+    ctx.moveTo(centerX + 110, centerY);
 
-    // // Draw mouth
-    // ctx.arc(centerX, centerY, 100, 0, Math.PI, false);
+    /// Draw mouth
+    ctx.arc(centerX, centerY, 110, 0, Math.PI, false);
 
-    // // move to left eye
-    // ctx.moveTo(centerX-60, centerY-80);
+    // move to left eye
+    ctx.moveTo(centerX-60, centerY-80);
 
-    // // draw left eye
-    // ctx.arc(centerX - 80, centerY - 80, 20, 0, Math.PI*2);
+    // draw left eye
+    ctx.arc(centerX - 80, centerY - 80, 20, 0, Math.PI*2);
 
-    // // move to right eye
-    // ctx.moveTo(centerX + 100, centerY - 80)
-    // ctx.arc(centerX + 80, centerY - 80, 20, 0, Math.PI * 2);
+    // move to right eye
+    ctx.moveTo(centerX + 100, centerY - 80)
+    ctx.arc(centerX + 80, centerY - 80, 20, 0, Math.PI * 2);
 
-    // ctx.stroke();
-
+    ctx.stroke();
+//--------------------------------------------
     // Animation 1
 
     // const circle = {
@@ -422,141 +429,141 @@ document.addEventListener('DOMContentLoaded', function() {
     //     document.addEventListener('keyup', keyUp);
     // })
 
-    var mouse = {
-        x: 0,
-        y: 0
-    }
+    // var mouse = {
+    //     x: 0,
+    //     y: 0
+    // }
 
-    var maxRadius = 40;
+    // var maxRadius = 40;
 
-    var scale = 1;
-    var ds = 0.1
-    var colorArray = [
-        '#2C3E50',
-        '#E74C3C',
-        '#ECF0F1',
-        '#3498DB',
-        '#2980B9'
+    // var scale = 1;
+    // var ds = 0.1
+    // var colorArray = [
+    //     '#2C3E50',
+    //     '#E74C3C',
+    //     '#ECF0F1',
+    //     '#3498DB',
+    //     '#2980B9'
 
-    ];
+    // ];
 
-    canvas.addEventListener('mousemove', function(event) {
-        var rect = canvas.getBoundingClientRect();
+    // canvas.addEventListener('mousemove', function(event) {
+    //     var rect = canvas.getBoundingClientRect();
 
-        mouse.x = event.clientX - rect.left;
-        mouse.y = event.clientY - rect.top;
+    //     mouse.x = event.clientX - rect.left;
+    //     mouse.y = event.clientY - rect.top;
 
         
-    })
+    // })
 
-    canvas.addEventListener('wheel', function(event) {
+    // canvas.addEventListener('wheel', function(event) {
         
-        if (event.deltaY/100 === 1) {
-            scale = 1 + ds
-        } else if (event.deltaY/100 === -1) {
-            scale = 1/(1 + ds)
-        }
-        init();
-        // console.log(scale)
-    })
+    //     if (event.deltaY/100 === 1) {
+    //         scale = 1 + ds
+    //     } else if (event.deltaY/100 === -1) {
+    //         scale = 1/(1 + ds)
+    //     }
+    //     init();
+    //     // console.log(scale)
+    // })
 
-    window.addEventListener('resize', function() {
-        canvas.width = window.innerWidth * 0.6;
-        canvas.height = window.innerHeight * 0.6;
+    // window.addEventListener('resize', function() {
+    //     canvas.width = window.innerWidth * 0.6;
+    //     canvas.height = window.innerHeight * 0.6;
         
-        init();
-    })
+    //     init();
+    // })
 
-    function Circle(x, y, dx, dy, dr, radius) {
-        this.x = x;
-        this.y = y;
-        this.dx = dx;
-        this.dy = dy;
-        this.dr = dr;
-        this.radius = radius;
-        this.minRadius = radius;
-        this.color = colorArray[ Math.round(Math.random()*(colorArray.length-1)) ];
+    // function Circle(x, y, dx, dy, dr, radius) {
+    //     this.x = x;
+    //     this.y = y;
+    //     this.dx = dx;
+    //     this.dy = dy;
+    //     this.dr = dr;
+    //     this.radius = radius;
+    //     this.minRadius = radius;
+    //     this.color = colorArray[ Math.round(Math.random()*(colorArray.length-1)) ];
         
-        this.draw = function() {
+    //     this.draw = function() {
             
-            // ctx.strokeStyle = 'blue';
-            // ctx.stroke();
+    //         // ctx.strokeStyle = 'blue';
+    //         // ctx.stroke();
             
-            ctx.fillStyle = this.color
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
-            ctx.fill();
+    //         ctx.fillStyle = this.color
+    //         ctx.beginPath();
+    //         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+    //         ctx.fill();
     
-        }
+    //     }
 
-        this.update = function() {
-            if (this.x + this.radius > canvas.width ||
-                this.x - this.radius < 0) {
-                this.dx = -this.dx;
-            }
+    //     this.update = function() {
+    //         if (this.x + this.radius > canvas.width ||
+    //             this.x - this.radius < 0) {
+    //             this.dx = -this.dx;
+    //         }
     
-            if (this.y + this.radius > canvas.height ||
-                this.y - this.radius < 0) {
-                this.dy = -this.dy;
-            }
-            this.x += this.dx;
-            this.y += this.dy;
+    //         if (this.y + this.radius > canvas.height ||
+    //             this.y - this.radius < 0) {
+    //             this.dy = -this.dy;
+    //         }
+    //         this.x += this.dx;
+    //         this.y += this.dy;
 
-            // interactivity
+    //         // interactivity
 
-            if (Math.abs(mouse.x - this.x) < 50 && 
-                Math.abs(mouse.y - this.y) < 50) {
-                if (this.radius < maxRadius) {
-                    this.radius += this.dr;
-                }
-            } else if (this.radius > this.minRadius) {
-                this.radius -= this.dr;
-            }
+    //         if (Math.abs(mouse.x - this.x) < 50 && 
+    //             Math.abs(mouse.y - this.y) < 50) {
+    //             if (this.radius < maxRadius) {
+    //                 this.radius += this.dr;
+    //             }
+    //         } else if (this.radius > this.minRadius) {
+    //             this.radius -= this.dr;
+    //         }
 
-            this.draw();
-        }
-    }
+    //         this.draw();
+    //     }
+    // }
 
-    var circleArray = [];
+    // var circleArray = [];
 
-    function init() {
+    // function init() {
 
-        ctx.clearRect(0, 0, canvas.width + 100, canvas.height + 100);
-        console.log(scale)
-        ctx.scale(scale, scale);
+    //     ctx.clearRect(0, 0, canvas.width + 100, canvas.height + 100);
+    //     console.log(scale)
+    //     ctx.scale(scale, scale);
 
-        circleArray = [];
+    //     circleArray = [];
 
-        for (var i = 0; i < 800; i++) {
-            var radius = Math.random() * 3 + 1;
-            var x = Math.max(radius, Math.random() * canvas.width - radius);
-            var y = Math.max(radius, Math.random() * canvas.height - radius);
-            var dx = (Math.random() - 0.5)*0.5;// 0.5;
-            var dy = (Math.random() - 0.5)*0.5;// 0.5;
-            var dr = 0.3;// 0.3;
-            circleArray.push(new Circle(x, y, dx, dy, dr, radius));
-        }
-    }
+    //     for (var i = 0; i < 800; i++) {
+    //         var radius = Math.random() * 3 + 1;
+    //         var x = Math.max(radius, Math.random() * canvas.width - radius);
+    //         var y = Math.max(radius, Math.random() * canvas.height - radius);
+    //         var dx = (Math.random() - 0.5)*0.5;// 0.5;
+    //         var dy = (Math.random() - 0.5)*0.5;// 0.5;
+    //         var dr = 0.3;// 0.3;
+    //         circleArray.push(new Circle(x, y, dx, dy, dr, radius));
+    //     }
+    // }
     
-    function animate() {
-        requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // function animate() {
+    //     requestAnimationFrame(animate);
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#74BDCB';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //     ctx.fillStyle = '#74BDCB';
+    //     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        for (var i = 0; i < circleArray.length; i++) {
-            circleArray[i].update();
-        }
+    //     for (var i = 0; i < circleArray.length; i++) {
+    //         circleArray[i].update();
+    //     }
 
-        ctx.font = '30px Arial';
-        ctx.fillStyle = 'black';
-        ctx.fillText(`x: ${mouse.x.toFixed(2)}, y: ${mouse.y.toFixed(2)}`, mouse.x, mouse.y)
+    //     ctx.font = '30px Arial';
+    //     ctx.fillStyle = 'black';
+    //     ctx.fillText(`x: ${mouse.x.toFixed(2)}, y: ${mouse.y.toFixed(2)}`, mouse.x, mouse.y)
 
-    }
+    // }
 
-    init();
+    // init();
 
-    animate();
+    // animate();
 })
 // https://www.youtube.com/watch?v=vxljFhP2krI&list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&index=4
