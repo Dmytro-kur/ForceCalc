@@ -65,6 +65,14 @@ th {
 #canvas {
     background: #f0f0f0;
     border-radius: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
 }
 
 #source {

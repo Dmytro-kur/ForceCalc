@@ -7,8 +7,8 @@
     <h2>{{ project.project_number }} <h4>{{ project.project_name }}</h4></h2>
     <h6>was created {{ project.datetime }}</h6>
 
-    <canvas id="canvas" width="600" height="600"></canvas>
-    <img id="source" src="{% static 'force/coding.png' %}" alt="icon">
+    <canvas id="canvas"></canvas>
+    <!-- <img id="source" src="{% static 'force/coding.png' %}" alt="icon"> -->
     
     <form method="post">{% csrf_token %}</form>
     <!-- Contact ------------------------------------------------------------------------------>
