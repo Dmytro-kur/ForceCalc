@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // canvas.height = window.innerHeight * 0.6;
 
     canvas.width = 900;
-    canvas.height = 500;
+    canvas.height = 1500;
 
     // make rectangle 
     ctx.fillStyle = '#1AC8DB';
@@ -261,8 +261,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // canvas variables
 
-    const centerX = canvas.width/2;
-    const centerY = canvas.height/2;
+    const centerX = 450;
+    const centerY = 250;
 
     ctx.strokeStyle = 'black'
     ctx.lineWidth = 5;
@@ -288,71 +288,71 @@ document.addEventListener('DOMContentLoaded', function() {
 //--------------------------------------------
     // Animation 1
 
-    // const circle = {
-    //     x: 200,
-    //     y: 200, 
-    //     size: 30,
-    //     dx: 5,
-    //     dy: 4,
-    // }
+    const circle = {
+        x: 200,
+        y: 600, 
+        size: 30,
+        dx: 5,
+        dy: 4,
+    }
 
-    // function drawCircle () {
-    //     ctx.beginPath();
-    //     ctx.arc(circle.x, circle.y, circle.size, 0, Math.PI*2);
-    //     ctx.fillStyle = 'purple';
-    //     ctx.fill();
-    // }
+    function drawCircle () {
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size, 0, Math.PI*2);
+        ctx.fillStyle = 'purple';
+        ctx.fill();
+    }
 
-    // function update() {
-    //     ctx.clearRect(0,0, canvas.clientWidth, canvas.height);
-    //     drawCircle();
-    //     // change positopn
-    //     circle.x += circle.dx;
-    //     circle.y += circle.dy;
+    function update() {
+        ctx.clearRect(0,490, canvas.clientWidth, 1000);
+        drawCircle();
+        // change positopn
+        circle.x += circle.dx;
+        circle.y += circle.dy;
 
-    //     // detect side walls
-    //     if (circle.x + circle.size > canvas.width || 
-    //         circle.x - circle.size < 0) {
-    //         circle.dx *= -1; 
-    //     }
+        // detect side walls
+        if (circle.x + circle.size > canvas.width || 
+            circle.x - circle.size < 0) {
+            circle.dx *= -1; 
+        }
 
-    //     //detect bottom walls
-    //     if (circle.y + circle.size > canvas.height || 
-    //         circle.y - circle.size < 0) {
-    //         circle.dy *= -1; 
-    //     }
-    //     requestAnimationFrame(update);
-    // }
-    // update();
+        //detect bottom walls
+        if (circle.y + circle.size > 1000 || 
+            circle.y - circle.size < 500) {
+            circle.dy *= -1; 
+        }
+        requestAnimationFrame(update);
+    }
+    update();
 
-    // const image = document.getElementById('source');
+    const image = document.getElementById('source');
 
-    // const player = {
-    //     w: 50,
-    //     h: 70,
-    //     x: 20,
-    //     y: 200,
-    //     speed: 10,
-    //     dx: 0,
-    //     dy: 0
-    // }
+    const player = {
+        w: 50,
+        h: 70,
+        x: 20,
+        y: 1200,
+        speed: 10,
+        dx: 0,
+        dy: 0
+    }
 
-    // function clear() {
-    //     ctx.clearRect(0,0, canvas.clientWidth, canvas.height);
-    // }
+    function clear() {
+        ctx.clearRect(0,1000, canvas.clientWidth, canvas.height);
+    }
 
-    // function newPos() {
-    //     player.x += player.dx;
-    //     player.y += player.dy;
+    function newPos() {
+        player.x += player.dx;
+        player.y += player.dy;
 
-    //     detectWalls();
-    // }
+        detectWalls();
+    }
 
-    // function detectWalls() {
-    //     // Left wall
-    //     if (player.x < 0) {
-    //         player.x = 0;
-    //     }
+    function detectWalls() {
+        // Left wall
+        if (player.x < 0) {
+            player.x = 0;
+        }
 
     //     // Right wall
     //     if (player.x + player.w > canvas.width) {
