@@ -76,7 +76,10 @@ th {
 }
 
 #source {
-    max-width: 20%;
-    max-height: 20%;
-    display: none;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+#home_btn {
+    background-color: Transparent;
 }
