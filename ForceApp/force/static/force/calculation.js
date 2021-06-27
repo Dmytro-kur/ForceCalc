@@ -209,10 +209,11 @@ function visualization() {
             mouse.Y = event.clientY - rect.top;
             document.querySelector('#posX').innerHTML = `X: <small>${mouse.X.toFixed(3)}</small>`
             document.querySelector('#posY').innerHTML = ` Y: <small>${mouse.Y.toFixed(3)}</small>`
+            if (mouseState === 'mousedown') {
+                drawRect(ctx, scale, mouse.X, mouse.Y);
+            }
         })
-        if (mouseState === 'mousedown') {
-            drawRect(ctx, scale, mouse.X, mouse.Y);
-        }
+
     })   
     canvas.addEventListener('mouseout', function(event) {
         enableScroll();
@@ -261,11 +262,12 @@ function visualization() {
         }
     })
 // translate context
-
-            console.log(mouse.X, mouse.Y)
+    canvas.addEventListener('mousedown', (event)=> {
+        if (event.button === 1) {
+            mouseState = 'mousedown'
             canvas.addEventListener('mouseup', (event) => {
                 if (event.button === 1) {
-                    console.log(mouse.X, mouse.Y)
+                    mouseState = 'mouseup'
                 }
             })
         }
