@@ -201,25 +201,77 @@ function visualization() {
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d');
     
-    canvas.addEventListener('mouseover', function(event) {
+    canvas.addEventListener('mouseover', () => {
         disableScroll();
+        canvas.addEventListener('mousemove', function(event) {
+            var rect = canvas.getBoundingClientRect();
+            mouse.X = event.clientX - rect.left;
+            mouse.Y = event.clientY - rect.top;
+            document.querySelector('#posX').innerHTML = `X: <small>${mouse.X.toFixed(3)}</small>`
+            document.querySelector('#posY').innerHTML = ` Y: <small>${mouse.Y.toFixed(3)}</small>`
+        })
+        if (mouseState === 'mousedown') {
+            drawRect(ctx, scale, mouse.X, mouse.Y);
+        }
     })   
     canvas.addEventListener('mouseout', function(event) {
         enableScroll();
-    })  
+    })
+
     canvas.width = window.innerWidth * 0.6;
     canvas.height = window.innerHeight * 0.6;
 
+    let scale = 0.5;
+    let coord = {
+        X: 0,
+        Y: 0,
+    }
+    let mouse = {
+        X: 0,
+        Y: 0,
+    }
+
+    let mouseState = 'mouseup'
+
     canvas.addEventListener('wheel', function(event) {
-        console.log(event.deltaY/100)
+        
+        scale += 0.05 * Math.sign(event.deltaY)
+        if (scale < 0.1) {
+            scale = 0.1;
+        }
+        console.log(scale)
+        drawRect(ctx, scale, coord.X, coord.Y);
     })
 
     window.addEventListener('resize', function() {
         canvas.width = window.innerWidth * 0.6;
         canvas.height = window.innerHeight * 0.6;
-        drawRect(ctx, 0.1);
+        drawRect(ctx, scale, coord.X, coord.Y);
     })
-    drawRect(ctx, 0.1);
+    drawRect(ctx, scale, coord.X, coord.Y);
+// rectangle fitt ---------------------------------------------->
+    canvas.addEventListener('mousedown', (event)=> {
+        if (event.button === 0) {
+            console.log(mouse.X, mouse.Y)
+            canvas.addEventListener('mouseup', (event) => {
+                if (event.button === 0) {
+                    console.log(mouse.X, mouse.Y)
+                }
+            })
+        }
+    })
+// translate context
+
+            console.log(mouse.X, mouse.Y)
+            canvas.addEventListener('mouseup', (event) => {
+                if (event.button === 1) {
+                    console.log(mouse.X, mouse.Y)
+                }
+            })
+        }
+    })
+
+
 }
 
 function drawRect(ctx, scale, posX, posY) {
@@ -230,10 +282,11 @@ function drawRect(ctx, scale, posX, posY) {
         width: canvas.width * scale,
         height: canvas.height * scale,
     }
-    ctx.strokeRect(canvas.width/2 - rect.width/2,
-        canvas.height/2 - rect.height/2, 
+    ctx.strokeRect(canvas.width/2 - rect.width/2 + posX,
+        canvas.height/2 - rect.height/2 + posY, 
         rect.width,
         rect.height)
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
