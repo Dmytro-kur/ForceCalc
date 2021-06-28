@@ -293,7 +293,7 @@ function visualization() {
             mouseState = 'mousedown'
             coord.X = mouse.X - pos.X;
             coord.Y = mouse.Y - pos.Y;
-            canvas.addEventListener('mouseup', (event) => {
+            document.body.addEventListener('mouseup', (event) => {
                 if (event.button === 1) {
                     mouseState = 'mouseup'
                     coord.X = mouse.X - pos.X;
@@ -305,8 +305,8 @@ function visualization() {
 }
 
 function drawRect(ctx, scale, posX, posY) {
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.height);
-    ctx.lineWidth = 5;
+    ctx.clearRect(0, 0, canvas.clientWidth + 100, canvas.height);
+    ctx.lineWidth = 0.5;
     ctx.strokeStyle = 'green';
     const rect = {
         width: canvas.width * scale,
