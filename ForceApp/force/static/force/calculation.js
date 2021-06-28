@@ -330,11 +330,37 @@ function drawRect(ctx, scale, posX, posY) {
     const parse_scale_X = rect.width/max_width;
     const parse_scale_Y = rect.height/max_height;
 
+    const check_X = {
+        check_X_width: max_width * parse_scale_X,
+        check_X_height: max_height * parse_scale_X,
+    }
+
+    const check_Y = {
+        check_Y_width: max_width * parse_scale_Y,
+        check_Y_height: max_height * parse_scale_Y,
+    }
+
+    let parse_scale = 1;
+
+    if (check_X.check_X_width <= rect.width && 
+        check_X.check_X_height <= rect.height) {
+        parse_scale = parse_scale_X;
+    } else if (check_Y.check_Y_width <= rect.width && 
+        check_Y.check_Y_height <= rect.height) {
+        parse_scale = parse_scale_Y;
+    } else if (check_Y.check_Y_width === rect.width || 
+        check_Y.check_Y_height === rect.height) {
+        parse_scale = parse_scale_X;
+
+    }
+
+    const AyBy = rect.startY + rect.height/2 + max_height*parse_scale/2;
+
     const AtoB = {
-        Ax: rect.startX + 10,
-        Ay: rect.startY + rect.height/2,
-        Bx: rect.startX + 10 + parse_b * parse_scale_X,
-        By: rect.startY + rect.height/2,
+        Ax: rect.startX,
+        Ay: AyBy,
+        Bx: rect.startX + parse_b * parse_scale,
+        By: AyBy,
     }
 
     ctx.lineWidth = 3;
@@ -345,19 +371,30 @@ function drawRect(ctx, scale, posX, posY) {
     ctx.stroke();
 
     const BtoC = {
-        Bx: rect.startX + 10,
-        By: rect.startY + rect.height/2,
-        Cx: rect.startX + 10 + parse_b * parse_scale_X,
-        Cy: rect.startY + rect.height/2,
+        Bx: AtoB.Bx,
+        By: AtoB.By,
+        Cx: AtoB.Bx + parse_a * parse_scale,
+        Cy: AtoB.By,
     }
     
     ctx.strokeStyle = 'coral';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(AtoB.Ax, AtoB.Ay);
-    ctx.lineTo(AtoB.Bx, AtoB.By);
+    ctx.moveTo(BtoC.Bx, BtoC.By);
+    ctx.lineTo(BtoC.Cx, BtoC.Cy);
     ctx.closePath();
     ctx.stroke();
+
+    const CtoO = {
+        Ox: BtoC.Cx - parse_contactCoord_X * parse_scale,
+        Oy: BtoC.Cy - parse_contactCoord_Y * parse_scale,
+    }
+    
+    ctx.beginPath();
+    ctx.arc(CtoO.Ox, CtoO.Oy, 5, 0, Math.PI*2);
+    ctx.fillStyle = 'purple';
+    ctx.fill();
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
