@@ -342,19 +342,21 @@ function drawRect(ctx, scale, posX, posY) {
 
     let parse_scale = 1;
 
-    if (check_X.check_X_width <= rect.width + 5 && 
-        check_X.check_X_height <= rect.height + 5) {
+    if (check_X.check_X_width <= rect.width + 1 && 
+        check_X.check_X_height <= rect.height + 1) {
         parse_scale = parse_scale_X;
-    } else if (check_Y.check_Y_width <= rect.width + 5 && 
-        check_Y.check_Y_height <= rect.height + 5) {
+    } else if (check_Y.check_Y_width <= rect.width + 1 && 
+        check_Y.check_Y_height <= rect.height + 1) {
         parse_scale = parse_scale_Y;
     } else if (check_Y.check_Y_width === rect.width || 
         check_Y.check_Y_height === rect.height) {
         parse_scale = parse_scale_X;
     }
 
+    const AxBx = rect.startX + rect.width/2 - max_width*parse_scale/2;
     const AyBy = rect.startY + rect.height/2 + max_height*parse_scale/2;
-    const AxBx = rect.startX + rect.weight/2 + max_width*parse_scale/2;
+
+    console.log('Starting point X:', AxBx, '\n', 'Starting point Y:', AyBy)
 
     const AtoB = {
         Ax: AxBx,
