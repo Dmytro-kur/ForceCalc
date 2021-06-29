@@ -248,8 +248,6 @@ function visualization() {
             var rect = canvas.getBoundingClientRect();
             mouse.X = event.clientX - rect.left;
             mouse.Y = event.clientY - rect.top;
-            document.querySelector('#posX').innerHTML = `X: <small>${mouse.X.toFixed(3)}</small>`
-            document.querySelector('#posY').innerHTML = ` Y: <small>${mouse.Y.toFixed(3)}</small>`
             if (mouseState === 'mousedown') {
                 pos.X = mouse.X - coord.X;
                 pos.Y = mouse.Y - coord.Y;
@@ -308,6 +306,7 @@ function visualization() {
 }
 
 function drawRect(ctx, scale, posX, posY) {
+    
     ctx.clearRect(0, 0, canvas.clientWidth + 100, canvas.height);
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = 'green';
@@ -319,81 +318,116 @@ function drawRect(ctx, scale, posX, posY) {
     }
     ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
 
-    const parse_b = parseFloat(document.querySelector('input#b').value)
-    const parse_a = parseFloat(document.querySelector('input#a').value)
-    const parse_contactCoord_X = parseFloat(document.querySelector('input#contactCoord_X').value)
-    const parse_contactCoord_Y = parseFloat(document.querySelector('input#contactCoord_Y').value)
+    const origin ={
+        x: canvas.width/2,
+        y: canvas.height/2,
+    }
 
-    const max_width = Math.abs(parse_contactCoord_X - (parse_b + parse_a)); 
-    const max_height = Math.abs(parse_contactCoord_Y);
+    ctx.lineWidth = 0.3;
+    ctx.beginPath();
+    ctx.moveTo(origin.x, 0);
+    ctx.lineTo(origin.x, 2 * origin.y);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, origin.y);
+    ctx.lineTo(2 * origin.x, origin.y);
+    ctx.closePath();
+    ctx.stroke();
+
+    const parse_b = parseFloat(document.querySelector('input#b').value);
+    const parse_a = parseFloat(document.querySelector('input#a').value);
+    const parse_contactCoord_X = parseFloat(document.querySelector('input#contactCoord_X').value);
+    const parse_contactCoord_Y = parseFloat(document.querySelector('input#contactCoord_Y').value);
+
+    const C = {
+        x: parse_contactCoord_X,
+        y: parse_contactCoord_Y,
+    }
+
+    const B = {
+        x: C.x - parse_a,
+        y: parse_contactCoord_Y,
+    }
+
+    const A = {
+        x: B.x - parse_b,
+        y: parse_contactCoord_Y,
+    }
+
+    const max_width = Math.max(0, A.x, B.x, C.x) - Math.min(0, A.x, B.x, C.x);
+    const max_height = Math.max(0, A.y, B.y, C.y) - Math.min(0, A.y, B.y, C.y);
 
     const parse_scale_X = rect.width/max_width;
     const parse_scale_Y = rect.height/max_height;
 
-    const check_X = {
-        check_X_width: max_width * parse_scale_X,
-        check_X_height: max_height * parse_scale_X,
-    }
-
-    const check_Y = {
-        check_Y_width: max_width * parse_scale_Y,
-        check_Y_height: max_height * parse_scale_Y,
-    }
-
     let parse_scale = 1;
+    let _O = {
+        x: 1,
+        y: 1,
+    }
 
-    if (check_X.check_X_width <= rect.width + 1 && 
-        check_X.check_X_height <= rect.height + 1) {
+    if (parse_scale_X < parse_scale_Y) {
         parse_scale = parse_scale_X;
-    } else if (check_Y.check_Y_width <= rect.width + 1 && 
-        check_Y.check_Y_height <= rect.height + 1) {
+    } else if (parse_scale_Y < parse_scale_X) {
         parse_scale = parse_scale_Y;
-    } else if (check_Y.check_Y_width === rect.width || 
-        check_Y.check_Y_height === rect.height) {
+    } else if (parse_scale_Y === parse_scale_X) {
         parse_scale = parse_scale_X;
     }
 
-    const AxBx = rect.startX + rect.width/2 - max_width*parse_scale/2;
-    const AyBy = rect.startY + rect.height/2 + max_height*parse_scale/2;
-
-    console.log('Starting point X:', AxBx, '\n', 'Starting point Y:', AyBy)
-
-    const AtoB = {
-        Ax: AxBx,
-        Ay: AyBy,
-        Bx: AxBx + parse_b * parse_scale,
-        By: AyBy,
+    if (Math.min(0, A.x, B.x, C.x) === 0) {
+        _O.x = rect.startX + rect.width/2 - (max_width * parse_scale)/2;
+    } else if (Math.max(0, A.x, B.x, C.x) === 0) {
+        _O.x = rect.startX + rect.width/2 + (max_width * parse_scale)/2;
     }
+
+    if (Math.min(0, A.y, B.y, C.y) === 0) {
+        _O.y = rect.startY + rect.height/2 - (max_height * parse_scale)/2;
+    } else if (Math.max(0, A.y, B.y, C.y) === 0) {
+        _O.y = rect.startY + rect.height/2 + (max_height * parse_scale)/2;
+    }
+
+    // const absolute_coordinate_X = posX/parse_scale;
+    // const absolute_coordinate_Y = posY/parse_scale;
+
+    // document.querySelector('#posX').innerHTML = `X: <small>${absolute_coordinate_X.toFixed(3)}</small>`
+    // document.querySelector('#posY').innerHTML = ` Y: <small>${-absolute_coordinate_Y.toFixed(3)}</small>`
+
+    const _C = {
+        x: _O.x + C.x * parse_scale,
+        y: _O.y + C.y * parse_scale,
+    }
+
+    const _B = {
+        x: _O.x + B.x * parse_scale,
+        y: _O.y + B.y * parse_scale,
+    }
+
+    const _A = {
+        x: _O.x + A.x * parse_scale,
+        y: _O.y + A.y * parse_scale,
+    }
+
+    console.log('A:', _A, '\n', 'B:', _B, '\n', 'C:', _C, '\n')
 
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(AtoB.Ax, AtoB.Ay);
-    ctx.lineTo(AtoB.Bx, AtoB.By);
+    ctx.moveTo(_A.x, _A.y);
+    ctx.lineTo(_B.x, _B.y);
     ctx.closePath();
     ctx.stroke();
-
-    const BtoC = {
-        Bx: AtoB.Bx,
-        By: AtoB.By,
-        Cx: AtoB.Bx + parse_a * parse_scale,
-        Cy: AtoB.By,
-    }
     
     ctx.strokeStyle = 'coral';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(BtoC.Bx, BtoC.By);
-    ctx.lineTo(BtoC.Cx, BtoC.Cy);
+    ctx.moveTo(_B.x, _B.y);
+    ctx.lineTo(_C.x, _C.y);
     ctx.closePath();
     ctx.stroke();
-
-    const CtoO = {
-        Ox: BtoC.Cx - parse_contactCoord_X * parse_scale,
-        Oy: BtoC.Cy - parse_contactCoord_Y * parse_scale,
-    }
     
     ctx.beginPath();
-    ctx.arc(CtoO.Ox, CtoO.Oy, 5, 0, Math.PI*2);
+    ctx.arc(_O.x, _O.y, 5, 0, Math.PI*2);
     ctx.fillStyle = 'purple';
     ctx.fill();
 
