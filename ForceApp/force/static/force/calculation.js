@@ -351,15 +351,15 @@ function drawRect(ctx, scale, posX, posY) {
     } else if (check_Y.check_Y_width === rect.width || 
         check_Y.check_Y_height === rect.height) {
         parse_scale = parse_scale_X;
-
     }
 
     const AyBy = rect.startY + rect.height/2 + max_height*parse_scale/2;
+    const AxBx = rect.startX + rect.weight/2 + max_width*parse_scale/2;
 
     const AtoB = {
-        Ax: rect.startX,
+        Ax: AxBx,
         Ay: AyBy,
-        Bx: rect.startX + parse_b * parse_scale,
+        Bx: AxBx + parse_b * parse_scale,
         By: AyBy,
     }
 
