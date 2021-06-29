@@ -342,11 +342,11 @@ function drawRect(ctx, scale, posX, posY) {
 
     let parse_scale = 1;
 
-    if (check_X.check_X_width <= rect.width && 
-        check_X.check_X_height <= rect.height) {
+    if (check_X.check_X_width <= rect.width + 5 && 
+        check_X.check_X_height <= rect.height + 5) {
         parse_scale = parse_scale_X;
-    } else if (check_Y.check_Y_width <= rect.width && 
-        check_Y.check_Y_height <= rect.height) {
+    } else if (check_Y.check_Y_width <= rect.width + 5 && 
+        check_Y.check_Y_height <= rect.height + 5) {
         parse_scale = parse_scale_Y;
     } else if (check_Y.check_Y_width === rect.width || 
         check_Y.check_Y_height === rect.height) {
