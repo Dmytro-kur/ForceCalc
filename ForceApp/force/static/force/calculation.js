@@ -364,8 +364,8 @@ function drawRect(ctx, scale, posX, posY) {
 
     let parse_scale = 1;
     let _O = {
-        x: 1,
-        y: 1,
+        x: rect.startX + rect.width/2,
+        y: rect.startY + rect.height/2,
     }
 
     if (parse_scale_X < parse_scale_Y) {
@@ -380,6 +380,9 @@ function drawRect(ctx, scale, posX, posY) {
         _O.x = rect.startX + rect.width/2 - (max_width * parse_scale)/2;
     } else if (Math.max(0, A.x, B.x, C.x) === 0) {
         _O.x = rect.startX + rect.width/2 + (max_width * parse_scale)/2;
+    } else if (Math.min(0, A.x, B.x, C.x) !== 0
+     && Math.max(0, A.x, B.x, C.x) !== 0) {
+        _O.x = rect.startX + rect.width/2 + (max_width * parse_scale)/2 - Math.max(0, A.x, B.x, C.x) * parse_scale;
     }
 
     if (Math.min(0, A.y, B.y, C.y) === 0) {
@@ -409,7 +412,7 @@ function drawRect(ctx, scale, posX, posY) {
         y: _O.y + A.y * parse_scale,
     }
 
-    console.log('A:', _A, '\n', 'B:', _B, '\n', 'C:', _C, '\n')
+    // console.log('A:', _A, '\n', 'B:', _B, '\n', 'C:', _C, '\n')
 
     ctx.lineWidth = 3;
     ctx.beginPath();
