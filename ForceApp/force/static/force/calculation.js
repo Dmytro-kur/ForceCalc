@@ -271,31 +271,25 @@ function visualization() {
         drawRect(ctx, scale, pos.X, pos.Y);
     })
 // window resizing ---------------------------------------------->
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', (event) => {
+        event.preventDefault();
         canvas.width = window.innerWidth * canvas_scale;
         canvas.height = window.innerHeight * canvas_scale;
         drawRect(ctx, scale, pos.X, pos.Y);
     })
     drawRect(ctx, scale, pos.X, pos.Y);
-// rectangle fit ---------------------------------------------->
-    canvas.addEventListener('mousedown', (event) => {
-        if (event.button === 0) {
-            console.log(mouse.X, mouse.Y)
-            canvas.addEventListener('mouseup', (event) => {
-                if (event.button === 0) {
-                    console.log(mouse.X, mouse.Y)
-                }
-            })
-        }
-    })
+
+
 // translate context
     canvas.addEventListener('mousedown', (event)=> {
         if (event.button === 1) {
+            event.preventDefault();
             mouseState = 'mousedown'
             coord.X = mouse.X - pos.X;
             coord.Y = mouse.Y - pos.Y;
             document.body.addEventListener('mouseup', (event) => {
                 if (event.button === 1) {
+                    event.preventDefault();
                     mouseState = 'mouseup'
                     coord.X = mouse.X - pos.X;
                     coord.Y = mouse.Y - pos.Y;
@@ -316,7 +310,7 @@ function drawRect(ctx, scale, posX, posY) {
         width: canvas.width * scale,
         height: canvas.height * scale,
     }
-    ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
+    // ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
 
     const origin ={
         x: canvas.width/2,
@@ -339,7 +333,7 @@ function drawRect(ctx, scale, posX, posY) {
     const parse_b = parseFloat(document.querySelector('input#b').value);
     const parse_a = parseFloat(document.querySelector('input#a').value);
     const parse_contactCoord_X = parseFloat(document.querySelector('input#contactCoord_X').value);
-    const parse_contactCoord_Y = parseFloat(document.querySelector('input#contactCoord_Y').value);
+    const parse_contactCoord_Y = -parseFloat(document.querySelector('input#contactCoord_Y').value);
 
     const C = {
         x: parse_contactCoord_X,
@@ -391,12 +385,6 @@ function drawRect(ctx, scale, posX, posY) {
         _O.y = rect.startY + rect.height/2 + (max_height * parse_scale)/2;
     }
 
-    // const absolute_coordinate_X = posX/parse_scale;
-    // const absolute_coordinate_Y = posY/parse_scale;
-
-    // document.querySelector('#posX').innerHTML = `X: <small>${absolute_coordinate_X.toFixed(3)}</small>`
-    // document.querySelector('#posY').innerHTML = ` Y: <small>${-absolute_coordinate_Y.toFixed(3)}</small>`
-
     const _C = {
         x: _O.x + C.x * parse_scale,
         y: _O.y + C.y * parse_scale,
@@ -411,8 +399,6 @@ function drawRect(ctx, scale, posX, posY) {
         x: _O.x + A.x * parse_scale,
         y: _O.y + A.y * parse_scale,
     }
-
-    // console.log('A:', _A, '\n', 'B:', _B, '\n', 'C:', _C, '\n')
 
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -433,6 +419,13 @@ function drawRect(ctx, scale, posX, posY) {
     ctx.arc(_O.x, _O.y, 5, 0, Math.PI*2);
     ctx.fillStyle = 'purple';
     ctx.fill();
+
+    const absolute_coordinate_X = -(_O.x - origin.x)/parse_scale;
+    const absolute_coordinate_Y = -(_O.y - origin.y)/parse_scale;
+
+    document.querySelector('#posX').innerHTML = `X: <small>${absolute_coordinate_X.toFixed(3)}</small>`
+    document.querySelector('#posY').innerHTML = ` Y: <small>${-absolute_coordinate_Y.toFixed(3)}</small>`
+
 
 }
 
