@@ -156,7 +156,18 @@ class Variables(models.Model):
     Nb = models.FloatField()
     NR = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
-
+    
+    # In the models, new fields should be implemented for saving results state.
+    # Access policy also should be implemented: 
+    # - Specialist user only can create project and make a calculations
+    # - Designer can change the input but cannot add input
+    # Validators for some angles field that restricted values:
+    # for positive length for friction angles
+    # mobile responsiveness should be worked 
+    # (by adding a buttons like zoom up zoom down, moving button)
+    # styling 
+    
+    
     def __str__(self):
         return f"{self.key}"
 

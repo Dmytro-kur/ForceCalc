@@ -426,7 +426,6 @@ function drawRect(ctx, scale, posX, posY) {
     document.querySelector('#posX').innerHTML = `X: <small>${absolute_coordinate_X.toFixed(3)}</small>`
     document.querySelector('#posY').innerHTML = ` Y: <small>${-absolute_coordinate_Y.toFixed(3)}</small>`
 
-
 }
 
 document.addEventListener('DOMContentLoaded', function() {
