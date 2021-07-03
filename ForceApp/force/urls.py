@@ -13,5 +13,6 @@ urlpatterns = [
     path("projects/<str:query>", views.projects, name="projects"),
     path("new_project", views.new_project, name="new_project"),
     path("parameter/<str:item>/<int:value>", views.parameter, name="parameter"),
+    path("result/<int:value>", views.result, name="result")
 
 ]

@@ -42,7 +42,7 @@ class Project(models.Model):
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255)
 
     mu = models.FloatField()
     contactCoord_X = models.FloatField()
@@ -66,7 +66,7 @@ class Contact(models.Model):
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255)
 
     a = models.FloatField()
     b = models.FloatField()
@@ -93,7 +93,7 @@ class Plunger(models.Model):
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255)
 
     springStiff = models.FloatField()
     freeLen = models.FloatField()
@@ -123,7 +123,7 @@ class Spring(models.Model):
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255)
 
     plungerFric = models.FloatField()
     N = models.FloatField()
@@ -150,12 +150,17 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, unique=True)
+    key = models.CharField(max_length=255)
 
     Na = models.FloatField()
     Nb = models.FloatField()
     NR = models.FloatField()
+    
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
+    contact_input = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="variables")
+    plunger_input = models.ForeignKey(Plunger, on_delete=models.CASCADE, related_name="variables")
+    spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
+    angles_input = models.ForeignKey(Angles, on_delete=models.CASCADE, related_name="variables")
     
     # In the models, new fields should be implemented for saving results state.
     # Access policy also should be implemented: 

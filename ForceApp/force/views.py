@@ -104,7 +104,7 @@ class VariablesForm(forms.ModelForm):
         model = Variables
         fields = ['key', 'Na','Nb', 'NR']
         labels = {
-            'key': _('Name of the Variables'),
+            'key': _('Result name'),
             'Na': _('Force Reaction in Point A (N)'),
             'Nb': _('Force Reaction in Point B (N)'),
             'NR': _('Force Reaction in Contact Point (N)'),
@@ -250,6 +250,12 @@ def projects(request, query):
         [project.serialize() for project in projects], safe=False)
 
 @login_required
+def result(request, value):
+
+    pass
+
+@csrf_protect
+@login_required
 def calculation(request, project_num):
 
     if request.method == "GET":
@@ -275,6 +281,10 @@ def calculation(request, project_num):
         })
     
     if request.method == "POST":
+        
+        pass
+
+    if request.method == "DELETE":
         pass
 
 @csrf_protect
@@ -294,9 +304,7 @@ def parameter(request, item, value):
                 param = inst.springs.get(pk=request.GET.get("num"))
             if item == "angles":
                 param = inst.angles.get(pk=request.GET.get("num"))
-            if item == "variables":
-                param = inst.variables.get(pk=request.GET.get("num"))
-                
+
             return JsonResponse(param.serialize())
 
         elif int(request.GET.get("num")) == 0:
@@ -333,12 +341,6 @@ def parameter(request, item, value):
             mydata['N'] = mydata['var2']
             mydata['FN'] = mydata['var3']
             data = AnglesForm(mydata)
-
-        if item == "variables":
-            mydata['Na'] = mydata['var1']
-            mydata['Nb'] = mydata['var2']
-            mydata['NR'] = mydata['var3']
-            data = VariablesForm(mydata)
 
         if data.is_valid():
             inst = Project.objects.get(pk=value)
@@ -389,14 +391,6 @@ def parameter(request, item, value):
             mydata['FN'] = mydata['var3']
             data = AnglesForm(mydata, instance=a)
 
-        if item == "variables":
-            a = Variables.objects.get(pk=request.GET.get("num"))
-            mydata['key'] = a.key
-            mydata['Na'] = mydata['var1']
-            mydata['Nb'] = mydata['var2']
-            mydata['NR'] = mydata['var3']
-            data = VariablesForm(mydata, instance=a)
-
         if data.is_valid():
             param = data.save()
             return JsonResponse({
@@ -420,7 +414,7 @@ def parameter(request, item, value):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Contact {key} was successfully deleted",
+                "message": f"Plunger {key} was successfully deleted",
             }, status=200)
 
         if item == "spring":
@@ -428,7 +422,7 @@ def parameter(request, item, value):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Contact {key} was successfully deleted",
+                "message": f"Spring {key} was successfully deleted",
             }, status=200)
 
         if item == "angles":
@@ -436,13 +430,6 @@ def parameter(request, item, value):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Contact {key} was successfully deleted",
+                "message": f"Angles {key} was successfully deleted",
             }, status=200)
 
-        if item == "variables":
-            a = inst.variables.get(pk=request.GET.get("num"))
-            key = a.key
-            a.delete()
-            return JsonResponse({
-                "message": f"Contact {key} was successfully deleted",
-            }, status=200)

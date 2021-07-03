@@ -1,27 +1,27 @@
 function fill_value(id, item, var1, var2, var3) {
 
 // new -------------------------------------------------------------------------------->
-    if (item !== "variables") {
-        document.querySelector(`#new_${item}_btn`).addEventListener('click', () => {
-
-            if (document.querySelector(`#new_${item}`).style.display === 'none') {
     
-                document.querySelector(`#id_${item}_key`).value = '';
-                document.querySelector(`#id_${var1}`).value = '';
-                document.querySelector(`#id_${var2}`).value = '';
-                document.querySelector(`#id_${var3}`).value = '';
-                document.querySelector(`#new_${item}`).style.display = 'block';
-                document.querySelector(`#save_${item}_btn`).style.display = 'block';
-            } else {
-                document.querySelector(`#id_${item}_key`).value = '';
-                document.querySelector(`#id_${var1}`).value = '';
-                document.querySelector(`#id_${var2}`).value = '';
-                document.querySelector(`#id_${var3}`).value = '';
-                document.querySelector(`#new_${item}`).style.display = 'none';
-                document.querySelector(`#save_${item}_btn`).style.display = 'none';
-            }
-        })
-    }
+    document.querySelector(`#new_${item}_btn`).addEventListener('click', () => {
+
+        if (document.querySelector(`#new_${item}`).style.display === 'none') {
+
+            document.querySelector(`#id_${item}_key`).value = '';
+            document.querySelector(`#id_${var1}`).value = '';
+            document.querySelector(`#id_${var2}`).value = '';
+            document.querySelector(`#id_${var3}`).value = '';
+            document.querySelector(`#new_${item}`).style.display = 'block';
+            document.querySelector(`#save_${item}_btn`).style.display = 'block';
+        } else {
+            document.querySelector(`#id_${item}_key`).value = '';
+            document.querySelector(`#id_${var1}`).value = '';
+            document.querySelector(`#id_${var2}`).value = '';
+            document.querySelector(`#id_${var3}`).value = '';
+            document.querySelector(`#new_${item}`).style.display = 'none';
+            document.querySelector(`#save_${item}_btn`).style.display = 'none';
+        }
+    })
+    
 
 // select changes -------------------------------------------------------------------------------->
     if (document.querySelector(id)) {
@@ -31,14 +31,10 @@ function fill_value(id, item, var1, var2, var3) {
             const path = window.location.pathname.slice(13)
 
             if (val !== '0') {
-                if (item !== "variables") {
-                    document.querySelector(`#edit_${item}_btn`).style.display = 'block';
-                }
+                document.querySelector(`#edit_${item}_btn`).style.display = 'block';
                 document.querySelector(`#delete_${item}_btn`).style.display = 'block';
             } else if (val === '0') {
-                if (item !== "variables") {
-                    document.querySelector(`#edit_${item}_btn`).style.display = 'none';
-                }
+                document.querySelector(`#edit_${item}_btn`).style.display = 'none';
                 document.querySelector(`#delete_${item}_btn`).style.display = 'none';
             }
 
@@ -56,67 +52,63 @@ function fill_value(id, item, var1, var2, var3) {
     }
 
 // save -------------------------------------------------------------------------------->
-    if (item !== "variables") {
-        document.querySelector(`#save_${item}_btn`).addEventListener('click', () => {
+    document.querySelector(`#save_${item}_btn`).addEventListener('click', () => {
 
-            let key = document.querySelector(`#id_${item}_key`).value;
-            let v1 = document.querySelector(`#id_${var1}`).value;
-            let v2 = document.querySelector(`#id_${var2}`).value;
-            let v3 = document.querySelector(`#id_${var3}`).value;
-    
-            const path = window.location.pathname.slice(13)
-    
-            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            const request = new Request(
-                `/parameter/${item}/${path}?num=none`,
-                {headers: {'X-CSRFToken': csrftoken}}
-            );
-    
-            fetch(request, {
-                method: 'POST',
-                mode: 'same-origin',
-                body: JSON.stringify({
-                    key: key,
-                    var1: v1,
-                    var2: v2,
-                    var3: v3,
-                })
+        let key = document.querySelector(`#id_${item}_key`).value;
+        let v1 = document.querySelector(`#id_${var1}`).value;
+        let v2 = document.querySelector(`#id_${var2}`).value;
+        let v3 = document.querySelector(`#id_${var3}`).value;
+
+        const path = window.location.pathname.slice(13)
+
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const request = new Request(
+            `/parameter/${item}/${path}?num=none`,
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify({
+                key: key,
+                var1: v1,
+                var2: v2,
+                var3: v3,
             })
-            .then(response => response.json())
-            .then(result => {
-                if (result.error) {
-                    console.log(result.error)
-                } else {
-                    console.log(result.message)
-                    const newOption = document.createElement('option');
-                    newOption.value = result.id;
-                    newOption.innerHTML = result.key;
-                    document.querySelector(id).append(newOption)
-                }
-            })
-    
-            document.querySelector(`#id_${item}_key`).value = '';
-            document.querySelector(`#id_${var1}`).value = '';
-            document.querySelector(`#id_${var2}`).value = '';
-            document.querySelector(`#id_${var3}`).value = '';
         })
-    
-    }
+        .then(response => response.json())
+        .then(result => {
+            if (result.error) {
+                console.log(result.error)
+            } else {
+                console.log(result.message)
+                const newOption = document.createElement('option');
+                newOption.value = result.id;
+                newOption.innerHTML = result.key;
+                document.querySelector(id).append(newOption)
+            }
+        })
+
+        document.querySelector(`#id_${item}_key`).value = '';
+        document.querySelector(`#id_${var1}`).value = '';
+        document.querySelector(`#id_${var2}`).value = '';
+        document.querySelector(`#id_${var3}`).value = '';
+    })
 
 // edit -------------------------------------------------------------------------------->
-    if (item !== "variables") {
-            if (document.querySelector(`#edit_${item}_btn`)) {
+    if (document.querySelector(`#edit_${item}_btn`)) {
         document.querySelector(`#edit_${item}_btn`).addEventListener('click', () => {
 
             if (document.querySelector(id).value !== "0") {
-    
+
                 let v1 = document.querySelector(`input#${var1}`).value;
                 let v2 = document.querySelector(`input#${var2}`).value;
                 let v3 = document.querySelector(`input#${var3}`).value;
         
                 const project_num = window.location.pathname.slice(13)
                 const option_num = document.querySelector(id).value;
-    
+
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                 const request = new Request(
                     `/parameter/${item}/${project_num}?num=${option_num}`,
@@ -145,9 +137,6 @@ function fill_value(id, item, var1, var2, var3) {
             }
         })
     }
-    
-    }
-
 // delete -------------------------------------------------------------------------------->
     if (document.querySelector(`#delete_${item}_btn`)) {
         document.querySelector(`#delete_${item}_btn`).addEventListener('click', () => {
@@ -177,9 +166,7 @@ function fill_value(id, item, var1, var2, var3) {
                         document.querySelector(`input#${var1}`).value = '';
                         document.querySelector(`input#${var2}`).value = '';
                         document.querySelector(`input#${var3}`).value = '';
-                        if (item !== "variables") {
-                            document.querySelector(`#edit_${item}_btn`).style.display = 'none';
-                        }
+                        document.querySelector(`#edit_${item}_btn`).style.display = 'none';
                         document.querySelector(`#delete_${item}_btn`).style.display = 'none';
                     }
                 })
@@ -188,6 +175,118 @@ function fill_value(id, item, var1, var2, var3) {
     }
 }
 
+function calculate() {
+
+// select changes -------------------------------------------------------------------------------->
+    document.querySelector('#variables').addEventListener('change', (event) => {
+
+        const val = event.target.value
+        const path = window.location.pathname.slice(13)
+
+        if (val !== '0') {
+            document.querySelector(`#delete_variables_btn`).style.display = 'block';
+        } else if (val === '0') {
+            document.querySelector(`#delete_variables_btn`).style.display = 'none';
+        }
+
+        fetch(`/result/${val}`)
+        .then(response => response.json())
+        .then(result => {
+            document.querySelector('input#id_Na').value = result.var1;
+            document.querySelector('input#id_Nb').value = result.var2;
+            document.querySelector('input#id_NR').value = result.var3;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    })
+
+// delete -------------------------------------------------------------------------------->
+    if (document.querySelector(`#delete_variables_btn`)) {
+        document.querySelector(`#delete_variables_btn`).addEventListener('click', () => {
+
+            if (document.querySelector('#variables').value !== "0") {
+        
+                const project_num = window.location.pathname.slice(13)
+                const option_num = document.querySelector('#variables').value;
+    
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const request = new Request(
+                    `/parameter/variables/${project_num}?num=${option_num}`,
+                    {headers: {'X-CSRFToken': csrftoken}}
+                );
+                fetch(request, {
+                    method: 'DELETE',
+                    mode: 'same-origin',
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+                        console.log(result.error)
+                    } else {
+                        const x = document.querySelector('#variables')
+                        x.remove(x.selectedIndex)
+                        console.log(result.message)
+
+                        document.querySelector('input#id_Na').value = '';
+                        document.querySelector('input#id_Nb').value = '';
+                        document.querySelector('input#id_NR').value = '';
+                        
+                    }
+                })
+            }
+        })
+    }
+
+
+    document.querySelector(`#calculate`).addEventListener('click', () => {
+
+        let contact_input = document.querySelector('#contacts').value;
+        let plunger_input = document.querySelector('#plungers').value;
+        let spring_input = document.querySelector('#springs').value;
+        let angles_input = document.querySelector('#angles').value;
+        let key = document.querySelector('#id_variables_key').value;
+
+        const path = window.location.pathname.slice(13)
+
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const request = new Request(
+            `/calculation/${path}`,
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify({
+                key: key,
+                contact: contact_input,
+                plunger: plunger_input,
+                spring: spring_input,
+                angles: angles_input,
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.error) {
+                console.log(result.error)
+            } else {
+                console.log(result.message)
+
+                document.querySelector('input#id_Na').value = result.Na;
+                document.querySelector('input#id_Nb').value = result.Nb;
+                document.querySelector('input#id_NR').value = result.NR;
+        
+                // const newOption = document.createElement('option');
+                // newOption.value = result.id;
+                // newOption.innerHTML = result.key;
+                // document.querySelector('#variables').append(newOption)
+            }
+        })
+
+    })
+
+}
 
 
 
@@ -434,8 +533,8 @@ document.addEventListener('DOMContentLoaded', function() {
     fill_value("#plungers", "plunger", "a", "b", "f");
     fill_value("#springs", "spring", "springStiff", "freeLen", "springLen");
     fill_value("#angles", "angles", "plungerFric", "N", "FN");
-    fill_value("#variables", "variables", "Na", "Nb", "NR");
 
+    // calculate();
     visualization();
 })
 // https://www.youtube.com/watch?v=vxljFhP2krI&list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&index=4

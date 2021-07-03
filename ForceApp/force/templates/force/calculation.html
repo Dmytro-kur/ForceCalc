@@ -173,14 +173,8 @@
     <hr style="color:aliceblue;">
     <!-- Variables ------------------------------------------------------------------------------>
     <p><label for="variables">Choose Variables:</label></p>
-    <!-- <p>
-        <button id="new_variables_btn" class="btn btn-success btn-sm">New</button>
-        <button style="display: none;" id="save_variables_btn" class="btn btn-success btn-sm">Save</button>
-    </p> -->
     
-    <div id="new_variables" style="display: none;">
-        {{ VariablesForm.as_p }}
-    </div>
+
         
     <p><select name="variables" id="variables">
         <option value="0" selected>Unknown</option>
@@ -191,25 +185,16 @@
         {% endif %}
     </select></p>
 
-    <p>
-        <label for id="Na">Force Reaction in Point A (N):</label>
-        <input type="number" name="Na" step="any" required id="Na">
-    </p>
-    <p>
-        <label for id="Nb">Force Reaction in Point B (N):</label>
-        <input type="number" name="Nb" step="any" required id="Nb">
-    </p>
-    <p>
-        <label for id="NR">Force Reaction in Contact Point (N):</label>
-        <input type="number" name="NR" step="any" required id="NR">
-    </p>
-    <p>
-        <!-- <button style="display: none;" id="edit_variables_btn" class="btn btn-success btn-sm">Edit</button> -->
-        <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
-    </p>
-        
+    {% if variables %}
+        <p>
+            <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
+        </p>
+    {% endif %}
+    <div id="new_variables" style="display: block;">
+        {{ VariablesForm.as_p }}
+    </div>        
 
-    <button class="btn btn-primary btn-sm">Calculate</button>
+    <button id="calculate" class="btn btn-primary btn-sm">Calculate</button>
 
 {% endblock %}
 
