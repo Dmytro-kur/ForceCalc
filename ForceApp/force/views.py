@@ -249,12 +249,54 @@ def projects(request, query):
         return JsonResponse([{"projects_count": projects_all.count()}] + 
         [project.serialize() for project in projects], safe=False)
 
+@login_required
+def check(request, project_num, value):
+
+    if request.method == "GET":
+        project_inst = Project.objects.get(pk=project_num)
+        vars = project_inst.variables.all().get(pk=value)
+
+        cont = vars.contact_input
+        plng = vars.plunger_input
+        sprg = vars.spring_input
+        angl = vars.angles_input
+
+        first_statement = round(vars.Na*plng.f*cos(angl.plungerFric) + \
+                vars.Nb*plng.f*cos(angl.plungerFric) + \
+                vars.NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5) == \
+                round(-sprg.force(), 5)
+
+        second_statement = round(-vars.Na + vars.Nb + \
+            vars.NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5) == 0
+
+        third_statement = round(vars.Na*(plng.a + plng.b) - \
+            vars.Nb*plng.a, 5) == 0
+
+        project_inst = Project.objects.get(pk=project_num)
+        vars = project_inst.variables.all().get(pk=value)
+
+        if first_statement and second_statement and third_statement:
+            vars.agree = True
+            vars.save()
+            return JsonResponse({
+                "agree": True,
+                "message": f"Variables {vars.key} are valid",
+            }, status=200)
+
+        else:
+            vars.agree = False
+            vars.save()
+            return JsonResponse({
+                "agree": False,
+                "message": f"Variables {vars.key} aren't valid, please recalculate",
+            }, status=200)
+
 @csrf_protect
 @login_required
 def result(request, project_num, value):
 
     if request.method == "GET":
-        project_inst = Project.objects.get(pk=int(project_num))
+        project_inst = Project.objects.get(pk=project_num)
         vars = project_inst.variables.all().get(pk=value)
         return JsonResponse(vars.serialize())
 
@@ -264,7 +306,7 @@ def result(request, project_num, value):
         key = vars.key
         vars.delete()
         return JsonResponse({
-            "message": f"Variables \"{key}\" was successfully deleted",
+            "message": f"Variables {key} was successfully deleted",
         }, status=200)
 
 
@@ -357,7 +399,7 @@ def calculation(request, project_num):
             
             var = Variables(key=mydata['key'], Na=c1[0], Nb=c1[1], NR=c1[2], 
             project=project, contact_input=contact, plunger_input=plunger,
-            spring_input=spring, angles_input=angles)
+            spring_input=spring, angles_input=angles, agree=True)
             var.save()
                     
             return JsonResponse(var.serialize())

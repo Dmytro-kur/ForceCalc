@@ -26,7 +26,7 @@ function fill_value(id, item, var1, var2, var3) {
 // select changes -------------------------------------------------------------------------------->
     if (document.querySelector(id)) {
         document.querySelector(id).addEventListener('change', (event) => {
-
+            
             const val = event.target.value
             const path = window.location.pathname.slice(13)
 
@@ -174,17 +174,41 @@ function fill_value(id, item, var1, var2, var3) {
         })
     }
 }
+function check(event) {
+
+    if (event.target.value !== "0") {
+        const val = event.target.value;
+        const path = window.location.pathname.slice(13);
+    
+        fetch(`/check/${path}/${val}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.agree === true) {
+                console.log(result)
+                document.querySelector('#agree').style.display = 'block';
+                document.querySelector('#discard').style.display = 'none';
+        
+            } else if (result.agree === false) {
+                console.log(result)
+                document.querySelector('#agree').style.display = 'none';
+                document.querySelector('#discard').style.display = 'block';
+            }
+        })
+    }
+}
 
 function calculate() {
 
 // select changes -------------------------------------------------------------------------------->
     document.querySelector('#variables').addEventListener('change', (event) => {
-
+        
+        check(event);
         const val = event.target.value
         const path = window.location.pathname.slice(13)
 
         if (val !== '0') {
             document.querySelector(`#delete_variables_btn`).style.display = 'block';
+                        
             fetch(`/result/${path}/${val}`)
             .then(response => response.json())
             .then(result => {
@@ -212,6 +236,17 @@ function calculate() {
                 document.querySelector('input#mu').value = result.contact.var1;
                 document.querySelector('input#contactCoord_X').value = result.contact.var2;
                 document.querySelector('input#contactCoord_Y').value = result.contact.var3;
+            
+                document.querySelector('#delete_contact_btn').style.display = 'block';
+                document.querySelector('#delete_plunger_btn').style.display = 'block';
+                document.querySelector('#delete_spring_btn').style.display = 'block';
+                document.querySelector('#delete_angles_btn').style.display = 'block';
+                
+                document.querySelector('#edit_contact_btn').style.display = 'block';
+                document.querySelector('#edit_plunger_btn').style.display = 'block';
+                document.querySelector('#edit_spring_btn').style.display = 'block';
+                document.querySelector('#edit_angles_btn').style.display = 'block';
+
             })
             .catch(err => {
                 console.log(err)
@@ -304,7 +339,20 @@ function calculate() {
                 newOption.innerHTML = result.key;
                 document.querySelector('#variables').append(newOption)
                 document.querySelector('#variables').value = result.id;
-                document.querySelector(`#delete_variables_btn`).style.display = 'block';
+                document.querySelector('#delete_variables_btn').style.display = 'block';
+                
+                document.querySelector('#delete_contact_btn').style.display = 'block';
+                document.querySelector('#delete_plunger_btn').style.display = 'block';
+                document.querySelector('#delete_spring_btn').style.display = 'block';
+                document.querySelector('#delete_angles_btn').style.display = 'block';
+                
+                document.querySelector('#edit_contact_btn').style.display = 'block';
+                document.querySelector('#edit_plunger_btn').style.display = 'block';
+                document.querySelector('#edit_spring_btn').style.display = 'block';
+                document.querySelector('#edit_angles_btn').style.display = 'block';
+            
+                document.querySelector('#agree').style.display = 'block';
+                document.querySelector('#discard').style.display = 'none';
             }
         })
 

@@ -163,7 +163,8 @@ class Variables(models.Model):
     spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
     angles_input = models.ForeignKey(Angles, on_delete=models.CASCADE, related_name="variables")
     
-    # In the models, new fields should be implemented for saving results state.
+    agree = models.BooleanField()
+
     # Access policy also should be implemented: 
     # - Specialist user only can create project and make a calculations
     # - Designer can change the input but cannot add input
