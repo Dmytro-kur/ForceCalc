@@ -184,12 +184,9 @@
             {% endfor %}
         {% endif %}
     </select></p>
-
-    {% if variables %}
-        <p>
-            <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
-        </p>
-    {% endif %}
+    <p>
+        <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
+    </p>
     <div id="new_variables" style="display: block;">
         {{ VariablesForm.as_p }}
     </div>        

@@ -185,20 +185,41 @@ function calculate() {
 
         if (val !== '0') {
             document.querySelector(`#delete_variables_btn`).style.display = 'block';
+            fetch(`/result/${path}/${val}`)
+            .then(response => response.json())
+            .then(result => {
+
+                document.querySelector('input#id_Na').value = result.var1;
+                document.querySelector('input#id_Nb').value = result.var2;
+                document.querySelector('input#id_NR').value = result.var3;
+
+                document.querySelector('#angles').value = result.angles.id;
+                document.querySelector('input#plungerFric').value = result.angles.var1;
+                document.querySelector('input#N').value = result.angles.var2;
+                document.querySelector('input#FN').value = result.angles.var3;
+
+                document.querySelector('#springs').value = result.spring.id;
+                document.querySelector('input#springStiff').value = result.spring.var1;
+                document.querySelector('input#freeLen').value = result.spring.var2;
+                document.querySelector('input#springLen').value = result.spring.var3;
+                
+                document.querySelector('#plungers').value = result.plunger.id;
+                document.querySelector('input#a').value = result.plunger.var1;
+                document.querySelector('input#b').value = result.plunger.var2;
+                document.querySelector('input#f').value = result.plunger.var3;
+
+                document.querySelector('#contacts').value = result.contact.id;
+                document.querySelector('input#mu').value = result.contact.var1;
+                document.querySelector('input#contactCoord_X').value = result.contact.var2;
+                document.querySelector('input#contactCoord_Y').value = result.contact.var3;
+            })
+            .catch(err => {
+                console.log(err)
+            })
         } else if (val === '0') {
             document.querySelector(`#delete_variables_btn`).style.display = 'none';
-        }
 
-        fetch(`/result/${val}`)
-        .then(response => response.json())
-        .then(result => {
-            document.querySelector('input#id_Na').value = result.var1;
-            document.querySelector('input#id_Nb').value = result.var2;
-            document.querySelector('input#id_NR').value = result.var3;
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        }
     })
 
 // delete -------------------------------------------------------------------------------->
@@ -212,7 +233,7 @@ function calculate() {
     
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
                 const request = new Request(
-                    `/parameter/variables/${project_num}?num=${option_num}`,
+                    `/result/${project_num}/${option_num}`,
                     {headers: {'X-CSRFToken': csrftoken}}
                 );
                 fetch(request, {
@@ -228,6 +249,8 @@ function calculate() {
                         x.remove(x.selectedIndex)
                         console.log(result.message)
 
+                        x.value = 0;
+                        document.querySelector(`#delete_variables_btn`).style.display = 'none';
                         document.querySelector('input#id_Na').value = '';
                         document.querySelector('input#id_Nb').value = '';
                         document.querySelector('input#id_NR').value = '';
@@ -238,7 +261,7 @@ function calculate() {
         })
     }
 
-
+// create new results -------------------------------------------------------------------------------->
     document.querySelector(`#calculate`).addEventListener('click', () => {
 
         let contact_input = document.querySelector('#contacts').value;
@@ -269,18 +292,19 @@ function calculate() {
         .then(response => response.json())
         .then(result => {
             if (result.error) {
-                console.log(result.error)
+                console.log(result.error[0])
             } else {
-                console.log(result.message)
 
-                document.querySelector('input#id_Na').value = result.Na;
-                document.querySelector('input#id_Nb').value = result.Nb;
-                document.querySelector('input#id_NR').value = result.NR;
+                document.querySelector('input#id_Na').value = result.var1;
+                document.querySelector('input#id_Nb').value = result.var2;
+                document.querySelector('input#id_NR').value = result.var3;
         
-                // const newOption = document.createElement('option');
-                // newOption.value = result.id;
-                // newOption.innerHTML = result.key;
-                // document.querySelector('#variables').append(newOption)
+                const newOption = document.createElement('option');
+                newOption.value = result.id;
+                newOption.innerHTML = result.key;
+                document.querySelector('#variables').append(newOption)
+                document.querySelector('#variables').value = result.id;
+                document.querySelector(`#delete_variables_btn`).style.display = 'block';
             }
         })
 
@@ -534,7 +558,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fill_value("#springs", "spring", "springStiff", "freeLen", "springLen");
     fill_value("#angles", "angles", "plungerFric", "N", "FN");
 
-    // calculate();
+    calculate();
     visualization();
 })
 // https://www.youtube.com/watch?v=vxljFhP2krI&list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&index=4

@@ -150,13 +150,14 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255)
+    key = models.CharField(max_length=255, blank=False)
 
     Na = models.FloatField()
     Nb = models.FloatField()
     NR = models.FloatField()
     
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
+    
     contact_input = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="variables")
     plunger_input = models.ForeignKey(Plunger, on_delete=models.CASCADE, related_name="variables")
     spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
@@ -194,4 +195,8 @@ class Variables(models.Model):
             "var2": self.Nb,
             "var3": self.NR,
             "datetime": datetime,
+            "contact": self.contact_input.serialize(),
+            "plunger": self.plunger_input.serialize(),
+            "spring": self.spring_input.serialize(),
+            "angles": self.angles_input.serialize(),
         }

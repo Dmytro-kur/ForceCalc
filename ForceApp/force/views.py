@@ -74,8 +74,8 @@ class SpringForm(forms.ModelForm):
         labels = {
             'key': _('Name of the Spring'),
             'springStiff': _('Spring Stiffness (N/mm)'),
-            'freeLen': _('Free Spring Length (N/mm)'),
-            'springLen': _('Spring Length (N/mm)'),
+            'freeLen': _('Free Spring Length (mm)'),
+            'springLen': _('Spring Length (mm)'),
         }
 
 class AnglesForm(forms.ModelForm):
@@ -249,10 +249,24 @@ def projects(request, query):
         return JsonResponse([{"projects_count": projects_all.count()}] + 
         [project.serialize() for project in projects], safe=False)
 
+@csrf_protect
 @login_required
-def result(request, value):
+def result(request, project_num, value):
 
-    pass
+    if request.method == "GET":
+        project_inst = Project.objects.get(pk=int(project_num))
+        vars = project_inst.variables.all().get(pk=value)
+        return JsonResponse(vars.serialize())
+
+    if request.method == "DELETE":
+        project_inst = Project.objects.get(pk=project_num)
+        vars = project_inst.variables.get(pk=value)
+        key = vars.key
+        vars.delete()
+        return JsonResponse({
+            "message": f"Variables \"{key}\" was successfully deleted",
+        }, status=200)
+
 
 @csrf_protect
 @login_required
@@ -281,11 +295,74 @@ def calculation(request, project_num):
         })
     
     if request.method == "POST":
+        mydata = parse_from_js(request.body)
         
-        pass
+        project_inst = Project.objects.get(pk=int(project_num))
+        vars = project_inst.variables.all()
 
-    if request.method == "DELETE":
-        pass
+        if mydata['key'] == "" or mydata['contact'] == "0" or\
+            mydata['plunger'] == "0" or mydata['spring'] == "0" or\
+            mydata['angles'] == "0":
+
+            error_key = ""
+            error_contact = ""
+            error_plunger = ""
+            error_spring = ""
+            error_angles = ""
+
+            if mydata['key'] == "":
+                error_key = 'Please enter result name'
+
+            if mydata['contact'] == "0":
+                error_contact = 'Please choose contact input'
+
+            if mydata['plunger'] == "0":
+                error_plunger = 'Please choose plunger input'
+
+            if mydata['spring'] == "0":
+                error_spring = 'Please choose spring input'
+                
+            if mydata['angles'] == "0":
+                error_angles = 'Please choose angles input'
+
+            return JsonResponse({"error": [
+                {"error_key": error_key,
+                "error_contact": error_contact,
+                "error_plunger": error_plunger,
+                "error_spring": error_spring,
+                "error_angles": error_angles,}
+            ]}, status=400)
+
+        if vars.filter(key=mydata['key']).exists():
+            return JsonResponse({"error": [
+                {'result name': 'This name already exist, please use another!'}
+            ]}, status=400)
+        else:
+            project = Project.objects.get(pk=int(project_num))
+            contact = Contact.objects.get(pk=mydata['contact'])
+            plunger = Plunger.objects.get(pk=mydata['plunger'])
+            spring = Spring.objects.get(pk=mydata['spring'])
+            angles = Angles.objects.get(pk=mydata['angles'])
+
+            Pl_F_tr_angle = angles.plungerFric
+            F = spring.springStiff * (spring.freeLen - spring.springLen)
+            a = plunger.a
+            b = plunger.b
+            f = plunger.f
+            mu = contact.mu
+            N_angle = angles.N
+            F_tr_angle = angles.FN
+
+            c1 = Variables.calc_vars(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle)
+            
+            var = Variables(key=mydata['key'], Na=c1[0], Nb=c1[1], NR=c1[2], 
+            project=project, contact_input=contact, plunger_input=plunger,
+            spring_input=spring, angles_input=angles)
+            var.save()
+                    
+            return JsonResponse(var.serialize())
+
+
 
 @csrf_protect
 @login_required
