@@ -173,6 +173,7 @@ class Variables(models.Model):
     # mobile responsiveness should be worked 
     # (by adding a buttons like zoom up zoom down, moving button)
     # styling 
+    # Fast feedback when put values in input field
     
     
     def __str__(self):

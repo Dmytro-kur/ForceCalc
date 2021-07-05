@@ -246,14 +246,21 @@ function calculate() {
                 document.querySelector('#edit_plunger_btn').style.display = 'block';
                 document.querySelector('#edit_spring_btn').style.display = 'block';
                 document.querySelector('#edit_angles_btn').style.display = 'block';
-
+                document.querySelector('#id_variables_key').value = '';
             })
             .catch(err => {
                 console.log(err)
             })
         } else if (val === '0') {
-            document.querySelector(`#delete_variables_btn`).style.display = 'none';
 
+            document.querySelector('input#id_Na').value = '';
+            document.querySelector('input#id_Nb').value = '';
+            document.querySelector('input#id_NR').value = '';
+            document.querySelector('#agree').style.display = 'none';
+            document.querySelector('#discard').style.display = 'none';
+            document.querySelector('#delete_variables_btn').style.display = 'none';
+            
+            document.querySelector('#id_variables_key').value = '';
         }
     })
 
