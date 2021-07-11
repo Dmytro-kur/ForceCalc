@@ -140,7 +140,23 @@
     </p>
     
     <div id="new_angles" style="display: none;">
-        {{ AnglesForm.as_p }}
+        <p>
+            <label for id="id_angles_key">Name of the Angles:</label>
+            <input type="text" step="any" required id="id_angles_key">
+        </p>
+        <p>
+            <label for id="id_plungerFric">Direction of the Friction Force is from left to right:</label>
+            <input type="checkbox" step="any" required id="plungerFric">
+        </p>
+        <p>
+            <label for id="id_N">Direction of Normal Reaction (deg):</label>
+            <input type="number" step="any" required id="N">
+        </p>
+        <p>
+            <label for id="id_FN">Direction of the Friction Force is upwards:</label>
+            <input type="checkbox" step="any" required id="FN">
+        </p>
+    
     </div>
 
     <p><select name="angles" id="angles">
@@ -151,19 +167,9 @@
             {% endfor %}
         {% endif %}
     </select></p>
-    
-    <p>
-        <label for id="plungerFric">Direction of Plunger Friction Forces (deg):</label>
-        <input type="number" name="plungerFric" step="any" required id="plungerFric">
-    </p>
-    <p>
-        <label for id="N">Direction of Normal Reaction (deg):</label>
-        <input type="number" name="N" step="any" required id="N">
-    </p>
-    <p>
-        <label for id="FN">Direction of Friction Force in Contact (deg):</label>
-        <input type="number" name="FN" step="any" required id="FN">
-    </p>
+
+    {{ AnglesForm.as_p }}
+
     <p>
         <button style="display: none;" id="edit_angles_btn" class="btn btn-success btn-sm">Edit</button>
         <button style="display: none;" id="delete_angles_btn" class="btn btn-success btn-sm">Delete</button>

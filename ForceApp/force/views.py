@@ -81,14 +81,19 @@ class SpringForm(forms.ModelForm):
 class AnglesForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['key'].widget.attrs.update({
-            'id': 'id_angles_key'
+        self.fields['plungerFric'].widget.attrs.update({
+            'id': 'plungerFric'
+        })
+        self.fields['N'].widget.attrs.update({
+            'id': 'N'
+        })
+        self.fields['FN'].widget.attrs.update({
+            'id': 'FN'
         })
     class Meta:
         model = Angles
-        fields = ['key', 'plungerFric','N', 'FN']
+        fields = ['plungerFric','N', 'FN']
         labels = {
-            'key': _('Name of the Angles'),
             'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
             'N': _('Direction of Normal Reaction (deg)'),
             'FN': _('Direction of Friction Force in Contact (deg)'),
@@ -387,7 +392,7 @@ def calculation(request, project_num):
             angles = Angles.objects.get(pk=mydata['angles'])
 
             Pl_F_tr_angle = angles.plungerFric
-            F = spring.springStiff * (spring.freeLen - spring.springLen)
+            F = spring.force()
             a = plunger.a
             b = plunger.b
             f = plunger.f
@@ -454,6 +459,11 @@ def parameter(request, item, value):
             mydata['freeLen'] = mydata['var2']
             mydata['springLen'] = mydata['var3']
             data = SpringForm(mydata)
+
+            if data.is_valid_spring() != True:
+                return JsonResponse({"error": [
+                    {'spring': 'The spring must be compressed, now it is stretched.'}
+                ]}, status=400)
 
         if item == "angles":
             mydata['plungerFric'] = mydata['var1']

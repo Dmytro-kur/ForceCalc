@@ -1,8 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 
 import math
 import numpy as np
+
+def validate_positive(value):
+    if value <= 0:
+        raise ValidationError('This value should be posotive.')
+
+def validate_fractional(value):
+    if value < 0 or value > 1:
+        raise ValidationError('This value should be from 0 to 1.')
 
 def cos(deg):
     """take as input deg convert it to rad and return cos(rad)"""
@@ -44,7 +53,7 @@ class Contact(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     key = models.CharField(max_length=255)
 
-    mu = models.FloatField()
+    mu = models.FloatField(validators=[validate_fractional])
     contactCoord_X = models.FloatField()
     contactCoord_Y = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contacts")
@@ -68,16 +77,13 @@ class Plunger(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     key = models.CharField(max_length=255)
 
-    a = models.FloatField()
-    b = models.FloatField()
-    f = models.FloatField()
+    a = models.FloatField(validators=[validate_positive])
+    b = models.FloatField(validators=[validate_positive])
+    f = models.FloatField(validators=[validate_fractional])
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="plungers")
 
     def __str__(self):
         return f"{self.key}"
-
-    def is_valid_plunger(self):
-        return round(self.a, 5) > 0 and round(self.b, 5) > 0
 
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
@@ -95,9 +101,9 @@ class Spring(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     key = models.CharField(max_length=255)
 
-    springStiff = models.FloatField()
-    freeLen = models.FloatField()
-    springLen = models.FloatField()
+    springStiff = models.FloatField(validators=[validate_positive])
+    freeLen = models.FloatField(validators=[validate_positive])
+    springLen = models.FloatField(validators=[validate_positive])
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="springs")
 
     def __str__(self):
