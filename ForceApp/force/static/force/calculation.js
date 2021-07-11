@@ -174,6 +174,198 @@ function fill_value(id, item, var1, var2, var3) {
         })
     }
 }
+
+function fill_angles() {
+// new -------------------------------------------------------------------------------->
+    
+    document.querySelector(`#new_angles_btn`).addEventListener('click', () => {
+
+        if (document.querySelector(`#new_angles`).style.display === 'none') {
+            document.querySelector(`#new_angles`).style.display = 'block';
+            document.querySelector(`#save_angles_btn`).style.display = 'block';
+
+            document.querySelector(`input#id_angles_key`).value = '';
+            if (document.querySelector(`input#id_plungerFric:checked`)) {
+                document.querySelector(`input#id_plungerFric:checked`).checked = false;
+            }
+            if (document.querySelector(`input#id_FN:checked`)) {
+                document.querySelector(`input#id_FN:checked`).checked = false;
+            }
+            document.querySelector(`input#id_N`).value = '';
+            
+    
+        } else {
+            document.querySelector(`#new_angles`).style.display = 'none';
+            document.querySelector(`#save_angles_btn`).style.display = 'none';
+        }
+
+    })
+    
+
+// select changes -------------------------------------------------------------------------------->
+    if (document.querySelector('#angles')) {
+        document.querySelector('#angles').addEventListener('change', (event) => {
+            
+            const val = event.target.value
+            const path = window.location.pathname.slice(13)
+
+            if (val !== '0') {
+                document.querySelector(`#edit_angles_btn`).style.display = 'block';
+                document.querySelector(`#delete_angles_btn`).style.display = 'block';
+            } else if (val === '0') {
+                document.querySelector(`#edit_angles_btn`).style.display = 'none';
+                document.querySelector(`#delete_angles_btn`).style.display = 'none';
+            }
+
+            fetch(`/parameter/angles/${path}?num=${val}`)
+            .then(response => response.json())
+            .then(result => {
+                document.querySelector(`input#plungerFric`).value = result.var1;
+                document.querySelector(`input#N`).value = result.var2;
+                document.querySelector(`input#FN`).value = result.var3;
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+    }
+
+// save -------------------------------------------------------------------------------->
+    document.querySelector(`#save_angles_btn`).addEventListener('click', () => {
+
+        let key = document.querySelector(`input#id_angles_key`).value;
+        let v1 = document.querySelector(`input#id_plungerFric:checked`).value;
+        let v2 = document.querySelector(`input#id_N`).value;
+        let v3 = 0;
+        if (document.querySelector('input#id_FN:checked').value === '+') {
+            v3 = parseFloat(v2) + 90;
+        } else if (document.querySelector('input#id_FN:checked').value === '-') {
+            v3 = parseFloat(v2) - 90;
+        }
+        
+        const path = window.location.pathname.slice(13)
+
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        const request = new Request(
+            `/parameter/angles/${path}?num=none`,
+            {headers: {'X-CSRFToken': csrftoken}}
+        );
+
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify({
+                key: key,
+                var1: v1,
+                var2: v2,
+                var3: v3.toString(),
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.error) {
+                console.log(result.error)
+            } else {
+                console.log(result.message)
+                const newOption = document.createElement('option');
+                newOption.value = result.id;
+                newOption.innerHTML = result.key;
+                document.querySelector('#angles').append(newOption)
+            }
+        })
+
+        document.querySelector(`input#id_angles_key`).value = '';
+        document.querySelector(`input#id_plungerFric:checked`).checked = false;
+        document.querySelector(`input#id_N`).value = '';
+        document.querySelector(`input#id_FN:checked`).checked = false;
+    })
+
+// edit -------------------------------------------------------------------------------->
+    if (document.querySelector(`#edit_angles_btn`)) {
+        document.querySelector(`#edit_angles_btn`).addEventListener('click', () => {
+
+            if (document.querySelector('#angles').value !== "0") {
+
+                let v1 = document.querySelector(`input#N`).value;
+                let v2 = document.querySelector(`input#id_N`).value;
+                let v3 = 0;
+                if (document.querySelector('input#id_FN:checked').value === '+') {
+                    v3 = parseFloat(v2) + 90;
+                } else if (document.querySelector('input#id_FN:checked').value === '-') {
+                    v3 = parseFloat(v2) - 90;
+                }
+                
+                const project_num = window.location.pathname.slice(13)
+                const option_num = document.querySelector('#angles').value;
+
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const request = new Request(
+                    `/parameter/angles/${project_num}?num=${option_num}`,
+                    {headers: {'X-CSRFToken': csrftoken}}
+                );
+        
+                fetch(request, {
+                    method: 'PUT',
+                    mode: 'same-origin',
+                    body: JSON.stringify({
+                        var1: v1,
+                        var2: v2,
+                        var3: v3.toString(),
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+        
+                        console.log(result.error)
+                    } else {
+        
+                        console.log(result.message)
+                    }
+                })
+            }
+        })
+    }
+// delete -------------------------------------------------------------------------------->
+    if (document.querySelector(`#delete_angles_btn`)) {
+        document.querySelector(`#delete_angles_btn`).addEventListener('click', () => {
+
+            if (document.querySelector('#angles').value !== "0") {
+        
+                const project_num = window.location.pathname.slice(13)
+                const option_num = document.querySelector('#angles').value;
+    
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const request = new Request(
+                    `/parameter/angles/${project_num}?num=${option_num}`,
+                    {headers: {'X-CSRFToken': csrftoken}}
+                );
+                fetch(request, {
+                    method: 'DELETE',
+                    mode: 'same-origin',
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.error) {
+                        console.log(result.error)
+                    } else {
+                        const x = document.querySelector('#angles')
+                        x.remove(x.selectedIndex)
+                        console.log(result.message)
+                        document.querySelector(`input#plungerFric`).value = '';
+                        document.querySelector(`input#N`).value = '';
+                        document.querySelector(`input#FN`).value = '';
+                        document.querySelector(`#edit_angles_btn`).style.display = 'none';
+                        document.querySelector(`#delete_angles_btn`).style.display = 'none';
+                    }
+                })
+            }
+        })
+    }
+
+}
+
+
 function check(event) {
 
     if (event.target.value !== "0") {
@@ -611,7 +803,8 @@ document.addEventListener('DOMContentLoaded', function() {
     fill_value("#contacts", "contact", "mu", "contactCoord_X", "contactCoord_Y");
     fill_value("#plungers", "plunger", "a", "b", "f");
     fill_value("#springs", "spring", "springStiff", "freeLen", "springLen");
-    fill_value("#angles", "angles", "plungerFric", "N", "FN");
+    fill_angles();
+    //fill_value("#angles", "angles", "plungerFric", "N", "FN");
 
     calculate();
     visualization();

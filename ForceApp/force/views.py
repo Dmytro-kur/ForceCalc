@@ -81,19 +81,26 @@ class SpringForm(forms.ModelForm):
 class AnglesForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['key'].widget.attrs.update({
+            'id': 'angles_key',
+            'style': 'display:none;'
+        })
         self.fields['plungerFric'].widget.attrs.update({
-            'id': 'plungerFric'
+            'id': 'plungerFric',
+            'readonly': ''
         })
         self.fields['N'].widget.attrs.update({
             'id': 'N'
         })
         self.fields['FN'].widget.attrs.update({
-            'id': 'FN'
+            'id': 'FN',
+            'readonly': ''
         })
     class Meta:
         model = Angles
-        fields = ['plungerFric','N', 'FN']
+        fields = ['key', 'plungerFric','N', 'FN']
         labels = {
+            'key': '',
             'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
             'N': _('Direction of Normal Reaction (deg)'),
             'FN': _('Direction of Friction Force in Contact (deg)'),
@@ -415,7 +422,7 @@ def calculation(request, project_num):
 @login_required
 def parameter(request, item, value):
 
-# value - project number
+# value - is a project number
     if request.method == "GET":
         if int(request.GET.get("num")) != 0:
             inst = Project.objects.get(pk=value)
@@ -441,7 +448,8 @@ def parameter(request, item, value):
     if request.method == "POST":
 
         mydata = parse_from_js(request.body)
-        
+        print('My Data results:', mydata)
+
         if item == "contact":
             mydata['mu'] = mydata['var1']
             mydata['contactCoord_X'] = mydata['var2']

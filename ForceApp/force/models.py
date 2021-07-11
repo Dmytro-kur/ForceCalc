@@ -5,13 +5,7 @@ from django.core.exceptions import ValidationError
 import math
 import numpy as np
 
-def validate_positive(value):
-    if value <= 0:
-        raise ValidationError('This value should be posotive.')
 
-def validate_fractional(value):
-    if value < 0 or value > 1:
-        raise ValidationError('This value should be from 0 to 1.')
 
 def cos(deg):
     """take as input deg convert it to rad and return cos(rad)"""
@@ -20,6 +14,21 @@ def cos(deg):
 def sin(deg):
     """take as input deg convert it to rad and return sin(rad)"""
     return math.sin(deg*math.pi/180)
+
+
+
+
+def validate_positive(value):
+    if value <= 0:
+        raise ValidationError('This value should be posotive.')
+
+def validate_fractional(value):
+    if value < 0 or value > 1:
+        raise ValidationError('This value should be from 0 to 1.')
+
+def validate_contact_angle(value):
+    if value < 90 or value > 270:
+        raise ValidationError('This value should be from 90 to 270.')
 
 class User(AbstractUser):
     pass
@@ -132,15 +141,15 @@ class Angles(models.Model):
     key = models.CharField(max_length=255)
 
     plungerFric = models.FloatField()
-    N = models.FloatField()
+    N = models.FloatField(validators=[validate_contact_angle])
     FN = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="angles")
 
     def __str__(self):
         return f"{self.key}"
 
-    def is_valid_angle(self):
-        return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
+    # def is_valid_angle(self):
+    #     return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
 
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
