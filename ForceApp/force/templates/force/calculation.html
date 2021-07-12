@@ -7,6 +7,26 @@
     <h2>{{ project.project_number }} <h4>{{ project.project_name }}</h4></h2>
     <h6>was created {{ project.datetime }}</h6>
 
+    <table>
+        <thead>
+            <th>Ocean</th>
+            <th>Average Depth</th>
+            <th>Maximum Depth</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pacific</td>
+                <td>4280 m</td>
+                <td>10911 m</td>
+            </tr>
+            <tr>
+                <td>Atlantic</td>
+                <td>3646 m</td>
+                <td>8486 m</td>
+            </tr>
+        </tbody>
+    </table>
+
     <canvas id="canvas" aria-label="Force calculation" role="img"></canvas>
     <p><span id="posX"></span><span id="posY"></span></p>
     
@@ -95,16 +115,13 @@
     <hr style="color:aliceblue;">
     <!-- Spring ------------------------------------------------------------------------------>
     <p><label for="springs">Choose Spring:</label></p>
-
     <p>
         <button id="new_spring_btn" class="btn btn-success btn-sm">New</button>
         <button style="display: none;" id="save_spring_btn" class="btn btn-success btn-sm">Save</button>
     </p>
-    
     <div id="new_spring" style="display: none;">
         {{ SpringForm.as_p }}
     </div>
-
     <p><select name="springs" id="springs">
         <option value="0" selected>Unknown</option>
         {% if Springs %}
@@ -125,12 +142,10 @@
         <label for id="springLen">Spring Length (mm):</label>
         <input type="number" name="springLen" step="any" required id="springLen">
     </p>
-
     <p>
         <button style="display: none;" id="edit_spring_btn" class="btn btn-success btn-sm">Edit</button>
         <button style="display: none;" id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button>
     </p>
-    
     <hr style="color:aliceblue;">
     <!-- Angles ------------------------------------------------------------------------------>
     <p><label for="angles">Choose Angles:</label></p>

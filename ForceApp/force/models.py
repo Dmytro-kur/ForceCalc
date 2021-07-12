@@ -118,9 +118,6 @@ class Spring(models.Model):
     def __str__(self):
         return f"{self.key}"
 
-    def is_valid_spring(self):
-        return round(self.freeLen, 5) > round(self.springLen, 5)
-
     def force(self):
         return self.springStiff*(self.freeLen - self.springLen)
 

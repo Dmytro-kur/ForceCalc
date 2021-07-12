@@ -416,6 +416,8 @@ def calculation(request, project_num):
                     
             return JsonResponse(var.serialize())
 
+def is_valid_spring(freeLen, springLen):
+    return round(freeLen, 5) > round(springLen, 5)
 
 
 @csrf_protect
@@ -468,7 +470,7 @@ def parameter(request, item, value):
             mydata['springLen'] = mydata['var3']
             data = SpringForm(mydata)
 
-            if data.is_valid_spring() != True:
+            if is_valid_spring(float(mydata['var2']), float(mydata['var3'])) != True:
                 return JsonResponse({"error": [
                     {'spring': 'The spring must be compressed, now it is stretched.'}
                 ]}, status=400)

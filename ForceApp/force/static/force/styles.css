@@ -2,24 +2,96 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: #333 !important;
-    color: #fff;
-    display: block;
-    /* flex-direction: column; */
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
-    margin: 0;
+/* -------------------------------------- LAYOUT HOME PAGE ---------------------------------------- */
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
 }
+td {
+    border: 1px solid black;
+    padding: 2px;
+}
+/* -------------------------------------- end LAYOUT HOME PAGE ------------------------------------- */
+/*
+/*
+/*
+/*
+/*
+/*
+/*
+/* ------------------------------- LAYOUT CALCULATION --------------------- */
 
-a:link {
-    color: green;
-    background-color: transparent;
-    text-decoration: none;
+/* ------------------------------- LAYOUT CALCULATION --------------------- */
+/*
+/*
+/*
+/*
+/*
+/*
+/*
+/* --------------------------- prevent SCROLING -------------------------- */
+.stop-scrolling {
+    overflow: hidden;
 }
-a:visited {
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
+}
+/* ------------------------------ end SCROLING --------------------------- */
+/*
+/*
+/*
+/*
+/*
+/*
+/*
+/* ------------------------------ CANVAS NAVIGATION BAR ------------------------------- */
+#source {
+    max-width: 20px;
+    max-height: 20px;
+}
+/* ------------------------------ end CANVAS NAVIGATION BAR --------------------------- */
+/*
+/*
+/*
+/*
+/*
+/*
+/*
+/* ---------------------------- CANVAS ------------------------ */
+#canvas {
+    border-radius: 5px;
+    border: 1px solid black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* ---------------------------- end CANVAS -------------------- */
+
+
+
+
+
+
+
+
+/* #home_btn {
+    background-color: Transparent;
+} */
+
+/* a:link { */
+    /* color: green; */
+    /* background-color: transparent; */
+    /* text-decoration: none; */
+/* } */
+/* a:visited {
     color: pink;
     background-color: transparent;
     text-decoration: none;
@@ -33,13 +105,13 @@ a:active {
     color: yellow;
     background-color: transparent;
     text-decoration: underline;
-}
+} */
 
-p, h1, h2, h3, h4, h5, h6, label {
+/* p, h1, h2, h3, h4, h5, h6, label {
     color:aliceblue;
-}
+} */
 
-th {
+/* th {
     color:aquamarine;
 }
 
@@ -51,47 +123,23 @@ th {
     cursor: pointer;
     color: coral;
     
-}
+} */
 
-.paginator {
+/* .paginator {
     color:chocolate;
 }
 
 .paginator_items:hover {
     color:chartreuse;
     cursor: pointer;
-}
+} */
 
-#canvas {
-    background: #f0f0f0;
-    border-radius: 5px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-.stop-scrolling {
-    overflow: hidden;
-}
 
-#source {
-    max-width: 50px;
-    max-height: 50px;
-}
 
-#home_btn {
-    background-color: Transparent;
-}
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar {
-    display: none;
-}
 
-/* Hide scrollbar for IE, Edge and Firefox */
-body {
-    /* IE and Edge */
-    -ms-overflow-style: none;
-    /* Firefox */
-    scrollbar-width: none;
-}
+
+
+
+
