@@ -14,7 +14,7 @@ class Search extends React.Component {
                 <input onChange={this.updateQuery} type="text" id="myQuery" value={this.state.query} placeholder="Search.."/>
                 <table id="homeTable">
                     <tbody>
-                        <tr className="header">
+                        <tr className="table_header">
                             <th>Date</th>
                             <th>Project number</th>
                             <th>Project name</th>

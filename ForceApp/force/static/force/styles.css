@@ -3,7 +3,13 @@
 }
 
 /* ------------------- BACKGROUND --------------------- */
+html {
+    height: 100%;
+}
 body {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-end; */
     background-image: url('dull-blue-paint-white.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -15,11 +21,54 @@ body {
     background-size: cover; */
 }
 /* --------------- end BACKGROUND --------------------- */
-
-
-
+/*
+/*
+/*
+/*
+/*
+/*
+/*
+/* --------------- HEADER ------------- */
+.header {
+    display: flex;
+    flex-direction: row;
+    background-color:rosybrown;
+    justify-content: flex-end;
+    
+}
+/* ----------- end HEADER ------------- */
+/*
+/*
+/*
+/*
+/*
+/*
+/*
+/* --------------- BODY ------------- */
+.body {
+    display: flex;
+    flex-direction: row;
+}
+#new_project {
+    background-color:rgb(255, 238, 236);
+    border: 1px solid black;
+    border-radius: 0px 10px 10px 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 20px;
+    padding: 15px;
+}
+/* ----------- end BODY ------------- */
+/*
+/*
+/*
+/*
+/*
+/*
+/*
 /* ---------------------------------- FOOTER ----------------------------- */
-.footer {
+/* .footer {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -27,7 +76,7 @@ body {
     background-color: blue;
     color: white;
     text-align: center;
- }
+ } */
 /* ------------------------------ end FOOTER ----------------------------- */
 
 
@@ -60,20 +109,20 @@ td {
 /*
 /*
 /* --------------------------- prevent SCROLING -------------------------- */
-.stop-scrolling {
+/* .stop-scrolling {
     overflow: hidden;
-}
+} */
 /* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
     display: none;
-}
+} */
 /* Hide scrollbar for IE, Edge and Firefox */
-body {
+/* body { */
     /* IE and Edge */
-    -ms-overflow-style: none;
+    /* -ms-overflow-style: none; */
     /* Firefox */
-    scrollbar-width: none;
-}
+    /* scrollbar-width: none;
+} */
 /* ------------------------------ end SCROLING --------------------------- */
 /*
 /*
@@ -83,10 +132,10 @@ body {
 /*
 /*
 /* ------------------------------ CANVAS NAVIGATION BAR ------------------------------- */
-#source {
+/* #source {
     max-width: 20px;
     max-height: 20px;
-}
+} */
 /* ------------------------------ end CANVAS NAVIGATION BAR --------------------------- */
 /*
 /*

@@ -2,17 +2,18 @@
 {% load static %}
 
 {% block body %}
-
-    <h1>Home page</h1>
-
-    {% if user.is_authenticated %}
-        <h3>New project</h3>
-        {{ projectForm.as_p }}
-        <button id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>
-    {% endif %}
-
-    <div id="myQuery"></div>
-    <form method="post">{% csrf_token %}</form>
+    <div class="body">
+        {% if user.is_authenticated %}
+            <div id="new_project">
+                <h3>New project</h3>
+                {{ projectForm.as_p }}
+                <button id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>
+            </div>
+        {% endif %}
+        
+        <div id="myQuery"></div>
+        <form method="post">{% csrf_token %}</form>
+    </div>
 
 {% endblock %}
 

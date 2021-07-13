@@ -32,8 +32,6 @@
     
     <button id="home_btn"><img id="source" src="{% static 'force/home.png' %}" alt="icon"></button>
     
-    <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-    <a href='https://www.freepik.com/photos/abstract-background'>Abstract background photo created by rawpixel.com - www.freepik.com</a>
     
     <form method="post">{% csrf_token %}</form>
     <!-- Contact ------------------------------------------------------------------------------>
@@ -74,7 +72,7 @@
     </p>
 
 
-    <hr style="color:aliceblue;">
+    <hr>
     <!-- Plunger ------------------------------------------------------------------------------>
     <p><label for="plungers">Choose Plunger:</label></p>
     <p>
@@ -113,7 +111,7 @@
         <button style="display: none;" id="delete_plunger_btn" class="btn btn-success btn-sm">Delete</button>
     </p>
 
-    <hr style="color:aliceblue;">
+    <hr>
     <!-- Spring ------------------------------------------------------------------------------>
     <p><label for="springs">Choose Spring:</label></p>
     <p>
@@ -147,7 +145,7 @@
         <button style="display: none;" id="edit_spring_btn" class="btn btn-success btn-sm">Edit</button>
         <button style="display: none;" id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button>
     </p>
-    <hr style="color:aliceblue;">
+    <hr>
     <!-- Angles ------------------------------------------------------------------------------>
     <p><label for="angles">Choose Angles:</label></p>
     <p>
@@ -204,7 +202,7 @@
     </p>
         
     
-    <hr style="color:aliceblue;">
+    <hr>
     <!-- Variables ------------------------------------------------------------------------------>
     <p><label for="variables">Choose Variables:</label></p>
     
@@ -225,8 +223,8 @@
         {{ VariablesForm.as_p }}
     </div>        
 
-    <p id="agree" style="color: chartreuse; display: none;">Valid &#10003;</p>
-    <p id="discard" style="color: crimson; display: none;">Results should be recalculated! &#10060;</p>
+    <p id="agree" style="display: none;">Valid &#10003;</p>
+    <p id="discard" style="display: none;">Results should be recalculated! &#10060;</p>
 
     <button id="calculate" class="btn btn-primary btn-sm">Calculate</button>
 
