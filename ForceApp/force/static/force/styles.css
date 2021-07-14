@@ -9,12 +9,12 @@ html {
 body {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     /* align-items: flex-end; */
-    background-image: url('white-wooden-textures.jpg');
+    background-color: rgb(101, 157, 189, 0.3);
+    /* background-image: url('white-wooden-textures.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-attachment: fixed;
+    background-attachment: fixed; */
 
     
     /* -webkit-background-size: cover;
@@ -35,9 +35,11 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    background-image: url('blue-brushstrokes-background.jpg');
+    /* background-image: url('blue-brushstrokes-background.jpg'); */
     background-size: 100% auto;
-    background-attachment: fixed;
+    /* background-attachment: fixed; */
+    background-color: #659DBD;
+    align-items: baseline;
 }
 /* ----------- end HEADER ------------- */
 /*
@@ -51,11 +53,11 @@ body {
 .body {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 #new_project {
     background-color:white;
-    border: 1px solid ;
-
+    box-shadow: 1px 1px 10px #868686;
     border-radius: 0px 10px 10px 0px;
     margin-top: 5px;
     margin-bottom: 5px;
