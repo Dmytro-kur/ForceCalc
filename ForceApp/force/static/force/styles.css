@@ -34,12 +34,24 @@ body {
 .header {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    /* background-image: url('blue-brushstrokes-background.jpg'); */
-    background-size: 100% auto;
-    /* background-attachment: fixed; */
     background-color: #659DBD;
+}
+#logo_container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 5;
+}
+#user_container {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 5;
     align-items: baseline;
+}
+#logo {
+    width: 50px;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 /* ----------- end HEADER ------------- */
 /*
