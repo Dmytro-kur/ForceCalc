@@ -14,6 +14,7 @@ urlpatterns = [
     path("new_project", views.new_project, name="new_project"),
     path("parameter/<str:item>/<int:value>", views.parameter, name="parameter"),
     path("result/<int:project_num>/<int:value>", views.result, name="result"),
-    path("check/<int:project_num>/<int:value>", views.check, name="check")
+    path("check/<int:project_num>/<int:value>", views.check, name="check"),
+    path("change_password", views.change_password, name="change_password")
 
 ]

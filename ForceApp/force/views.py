@@ -181,6 +181,25 @@ def register(request):
 
 @csrf_protect
 @login_required
+def change_password(request):
+    if request.method == "PUT":
+        mydata = parse_from_js(request.body)
+
+        new_password = mydata['new_password']
+        password = mydata['password']
+        confirmation = mydata['confirmation']
+
+        u = User.objects.get(username=request.user)
+        
+        u.set_password(new_password)
+        u.save()
+
+        return JsonResponse({"message": "Password was changed."}, status=201)
+    
+
+
+@csrf_protect
+@login_required
 def new_project(request):
 
     if request.method == "POST":
