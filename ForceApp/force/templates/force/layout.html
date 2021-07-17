@@ -17,21 +17,28 @@
 </head>
 <body>
     <div class="header">
-        <!-- <div id="logo"></div> -->
         <div id="logo_container">
             <a href="{% url 'index' %}"><img id="logo" src="{% static 'force/atom.png' %}" alt="logo"></a>
         </div>
         <div id="user_container">
             {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                <!-- <a class="nav-link" href="{% url 'index' %}">Home Page</a> -->
             {% else %}
                 <a class="nav-link" href="{% url 'login' %}">Log In</a>
                 <a class="nav-link" href="{% url 'register' %}">Register</a>
             {% endif %}
             {% if user.is_authenticated %}
+            
                 {{ user.username }}
+                <form id="password_change" style="display: none;" action="{% url 'password_change' %}" method="POST">
+                    {% csrf_token %}
+                    {{ password_change.as_p }}
+                    <button type="submit">Submit</button>
+                </form>
+    
             {% endif %}
+
+            
         </div>
     </div>
 

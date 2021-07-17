@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 from .models import *
 from django import forms
@@ -125,6 +127,7 @@ class VariablesForm(forms.ModelForm):
 def index(request):
     return render(request, 'force/index.html', {
         "projectForm": ProjectForm(),
+        "password_change": PasswordChangeForm(user=request.user),
     })
 
 @csrf_protect
@@ -181,20 +184,18 @@ def register(request):
 
 @csrf_protect
 @login_required
-def change_password(request):
-    if request.method == "PUT":
-        mydata = parse_from_js(request.body)
+def password_change(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(user=request.user,
+        data=request.POST)
 
-        new_password = mydata['new_password']
-        password = mydata['password']
-        confirmation = mydata['confirmation']
-
-        u = User.objects.get(username=request.user)
-        
-        u.set_password(new_password)
-        u.save()
-
-        return JsonResponse({"message": "Password was changed."}, status=201)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            logout(request)
+            return HttpResponseRedirect(reverse("login"))
+    else:
+        return JsonResponse({"error": "POST request required."}, status=400)
     
 
 
@@ -365,6 +366,7 @@ def calculation(request, project_num):
             "SpringForm": SpringForm(),
             "AnglesForm": AnglesForm(),
             "VariablesForm": VariablesForm(),
+            "password_change": PasswordChangeForm(user=request.user),
         })
     
     if request.method == "POST":
