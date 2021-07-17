@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 /* ------------------- BACKGROUND --------------------- */
@@ -46,7 +48,7 @@ body {
     display: flex;
     justify-content: flex-end;
     flex-grow: 0;
-    align-items: baseline;
+    align-items: center;
     margin-right: 15px;
 }
 #logo {
@@ -54,6 +56,22 @@ body {
     margin-left: 20px;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.wave-btn {
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 15px;
+    background-color: white;
+}
+.wave-btn__text {
+
+}
+.wave-btn__waves {
+
 }
 /* ----------- end HEADER ------------- */
 /*

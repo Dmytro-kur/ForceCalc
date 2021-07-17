@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <script src="{% static 'force/header.js' %}"></script>
     {% block script %}
     {% endblock %}
 </head>
@@ -27,15 +28,21 @@
                 <a class="nav-link" href="{% url 'login' %}">Log In</a>
                 <a class="nav-link" href="{% url 'register' %}">Register</a>
             {% endif %}
+
             {% if user.is_authenticated %}
-            
-                {{ user.username }}
+                <a href="" class="wave-btn">
+                    <span class="wave-btn__text">{{ user.username }}</span>
+                    <span class="wave-btn__waves"></span>
+                </a>
+                <!-- <button id="user_button">
+                    {{ user.username }}
+                </button> -->
+                
                 <form id="password_change" style="display: none;" action="{% url 'password_change' %}" method="POST">
                     {% csrf_token %}
                     {{ password_change.as_p }}
                     <button type="submit">Submit</button>
                 </form>
-    
             {% endif %}
 
             
