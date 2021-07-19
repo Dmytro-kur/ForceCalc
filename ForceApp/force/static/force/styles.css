@@ -1,29 +1,48 @@
 * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
+/* VARIABLES */
+#user_container, #logo_container, 
+.header, body, .body, .wave-btn {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+}
+.wave-btn {
+
+  transition: all 0.8s ease 0s;
+  -webkit-transition: all 0.8s ease 0s;
+  -moz-transition: all 0.8s ease 0s;
+  -ms-transition: all 0.8s ease 0s;
+  -o-transition: all 0.8s ease 0s;
+
+}
 /* ------------------- BACKGROUND --------------------- */
 html {
-    height: 100%;
+  height: 100%;
 }
-body {
-    display: flex;
-    flex-direction: column;
-    /* align-items: flex-end; */
-    background-color: rgb(101, 157, 189, 0.3);
-    /* background-image: url('white-wooden-textures.jpg');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-attachment: fixed; */
 
-    
-    /* -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; */
+body {
+  flex-direction: column;
+  /* align-items: flex-end; */
+  background-color: rgba(101, 157, 189, 0.3);
+  /* background-image: url('white-wooden-textures.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed; */
+  /* -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; */
 }
+
 /* --------------- end BACKGROUND --------------------- */
 /*
 /*
@@ -34,44 +53,66 @@ body {
 /*
 /* --------------- HEADER ------------- */
 .header {
-    display: flex;
-    flex-direction: row;
-    background-color: #659DBD;
-    align-items: center;
+  flex-direction: row;
+  background-color: #659DBD;
+  align-items: center;
 }
+
 #logo_container {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 10;
+  flex-direction: row;
+  flex-grow: 10;
 }
+
 #user_container {
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 0;
-    align-items: center;
-    margin-right: 15px;
+  justify-content: flex-end;
+  flex-grow: 0;
+  align-items: center;
+  margin-right: 15px;
 }
+
 #logo {
-    width: 50px;
-    margin-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+  width: 50px;
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
+
 .wave-btn {
-    width: 100px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    border-radius: 15px;
-    background-color: white;
+
+  width: 100px;
+  height: 30px;
+  border-radius: 15px;
+
+
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  background-color: white;
+
 }
+
 .wave-btn__text {
 
+  color: black;
+  z-index: 2;
 }
-.wave-btn__waves {
 
+.wave-btn__waves {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background-color: #4973ff;
+  z-index: 1;
+  -webkit-box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) inset;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) inset;
+}
+
+.wave-btn__waves::after,
+.wave-btn__waves::before {
+  
 }
 /* ----------- end HEADER ------------- */
 /*
@@ -83,20 +124,21 @@ body {
 /*
 /* --------------- BODY ------------- */
 .body {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
+
 #new_project {
-    background-color:white;
-    box-shadow: 1px 1px 10px #868686;
-    border-radius: 0px 10px 10px 0px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 0px;
-    margin-right: 20px;
-    padding: 15px;
+  background-color: white;
+  box-shadow: 1px 1px 10px #868686;
+  border-radius: 0px 10px 10px 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+  margin-right: 20px;
+  padding: 15px;
 }
+
 /* ----------- end BODY ------------- */
 /*
 /*
@@ -116,18 +158,17 @@ body {
     text-align: center;
  } */
 /* ------------------------------ end FOOTER ----------------------------- */
-
-
-
 /* -------------------------------------- LAYOUT HOME PAGE ---------------------------------------- */
 table {
-    border: 1px solid black;
-    border-collapse: collapse;
+  border: 1px solid black;
+  border-collapse: collapse;
 }
+
 td {
-    border: 1px solid black;
-    padding: 2px;
+  border: 1px solid black;
+  padding: 2px;
 }
+
 /* -------------------------------------- end LAYOUT HOME PAGE ------------------------------------- */
 /*
 /*
@@ -137,7 +178,6 @@ td {
 /*
 /*
 /* ------------------------------- LAYOUT CALCULATION --------------------- */
-
 /* ------------------------------- LAYOUT CALCULATION --------------------- */
 /*
 /*
@@ -156,10 +196,10 @@ td {
 } */
 /* Hide scrollbar for IE, Edge and Firefox */
 /* body { */
-    /* IE and Edge */
-    /* -ms-overflow-style: none; */
-    /* Firefox */
-    /* scrollbar-width: none;
+/* IE and Edge */
+/* -ms-overflow-style: none; */
+/* Firefox */
+/* scrollbar-width: none;
 } */
 /* ------------------------------ end SCROLING --------------------------- */
 /*
@@ -184,29 +224,21 @@ td {
 /*
 /* ---------------------------- CANVAS ------------------------ */
 #canvas {
-    border-radius: 5px;
-    border: 1px solid black;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  border-radius: 5px;
+  border: 1px solid black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 /* ---------------------------- end CANVAS -------------------- */
-
-
-
-
-
-
-
-
 /* #home_btn {
     background-color: Transparent;
 } */
-
 /* a:link { */
-    /* color: green; */
-    /* background-color: transparent; */
-    /* text-decoration: none; */
+/* color: green; */
+/* background-color: transparent; */
+/* text-decoration: none; */
 /* } */
 /* a:visited {
     color: pink;
@@ -223,11 +255,9 @@ a:active {
     background-color: transparent;
     text-decoration: underline;
 } */
-
 /* p, h1, h2, h3, h4, h5, h6, label {
     color:aliceblue;
 } */
-
 /* th {
     color:aquamarine;
 }
@@ -239,9 +269,8 @@ a:active {
 .table_content:hover {
     cursor: pointer;
     color: coral;
-    
-} */
 
+} */
 /* .paginator {
     color:chocolate;
 }
@@ -251,12 +280,4 @@ a:active {
     cursor: pointer;
 } */
 
-
-
-
-
-
-
-
-
-
+/*# sourceMappingURL=styles.css.map */
