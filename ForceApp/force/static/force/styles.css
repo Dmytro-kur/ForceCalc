@@ -8,7 +8,8 @@
 
 /* VARIABLES */
 #user_container, #logo_container, 
-.header, body, .body, .wave-btn {
+.header, body, .body, .wave-btn,
+.wave-btn__waves, .wave-btn__text {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -49,20 +50,13 @@ body {
 .header {
   flex-direction: row;
   background-color: #659DBD;
-  align-items: center;
+  /* align-items: center; */
   flex-grow: 0;
 }
 
 #logo_container {
   flex-direction: row;
   flex-grow: 10;
-}
-
-#user_container {
-  justify-content: flex-end;
-  flex-grow: 0;
-  align-items: center;
-  margin-right: 15px;
 }
 
 #logo {
@@ -72,44 +66,78 @@ body {
   margin-bottom: 5px;
 }
 
+#user_container {
+  justify-content: flex-end;
+  flex-grow: 0;
+  align-items: center;
+  margin-right: 15px;
+}
+
 .wave-btn {
   position: relative;
   width: 100px;
   height: 30px;
+  min-width: 100px;
   border-radius: 15px;
 
   flex-direction: row;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-
-  background-color: white;
+  background-color:steelblue;
 }
-
+.wave-btn:hover {
+  cursor: pointer;
+}
 .wave-btn__text {
+  width: 100px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   color: black;
+  
+}
+
+@keyframes wave {
+  0% {
+    width: 0px;
+    height: 0px;
+    border-radius: 50px;
+  }
+  99% {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+  }
+  100% {
+    width: 0px;
+    height: 0px;
+    border-radius: 100px;
+  }
 }
 
 .wave-btn__waves {
-  /* position: absolute; */
-  width: 100px;
-  height: 30px;
-  background-color: gray;
+  width: 0px;
+  height: 0px;
+  align-items: center;
+  justify-content: center;
+  
+  background-color:rgb(118, 172, 216);
   color: black;
-  clip-path: circle(10px at center);
-  border-radius: 50px;
-
-  transition: all 0.8s ease 0s;
-  -webkit-transition: all 0.8s ease 0s;
-  -moz-transition: all 0.8s ease 0s;
-  -ms-transition: all 0.8s ease 0s;
-  -o-transition: all 0.8s ease 0s;
+  
+  animation: 0.4s ease forwards normal running wave;
+  
 }
 
-.wave-btn__waves:active {
-  clip-path: circle(100px at center);
+.page-item:hover {
+cursor: pointer;
 }
+
+.disabled:hover {
+cursor: context-menu;
+}
+
 
 /* ----------- end HEADER ------------- */
 /*
