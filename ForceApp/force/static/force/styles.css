@@ -15,22 +15,16 @@
   display: -o-flex;
   display: flex;
 }
-.wave-btn {
 
-  transition: all 0.8s ease 0s;
-  -webkit-transition: all 0.8s ease 0s;
-  -moz-transition: all 0.8s ease 0s;
-  -ms-transition: all 0.8s ease 0s;
-  -o-transition: all 0.8s ease 0s;
-
-}
 /* ------------------- BACKGROUND --------------------- */
 html {
   height: 100%;
 }
 
 body {
+  height: 100%;
   flex-direction: column;
+  justify-content: space-between;
   /* align-items: flex-end; */
   background-color: rgba(101, 157, 189, 0.3);
   /* background-image: url('white-wooden-textures.jpg');
@@ -56,6 +50,7 @@ body {
   flex-direction: row;
   background-color: #659DBD;
   align-items: center;
+  flex-grow: 0;
 }
 
 #logo_container {
@@ -78,12 +73,10 @@ body {
 }
 
 .wave-btn {
-
+  position: relative;
   width: 100px;
   height: 30px;
   border-radius: 15px;
-
-
 
   flex-direction: row;
   align-items: center;
@@ -91,29 +84,33 @@ body {
   text-decoration: none;
 
   background-color: white;
-
 }
 
 .wave-btn__text {
-
+  position: absolute;
   color: black;
-  z-index: 2;
 }
 
 .wave-btn__waves {
-  position: absolute;
+  /* position: absolute; */
   width: 100px;
-  height: 50px;
-  background-color: #4973ff;
-  z-index: 1;
-  -webkit-box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) inset;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) inset;
+  height: 30px;
+  background-color: gray;
+  color: black;
+  clip-path: circle(10px at center);
+  border-radius: 50px;
+
+  transition: all 0.8s ease 0s;
+  -webkit-transition: all 0.8s ease 0s;
+  -moz-transition: all 0.8s ease 0s;
+  -ms-transition: all 0.8s ease 0s;
+  -o-transition: all 0.8s ease 0s;
 }
 
-.wave-btn__waves::after,
-.wave-btn__waves::before {
-  
+.wave-btn__waves:active {
+  clip-path: circle(100px at center);
 }
+
 /* ----------- end HEADER ------------- */
 /*
 /*
@@ -126,6 +123,7 @@ body {
 .body {
   flex-direction: row;
   flex-wrap: wrap;
+  flex-grow: 10;
 }
 
 #new_project {
@@ -148,15 +146,10 @@ body {
 /*
 /*
 /* ---------------------------------- FOOTER ----------------------------- */
-/* .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: blue;
-    color: white;
-    text-align: center;
- } */
+.footer {
+
+  flex-grow: 0;
+ }
 /* ------------------------------ end FOOTER ----------------------------- */
 /* -------------------------------------- LAYOUT HOME PAGE ---------------------------------------- */
 table {

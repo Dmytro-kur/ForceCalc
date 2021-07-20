@@ -187,7 +187,6 @@ class Variables(models.Model):
     # styling (waves on the buttons)
     # Fast feedback when put values in input field
     
-    
     def __str__(self):
         return f"{self.key}"
 
