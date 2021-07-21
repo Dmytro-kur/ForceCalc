@@ -84,12 +84,12 @@ body {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  background-color:rgba(70, 130, 180, 0.5);
+  background-color:rgba(44, 84, 117, 0.5);
   -webkit-clip-path: inset(0px 0px 0px 0px round 15px);
   clip-path: inset(0px 0px 0px 0px round 15px);
 }
 .wave-btn:hover {
-  background-color:rgba(44, 84, 117, 0.5);
+  background-color:rgba(70, 130, 180, 0.5);
 }
 .wave-btn__text {
   width: 100px;
