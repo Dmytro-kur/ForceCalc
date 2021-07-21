@@ -23,18 +23,38 @@
         </div>
         <div id="user_container">
             {% if user.is_authenticated %}
+
+                <div class="user_menu">
+                    <div class="user_logo_requisites">
+                        <img  class="user_logo" src="{% static 'force/user.png' %}" alt="logo">
+                        <div class="user_requisites">
+                            <div class="first_last_name">{{ user.first_name }} {{ user.last_name }}</div>
+                            <div class="email"><b>Email:</b> {{ user.email }}</div>    
+                        </div>    
+                    </div>
+                    <hr style="margin: 0px;">
+                    <div class="change_pwd_logo">
+                        <img src="{% static 'force/lock.png' %}" alt="logo">
+                        <a href="{% url 'password_change' %}">Change password</a>
+                    </div>
+                    <hr style="margin: 0px;">
+                    <div class="logout_logo">
+                        <img src="{% static 'force/logout.png' %}" alt="logo">
+                        <a href="{% url 'logout' %}">Log Out</a>
+                    </div>
+                    
+                </div>
                 <a href="{% url 'mail' %}"><img  class="email_logo" src="{% static 'force/mail.png' %}" alt="logo"></a>
-                <a class="nav-link" href="{% url 'logout' %}"></a>
+                
             {% else %}
-                <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                <a class="nav-link" href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Register</a>
             {% endif %}
 
             {% if user.is_authenticated %}
                 <a href="" class="wave-btn">
-                    <span class="wave-btn__text">kurylkoDmytro001<img  class="yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></span>
-                    <span class="wave-btn__waves"></span>
-                    
+                    <span class="wave-btn__text">{{ user.username }}<img  class="yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></span>
+                    <div class="wave-btn__waves"></div>
                 </a>
                 
                 <form id="password_change" style="display: none;" action="{% url 'password_change' %}" method="POST">

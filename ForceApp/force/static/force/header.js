@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const element = document.querySelector('.wave-btn__waves');
 
         document.querySelector('.wave-btn__waves').style.clipPath = `circle(0px at ${center.X}px ${center.Y}px)`;
-        document.querySelector('.wave-btn__waves').style.left = `${event.pageX-250}px`;
-        document.querySelector('.wave-btn__waves').style.top = `${event.pageY-250}px`;
+        document.querySelector('.wave-btn__waves').style.left = `${event.pageX-200}px`;
+        document.querySelector('.wave-btn__waves').style.top = `${event.pageY-200}px`;
         document.querySelector('.wave-btn__waves').style.animationPlayState = 'running';
 
         element.classList.remove("wave-btn__waves");
