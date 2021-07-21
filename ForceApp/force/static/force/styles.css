@@ -84,12 +84,12 @@ body {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  background-color:rgb(70, 130, 180, 0.5);
-
-  /* z-index: 0; */
+  background-color:rgba(70, 130, 180, 0.5);
+  -webkit-clip-path: inset(0px 0px 0px 0px round 15px);
+  clip-path: inset(0px 0px 0px 0px round 15px);
 }
 .wave-btn:hover {
-  cursor: pointer;
+  background-color:rgba(44, 84, 117, 0.5);
 }
 .wave-btn__text {
   width: 100px;
@@ -98,47 +98,35 @@ body {
   justify-content: center;
   position: absolute;
   color: black;
-  /* z-index: 1; */
+  z-index: 1;
 }
 
 @keyframes wave {
   0% {
-    /* width: 0px;
-    height: 0px;
-    border-radius: 50px; */
     clip-path: circle(0px);
   }
   99% {
-    /* width: 200px;
-    height: 200px;
-    border-radius: 100px; */
     clip-path: circle(100px);
   }
   100% {
-    /* width: 0px;
-    height: 0px;
-    border-radius: 100px; */
     clip-path: circle(0px);
   }
 }
 
 .wave-btn__waves {
   position: fixed;
-  /* left: 300px;
-  top: 25px; */
-  width: 1000px;
-  height: 1000px;
-  border-radius: 500px;
+  width: 500px;
+  height: 500px;
+  border-radius: 250px;
 
-  /* z-index: -1; */
   align-items: center;
   justify-content: center;
-  
-  background-color:rgb(118, 172, 216);
+
+  background-color: rgba(126, 189, 240, 0.5);
   color: black;
   
   animation: 0.4s ease forwards normal paused wave;
-  
+  z-index: 0;
 }
 
 .page-item:hover {
@@ -186,7 +174,6 @@ cursor: context-menu;
 /*
 /* ---------------------------------- FOOTER ----------------------------- */
 .footer {
-
   flex-grow: 0;
  }
 /* ------------------------------ end FOOTER ----------------------------- */
