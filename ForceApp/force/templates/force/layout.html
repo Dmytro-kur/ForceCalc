@@ -23,7 +23,7 @@
         </div>
         <div id="user_container">
             {% if user.is_authenticated %}
-                <img  class="email_logo" src="{% static 'force/mail.png' %}" alt="logo">
+                <a href="{% url 'mail' %}"><img  class="email_logo" src="{% static 'force/mail.png' %}" alt="logo"></a>
                 <a class="nav-link" href="{% url 'logout' %}"></a>
             {% else %}
                 <a class="nav-link" href="{% url 'login' %}">Log In</a>
@@ -32,23 +32,19 @@
 
             {% if user.is_authenticated %}
                 <a href="" class="wave-btn">
-                    <span class="wave-btn__text">{{ user.username }}<img  class="yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></span>
+                    <span class="wave-btn__text">kurylkoDmytro001<img  class="yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></span>
                     <span class="wave-btn__waves"></span>
                     
                 </a>
-                <!-- <button id="user_button">
-                    {{ user.username }}
-                </button> -->
                 
                 <form id="password_change" style="display: none;" action="{% url 'password_change' %}" method="POST">
                     {% csrf_token %}
                     {{ password_change.as_p }}
                     <button type="submit">Submit</button>
                 </form>
-            {% endif %}
-
-            
+            {% endif %} 
         </div>
+       
     </div>
 
     {% block body %}

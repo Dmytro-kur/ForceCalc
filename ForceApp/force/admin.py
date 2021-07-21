@@ -9,6 +9,10 @@ class UserAdmin(admin.ModelAdmin):
                     "email", "is_staff", "is_superuser",
                     "is_active", "date_joined")
 
+@admin.register(Mail)
+class UserMail(admin.ModelAdmin):
+    filter_horizontal = ("recipients",)
+
 admin.site.register(Project)
 admin.site.register(Contact)
 admin.site.register(Plunger)

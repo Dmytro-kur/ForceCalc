@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -15,6 +15,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .models import *
 from django import forms
 import ast
+import json
 
 def parse_from_js(request_body):
 
@@ -130,7 +131,6 @@ def index(request):
         "password_change": PasswordChangeForm(user=request.user),
     })
 
-@csrf_protect
 def login_view(request):
     if request.method == "POST":
 
@@ -154,7 +154,6 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
-@csrf_protect
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -182,7 +181,6 @@ def register(request):
     else:
         return render(request, "force/register.html")
 
-@csrf_protect
 @login_required
 def password_change(request):
     if request.method == "POST":
@@ -196,10 +194,124 @@ def password_change(request):
             return HttpResponseRedirect(reverse("login"))
     else:
         return JsonResponse({"error": "POST request required."}, status=400)
-    
+#####################################################################################
+# MAIL #
+########
+def mail(request):
 
+    # Authenticated users view their inbox
+    if request.user.is_authenticated:
+        return render(request, "force/mail/inbox.html")
 
-@csrf_protect
+    # Everyone else is prompted to sign in
+    else:
+        return HttpResponseRedirect(reverse("login"))
+
+@login_required
+def compose(request):
+
+    # Composing a new email must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Check recipient emails
+    data = json.loads(request.body)
+    emails = [email.strip() for email in data.get("recipients").split(",")]
+    if emails == [""]:
+        return JsonResponse({
+            "error": "At least one recipient required."
+        }, status=400)
+
+    # Convert email addresses to users
+    recipients = []
+    for email in emails:
+        try:
+            user = User.objects.get(email=email)
+            recipients.append(user)
+        except User.DoesNotExist:
+            return JsonResponse({
+                "error": f"User with email {email} does not exist."
+            }, status=400)
+
+    # Get contents of email
+    subject = data.get("subject", "")
+    body = data.get("body", "")
+
+    # Create one email for each recipient, plus sender
+    users = set()
+    users.add(request.user)
+    users.update(recipients)
+    for user in users:
+        email = Mail(
+            user=user,
+            sender=request.user,
+            subject=subject,
+            body=body,
+            read=user == request.user
+        )
+        email.save()
+        for recipient in recipients:
+            email.recipients.add(recipient)
+        email.save()
+
+    return JsonResponse({"message": "Email sent successfully."}, status=201)
+
+@login_required
+def mailbox(request, mailbox):
+
+    # Filter emails returned based on mailbox
+    if mailbox == "inbox":
+        emails = Mail.objects.filter(
+            user=request.user, recipients=request.user, archived=False
+        )
+    elif mailbox == "sent":
+        emails = Mail.objects.filter(
+            user=request.user, sender=request.user
+        )
+    elif mailbox == "archive":
+        emails = Mail.objects.filter(
+            user=request.user, recipients=request.user, archived=True
+        )
+    else:
+        return JsonResponse({"error": "Invalid mailbox."}, status=400)
+
+    # Return emails in reverse chronologial order
+    emails = emails.order_by("-timestamp").all()
+    return JsonResponse([email.serialize() for email in emails], safe=False)
+
+@login_required
+def email(request, email_id):
+
+    # Query for requested email
+    try:
+        email = Mail.objects.get(user=request.user, pk=email_id)
+    except Mail.DoesNotExist:
+        return JsonResponse({"error": "Email not found."}, status=404)
+
+    # Return email contents
+    if request.method == "GET":
+        return JsonResponse(email.serialize())
+
+    # Update whether email is read or should be archived
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("read") is not None:
+            email.read = data["read"]
+        if data.get("archived") is not None:
+            email.archived = data["archived"]
+        email.save()
+        return HttpResponse(status=204)
+
+    # Email must be via GET or PUT
+    else:
+        return JsonResponse({
+            "error": "GET or PUT request required."
+        }, status=400)
+
+########
+# MAIL #
+#####################################################################################
+
 @login_required
 def new_project(request):
 
@@ -323,7 +435,6 @@ def check(request, project_num, value):
                 "message": f"Variables {vars.key} aren't valid, please recalculate",
             }, status=200)
 
-@csrf_protect
 @login_required
 def result(request, project_num, value):
 
@@ -342,7 +453,6 @@ def result(request, project_num, value):
         }, status=200)
 
 
-@csrf_protect
 @login_required
 def calculation(request, project_num):
 
@@ -440,8 +550,6 @@ def calculation(request, project_num):
 def is_valid_spring(freeLen, springLen):
     return round(freeLen, 5) > round(springLen, 5)
 
-
-@csrf_protect
 @login_required
 def parameter(request, item, value):
 

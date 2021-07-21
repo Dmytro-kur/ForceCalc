@@ -75,9 +75,9 @@ body {
 
 .wave-btn {
   position: relative;
-  width: 100px;
+  /* width: 170px; */
   height: 30px;
-  min-width: 100px;
+  min-width: 150px;
   border-radius: 15px;
 
   flex-direction: row;
@@ -92,11 +92,11 @@ body {
   background-color:rgba(70, 130, 180, 0.5);
 }
 .wave-btn__text {
-  width: 100px;
-  height: 30px;
+  /* width: 200px;
+  height: 30px; */
   align-items: center;
   justify-content: center;
-  position: absolute;
+  /* position: absolute; */
   color: black;
   z-index: 1;
 }
@@ -114,7 +114,7 @@ body {
 }
 
 .wave-btn__waves {
-  position: fixed;
+  /* position: fixed; */
   width: 500px;
   height: 500px;
   border-radius: 250px;
