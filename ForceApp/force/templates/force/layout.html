@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
 
     <script src="{% static 'force/header.js' %}"></script>
     {% block script %}
@@ -23,46 +24,55 @@
         </div>
         <div id="user_container">
             {% if user.is_authenticated %}
-
-                <div class="user_menu">
-                    <div class="user_logo_requisites">
-                        <img  class="user_logo" src="{% static 'force/user.png' %}" alt="logo">
-                        <div class="user_requisites">
-                            <div class="first_last_name">{{ user.first_name }} {{ user.last_name }}</div>
-                            <div class="email"><b>Email:</b> {{ user.email }}</div>    
-                        </div>    
-                    </div>
-                    <hr style="margin: 0px;">
-                    <div class="change_pwd_logo">
-                        <img src="{% static 'force/lock.png' %}" alt="logo">
-                        <a href="{% url 'password_change' %}">Change password</a>
-                    </div>
-                    <hr style="margin: 0px;">
-                    <div class="logout_logo">
-                        <img src="{% static 'force/logout.png' %}" alt="logo">
-                        <a href="{% url 'logout' %}">Log Out</a>
-                    </div>
-                    
-                </div>
                 <a href="{% url 'mail' %}"><img  class="email_logo" src="{% static 'force/mail.png' %}" alt="logo"></a>
-                
-            {% else %}
-                <a href="{% url 'login' %}">Log In</a>
-                <a href="{% url 'register' %}">Register</a>
-            {% endif %}
 
-            {% if user.is_authenticated %}
-                <a href="" class="wave-btn">
-                    <span class="wave-btn__text">{{ user.username }}<img  class="yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></span>
-                    <div class="wave-btn__waves"></div>
-                </a>
-                
+                <div id="wave-btn" class="wave-btn">
+                    <div class="wave-btn wave-btn__text">{{ user.username }}<img  class="wave-btn yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></div>
+                    <div class="wave-btn wave-btn__waves"></div>
+                </div>
+
+                <div class="user-menu__top">
+
+                    <div id="user-menu" style="display: none;" class="user-menu">
+                        
+                        <div class="user_logo_requisites user-menu">
+                            <img  class="user_logo user-menu" src="{% static 'force/user.png' %}" alt="logo">
+                            <div class="user_requisites user-menu">
+                                <div class="first_last_name user-menu">{{ user.first_name }} {{ user.last_name }}</div>
+                                <div class="email user-menu"><b>Email:</b> {{ user.email }}</div>    
+                            </div>    
+                        </div>
+    
+                        <hr class="user-menu" style="margin: 0px;">
+    
+                        <div class="change_pwd_logo user-menu">
+                            <a style="z-index: 1; width: 100%;" class="user-menu" href="{% url 'password_change' %}">
+                                <img class="user-menu" src="{% static 'force/lock.png' %}" alt="logo">Change password</a>
+                            <div style="z-index: 0;" class="user-menu change_pwd_logo_wave"></div>
+                        </div>
+    
+                        <hr class="user-menu" style="margin: 0px;">
+    
+                        <div class="logout_logo user-menu">
+                            <a  style="z-index: 1; width: 100%;" class="user-menu" href="{% url 'logout' %}">
+                                <img class="user-menu" src="{% static 'force/logout.png' %}" alt="logo">Log Out</a>
+                            <div style="z-index: 0;" class="user-menu logout_logo_wave"></div>
+                        </div>
+
+                    </div>
+    
+                </div>
+
                 <form id="password_change" style="display: none;" action="{% url 'password_change' %}" method="POST">
                     {% csrf_token %}
                     {{ password_change.as_p }}
                     <button type="submit">Submit</button>
                 </form>
-            {% endif %} 
+
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
         </div>
        
     </div>

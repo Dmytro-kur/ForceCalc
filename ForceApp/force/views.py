@@ -16,6 +16,7 @@ from .models import *
 from django import forms
 import ast
 import json
+import time
 
 def parse_from_js(request_body):
 
@@ -152,6 +153,8 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
+    # Artificially delay speed of response
+    time.sleep(0.8)
     return HttpResponseRedirect(reverse("index"))
 
 def register(request):
@@ -184,6 +187,8 @@ def register(request):
 @login_required
 def password_change(request):
     if request.method == "POST":
+        # Artificially delay speed of response
+        time.sleep(0.8)
         form = PasswordChangeForm(user=request.user,
         data=request.POST)
 
@@ -193,6 +198,8 @@ def password_change(request):
             logout(request)
             return HttpResponseRedirect(reverse("login"))
     else:
+        # Artificially delay speed of response
+        time.sleep(0.8)
         return JsonResponse({"error": "POST request required."}, status=400)
 #####################################################################################
 # MAIL #
