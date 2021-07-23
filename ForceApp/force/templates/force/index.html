@@ -4,15 +4,25 @@
 
 {% block sidebar %}
     {% if user.is_authenticated %}
-        <h3>New project</h3>
+        <div class="wave-btn__sidebar top__sidebar">
+            <div style="z-index: 1;" class="wave-btn__sidebar text__sidebar">
+                <img  class="wave-btn__sidebar logo__sidebar" src="{% static 'force/blueprint.png' %}" alt="logo">
+                <p class="wave-btn__sidebar" style="margin: 0;">New Project</p>
+                <img  class="wave-btn__sidebar expand__sidebar" src="{% static 'force/expand-button.png' %}" alt="logo"></div>
+            <div style="z-index: 0;" class="wave-btn__sidebar waves__sidebar"></div>
+            <hr style="margin: 0;">
+        </div>
+
         {{ projectForm.as_p }}
-        <button id="post_new_project" class="btn btn-primary btn-sm">Create new project</button>
+        <button id="post_new_project" class="btn btn-primary btn-sm">Create</button>
+    
     {% endif %}
+
 {% endblock %}
 
 
 {% block body %}
-    <div class="body">
+    <div id="search_box">
         <div id="myQuery"></div>
         <form method="post">{% csrf_token %}</form>
     </div>

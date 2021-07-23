@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="header">
-        
+
         <div id="logo_container">
             <a href="{% url 'index' %}"><img id="logo" src="{% static 'force/atom.png' %}" alt="logo"></a>
         </div>
@@ -27,8 +27,8 @@
                 <a href="{% url 'mail' %}"><img  class="email_logo" src="{% static 'force/mail.png' %}" alt="logo"></a>
 
                 <div id="wave-btn" class="wave-btn">
-                    <div class="wave-btn wave-btn__text">{{ user.username }}<img  class="wave-btn yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></div>
-                    <div class="wave-btn wave-btn__waves"></div>
+                    <div style="z-index: 1;" class="wave-btn wave-btn__text">{{ user.username }}<img  class="wave-btn yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></div>
+                    <div style="z-index: 0;" class="wave-btn wave-btn__waves"></div>
                 </div>
 
                 <div class="user-menu__top">
