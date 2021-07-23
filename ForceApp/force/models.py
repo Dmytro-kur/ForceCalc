@@ -36,7 +36,7 @@ class User(AbstractUser):
 class Mail(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emails")
     sender = models.ForeignKey("User", on_delete=models.PROTECT, related_name="emails_sent")
-    recipients = models.ManyToManyField("User", related_name="emails_received")
+    recipients = models.ManyToManyField("User", related_name="emails_received", blank=True)
     subject = models.CharField(max_length=255)
     body = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)

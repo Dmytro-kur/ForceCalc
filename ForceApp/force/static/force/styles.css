@@ -1,5 +1,4 @@
 * {
-
   font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -7,13 +6,14 @@
 }
 
 /* VARIABLES */
-#user_container, #logo_container, 
-.header, body, .body, #wave-btn,
+body, #user_container, #logo_container, 
+.header, #wave-btn,
 .wave-btn__waves, .wave-btn__text, 
 #user-menu, .user_logo_requisites,
 .change_pwd_logo, .logout_logo, 
 .change_pwd_logo_wave,
-.logout_logo_wave {
+.logout_logo_wave,
+#container, #body {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -30,16 +30,7 @@ body {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  /* align-items: flex-end; */
   background-color: rgba(101, 157, 189, 0.3);
-  /* background-image: url('white-wooden-textures.jpg');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed; */
-  /* -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; */
 }
 
 /* --------------- end BACKGROUND --------------------- */
@@ -196,7 +187,7 @@ body {
   pointer-events: auto;
 }
 
-.first_last_name, .email,
+.first_last_name, div.email.user-menu,
 #user-menu a {
   font-size: 14px;
   text-decoration: none;
@@ -237,21 +228,24 @@ body {
 /*
 /*
 /* --------------- BODY ------------- */
-.body {
+#container {
   flex-direction: row;
   flex-wrap: wrap;
   flex-grow: 10;
 }
 
-#new_project {
+#side_bar {
   background-color: white;
   box-shadow: 1px 1px 10px #868686;
   border-radius: 0px 10px 10px 0px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 0px;
-  margin-right: 20px;
+  margin: 5px 20px 5px 0px;
   padding: 15px;
+  width: 250px;
+  min-width: 250px;
+  
+}
+#body {
+
 }
 
 /* ----------- end BODY ------------- */
@@ -341,6 +335,173 @@ td {
 }
 
 /* ---------------------------- end CANVAS -------------------- */
+
+/* ---------------------------- MAIL ---------------------------- */
+
+
+
+#dummy {
+  height: 30px;
+}
+
+#request-user {
+  padding: 5px;
+  background-color: rgb(64, 224, 208, 0.5);
+  position: sticky;
+  top: 0px;
+}
+
+#request-user > h2 {
+  color: rgb(0, 0, 0, 1.0);
+  padding-left: 280px;
+}
+
+.column {
+  float: left;
+  padding: 15px;
+}
+
+#inbox, #counter-box {
+  float: left;
+}
+
+#counter-box {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  background-image: radial-gradient(rgb(255, 255, 255), rgb(105, 237, 255), rgb(0, 65, 71));
+  border: 1px solid rgb(0, 0, 0, 0.0);
+  border-radius: 20px;
+  padding: 2px;
+  margin-left: 5px;
+  /*background-color:yellowgreen*/
+}
+
+#counter {
+  position: relative;
+  bottom: 3px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+#menu {
+  width: 22%;
+}
+
+#main {
+  width: 78%;
+}
+
+#menu ul {
+  list-style-type: none;
+}
+
+#menu li {
+  padding: 4px;
+  margin-bottom: 4px;
+}
+
+.menu-items {
+  border: 1px solid black;
+  border-radius: 0.5px;
+  width: 120px;
+  text-align: right;
+  padding: 0px 5px 0px 5px;
+}
+
+.menu-items:hover {
+  outline-style: solid;
+  outline-color:skyblue;
+  outline-width: 5px;
+}
+
+.menu-items:hover {
+  cursor: pointer;
+}
+
+/*#email {
+  background-color: rgb(169, 169, 169, 0.5);
+}*/
+
+#logout {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+textarea {
+  min-height: 400px;
+}
+
+/* .email {
+  margin: 10px 0px 10px 0px;
+  padding: 5px;
+  border: 0.5px solid #000000; 
+  border-radius: 1.5px;
+  width: 800px;
+  background-color: rgb(255, 248, 220, 0.5);
+} */
+
+/* .email:hover {
+  cursor: pointer;
+} */
+
+#email-span-1 {float: left; color: black;} /* 1-st level */
+#email-span-2, #email-span-3, #email-span-6 {
+  font-weight: bold;
+}
+#email-div-1 { /* 1-st level */
+  display: inline-block;
+  margin-left: 50px;
+  width: 210px;
+  white-space: nowrap; 
+  overflow: hidden;
+}
+#email-span-5 {float: right;} /* 1-st level */
+
+.mail-gif {
+  background: url('Sprites2.png') 0 0px;
+  background-size: cover;
+  height: 131px;
+  width: 200px;
+  border: 0px solid black;
+  /*animation: letter-1 7s steps(238) infinite;*/
+}
+  /*animation: vibro 1.117s steps(38) infinite;*/
+  /*animation: opening 4.294s steps(146) forwards;*/
+  /*animation: closing 0.294s steps(10) forwards;*/
+
+/*@keyframes letter-1 {100% {background-position-y: -31178px;}}*/
+@keyframes vibro {0% {background-position-y: -2751px;}
+                  100% {background-position-y: -7729px;}}
+@keyframes opening {0% {background-position-y: -7991px;}
+                  100% {background-position-y: -27117px;}}
+@keyframes closing {0% {background-position-y: -27117px;}
+                  100% {background-position-y: -28427px;}}
+
+.mail-gif:hover {
+  cursor: pointer;
+}
+/* ---------------------------- end MAIL ------------------------ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* #home_btn {
     background-color: Transparent;
 } */

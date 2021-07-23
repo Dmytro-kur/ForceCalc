@@ -12,13 +12,13 @@
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <link rel="shortcut icon" type="image/png" href="{% static 'force/favicon.ico' %}">
-
     <script src="{% static 'force/header.js' %}"></script>
     {% block script %}
     {% endblock %}
 </head>
 <body>
     <div class="header">
+        
         <div id="logo_container">
             <a href="{% url 'index' %}"><img id="logo" src="{% static 'force/atom.png' %}" alt="logo"></a>
         </div>
@@ -77,8 +77,19 @@
        
     </div>
 
-    {% block body %}
-    {% endblock %}
+    <div id="container">
+
+        <div id="side_bar">
+            {% block sidebar %}
+            {% endblock %}
+        </div>
+        <div id="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+    </div>
+
     <div class="footer">
         Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
         <a href='https://www.freepik.com/photos/abstract-background'>Abstract background photo created by rawpixel.com - www.freepik.com</a>    

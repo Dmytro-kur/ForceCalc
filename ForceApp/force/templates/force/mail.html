@@ -1,7 +1,7 @@
-{% extends "mail/layout.html" %}
+{% extends "force/layout.html" %}
 {% load static %}
 
-{% block body %}
+{% block mail %}
     <div id="dummy"></div>
 
     <div id="request-user"><h2>{{ request.user.email }}</h2></div>
@@ -57,5 +57,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'mail/inbox.js' %}"></script>
+    <script src="{% static 'force/mail.js' %}"></script>
 {% endblock %}

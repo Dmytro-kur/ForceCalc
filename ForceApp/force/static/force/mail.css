@@ -108,18 +108,18 @@ textarea {
     min-height: 400px;
 }
 
-.email {
+/* .email {
     margin: 10px 0px 10px 0px;
     padding: 5px;
     border: 0.5px solid #000000; 
     border-radius: 1.5px;
     width: 800px;
     background-color: rgb(255, 248, 220, 0.5);
-}
+} */
 
-.email:hover {
+/* .email:hover {
     cursor: pointer;
-}
+} */
 
 #email-span-1 {float: left; color: black;} /* 1-st level */
 #email-span-2, #email-span-3, #email-span-6 {
