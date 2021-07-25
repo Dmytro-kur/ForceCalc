@@ -47,6 +47,7 @@ body {
   flex-direction: row;
   background-color: #659DBD;
   flex-grow: 0;
+  z-index: 2;
 }
 
 #logo_container {
@@ -60,9 +61,7 @@ body {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.email_logo {
-  z-index: 2;
-}
+
 
 #user_container {
   justify-content: flex-end;
@@ -231,6 +230,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   flex-grow: 10;
+  z-index: 1;
 }
 
 #side_bar {

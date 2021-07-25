@@ -68,7 +68,6 @@ function link_calc() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    
 
     link_calc();
     if (document.querySelector('#post_new_project')) {
@@ -108,5 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    document.querySelectorAll('.wave-btn__sidebar')
+    .forEach((element) => {
+        console.log("I was clicked")
+        element.addEventListener('click', (e) => {
+            waves('.top_sidebar', '.waves_sidebar', 300, e);
+        })
+    })
 
 })
