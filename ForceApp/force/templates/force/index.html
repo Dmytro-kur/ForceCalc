@@ -4,18 +4,28 @@
 
 {% block sidebar %}
     {% if user.is_authenticated %}
-        <div class="wave-btn__sidebar top__sidebar">
-            <div style="z-index: 1;" class="wave-btn__sidebar text__sidebar">
-                <img  class="wave-btn__sidebar logo__sidebar" src="{% static 'force/blueprint.png' %}" alt="logo">
-                <p class="wave-btn__sidebar" style="margin: 0;">New Project</p>
-                <img  class="wave-btn__sidebar expand__sidebar" src="{% static 'force/expand-button.png' %}" alt="logo"></div>
-            <div style="z-index: 0;" class="wave-btn__sidebar waves__sidebar"></div>
+        <div id="wave-btn__newProject" class="wave-btn__sidebar">
+            <div  class="wave-btn__sidebar text__sidebar">
+                <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/blueprint.png' %}" alt="logo">
+                <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">New Project</p>
+                <img style="z-index: 1;" class="wave-btn__sidebar expand__sidebar" src="{% static 'force/expand-button.png' %}" alt="logo"></div>
+            <div style="z-index: 0;" id="wave__newProject" class="wave-btn__sidebar"></div>
             <hr style="margin: 0;">
         </div>
 
-        {{ projectForm.as_p }}
-        <button id="post_new_project" class="btn btn-primary btn-sm">Create</button>
-    
+        <div class="expanded_box" data-state="closed">
+            {{ projectForm }}
+            <button id="post_new_project" class="btn btn-primary btn-sm">Create</button>
+        </div>
+        
+        <div id="wave-btn__newProject" class="wave-btn__sidebar">
+            <div  class="wave-btn__sidebar text__sidebar">
+                <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/blueprint.png' %}" alt="logo">
+                <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">New Project</p>
+                <img style="z-index: 1;" class="wave-btn__sidebar expand__sidebar" src="{% static 'force/expand-button.png' %}" alt="logo"></div>
+            <div style="z-index: 0;" id="wave__newProject" class="wave-btn__sidebar"></div>
+            <hr style="margin: 0;">
+        </div>
     {% endif %}
 
 {% endblock %}

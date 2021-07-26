@@ -107,12 +107,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelectorAll('.wave-btn__sidebar')
-    .forEach((element) => {
-        console.log("I was clicked")
-        element.addEventListener('click', (e) => {
-            waves('.top_sidebar', '.waves_sidebar', 300, e);
-        })
+    document.querySelector('#wave-btn__newProject')
+    .addEventListener('click', (e) => {
+        waves('#wave-btn__newProject', '#wave__newProject', 300, e, 'sidebar');
+        let box = document.querySelector('.expanded_box');
+        if (box.dataset.state === 'closed') {
+            box.style.animationPlayState = 'running';
+            // box.style.visibility = 'visible';
+            box.style.animationDirection ="reverse";
+            box.dataset.state = 'expanded'
+        } else if (box.dataset.state === 'expanded') {
+            box.style.animationPlayState = 'running';
+            // box.style.visibility = 'hidden';
+            box.style.animationDirection ="normal";
+            box.dataset.state = 'closed'
+        }
+
+
+        
     })
 
 })

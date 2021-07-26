@@ -8,9 +8,10 @@ function getCoords(elem) {
         left: box.left + window.pageXOffset
     };
 }
-  
-function waves(button, wave, half_radius, event) {
+
+function waves(button, wave, half_radius, event, part) {
     
+
     const coords = getCoords(document.querySelector(button));
     const center = {
         X: event.pageX - coords.left,
@@ -23,9 +24,15 @@ function waves(button, wave, half_radius, event) {
     element.style.top = `${event.pageY-half_radius}px`;
     element.style.animationPlayState = 'running';
 
-    element.classList.remove(wave.slice(1));
-    void element.offsetWidth;
-    element.classList.add(wave.slice(1));
+    if (part === 'sidebar') {
+        element.classList.remove('waves__sidebar');
+        void element.offsetWidth;
+        element.classList.add('waves__sidebar');
+    } else if (part === 'header') {
+        element.classList.remove(wave.slice(1));
+        void element.offsetWidth;
+        element.classList.add(wave.slice(1));
+    }
 }
 
 function is_clicked(class_name, event) {
