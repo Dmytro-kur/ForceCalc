@@ -110,17 +110,35 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#wave-btn__newProject')
     .addEventListener('click', (e) => {
         waves('#wave-btn__newProject', '#wave__newProject', 300, e, 'sidebar');
-        let box = document.querySelector('.expanded_box');
+
+        let box = document.querySelector('#expanded_box__newProject');
+        
         if (box.dataset.state === 'closed') {
-            box.style.animationPlayState = 'running';
+            
+            // box.style.animationPlayState = 'running';
             // box.style.visibility = 'visible';
-            box.style.animationDirection ="reverse";
-            box.dataset.state = 'expanded'
+            // box.style.animationDirection ="normal";
+            
+            box.dataset.state = 'expanded';
+            box.style.animation = '0.8s ease forwards running expand';
+            
+            // box.classList.remove('expanded_box');
+            // void box.offsetWidth;
+            // box.classList.add('expanded_box');
+            
         } else if (box.dataset.state === 'expanded') {
-            box.style.animationPlayState = 'running';
+
+
+            // box.style.animationPlayState = 'running';
             // box.style.visibility = 'hidden';
-            box.style.animationDirection ="normal";
-            box.dataset.state = 'closed'
+            // box.style.animationDirection ="reverse";
+            
+            box.dataset.state = 'closed';
+            box.style.animation = '0.8s ease reverse forwards running closing';
+
+            // box.classList.remove('expanded_box');
+            // void box.offsetWidth;
+            // box.classList.add('expanded_box');
         }
 
 
