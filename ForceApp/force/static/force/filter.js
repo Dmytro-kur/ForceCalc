@@ -112,37 +112,29 @@ document.addEventListener('DOMContentLoaded', () => {
         waves('#wave-btn__newProject', '#wave__newProject', 300, e, 'sidebar');
 
         let box = document.querySelector('#expanded_box__newProject');
-        
+
         if (box.dataset.state === 'closed') {
-            
             // box.style.animationPlayState = 'running';
             // box.style.visibility = 'visible';
             // box.style.animationDirection ="normal";
-            
+            box.style.animation = '0.2s ease forwards running expand';
             box.dataset.state = 'expanded';
-            box.style.animation = '0.8s ease forwards running expand';
             
-            // box.classList.remove('expanded_box');
-            // void box.offsetWidth;
-            // box.classList.add('expanded_box');
-            
-        } else if (box.dataset.state === 'expanded') {
-
-
+            document.querySelector('#wave-btn__newProject')
+            .querySelector('.expand__sidebar')
+            .style.animation = '0.2s ease forwards running arrow-rotate-downwards';
+        }
+        else if (box.dataset.state === 'expanded') {
             // box.style.animationPlayState = 'running';
             // box.style.visibility = 'hidden';
             // box.style.animationDirection ="reverse";
-            
+            box.style.animation = '0.2s ease forwards running closed';
             box.dataset.state = 'closed';
-            box.style.animation = '0.8s ease reverse forwards running closing';
 
-            // box.classList.remove('expanded_box');
-            // void box.offsetWidth;
-            // box.classList.add('expanded_box');
+            document.querySelector('#wave-btn__newProject')
+            .querySelector('.expand__sidebar')
+            .style.animation = '0.2s ease forwards running arrow-rotate-upwards';
         }
-
-
-        
     })
 
 })
