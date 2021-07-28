@@ -5,32 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent', false));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive', false));
   document.querySelector('#compose').addEventListener('click', () => compose_email(false));
-  document.querySelector('.mail-gif').addEventListener('click', () => open_first_unread());
   // By default, load the inbox
 
   load_mailbox('inbox', true);
   submit_compose_form();
 });
 
-function animate_letter(obj, first) {
-  if (first === true) {
-    if (obj.innerHTML !== '0') {
-      document.querySelector('.mail-gif').style.animation = 'vibro 1.117s steps(38) 0.294s infinite'
-    } else {
-      document.querySelector('.mail-gif').style.animation = 'closing 0s steps(1) forwards'
-    }
-  } else {
-    if (obj.innerHTML !== '0') {
-      document.querySelector('.mail-gif').style.animation = 'closing 0.294s steps(10) forwards, vibro 1.117s steps(38) 0.294s infinite'
-    } else {
-      document.querySelector('.mail-gif').style.animation = 'closing 0.294s steps(10) forwards'
-    }
-  }
-}
-
 function inbox_email_number(first) {
 
-  fetch('/emails/inbox')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const request = new Request(
+    '/emails/inbox',
+      {headers: {'X-CSRFToken': csrftoken}}
+  );
+
+  fetch(request)
   .then(response => response.json())
   .then(emails => {
     //console.log(emails.length)
@@ -50,16 +39,22 @@ function inbox_email_number(first) {
       document.querySelector('#counter-box').style.display = 'none';
     }
 
-    animate_letter(counter, first);
-
-    });
+  });
     
 }
 
 function submit_compose_form() {
   document.querySelector("#compose-form").onsubmit = function () {
-    fetch('/emails', {
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const request = new Request(
+      '/emails',
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+  
+    fetch(request, {
       method: 'POST',
+      mode: 'same-origin',
       body: JSON.stringify({
           recipients: document.querySelector('#compose-recipients').value,
           subject: document.querySelector('#compose-subject').value,
@@ -84,8 +79,15 @@ function archivations(archiving, email, stat) {
   document.querySelector('#archiving').innerHTML = '';
   document.querySelector('#archiving').append(Archive);
   document.querySelector(`#${archiving}`).addEventListener('click', () => {
-    fetch(`/emails/${email.id}`, {
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const request = new Request(
+      `/emails/${email.id}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request, {
       method: 'PUT',
+      mode: 'same-origin',
       body: JSON.stringify({
           archived: stat
       })
@@ -98,7 +100,6 @@ function archivations(archiving, email, stat) {
 
 function render_email(email, mailbox) {
 
-  document.querySelector('.mail-gif').style.animation = 'opening 4.294s steps(146) forwards'
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email').style.display = 'block';
@@ -153,13 +154,24 @@ function open_email(mailbox) {
   document.querySelectorAll(".email").forEach(email => {
     email.onclick = () => {
 
-      fetch(`/emails/${email.dataset.id}`)
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const request_1 = new Request(
+        `/emails/${email.dataset.id}`,
+          {headers: {'X-CSRFToken': csrftoken}}
+      );
+
+      fetch(request_1)
       .then(response => response.json())
       .then(email => {
         render_email(email, mailbox);
       });
-      
-      fetch(`/emails/${email.dataset.id}`, {
+
+      const request_2 = new Request(
+        `/emails/${email.dataset.id}`,
+          {headers: {'X-CSRFToken': csrftoken}}
+      );
+
+      fetch(request_2, {
         method: 'PUT',
         body: JSON.stringify({
             read: true
@@ -169,8 +181,7 @@ function open_email(mailbox) {
   });
 }
 
-function compose_email(first) {
-  animate_letter(document.querySelector('#counter'), first);
+function compose_email() {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -196,8 +207,14 @@ function load_mailbox(mailbox, first) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const request = new Request(
+    `/emails/${mailbox}`,
+      {headers: {'X-CSRFToken': csrftoken}}
+  );
 
-  fetch(`/emails/${mailbox}`)
+  fetch(request)
   .then(response => response.json())
   .then(emails => {
       emails.forEach(email => {
@@ -223,27 +240,4 @@ function load_mailbox(mailbox, first) {
       });
       open_email(mailbox);
   });
-}
-
-function open_first_unread() {
-  var list = []
-  document.querySelectorAll('.email').forEach(email => {
-    if (email.style.backgroundColor === '') {
-      list.push(email)
-    }
-  })
-  if (list[0]) {
-    fetch(`/emails/${list[0].dataset.id}`)
-    .then(response => response.json())
-    .then(email => {
-      render_email(email, 'inbox');
-    });
-  
-    fetch(`/emails/${list[0].dataset.id}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-          read: true
-      })
-    });
-  }
 }

@@ -17,16 +17,14 @@
             {{ projectForm }}
             <button style="font-size: 12px;" id="post_new_project" class="btn btn-primary btn-sm">Create</button>
         </div>
-
     {% endif %}
-
 {% endblock %}
 
 
 {% block body %}
     <div id="search_box">
         <div id="myQuery"></div>
-        <form method="post">{% csrf_token %}</form>
+        
     </div>
 {% endblock %}
 

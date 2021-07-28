@@ -100,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(result)
                 }
                 remove_list();
+                document.querySelector('#id_project_number').value = '';
+                document.querySelector('#id_project_name').value = '';
+                document.querySelector('#id_assembly_number').value = '';
             })
             .then(() => {
                 projects_retrieve("", 1);
@@ -117,23 +120,23 @@ document.addEventListener('DOMContentLoaded', () => {
             // box.style.animationPlayState = 'running';
             // box.style.visibility = 'visible';
             // box.style.animationDirection ="normal";
-            box.style.animation = '0.2s ease forwards running expand';
+            box.style.animation = '70ms ease forwards running expand';
             box.dataset.state = 'expanded';
             
             document.querySelector('#wave-btn__newProject')
             .querySelector('.expand__sidebar')
-            .style.animation = '0.2s ease forwards running arrow-rotate-downwards';
+            .style.animation = '70ms ease forwards running arrow-rotate-downwards';
         }
         else if (box.dataset.state === 'expanded') {
             // box.style.animationPlayState = 'running';
             // box.style.visibility = 'hidden';
             // box.style.animationDirection ="reverse";
-            box.style.animation = '0.2s ease forwards running closed';
+            box.style.animation = '70ms ease forwards running closed';
             box.dataset.state = 'closed';
 
             document.querySelector('#wave-btn__newProject')
             .querySelector('.expand__sidebar')
-            .style.animation = '0.2s ease forwards running arrow-rotate-upwards';
+            .style.animation = '70ms ease forwards running arrow-rotate-upwards';
         }
     })
 
