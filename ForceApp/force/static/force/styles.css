@@ -228,7 +228,7 @@ body {
 /* --------------- BODY ------------- */
 #container {
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   flex-grow: 10;
   z-index: 1;
 }
