@@ -25,8 +25,12 @@
         </div>
         <div id="user_container">
             {% if user.is_authenticated %}
-                <a href="{% url 'mail' %}"><img  class="email_logo" src="{% static 'force/mail.png' %}" alt="logo"></a>
-
+                <a class="position-relative" href="{% url 'mail' %}">
+                    <img class="email_logo" src="{% static 'force/mail.png' %}" alt="logo">
+                    <div id="alert-circle__top">
+                        <div id="alert-circle"></div>
+                    </div>
+                </a>
                 <div id="wave-btn" class="wave-btn">
                     <div style="z-index: 1;" class="wave-btn wave-btn__text">{{ user.username }}<img  class="wave-btn yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></div>
                     <div style="z-index: 0;" class="wave-btn wave-btn__waves"></div>

@@ -70,7 +70,22 @@ body {
   margin-right: 15px;
 }
 
+#alert-circle__top {
+  position: fixed;
+}
+#alert-circle {
+  position: relative;
+  border: 1px solid white;
+  border-radius: 7.5px;
+  background-color: red;
+  width: 15px;
+  height: 15px;
+  left: 20px;
+  top: -33px;
+}
+
 #wave-btn {
+  margin-left: 15px;
   border-radius: 15px;
   user-select: none;
   flex-direction: row;
@@ -157,7 +172,6 @@ body {
   justify-content: center;
   background-color: rgba(126, 189, 240);
   animation: 0.8s ease forwards normal paused user-menu-wave;
-
 }
 
 .yield_logo {
@@ -166,7 +180,6 @@ body {
 }
 
 .email_logo {
-  margin-right: 15px;
   width: 30px;
 }
 
@@ -483,26 +496,6 @@ td {
   padding: 15px;
 }
 
-#inbox, #counter-box {
-  float: left;
-}
-
-#counter-box {
-  width: 25px;
-  height: 25px;
-  text-align: center;
-  background-image: radial-gradient(rgb(255, 255, 255), rgb(105, 237, 255), rgb(0, 65, 71));
-  border: 1px solid rgb(0, 0, 0, 0.0);
-  border-radius: 20px;
-  padding: 2px;
-  margin-left: 5px;
-}
-
-#counter {
-  position: relative;
-  bottom: 3px;
-}
-
 #menu {
   width: 22%;
 }
@@ -519,28 +512,6 @@ td {
   padding: 4px;
   margin-bottom: 4px;
 }
-
-.menu-items {
-  border: 1px solid black;
-  border-radius: 0.5px;
-  width: 120px;
-  text-align: right;
-  padding: 0px 5px 0px 5px;
-}
-
-.menu-items:hover {
-  outline-style: solid;
-  outline-color:skyblue;
-  outline-width: 5px;
-}
-
-.menu-items:hover {
-  cursor: pointer;
-}
-
-/*#email {
-  background-color: rgb(169, 169, 169, 0.5);
-}*/
 
 #logout {
   color: inherit;
