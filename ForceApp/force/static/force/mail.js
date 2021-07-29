@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#sent-view').style.display = 'none';
     document.querySelector('#archived-view').style.display = 'none';
 
+    document.querySelector('#email-list').style.display = 'flex';
+    document.querySelector('#email-render').style.display = 'none';
+
     unread_emails();
   });
   // Compose View
@@ -111,22 +114,11 @@ function load_mailbox(mailbox) {
         const element = document.createElement('div');
         element.className = 'email';
         element.dataset.id = email.id;
-        if (email.read === true) {
-          element.style.backgroundColor = "rgb(169, 169, 169, 0.3)";
-        }
-        element.innerHTML = 
-        `<span id="email-span-1"><span id="email-span-2">from: </span>`+
-        `<span>${email.sender} </span></span>`+
 
-        `<div id="email-div-1">`+
-        `<span id="email-span-3">subject: </span>`+
-        `<span id="email-span-4">${email.subject} </span></div>`+
-
-        `<span id="email-span-5"><span id="email-span-6">timestamp: </span>`+
-        `<span>${email.timestamp}</span></span>`;
+        element.innerHTML = `from: ${email.sender}, subject: ${email.subject}, timestamp: ${email.timestamp}`;
         
         document.querySelector(`#${mailbox}-view`)
-        .querySelector('.email-list').append(element);
+        .querySelector('#email-list').append(element);
       });
       open_email(mailbox);
   });
@@ -145,7 +137,7 @@ function open_email(mailbox) {
       fetch(request)
       .then(response => response.json())
       .then(email => {
-        // render_email(email, mailbox);
+        render_email(email, mailbox);
       });
 
       fetch(request, {
@@ -160,12 +152,10 @@ function open_email(mailbox) {
 
 function render_email(email, mailbox) {
 
-  document.querySelector('#emails-view').style.display = 'none';
-  document.querySelector('#compose-view').style.display = 'none';
-  document.querySelector('#email').style.display = 'block';
-  document.querySelector('#email').style.backgroundColor = "rgb(169, 169, 169, 0)";
+  document.querySelector('#inbox-email-list').style.display = 'none';
+  document.querySelector('#email-render').style.display = 'flex';
 
-  document.querySelector('#email-info').innerHTML = 
+  document.querySelector('#email-head').innerHTML = 
     'From: '.bold() + `${email.sender}` + '<br>' + 
     'To: '.bold() + `${email.recipients}` + '<br>' + 
     'Subject: '.bold() + `${email.subject}` + '<br>' +
@@ -173,71 +163,56 @@ function render_email(email, mailbox) {
 
   document.querySelector('#email-content').value = email.body;
 
-  if (mailbox !== 'sent') {
-    if (email.archived === false) {
-      archivations('Archive', email, true)
-    } else {
-      archivations('Unarchive', email, false)
-    }
-  }
+  document.querySelector(`#${archiving}`).addEventListener('click', () => {
 
-  document.querySelector('#reply-button').onclick = () => {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const request = new Request(
+      `/email/${email.id}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request, {
+      method: 'PUT',
+      mode: 'same-origin',
+      body: JSON.stringify({
+          archived: state
+      })
+    })
+  });
 
-    document.querySelector('#emails-view').style.display = 'none';
-    document.querySelector('#compose-view').style.display = 'block';
-    document.querySelector('#email').style.display = 'none';
-    document.querySelector('#archiving').innerHTML = '';
 
-    document.querySelector('#compose-recipients').value = email.sender;
+//   document.querySelector('#reply-button').onclick = () => {
 
-    if (email.subject.slice(0, 4) === 'Re: ') {
-      document.querySelector('#compose-subject').value = email.subject;
-    } else {
-      document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
-    }
+//     document.querySelector('#emails-view').style.display = 'none';
+//     document.querySelector('#compose-view').style.display = 'block';
+//     document.querySelector('#email').style.display = 'none';
+//     document.querySelector('#archiving').innerHTML = '';
 
-    document.querySelector('#compose-body').value = 
-`
+//     document.querySelector('#compose-recipients').value = email.sender;
 
------------------------------------
-On ${email.timestamp} ${email.sender} wrote: 
+//     if (email.subject.slice(0, 4) === 'Re: ') {
+//       document.querySelector('#compose-subject').value = email.subject;
+//     } else {
+//       document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
+//     }
 
-${email.body}
-`;
+//     document.querySelector('#compose-body').value = 
+// `
 
-    submit_compose_form();
-  }
+// -----------------------------------
+// On ${email.timestamp} ${email.sender} wrote: 
+
+// ${email.body}
+// `;
+
+//     submit_compose_form();
+//   }
 
 }
 
 
-// function archivations(archiving, email, stat) {
 
-//   let Archive = document.createElement('button');
-//   Archive.innerHTML = archiving;
-//   Archive.className = 'btn btn-sm btn-outline-primary';
-//   Archive.id = archiving;
-//   document.querySelector('#archiving').innerHTML = '';
-//   document.querySelector('#archiving').append(Archive);
-//   document.querySelector(`#${archiving}`).addEventListener('click', () => {
 
-//     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-//     const request = new Request(
-//       `/email/${email.id}`,
-//         {headers: {'X-CSRFToken': csrftoken}}
-//     );
-//     fetch(request, {
-//       method: 'PUT',
-//       mode: 'same-origin',
-//       body: JSON.stringify({
-//           archived: stat
-//       })
-//     })
-//     .then(() => {
-//       load_mailbox('inbox', false);
-//     });
-//   });
-// }
+
 
 
 

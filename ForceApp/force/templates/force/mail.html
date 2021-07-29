@@ -57,13 +57,24 @@
 {% block body %}
     <div id="inbox-view">
         <p>Inbox</p>
-        <!-- <button id="reply-button" class='btn btn-sm btn-outline-primary'>
-            Reply
-        </button>
-        <hr>
-        <textarea disabled id="email-content" class="form-control" id="compose-body" placeholder="Body"></textarea> -->
-        <div class="email-list">
 
+        <div id="inbox-email-list">
+        </div>
+        <div style="display: none;" id="inbox-email-render">
+            <div id="inbox-email-head">
+            </div>
+    
+            <div id="inbox-email-body">
+                <hr>
+                <textarea disabled id="inbox-email-content" placeholder="Body"></textarea>
+            </div>
+    
+            <button id="inbox-reply-button" class='btn btn-sm btn-outline-primary'>
+                Reply
+            </button>
+            <button id="inbox-archived-button" class='btn btn-sm btn-outline-primary'>
+                Reply
+            </button>
         </div>
     </div>
 
