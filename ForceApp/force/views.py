@@ -221,50 +221,47 @@ def mail(request):
 def compose(request):
 
     # Composing a new email must be via POST
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
+    if request.method == "POST":
 
-    # Check recipient emails
-    data = json.loads(request.body)
-    emails = [email.strip() for email in data.get("recipients").split(",")]
-    if emails == [""]:
-        return JsonResponse({
-            "error": "At least one recipient required."
-        }, status=400)
-
-    # Convert email addresses to users
-    recipients = []
-    for email in emails:
-        try:
-            user = User.objects.get(email=email)
-            recipients.append(user)
-        except User.DoesNotExist:
+        # Check recipient emails
+        data = json.loads(request.body)
+        emails = [email.strip() for email in data.get("recipients").split(",")]
+        if emails == [""]:
             return JsonResponse({
-                "error": f"User with email {email} does not exist."
+                "error": "At least one recipient required."
             }, status=400)
 
-    # Get contents of email
-    subject = data.get("subject", "")
-    body = data.get("body", "")
+        # Convert email addresses to users
+        recipients = []
+        for email in emails:
+            try:
+                user = User.objects.get(email=email)
+                recipients.append(user)
+            except User.DoesNotExist:
+                return JsonResponse({
+                    "error": f"User with email {email} does not exist."
+                }, status=400)
 
-    # Create one email for each recipient, plus sender
-    users = set()
-    users.add(request.user)
-    users.update(recipients)
-    for user in users:
+        # Get contents of email
+        subject = data.get("subject", "")
+        body = data.get("body", "")
+
+        # Create an email
         email = Mail(
-            user=user,
             sender=request.user,
             subject=subject,
             body=body,
-            read=user == request.user
+            read=False,
+            archived=False,
         )
         email.save()
         for recipient in recipients:
             email.recipients.add(recipient)
         email.save()
 
-    return JsonResponse({"message": "Email sent successfully."}, status=201)
+        return JsonResponse({"message": "Email sent successfully."}, status=201)
+    else: 
+        return HttpResponseRedirect(reverse("login"))
 
 @login_required
 def mailbox(request, mailbox):
@@ -272,15 +269,15 @@ def mailbox(request, mailbox):
     # Filter emails returned based on mailbox
     if mailbox == "inbox":
         emails = Mail.objects.filter(
-            user=request.user, recipients=request.user, archived=False
+        recipients=request.user, archived=False
         )
     elif mailbox == "sent":
         emails = Mail.objects.filter(
-            user=request.user, sender=request.user
+            sender=request.user
         )
     elif mailbox == "archive":
         emails = Mail.objects.filter(
-            user=request.user, recipients=request.user, archived=True
+            recipients=request.user, archived=True
         )
     else:
         return JsonResponse({"error": "Invalid mailbox."}, status=400)
@@ -294,7 +291,7 @@ def email(request, email_id):
 
     # Query for requested email
     try:
-        email = Mail.objects.get(user=request.user, pk=email_id)
+        email = Mail.objects.get(recipients=request.user, pk=email_id)
     except Mail.DoesNotExist:
         return JsonResponse({"error": "Email not found."}, status=404)
 

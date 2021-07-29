@@ -11,10 +11,12 @@ body, #user_container, #logo_container,
 .wave-btn__waves, .wave-btn__text, 
 #user-menu, .user_logo_requisites,
 .change_pwd_logo, .logout_logo, 
-.change_pwd_logo_wave,
-.logout_logo_wave,
+.change_pwd_logo_wave, .logout_logo_wave,
 #container, #body,
-#side_bar, .text__sidebar {
+#side_bar, .text__sidebar,
+.email-list, #inbox-view,
+#compose-view, #sent-view, 
+#archived-view {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -491,35 +493,18 @@ td {
 
 /* ---------------------------- MAIL ---------------------------- */
 
-.column {
-  float: left;
-  padding: 15px;
+#inbox-view,
+#compose-view,
+#sent-view, 
+#archived-view {
+  flex-direction: column;
 }
-
-#menu {
-  width: 22%;
-}
-
-#main {
-  width: 78%;
-}
-
-#menu ul {
-  list-style-type: none;
-}
-
-#menu li {
-  padding: 4px;
-  margin-bottom: 4px;
-}
-
-#logout {
-  color: inherit;
-  text-decoration: inherit;
+.email-list {
+  flex-direction: column;
 }
 
 textarea {
-  min-height: 400px;
+  min-height: 1000px;
 }
 
 #email-span-1 {

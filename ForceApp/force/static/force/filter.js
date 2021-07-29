@@ -67,8 +67,33 @@ function link_calc() {
     })
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function unread_emails() {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const request = new Request(
+        '/mailbox/inbox',
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request)
+    .then(response => response.json())
+    .then(emails => {
+        let list = []
+        emails.forEach(email => {
+            if (email.read === false) {
+                list.push(email)
+            }
+        });
+        if (list.length !== 0) {
+            document.querySelector('#alert-circle').style.display = 'block';
+        } else {
+            document.querySelector('#alert-circle').style.display = 'none';
+        }
+    });
+}
 
+document.addEventListener('DOMContentLoaded', () => {
+    
+    unread_emails();
+    
     link_calc();
     if (document.querySelector('#post_new_project')) {
         document.querySelector('#post_new_project').onclick = () => {
