@@ -18,7 +18,8 @@ body, #user_container, #logo_container,
 #sent-view, #archived-view
 #inbox-email-list, #sent-email-list, 
 #archived-email-list, #inbox-email-render,
-#sent-email-render, #archived-email-render {
+#sent-email-render, #archived-email-render,
+#compose-form {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -536,11 +537,7 @@ td {
   cursor: pointer;
   background-color:rgba(70, 130, 180, 0.5);
 }
-/* #wave__inbox,
-#wave__compose {
-  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
-  clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
-} */
+
 .text__sidebar {
   flex-direction: row;
   align-items: center;
@@ -568,6 +565,13 @@ td {
   100% {
     clip-path: circle(0px);
   }
+}
+#compose-form {
+  flex-direction: column;
+}
+textarea {
+  width: 700px;
+  height: 500px;
 }
 /*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */

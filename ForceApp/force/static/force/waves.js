@@ -51,4 +51,21 @@ function is_clicked(class_name, event) {
         return true
     }
 }
-  
+
+function unread_emails() {
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const request = new Request(
+      '/unread',
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request)
+    .then(response => response.json())
+    .then(count => {
+      
+      if (count.count !== 0) {
+        document.querySelector('#alert-circle').style.display = 'block';
+      } else {
+        document.querySelector('#alert-circle').style.display = 'none';
+      }
+    });
+  }

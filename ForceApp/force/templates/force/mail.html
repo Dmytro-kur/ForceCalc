@@ -44,14 +44,6 @@
 
     <hr class="user-menu" style="margin: 0px;">
 
-    <!-- <div class="column" id="menu">
-        <ul>
-            <li><div class="clearfix"><div class="menu-items" id="inbox">Inbox</div></div></li>
-            <li><div class="menu-items" id="compose">Compose</div></li>
-            <li><div class="menu-items" id="sent">Sent</div></li>
-            <li><div class="menu-items" id="archived">Archived</div></li>
-        </ul>
-    </div> -->
 {% endblock %}
 
 {% block body %}
@@ -87,21 +79,18 @@
         </div>
     
         <form id="compose-form">
-            <div class="form-group">
-                From: <input disabled class="form-control" value="{{ request.user.email }}">
-            </div>
+            <label for="id_compose-sender">From: </label>
+            <input id="compose-sender" type='email' disabled value="{{ request.user.email }}">
+            
+            <label for="id_compose-recipients">To: </label>
+            <input type="text" required id="compose-recipients" placeholder="harry@example.com, ron@example.com">
 
-            <div class="form-group">
-                To: <input id="compose-recipients" class="form-control">
-            </div>
+            <label for="id_compose-subject"></label>
+            <input type="text" required id="compose-subject" placeholder="Subject:">
 
-            <div class="form-group">
-                <input class="form-control" id="compose-subject" placeholder="Subject">
-            </div>
+            <textarea id="compose-body" placeholder="Text:"></textarea>
 
-            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-
-            <input id="compose-button" type="submit" class="btn btn-primary"/>
+            <input id="compose-button" type="submit" class="btn btn-sm btn-outline-primary"/>
         </form>
 
     </div>
@@ -143,7 +132,7 @@
                 Reply
             </button>
             <button id="archived-archived-button" class='btn btn-sm btn-outline-primary'>
-                Archived
+                Unarchived
             </button>
         </div>
     </div>

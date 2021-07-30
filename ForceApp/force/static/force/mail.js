@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#sent-view').style.display = 'flex';
     document.querySelector('#archived-view').style.display = 'none';
 
+    document.querySelector('#sent-email-list').style.display = 'flex';
+    document.querySelector('#sent-email-render').style.display = 'none';
+    
     load_mailbox('sent');
     unread_emails();
   });
@@ -50,6 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#sent-view').style.display = 'none';
     document.querySelector('#archived-view').style.display = 'flex';
 
+    document.querySelector('#archived-email-list').style.display = 'flex';
+    document.querySelector('#archived-email-render').style.display = 'none';
+
     load_mailbox('archived');
     unread_emails();
   });
@@ -61,29 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
   unread_emails();
   load_mailbox('inbox');
 });
-
-function unread_emails() {
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  const request = new Request(
-    '/mailbox/inbox',
-      {headers: {'X-CSRFToken': csrftoken}}
-  );
-  fetch(request)
-  .then(response => response.json())
-  .then(emails => {
-    let list = []
-    emails.forEach(email => {
-      if (email.read === false) {
-        list.push(email)
-      }
-    })
-    if (list.length !== 0) {
-      document.querySelector('#alert-circle').style.display = 'block';
-    } else {
-      document.querySelector('#alert-circle').style.display = 'none';
-    }
-  });
-}
 
 function submit_compose_form() {
   document.querySelector("#compose-form").onsubmit = function () {
@@ -153,17 +136,20 @@ function open_email(mailbox) {
       fetch(request)
       .then(response => response.json())
       .then(email => {
+        unread_emails();
         render_email(email, mailbox);
       });
 
-      fetch(request, {
-        method: 'PUT',
-        body: JSON.stringify({
-            read: true
+      if (mailbox !== 'sent') {
+        fetch(request, {
+          method: 'PUT',
+          body: JSON.stringify({
+              read: true
+          })
         })
-      });
+      }
     }
-  });
+  })
 }
 
 function render_email(email, mailbox) {
@@ -180,7 +166,14 @@ function render_email(email, mailbox) {
   document.querySelector(`#${mailbox}-email-content`).value = email.body;
   
   if (mailbox === 'inbox' || mailbox === 'archived') {
-    document.querySelector(`#${mailbox}-archived-button`).addEventListener('click', () => {
+    document.querySelector(`#${mailbox}-archived-button`).addEventListener('click', (event) => {
+      
+      let bool = true;
+      if (event.target.innerText === 'Archived') {
+        bool = true;
+      } else if (event.target.innerText === 'Unarchived') {
+        bool = false;
+      }
 
       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
       const request = new Request(
@@ -191,17 +184,19 @@ function render_email(email, mailbox) {
         method: 'PUT',
         mode: 'same-origin',
         body: JSON.stringify({
-            archived: true
+            archived: bool
         })
       })
     });
 
     document.querySelector(`#${mailbox}-reply-button`).onclick = () => {
-
-      document.querySelector('#emails-view').style.display = 'none';
-      document.querySelector('#compose-view').style.display = 'block';
-      document.querySelector('#email').style.display = 'none';
-      document.querySelector('#archiving').innerHTML = '';
+      
+      document.querySelector('#inbox-view').style.display = 'none';
+      document.querySelector('#compose-view').style.display = 'flex';
+      document.querySelector('#sent-view').style.display = 'none';
+      document.querySelector('#archived-view').style.display = 'none';
+      
+      unread_emails();
 
       document.querySelector('#compose-recipients').value = email.sender;
 

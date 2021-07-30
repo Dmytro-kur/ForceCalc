@@ -263,20 +263,31 @@ def compose(request):
         return HttpResponseRedirect(reverse("login"))
 
 @login_required
+def unread(request):
+    if request.method == "GET":
+        count = Flag.objects.filter(user=request.user, read=False).count()
+        return JsonResponse({"count": count})
+
+@login_required
 def mailbox(request, mailbox):
 
     # Filter emails returned based on mailbox
     if mailbox == "inbox":
-        flag = Mail.objects.filter(
-        recipients=request.user, archived=False)
-        # emails = flag.
+
+        flags = Flag.objects.filter(user=request.user, archived=False)
+        ids = [flag.mail.id for flag in flags]
+        emails = Mail.objects.filter(id__in=ids)
+
     elif mailbox == "sent":
-        emails = Mail.objects.filter(
-            sender=request.user)
+
+        emails = Mail.objects.filter(sender=request.user)
+
     elif mailbox == "archived":
-        emails = Mail.objects.filter(
-            recipients=request.user, archived=True
-        )
+
+        flags = Flag.objects.filter(user=request.user, archived=True)
+        ids = [flag.mail.id for flag in flags]
+        emails = Mail.objects.filter(id__in=ids)
+
     else:
         return JsonResponse({"error": "Invalid mailbox."}, status=400)
 
@@ -288,9 +299,14 @@ def mailbox(request, mailbox):
 def email(request, mailbox, email_id):
 
     # Query for requested email
-    if mailbox == 'inbox':
+    if mailbox == 'inbox' or mailbox == 'archived':
         try:
-            email = Mail.objects.get(recipients=request.user, archived=False, pk=email_id)
+
+            email_ = Mail.objects.get(id=email_id)
+            # Preventing bad retrieving of email 
+            flag = email_.flags.get(user=request.user)
+            email = flag.mail
+
         except Mail.DoesNotExist:
             return JsonResponse({"error": "Email not found."}, status=404)
 
@@ -300,24 +316,23 @@ def email(request, mailbox, email_id):
         except Mail.DoesNotExist:
             return JsonResponse({"error": "Email not found."}, status=404)
 
-    if mailbox == 'archived':
-        try:
-            email = Mail.objects.get(recipients=request.user, archived=True, pk=email_id)
-        except Mail.DoesNotExist:
-            return JsonResponse({"error": "Email not found."}, status=404)
-
     # Return email contents
     if request.method == "GET":
         return JsonResponse(email.serialize())
 
     # Update whether email is read or should be archived
     elif request.method == "PUT":
+
         data = json.loads(request.body)
         if data.get("read") is not None:
-            email.read = data["read"]
+
+            flag.read = data["read"]
+
         if data.get("archived") is not None:
-            email.archived = data["archived"]
-        email.save()
+
+            flag.archived = data["archived"]
+
+        flag.save()
         return HttpResponse(status=204)
 
     # Email must be via GET or PUT
