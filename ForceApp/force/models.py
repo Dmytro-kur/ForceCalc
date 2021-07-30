@@ -34,7 +34,6 @@ class User(AbstractUser):
     pass
 
 class Mail(models.Model):
-    # user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emails")
     sender = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emails_sent")
     recipients = models.ManyToManyField("User", related_name="emails_received", blank=True)
     subject = models.CharField(max_length=255)
@@ -55,8 +54,26 @@ class Mail(models.Model):
             "archived": self.archived
         }
     def __str__(self):
-        return f"Sender: {self.sender}. Subject: {self.subject}"
+        return f"{self.id}: ({self.sender}) subject - {self.subject}"
 
+class Flag(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="flags")
+    mail = models.ForeignKey("Mail", on_delete=models.CASCADE, related_name="flags")
+    read = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
+
+    def __str__(self):
+        if self.read:
+            read = 'read'
+        else:
+            read = 'unread'
+
+        if self.archived:
+            box = 'archived'
+        else: 
+            box = 'inbox'
+
+        return f"Mail {self.mail.subject} for {self.user} is {read} in {box}."
 
 class Project(models.Model):
 

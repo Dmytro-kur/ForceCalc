@@ -259,6 +259,8 @@ def compose(request):
             email.recipients.add(recipient)
         email.save()
 
+        flag = Flag(user=request.user, mail=email, )
+
         return JsonResponse({"message": "Email sent successfully."}, status=201)
     else: 
         return HttpResponseRedirect(reverse("login"))
@@ -275,7 +277,7 @@ def mailbox(request, mailbox):
         emails = Mail.objects.filter(
             sender=request.user
         )
-    elif mailbox == "archive":
+    elif mailbox == "archived":
         emails = Mail.objects.filter(
             recipients=request.user, archived=True
         )
@@ -287,13 +289,26 @@ def mailbox(request, mailbox):
     return JsonResponse([email.serialize() for email in emails], safe=False)
 
 @login_required
-def email(request, email_id):
+def email(request, mailbox, email_id):
 
     # Query for requested email
-    try:
-        email = Mail.objects.get(recipients=request.user, pk=email_id)
-    except Mail.DoesNotExist:
-        return JsonResponse({"error": "Email not found."}, status=404)
+    if mailbox == 'inbox':
+        try:
+            email = Mail.objects.get(recipients=request.user, archived=False, pk=email_id)
+        except Mail.DoesNotExist:
+            return JsonResponse({"error": "Email not found."}, status=404)
+
+    if mailbox == 'sent':
+        try:
+            email = Mail.objects.get(sender=request.user, pk=email_id)
+        except Mail.DoesNotExist:
+            return JsonResponse({"error": "Email not found."}, status=404)
+
+    if mailbox == 'archived':
+        try:
+            email = Mail.objects.get(recipients=request.user, archived=True, pk=email_id)
+        except Mail.DoesNotExist:
+            return JsonResponse({"error": "Email not found."}, status=404)
 
     # Return email contents
     if request.method == "GET":

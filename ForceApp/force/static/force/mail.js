@@ -1,19 +1,26 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+
+  
   // Inbox View
-  document.querySelector('#wave-btn__inbox').addEventListener('click', () => {
+  document.querySelector('#wave-btn__inbox').addEventListener('click', (event) => {
+    waves('#wave-btn__inbox', '#wave__inbox', 300, event, 'sidebar');
+
     document.querySelector('#inbox-view').style.display = 'flex';
     document.querySelector('#compose-view').style.display = 'none';
     document.querySelector('#sent-view').style.display = 'none';
     document.querySelector('#archived-view').style.display = 'none';
 
-    document.querySelector('#email-list').style.display = 'flex';
-    document.querySelector('#email-render').style.display = 'none';
+    document.querySelector('#inbox-email-list').style.display = 'flex';
+    document.querySelector('#inbox-email-render').style.display = 'none';
 
+    load_mailbox('inbox');
     unread_emails();
   });
   // Compose View
-  document.querySelector('#wave-btn__compose').addEventListener('click', () => {
+  document.querySelector('#wave-btn__compose').addEventListener('click', (event) => {
+    waves('#wave-btn__compose', '#wave__compose', 300, event, 'sidebar');
+
     document.querySelector('#inbox-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'flex';
     document.querySelector('#sent-view').style.display = 'none';
@@ -23,21 +30,27 @@ document.addEventListener('DOMContentLoaded', function() {
     submit_compose_form();
   });
   // Sent View
-  document.querySelector('#wave-btn__sent').addEventListener('click', () => {
+  document.querySelector('#wave-btn__sent').addEventListener('click', (event) => {
+    waves('#wave-btn__sent', '#wave__sent', 300, event, 'sidebar');
+
     document.querySelector('#inbox-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';
     document.querySelector('#sent-view').style.display = 'flex';
     document.querySelector('#archived-view').style.display = 'none';
 
+    load_mailbox('sent');
     unread_emails();
   });
   // Archived View
-  document.querySelector('#wave-btn__archived').addEventListener('click', () => {
+  document.querySelector('#wave-btn__archived').addEventListener('click', (event) => {
+    waves('#wave-btn__archived', '#wave__archived', 300, event, 'sidebar');
+    
     document.querySelector('#inbox-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';
     document.querySelector('#sent-view').style.display = 'none';
     document.querySelector('#archived-view').style.display = 'flex';
 
+    load_mailbox('archived');
     unread_emails();
   });
   document.querySelector('#inbox-view').style.display = 'flex';
@@ -110,15 +123,18 @@ function load_mailbox(mailbox) {
   fetch(request)
   .then(response => response.json())
   .then(emails => {
+
+      document.querySelector(`#${mailbox}-view`)
+      .querySelector(`#${mailbox}-email-list`).innerHTML = '';
+
       emails.forEach(email => {
         const element = document.createElement('div');
         element.className = 'email';
         element.dataset.id = email.id;
-
         element.innerHTML = `from: ${email.sender}, subject: ${email.subject}, timestamp: ${email.timestamp}`;
         
         document.querySelector(`#${mailbox}-view`)
-        .querySelector('#email-list').append(element);
+        .querySelector(`#${mailbox}-email-list`).append(element);
       });
       open_email(mailbox);
   });
@@ -127,10 +143,10 @@ function load_mailbox(mailbox) {
 function open_email(mailbox) {
   document.querySelectorAll(".email").forEach(email => {
     email.onclick = () => {
-
+    
       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
       const request = new Request(
-        `/email/${email.dataset.id}`,
+        `/email/${mailbox}/${email.dataset.id}`,
           {headers: {'X-CSRFToken': csrftoken}}
       );
 
@@ -152,83 +168,64 @@ function open_email(mailbox) {
 
 function render_email(email, mailbox) {
 
-  document.querySelector('#inbox-email-list').style.display = 'none';
-  document.querySelector('#email-render').style.display = 'flex';
+  document.querySelector(`#${mailbox}-email-list`).style.display = 'none';
+  document.querySelector(`#${mailbox}-email-render`).style.display = 'flex';
 
-  document.querySelector('#email-head').innerHTML = 
+  document.querySelector(`#${mailbox}-email-head`).innerHTML = 
     'From: '.bold() + `${email.sender}` + '<br>' + 
     'To: '.bold() + `${email.recipients}` + '<br>' + 
     'Subject: '.bold() + `${email.subject}` + '<br>' +
     'Timestamp: '.bold() + `${email.timestamp}` + '<br>';
 
-  document.querySelector('#email-content').value = email.body;
+  document.querySelector(`#${mailbox}-email-content`).value = email.body;
+  
+  if (mailbox === 'inbox' || mailbox === 'archived') {
+    document.querySelector(`#${mailbox}-archived-button`).addEventListener('click', () => {
 
-  document.querySelector(`#${archiving}`).addEventListener('click', () => {
-
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    const request = new Request(
-      `/email/${email.id}`,
-        {headers: {'X-CSRFToken': csrftoken}}
-    );
-    fetch(request, {
-      method: 'PUT',
-      mode: 'same-origin',
-      body: JSON.stringify({
-          archived: state
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const request = new Request(
+        `/email/${mailbox}/${email.id}`,
+          {headers: {'X-CSRFToken': csrftoken}}
+      );
+      fetch(request, {
+        method: 'PUT',
+        mode: 'same-origin',
+        body: JSON.stringify({
+            archived: true
+        })
       })
-    })
-  });
+    });
 
+    document.querySelector(`#${mailbox}-reply-button`).onclick = () => {
 
-//   document.querySelector('#reply-button').onclick = () => {
+      document.querySelector('#emails-view').style.display = 'none';
+      document.querySelector('#compose-view').style.display = 'block';
+      document.querySelector('#email').style.display = 'none';
+      document.querySelector('#archiving').innerHTML = '';
 
-//     document.querySelector('#emails-view').style.display = 'none';
-//     document.querySelector('#compose-view').style.display = 'block';
-//     document.querySelector('#email').style.display = 'none';
-//     document.querySelector('#archiving').innerHTML = '';
+      document.querySelector('#compose-recipients').value = email.sender;
 
-//     document.querySelector('#compose-recipients').value = email.sender;
+      if (email.subject.slice(0, 4) === 'Re: ') {
+        document.querySelector('#compose-subject').value = email.subject;
+      } else {
+        document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
+      }
 
-//     if (email.subject.slice(0, 4) === 'Re: ') {
-//       document.querySelector('#compose-subject').value = email.subject;
-//     } else {
-//       document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
-//     }
+      document.querySelector('#compose-body').value = 
+  `
 
-//     document.querySelector('#compose-body').value = 
-// `
+  -----------------------------------
+  At ${email.timestamp} ${email.sender} wrote: 
 
-// -----------------------------------
-// On ${email.timestamp} ${email.sender} wrote: 
+  ${email.body}
+  `;
 
-// ${email.body}
-// `;
+      submit_compose_form();
+    }
+  }
 
-//     submit_compose_form();
-//   }
 
 }
 
-
-
-
-
-
-
-
-// function compose_email() {
-
-//   // Show compose view and hide other views
-//   document.querySelector('#emails-view').style.display = 'none';
-//   document.querySelector('#compose-view').style.display = 'block';
-//   document.querySelector('#email').style.display = 'none';
-//   document.querySelector('#archiving').innerHTML = '';
-
-//   // Clear out composition fields
-//   document.querySelector('#compose-recipients').value = '';
-//   document.querySelector('#compose-subject').value = '';
-//   document.querySelector('#compose-body').value = '';
-
-// }
 
 

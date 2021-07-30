@@ -18,7 +18,7 @@ urlpatterns = [
     path("result/<int:project_num>/<int:value>", views.result, name="result"),
     path("check/<int:project_num>/<int:value>", views.check, name="check"),
     path("compose", views.compose, name="compose"),
-    path("email/<int:email_id>", views.email, name="email"),
+    path("email/<str:mailbox>/<int:email_id>", views.email, name="email"),
     path("mailbox/<str:mailbox>", views.mailbox, name="mailbox"),
 
 ]

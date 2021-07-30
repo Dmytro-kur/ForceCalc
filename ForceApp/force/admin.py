@@ -19,4 +19,4 @@ admin.site.register(Plunger)
 admin.site.register(Spring)
 admin.site.register(Angles)
 admin.site.register(Variables)
-
+admin.site.register(Flag)

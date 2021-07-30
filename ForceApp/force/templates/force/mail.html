@@ -60,6 +60,7 @@
 
         <div id="inbox-email-list">
         </div>
+
         <div style="display: none;" id="inbox-email-render">
             <div id="inbox-email-head">
             </div>
@@ -73,13 +74,18 @@
                 Reply
             </button>
             <button id="inbox-archived-button" class='btn btn-sm btn-outline-primary'>
-                Reply
+                Archived
             </button>
         </div>
+
     </div>
 
     <div id="compose-view">
         <p>New Email</p>
+
+        <div id="compose-email-head">
+        </div>
+    
         <form id="compose-form">
             <div class="form-group">
                 From: <input disabled class="form-control" value="{{ request.user.email }}">
@@ -97,14 +103,49 @@
 
             <input id="compose-button" type="submit" class="btn btn-primary"/>
         </form>
+
     </div>
 
     <div id="sent-view">
         <p>Sent</p>
+
+        <div id="sent-email-list">
+        </div>
+
+        <div style="display: none;" id="sent-email-render">
+            <div id="sent-email-head">
+            </div>
+    
+            <div id="sent-email-body">
+                <hr>
+                <textarea disabled id="sent-email-content" placeholder="Body"></textarea>
+            </div>
+    
+        </div>
     </div>
 
     <div id="archived-view">
         <p>Archived</p>
+
+        <div id="archived-email-list">
+        </div>
+
+        <div style="display: none;" id="archived-email-render">
+            <div id="archived-email-head">
+            </div>
+
+            <div id="archived-email-body">
+                <hr>
+                <textarea disabled id="archived-email-content" placeholder="Body"></textarea>
+            </div>
+
+            <button id="archived-reply-button" class='btn btn-sm btn-outline-primary'>
+                Reply
+            </button>
+            <button id="archived-archived-button" class='btn btn-sm btn-outline-primary'>
+                Archived
+            </button>
+        </div>
     </div>
 
 {% endblock %}

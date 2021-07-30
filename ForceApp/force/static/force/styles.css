@@ -15,8 +15,10 @@ body, #user_container, #logo_container,
 #container, #body,
 #side_bar, .text__sidebar,
 #inbox-view, #compose-view,
-#sent-view, #archived-view,
-#inbox-email-list, #inbox-email-render {
+#sent-view, #archived-view
+#inbox-email-list, #sent-email-list, 
+#archived-email-list, #inbox-email-render,
+#sent-email-render, #archived-email-render {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -281,10 +283,10 @@ body {
   cursor: pointer;
   background-color:rgba(70, 130, 180, 0.5);
 }
-#wave__newProject {
+/* #wave__newProject {
   -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
   clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
-}
+} */
 .text__sidebar {
   flex-direction: row;
   align-items: center;
@@ -488,7 +490,6 @@ td {
   margin-left: auto;
   margin-right: auto;
 }
-
 /* ---------------------------- end CANVAS -------------------- */
 
 /* ---------------------------- MAIL ---------------------------- */
@@ -500,10 +501,75 @@ td {
   flex-direction: column;
 }
 #inbox-email-list,
-#inbox-email-render {
+#inbox-email-render,
+#sent-email-list,
+#sent-email-render,
+#archived-email-list,
+#archived-email-render {
   flex-direction: column;
 }
+/*/// WAVE ///*/
+#wave-btn__inbox,
+#wave-btn__compose,
+#wave-btn__sent,
+#wave-btn__archived {
+  user-select: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#wave-btn__inbox {
+  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+  clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+}
+#wave-btn__compose,
+#wave-btn__sent,
+#wave-btn__archived {
+  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+  clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+}
 
+#wave-btn__inbox:hover,
+#wave-btn__compose:hover,
+#wave-btn__sent:hover,
+#wave-btn__archived:hover {
+  cursor: pointer;
+  background-color:rgba(70, 130, 180, 0.5);
+}
+/* #wave__inbox,
+#wave__compose {
+  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+  clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+} */
+.text__sidebar {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: black;
+}
+.waves__sidebar {
+  cursor: pointer;
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 300px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(126, 189, 240);
+  animation: 0.8s ease forwards normal paused sidebar-wave;
+}
+@keyframes sidebar-wave {
+  0% {
+    clip-path: circle(0px);
+  }
+  99.9% {
+    clip-path: circle(300px);
+  }
+  100% {
+    clip-path: circle(0px);
+  }
+}
+/*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */
 
 
