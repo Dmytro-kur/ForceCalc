@@ -251,16 +251,13 @@ def compose(request):
             sender=request.user,
             subject=subject,
             body=body,
-            read=False,
-            archived=False,
         )
         email.save()
         for recipient in recipients:
             email.recipients.add(recipient)
+            Flag(user=recipient, mail=email,
+                read=False, archived=False).save()
         email.save()
-
-        flag = Flag(user=request.user, mail=email, )
-
         return JsonResponse({"message": "Email sent successfully."}, status=201)
     else: 
         return HttpResponseRedirect(reverse("login"))
@@ -270,13 +267,12 @@ def mailbox(request, mailbox):
 
     # Filter emails returned based on mailbox
     if mailbox == "inbox":
-        emails = Mail.objects.filter(
-        recipients=request.user, archived=False
-        )
+        flag = Mail.objects.filter(
+        recipients=request.user, archived=False)
+        # emails = flag.
     elif mailbox == "sent":
         emails = Mail.objects.filter(
-            sender=request.user
-        )
+            sender=request.user)
     elif mailbox == "archived":
         emails = Mail.objects.filter(
             recipients=request.user, archived=True

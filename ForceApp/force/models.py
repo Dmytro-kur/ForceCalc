@@ -39,8 +39,6 @@ class Mail(models.Model):
     subject = models.CharField(max_length=255)
     body = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    read = models.BooleanField(default=False)
-    archived = models.BooleanField(default=False)
 
     def serialize(self):
         return {
@@ -73,7 +71,7 @@ class Flag(models.Model):
         else: 
             box = 'inbox'
 
-        return f"Mail {self.mail.subject} for {self.user} is {read} in {box}."
+        return f"Mail \"{self.mail.subject}\" for ({self.user}) is {read} in {box}."
 
 class Project(models.Model):
 
