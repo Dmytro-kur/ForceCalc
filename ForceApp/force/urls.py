@@ -17,6 +17,8 @@ urlpatterns = [
     path("parameter/<str:item>/<int:value>", views.parameter, name="parameter"),
     path("result/<int:project_num>/<int:value>", views.result, name="result"),
     path("check/<int:project_num>/<int:value>", views.check, name="check"),
+
+    # MAIL API Routes
     path("compose", views.compose, name="compose"),
     path("unread", views.unread, name="unread"),
     path("email/<str:mailbox>/<int:email_id>", views.email, name="email"),

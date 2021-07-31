@@ -24,6 +24,19 @@ def parse_from_js(request_body):
     dict_str = byte_str.decode("UTF-8")
     mydata = ast.literal_eval(dict_str)
 
+    # print("My DATA:", type(mydata),":", mydata)
+    ''' ast.literal_eval(node_or_string)
+    Safely evaluate an expression node or a string containing a Python literal or container display. 
+    The string or node provided may only consist of the following Python literal structures: 
+    strings, bytes, numbers, tuples, lists, dicts, sets, booleans, and None.
+    This can be used for safely evaluating strings containing Python values from untrusted sources 
+    without the need to parse the values oneself. It is not capable of evaluating arbitrarily 
+    complex expressions, for example involving operators or indexing.
+    Warning It is possible to crash the Python interpreter with a sufficiently large/complex 
+    string due to stack depth limitations in Python’s AST compiler.
+    Changed in version 3.2: Now allows bytes and set literals.
+    Changed in version 3.9: Now supports creating empty sets with 'set()'.'''
+
     return mydata
         
 class ProjectForm(forms.ModelForm):
@@ -224,6 +237,7 @@ def compose(request):
     if request.method == "POST":
 
         # Check recipient emails
+        
         data = json.loads(request.body)
         emails = [email.strip() for email in data.get("recipients").split(",")]
         if emails == [""]:
@@ -345,12 +359,19 @@ def email(request, mailbox, email_id):
 # MAIL #
 #####################################################################################
 
+#####################################################################################
+# PROJECT #
+########
+
 @login_required
 def new_project(request):
 
+    ''' Create new project '''
+    
     if request.method == "POST":
-
+        
         mydata = parse_from_js(request.body)
+
         project_data = ProjectForm(mydata)
 
         if project_data.is_valid():
@@ -358,13 +379,21 @@ def new_project(request):
             project_creator = project_data.save(commit=False)
             project_creator.user = request.user
             project_creator.save()
-
+        
             return JsonResponse({"message": "New project is created."}, status=201)
         else:
+            # error about uniqueness of the value
             return JsonResponse({"error": project_data.errors["project_number"][0]}, status=400)
+        
 
 def projects(request, query):
+
+    ''' Filtering by query for username, email, 
+    project number, project name and assembly.
     
+    int(request.GET.get("page")) variable is a page for project list.
+    query="all" gives us all project list'''
+
     if request.method == "GET":
         if query == "all":
 
@@ -425,10 +454,17 @@ def projects(request, query):
         
         return JsonResponse([{"projects_count": projects_all.count()}] + 
         [project.serialize() for project in projects], safe=False)
+########
+# PROJECT #
+#####################################################################################
 
+#####################################################################################
+# CALCULATION #
+########
 @login_required
 def check(request, project_num, value):
 
+    ''' Checking the correctness of the calculation '''
     if request.method == "GET":
         project_inst = Project.objects.get(pk=project_num)
         vars = project_inst.variables.all().get(pk=value)
@@ -734,3 +770,6 @@ def parameter(request, item, value):
                 "message": f"Angles {key} was successfully deleted",
             }, status=200)
 
+########
+# CALCULATION #
+#####################################################################################
