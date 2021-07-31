@@ -1,10 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-
+  window.onpopstate = function(event) {
+    console.log(event.state.section);
+    showSection(event.state.section);
+  }
   
   // Inbox View
   document.querySelector('#wave-btn__inbox').addEventListener('click', (event) => {
-    waves('#wave-btn__inbox', '#wave__inbox', 300, event, 'sidebar');
+    waves('#wave-btn__inbox', '#wave__inbox', 250, event, 'sidebar');
 
     document.querySelector('#inbox-view').style.display = 'flex';
     document.querySelector('#compose-view').style.display = 'none';
@@ -19,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Compose View
   document.querySelector('#wave-btn__compose').addEventListener('click', (event) => {
-    waves('#wave-btn__compose', '#wave__compose', 300, event, 'sidebar');
+    waves('#wave-btn__compose', '#wave__compose', 250, event, 'sidebar');
 
     document.querySelector('#inbox-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'flex';
@@ -31,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Sent View
   document.querySelector('#wave-btn__sent').addEventListener('click', (event) => {
-    waves('#wave-btn__sent', '#wave__sent', 300, event, 'sidebar');
+    waves('#wave-btn__sent', '#wave__sent', 250, event, 'sidebar');
 
     document.querySelector('#inbox-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';
@@ -46,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Archived View
   document.querySelector('#wave-btn__archived').addEventListener('click', (event) => {
-    waves('#wave-btn__archived', '#wave__archived', 300, event, 'sidebar');
+    waves('#wave-btn__archived', '#wave__archived', 250, event, 'sidebar');
     
     document.querySelector('#inbox-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';

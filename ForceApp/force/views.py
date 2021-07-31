@@ -154,7 +154,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     # Artificially delay speed of response
-    time.sleep(0.8)
+    time.sleep(0.3)
     return HttpResponseRedirect(reverse("index"))
 
 def register(request):
@@ -191,7 +191,7 @@ def register(request):
 def password_change(request):
     if request.method == "POST":
         # Artificially delay speed of response
-        time.sleep(0.8)
+        time.sleep(0.3)
         form = PasswordChangeForm(user=request.user,
         data=request.POST)
 
@@ -202,7 +202,7 @@ def password_change(request):
             return HttpResponseRedirect(reverse("login"))
     else:
         # Artificially delay speed of response
-        time.sleep(0.8)
+        time.sleep(0.3)
         return JsonResponse({"error": "POST request required."}, status=400)
 #####################################################################################
 # MAIL #

@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelector('#wave-btn__newProject')
     .addEventListener('click', (e) => {
-        waves('#wave-btn__newProject', '#wave__newProject', 300, e, 'sidebar');
+        waves('#wave-btn__newProject', '#wave__newProject', 250, e, 'sidebar');
 
         let box = document.querySelector('#expanded_box__newProject');
 
