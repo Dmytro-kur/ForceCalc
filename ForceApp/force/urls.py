@@ -22,6 +22,6 @@ urlpatterns = [
     path("compose", views.compose, name="compose"),
     path("unread", views.unread, name="unread"),
     path("email/<str:mailbox>/<int:email_id>", views.email, name="email"),
-    path("mailbox/<str:mailbox>", views.mailbox, name="mailbox"),
+    path("mailbox/<str:mailbox>/<str:query>", views.mailbox, name="mailbox"),
 
 ]
