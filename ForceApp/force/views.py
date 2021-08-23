@@ -510,8 +510,6 @@ def projects(request, query):
     
     int(request.GET.get("page")) variable is a page for project list.
     query="all" retrieve all project list'''
-    query = str(query)
-    print(f"Type of \"{query}\" is:", type(query))
 
     if request.method == "GET":
         if query == "all":
@@ -531,32 +529,42 @@ def projects(request, query):
             return JsonResponse([{"projects_count": Project.objects.count()}] + 
             [project.serialize() for project in projects], safe=False)
 
-        projects_user = Project.objects.none()
-        projects_email = Project.objects.none()
-        projects_num = Project.objects.none()
-        projects_name = Project.objects.none()
-        projects_ass = Project.objects.none()
+        ids = set()
 
         # make queries
         try:
-            user_name = User.objects.filter(username__icontains=query).first()
-            projects_user = Project.objects.filter(user=user_name)
+            user_name = User.objects.filter(username__icontains=query)
+            for user in user_name:
+                projects_user = Project.objects.filter(user=user)
+                for project in projects_user:
+                    ids.add(project.id)
+
         except User.DoesNotExist:
             pass
         
         try:
-            user_email = User.objects.filter(email__icontains=query).first()
-            projects_email = Project.objects.filter(user=user_email)
+            user_email = User.objects.filter(email__icontains=query)
+            for user in user_email:
+                projects_email = Project.objects.filter(user=user)
+                for project in projects_email:
+                    ids.add(project.id)
+
         except User.DoesNotExist:
             pass
 
         projects_num = Project.objects.filter(project_number__icontains=query)
-        projects_name = Project.objects.filter(project_name__icontains=query)
-        projects_ass = Project.objects.filter(assembly_number__icontains=query)
+        for project in projects_num:
+            ids.add(project.id)
 
-        projects = Project.objects.none()
-        projects_all = projects.union(projects_user, projects_email,
-                                projects_num, projects_name, projects_ass)
+        projects_name = Project.objects.filter(project_name__icontains=query)
+        for project in projects_name:
+            ids.add(project.id)
+
+        projects_ass = Project.objects.filter(assembly_number__icontains=query)
+        for project in projects_ass:
+            ids.add(project.id)
+
+        projects_all = Project.objects.filter(id__in=ids)
 
         # Get page number
         page = int(request.GET.get("page"))

@@ -2,11 +2,13 @@ function projects_retrieve(query, page) {
     if (query === "") {
         query = "all"
     }
-    fetch(`/projects/${query}?page=${page}`)
+    return fetch(`/projects/${query}?page=${page}`)
     .then(response => response.json())
     .then(projects => {
         remove_list();
-        document.querySelector("#page_counter").innerHTML = projects[0].projects_count;
+        document.querySelector("#pages").innerHTML = Math.ceil(projects[0].projects_count/10);
+        document.querySelector("#numbers").innerHTML = projects[0].projects_count;
+
         projects.slice(1).forEach(project => {
             const new_tr = document.createElement('tr');
             const date_td = document.createElement('td');
@@ -40,7 +42,10 @@ function projects_retrieve(query, page) {
 }
 
 function remove_list() {
-    document.querySelector('#homeTable').querySelector('tbody').innerHTML = '';
+    if (document.querySelector('#homeTable').querySelector('tbody')) {
+        document.querySelector('#homeTable').querySelector('tbody').innerHTML = '';
+    }
+    
 }
 
 // function projects_count(query, page) {
