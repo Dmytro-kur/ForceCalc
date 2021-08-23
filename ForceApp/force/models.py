@@ -30,15 +30,22 @@ def validate_contact_angle(value):
     if value < 90 or value > 270:
         raise ValidationError('This value should be from 90 to 270.')
 
+
+
+
 class User(AbstractUser):
     pass
 
 class Mail(models.Model):
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+
     sender = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emails_sent")
     recipients = models.ManyToManyField("User", related_name="emails_received", blank=True)
+
     subject = models.CharField(max_length=255)
     body = models.TextField(blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    
 
     def serialize(self):
         return {
@@ -81,26 +88,27 @@ class Flag(models.Model):
 
 class Project(models.Model):
 
-    datetime = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_projects")
 
     project_number = models.CharField(max_length=6, unique=True)
     project_name = models.CharField(max_length=255)
     assembly_number = models.CharField(max_length=8)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_projects")
 
     def __str__(self):
         return f"{self.project_number} {self.project_name}. {self.assembly_number}"
 
     def serialize(self):
-        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+        timestamp = self.timestamp.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
             "user": {"username": self.user.username, "email": self.user.email},
             "project_number": self.project_number,
             "project_name": self.project_name,
             "assembly_number": self.assembly_number,
-            "datetime": datetime,
+            "timestamp": timestamp,
         }
 
 class Contact(models.Model):

@@ -11,18 +11,11 @@ class Search extends React.Component {
     render() {
         return (
             <div>
-                <input onChange={this.updateQuery} type="text" id="myQuery" value={this.state.query} placeholder="Search.."/>
+                <input onChange={this.updateQuery} type="text" id="myQuery" placeholder="Search.."/>
                 <table id="homeTable">
                     <tbody>
-                        <tr className="table_header">
-                            <th>Date</th>
-                            <th>Project number</th>
-                            <th>Project name</th>
-                            <th>Assembly number</th>
-                            <th>User</th>
-                        </tr>
-                        <tr className="table_content"></tr>
-                    </tbody>
+                        {/* value={this.state.query}  */}
+                        </tbody>
                 </table>
                 <div className="paginator">
                     <span>
@@ -37,43 +30,44 @@ class Search extends React.Component {
         );
     }
 
-    pagesCount = (query, page) => {
-        projects_count(query, page)
-        .then((projects_count) => {
-            this.setState({
-                pages: Math.ceil(projects_count/10)
-            });
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    pagesCount = () => {
+        this.state.pages = Math.ceil(document.querySelector("#page_counter").innerHTML/10);
     }
 
     startPage = () => {
         projects_retrieve(this.state.query, this.state.page)
-        this.pagesCount(this.state.query, this.state.page)
+        this.pagesCount()
     }
 
-    updatePage = (query, page) => {
-        remove_list();
-        projects_retrieve(query, page);
-    }
+    // updatePage = (query, page) => {
+    //     remove_list();
+    //     projects_retrieve(query, page);
+    // }
 
     updateQuery = (event) => {
-        this.setState({
-            query: event.target.value
-        });
-        this.updatePage(event.target.value, this.state.page);
-        this.pagesCount(event.target.value, this.state.page);
+        console.log(event.target.value)
+
+        this.state.query = event.target.value;
+
+        document.querySelector('#myQuery').value = event.target.value;
+        projects_retrieve(event.target.value, this.state.page);
+        this.pagesCount();
     }
+
+
+
+
+
+
 
     nextPage = () => {
         if (this.state.page < this.state.pages) {
             this.setState({
                 page: this.state.page + 1
             });
-            this.updatePage(this.state.query, this.state.page + 1);
-            this.pagesCount(this.state.query, this.state.page + 1);
+            projects_retrieve(this.state.query, this.state.page + 1);
+            // this.updatePage(this.state.query, this.state.page + 1);
+            this.pagesCount();
         }
     }
 
@@ -82,8 +76,9 @@ class Search extends React.Component {
             this.setState({
                 page: this.state.page - 1
             });
-            this.updatePage(this.state.query, this.state.page - 1);
-            this.pagesCount(this.state.query, this.state.page - 1);
+            projects_retrieve(this.state.query, this.state.page - 1);
+            // this.updatePage(this.state.query, this.state.page - 1);
+            this.pagesCount();
         }
     }
 
@@ -91,17 +86,23 @@ class Search extends React.Component {
         this.setState({
             page: 1
         });
-        this.updatePage(this.state.query, 1);
-        this.pagesCount(this.state.query, 1);
+        projects_retrieve(this.state.query, 1);
+        // this.updatePage(this.state.query, 1);
+        this.pagesCount();
     }
 
     lastPage = () => {
         this.setState({
             page: this.state.pages
         });
-        this.updatePage(this.state.query, this.state.pages);
-        this.pagesCount(this.state.query, this.state.pages);
+        projects_retrieve(this.state.query, this.state.pages);
+        // this.updatePage(this.state.query, this.state.pages);
+        this.pagesCount();
     }
+
+
+
+
 
 }
 

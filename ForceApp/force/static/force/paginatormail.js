@@ -1,4 +1,4 @@
-class Search extends React.Component {
+class Mail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,17 +12,8 @@ class Search extends React.Component {
         return (
             <div>
                 <input onChange={this.updateQuery} type="text" id="myMail" value={this.state.query} placeholder="Search.."/>
-                <table id="homeTable">
-                    <tbody>
-                        <tr className="table_header">
-                            <th>Date</th>
-                            <th>Project number</th>
-                            <th>Project name</th>
-                            <th>Assembly number</th>
-                            <th>User</th>
-                        </tr>
-                        <tr className="table_content"></tr>
-                    </tbody>
+                <table id="homeTable_mail">
+                    <tbody></tbody>
                 </table>
                 <div className="paginator">
                     <span>
@@ -105,4 +96,4 @@ class Search extends React.Component {
 
 }
 
-ReactDOM.render(<Search />, document.querySelector('#myMail'));
+ReactDOM.render(<Mail />, document.querySelector('#myMail'));

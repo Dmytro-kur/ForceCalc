@@ -510,6 +510,8 @@ def projects(request, query):
     
     int(request.GET.get("page")) variable is a page for project list.
     query="all" retrieve all project list'''
+    query = str(query)
+    print(f"Type of \"{query}\" is:", type(query))
 
     if request.method == "GET":
         if query == "all":
@@ -520,7 +522,7 @@ def projects(request, query):
             start = end - 10
 
             # Generate list of projects
-            projects = Project.objects.order_by("-datetime")[start:end]
+            projects = Project.objects.order_by("-timestamp")[start:end]
 
             # Artificially delay speed of response
             # time.sleep(0.3)
@@ -562,7 +564,7 @@ def projects(request, query):
         start = end - 10
 
         # Generate list of projects
-        projects = projects_all.order_by("-datetime")[start:end]
+        projects = projects_all.order_by("-timestamp")[start:end]
 
         # Artificially delay speed of response
         # time.sleep(0.3)

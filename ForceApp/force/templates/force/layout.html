@@ -14,6 +14,21 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'force/favicon.ico' %}">
     <script src="{% static 'force/header.js' %}"></script>
     <script src="{% static 'force/waves.js' %}"></script>
+    <script>
+        function unread_emails() {
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const request = new Request('/unread', {headers: {'X-CSRFToken': csrftoken}});
+            fetch(request)
+            .then(response => response.json())
+            .then(count => {
+                if (count.count !== 0) {
+                    document.querySelector('#alert-circle').style.display = 'block';
+                } else {
+                    document.querySelector('#alert-circle').style.display = 'none';
+                }
+            });
+        }
+    </script>
     {% block script %}
     {% endblock %}
 </head>
@@ -99,6 +114,10 @@
         Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>.
         Icons made by <a href="" title="srip">srip</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
     </div>
+
+    <div id="query" style="display: none;"></div>
+    <div id="page" style="display: none;">0</div>
+    <div id="pages" style="display: none;">0</div>
     <form method="post">{% csrf_token %}</form>
 </body>
 </html>

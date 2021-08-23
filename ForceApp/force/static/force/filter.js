@@ -4,7 +4,9 @@ function projects_retrieve(query, page) {
     }
     fetch(`/projects/${query}?page=${page}`)
     .then(response => response.json())
-    .then(projects => {        
+    .then(projects => {
+        remove_list();
+        document.querySelector("#page_counter").innerHTML = projects[0].projects_count;
         projects.slice(1).forEach(project => {
             const new_tr = document.createElement('tr');
             const date_td = document.createElement('td');
@@ -16,7 +18,7 @@ function projects_retrieve(query, page) {
             new_tr.className = "table_content";
             new_tr.dataset.id = project.id;
 
-            date_td.innerHTML = project.datetime;
+            date_td.innerHTML = project.timestamp;
             num_td.innerHTML = project.project_number;
             name_td.innerHTML = project.project_name;
             ass_td.innerHTML = project.assembly_number;
@@ -28,7 +30,7 @@ function projects_retrieve(query, page) {
             new_tr.append(ass_td);
             new_tr.append(user_td);
 
-            document.querySelector('#homeTable').append(new_tr);
+            document.querySelector('#homeTable').querySelector('tbody').append(new_tr);
             link_calc();
         })
     })
@@ -38,25 +40,22 @@ function projects_retrieve(query, page) {
 }
 
 function remove_list() {
-    document.querySelectorAll('.table_content')
-    .forEach(el => {
-        el.remove()
-    });
+    document.querySelector('#homeTable').querySelector('tbody').innerHTML = '';
 }
 
-function projects_count(query, page) {
-    if (query === "") {
-        query = "all"
-    }
-    return fetch(`/projects/${query}?page=${page}`)
-    .then(response => response.json())
-    .then(projects => {
-        return projects.slice(0,1)[0].projects_count
-    })
-    .catch(error => {
-        console.log('Error: ', error);
-    });
-}
+// function projects_count(query, page) {
+//     if (query === "") {
+//         query = "all"
+//     }
+//     return fetch(`/projects/${query}?page=${page}`)
+//     .then(response => response.json())
+//     .then(projects => {
+//         return projects.slice(0,1)[0].projects_count
+//     })
+//     .catch(error => {
+//         console.log('Error: ', error);
+//     });
+// }
 
 function link_calc() {
     document.querySelectorAll('.table_content')
@@ -68,7 +67,7 @@ function link_calc() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     unread_emails();
     
     link_calc();

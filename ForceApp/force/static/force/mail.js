@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  window.onpopstate = function(event) {
-    console.log(event.state.section);
-    showSection(event.state.section);
-  }
+  // window.onpopstate = function(event) {
+  //   console.log(event.state.section);
+  //   showSection(event.state.section);
+  // }
   
   // Inbox View
   document.querySelector('#wave-btn__inbox').addEventListener('click', (event) => {
@@ -96,6 +96,24 @@ function submit_compose_form() {
     });
     return false;
   };
+}
+
+function unread_emails() {
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const request = new Request(
+    '/unread',
+      {headers: {'X-CSRFToken': csrftoken}}
+  );
+  fetch(request)
+  .then(response => response.json())
+  .then(count => {
+    
+    if (count.count !== 0) {
+      document.querySelector('#alert-circle').style.display = 'block';
+    } else {
+      document.querySelector('#alert-circle').style.display = 'none';
+    }
+  });
 }
 
 function load_mailbox(mailbox) {
