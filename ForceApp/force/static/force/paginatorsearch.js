@@ -9,20 +9,20 @@ class Search extends React.Component {
     }
     render() {
         return (
-            <div>
-                <input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
-                <table id="homeTable">
-                    <tbody></tbody>
-                </table>
+            <div id="batch">
+                <div id="search_module">
+                    <input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
+                    <table id="homeTable">
+                        <tbody></tbody>
+                    </table>
+                </div>
                 <div className="paginator">
-                    <span>
-                        <a className="paginator_items" onClick={this.firstPage}>&laquo; first</a>
-                        <a className="paginator_items" onClick={this.previousPage}> previous </a>
-                        <span> Page {this.state.page} of {this.state.pages}.</span>
-                        <input onKeyPress={this.updatePage} type="number" id="search_page"/>
-                        <a className="paginator_items" onClick={this.nextPage}> next </a>
-                        <a className="paginator_items" onClick={this.lastPage}> last &raquo;</a>
-                    </span>
+                    <a className="paginator_items" onClick={this.firstPage}>&laquo; first</a>
+                    <a className="paginator_items" onClick={this.previousPage}> previous </a>
+                    <span> Page {this.state.page} of {this.state.pages}.</span>
+                    <input onKeyPress={this.updatePage} type="number" id="search_page"/>
+                    <a className="paginator_items" onClick={this.nextPage}> next </a>
+                    <a className="paginator_items" onClick={this.lastPage}> last &raquo;</a>
                 </div>
             </div>
         );

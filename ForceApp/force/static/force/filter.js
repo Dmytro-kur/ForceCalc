@@ -29,13 +29,18 @@ function items_retrieve(query, page, mailbox) {
               new_tr.dataset.id = email.id;
 
               date_td.innerHTML = email.timestamp;
+              date_td.className = 'email-timestamp';
 
               sub_td.innerHTML = `subject: ${email.text.subject}`;
+              sub_td.className = 'email-subject';
               body_td.innerHTML = `body: ${email.text.body}`;
+              body_td.className = 'email-body';
 
               sen_td.innerHTML = `sender: ${email.user_objs.sender.username} (${email.user_objs.sender.email})`;
+              sen_td.className = 'email-sender';
               rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
-  
+              rec_td.className = 'email-recipients';
+
               new_tr.append(date_td);
               new_tr.append(sub_td);
               new_tr.append(body_td);
@@ -73,11 +78,20 @@ function items_retrieve(query, page, mailbox) {
                 new_tr.dataset.id = project.id;
     
                 date_td.innerHTML = project.timestamp;
+                date_td.className = 'project-timestamp';
+
                 num_td.innerHTML = project.text.project_number;
+                num_td.className = 'project-number';
+
                 name_td.innerHTML = project.text.project_name;
+                name_td.className = 'project-name';
+                
                 ass_td.innerHTML = project.text.assembly_number;
+                ass_td.className = 'project-assembly';
+
                 user_td.innerHTML = `${project.user_objs.user.username} (${project.user_objs.user.email})`;
-    
+                user_td.className = 'project-username';
+
                 new_tr.append(date_td);
                 new_tr.append(num_td);
                 new_tr.append(name_td);

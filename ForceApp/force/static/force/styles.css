@@ -19,7 +19,9 @@ body, #user_container, #logo_container,
 #inbox-email-list, #sent-email-list, 
 #archived-email-list, #inbox-email-render,
 #sent-email-render, #archived-email-render,
-#compose-form {
+#compose-form, #myQuery,
+#batch, #search_module,
+.paginator {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -250,7 +252,7 @@ body {
 /* --------------- BODY ------------- */
 #container {
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-grow: 10;
   z-index: 1;
 }
@@ -263,18 +265,105 @@ body {
   margin: 5px 10px 5px 0px;
   width: 250px;
   min-width: 250px;
+  flex-grow: 0;
 }
 #body {
   flex-direction: column;
-}
-#search_box {
   background-color: white;
   box-shadow: 1px 1px 10px #868686;
   border-radius: 10px 10px 10px 10px;
   margin: 5px 10px 5px 0px;
   padding: 15px;
+  flex-grow: 10;
+}
+#search_box, #inbox-view,
+#compose-view, #sent-view,
+#archived-view,
+#inbox-email-list, #sent-email-list,
+#archived-email-list {
+  height: 100%;
+}
+#myQuery, #batch {
+  height: 100%;
+  flex-direction: column;
+  align-items: stretch;
 }
 
+#search_module {
+  flex-grow: 10;
+  flex-direction: column;
+}
+#myQueryInput {
+  flex-grow: 0;
+  margin-bottom: 15px;
+}
+#homeTable {
+  flex-grow: 0;
+}
+.paginator {
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-evenly;
+  flex-grow: 0;
+  margin-top: 15px;
+}
+.paginator_items {
+  text-decoration: none;
+  cursor: pointer;
+}
+.table_content:hover, .email:hover {
+  cursor: pointer;
+  color: coral;
+}
+table {
+  border: none;
+}
+tr:hover {
+  box-shadow: 1px 1px 10px #868686;
+}
+/* td {
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: lightblue;
+} */
+
+td {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.project-timestamp {
+  max-width: 180px;
+}
+.project-number {
+  max-width: 70px;
+}
+.project-name {
+  max-width: 100px;
+}
+.project-assembly {
+  max-width: 80px;
+}
+.project-username {
+  max-width: 300px;
+}
+
+.email-timestamp {
+  max-width: 180px;
+}
+.email-subject {
+  max-width: 70px;
+}
+.email-body {
+  max-width: 50px;
+}
+.email-sender {
+  max-width: 80px;
+}
+.email-recipients {
+  max-width: 300px;
+}
 /*///////////////////////////*/
 #wave-btn__newProject {
   user-select: none;
@@ -425,12 +514,12 @@ p.wave-btn__sidebar {
 /* ------------------------------ end FOOTER ----------------------------- */
 /* -------------------------------------- LAYOUT HOME PAGE ---------------------------------------- */
 table {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-collapse: collapse;
 }
 
 td {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   padding: 2px;
 }
 
@@ -547,73 +636,8 @@ td {
   flex-direction: column;
 }
 textarea {
-  width: 700px;
+  /* width: 700px; */
   height: 500px;
 }
 /*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* #home_btn {
-    background-color: Transparent;
-} */
-/* a:link { */
-/* color: green; */
-/* background-color: transparent; */
-/* text-decoration: none; */
-/* } */
-/* a:visited {
-    color: pink;
-    background-color: transparent;
-    text-decoration: none;
-}
-a:hover {
-    color: red;
-    background-color: transparent;
-    text-decoration: underline;
-}
-a:active {
-    color: yellow;
-    background-color: transparent;
-    text-decoration: underline;
-} */
-/* p, h1, h2, h3, h4, h5, h6, label {
-    color:aliceblue;
-} */
-/* th {
-    color:aquamarine;
-}
-
-.table_content {
-    color:aliceblue;
-}
-
-.table_content:hover {
-    cursor: pointer;
-    color: coral;
-
-} */
-/* .paginator {
-    color:chocolate;
-}
-
-.paginator_items:hover {
-    color:chartreuse;
-    cursor: pointer;
-} */
-
-/*# sourceMappingURL=styles.css.map */
