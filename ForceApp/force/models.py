@@ -50,10 +50,22 @@ class Mail(models.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "sender": self.sender.email,
-            "recipients": [user.email for user in self.recipients.all()],
-            "subject": self.subject,
-            "body": self.body,
+
+            # user object or list of objects
+            "user_objs": {
+                "sender": {
+                    "username": self.sender.username,
+                    "email": self.sender.email,
+                },
+                "recipients": {i: user.email for i, user in enumerate(self.recipients.all())},
+            },
+
+            # text fields
+            "text": {
+                "subject": self.subject,
+                "body": self.body,
+            },
+
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
     def __str__(self):
@@ -62,6 +74,7 @@ class Mail(models.Model):
 class Flag(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="flags")
     mail = models.ForeignKey("Mail", on_delete=models.CASCADE, related_name="flags")
+
     read = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
 
@@ -104,10 +117,22 @@ class Project(models.Model):
         timestamp = self.timestamp.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "user": {"username": self.user.username, "email": self.user.email},
-            "project_number": self.project_number,
-            "project_name": self.project_name,
-            "assembly_number": self.assembly_number,
+
+            # user object or list of objects
+            "user_objs": {
+                "user": {
+                    "username": self.user.username,
+                    "email": self.user.email,
+                }
+            },
+            
+            # text fields
+            "text": {
+                "project_number": self.project_number,
+                "project_name": self.project_name,
+                "assembly_number": self.assembly_number,
+            },
+
             "timestamp": timestamp,
         }
 

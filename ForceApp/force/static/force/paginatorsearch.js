@@ -10,7 +10,7 @@ class Search extends React.Component {
     render() {
         return (
             <div>
-                <input onChange={this.updateQuery} type="text" id="myQuery" placeholder="Search.."/>
+                <input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
                 <table id="homeTable">
                     <tbody></tbody>
                 </table>
@@ -19,7 +19,7 @@ class Search extends React.Component {
                         <a className="paginator_items" onClick={this.firstPage}>&laquo; first</a>
                         <a className="paginator_items" onClick={this.previousPage}> previous </a>
                         <span> Page {this.state.page} of {this.state.pages}.</span>
-                        <input onChange={this.updatePage} type="number" id="search_page"/>
+                        <input onKeyPress={this.updatePage} type="number" id="search_page"/>
                         <a className="paginator_items" onClick={this.nextPage}> next </a>
                         <a className="paginator_items" onClick={this.lastPage}> last &raquo;</a>
                     </span>
@@ -28,8 +28,12 @@ class Search extends React.Component {
         );
     }
 
+    Update() {
+        this.forceUpdate();
+    }
+
     componentDidMount() {
-        projects_retrieve(this.state.query, this.state.page)
+        items_retrieve(this.state.query, this.state.page, `${history.state.page}`)
         .then(() => {
             this.pagesCount();
         })
@@ -41,27 +45,28 @@ class Search extends React.Component {
         })
     }
 
-
-
     updatePage = (event) => {
-        if (event.target.value < 1) {
-            this.setState({
-                page: 1,
-            })
 
-            projects_retrieve(this.state.query, 1)
-            .then(() => {
-                this.pagesCount();
-            })
-        } else {
-            this.setState({
-                page: event.target.value,
-            })
+        if (event.key === 'Enter') {
+            if (event.target.value < 1) {
+                this.setState({
+                    page: 1,
+                })
     
-            projects_retrieve(this.state.query, event.target.value)
-            .then(() => {
-                this.pagesCount();
-            })
+                items_retrieve(this.state.query, 1, `${history.state.page}`)
+                .then(() => {
+                    this.pagesCount();
+                })
+            } else {
+                this.setState({
+                    page: event.target.value,
+                })
+        
+                items_retrieve(this.state.query, event.target.value, `${history.state.page}`)
+                .then(() => {
+                    this.pagesCount();
+                })
+            }
         }
     }
 
@@ -72,7 +77,7 @@ class Search extends React.Component {
             query: event.target.value,
         })
         
-        projects_retrieve(event.target.value, this.state.page)
+        items_retrieve(event.target.value, this.state.page, `${history.state.page}`)
         .then(() => {
             this.pagesCount();
         })
@@ -85,7 +90,7 @@ class Search extends React.Component {
                 page: state.page + 1,
             }))
     
-            projects_retrieve(this.state.query, this.state.page + 1)        
+            items_retrieve(this.state.query, this.state.page + 1, `${history.state.page}`)        
             .then(() => {
                 this.pagesCount();
             })
@@ -94,7 +99,7 @@ class Search extends React.Component {
                 page: 1,
             });
     
-            projects_retrieve(this.state.query, 1)        
+            items_retrieve(this.state.query, 1, `${history.state.page}`)        
             .then(() => {
                 this.pagesCount();
             }) 
@@ -109,7 +114,7 @@ class Search extends React.Component {
                 page: 1,
             });
     
-            projects_retrieve(this.state.query, 1)        
+            items_retrieve(this.state.query, 1, `${history.state.page}`)        
             .then(() => {
                 this.pagesCount();
             })
@@ -118,7 +123,7 @@ class Search extends React.Component {
                 page: state.page - 1,
             }))
     
-            projects_retrieve(this.state.query, this.state.page - 1)        
+            items_retrieve(this.state.query, this.state.page - 1, `${history.state.page}`)        
             .then(() => {
                 this.pagesCount();
             })
@@ -129,7 +134,7 @@ class Search extends React.Component {
         this.setState({
             page: 1
         });
-        projects_retrieve(this.state.query, 1)            
+        items_retrieve(this.state.query, 1, `${history.state.page}`)            
         .then(() => {
             this.pagesCount();
         })
@@ -140,7 +145,7 @@ class Search extends React.Component {
             this.setState({
                 page: 1
             });
-            projects_retrieve(this.state.query, 1)            
+            items_retrieve(this.state.query, 1, `${history.state.page}`)            
             .then(() => {
                 this.pagesCount();
             })
@@ -149,18 +154,13 @@ class Search extends React.Component {
                 page: state.pages,
             }));
     
-            projects_retrieve(this.state.query, this.state.pages)            
+            items_retrieve(this.state.query, this.state.pages, `${history.state.page}`)            
             .then(() => {
                 this.pagesCount();
             })
         }
 
     }
-
-
-
-
-
 }
 
-ReactDOM.render(<Search />, document.querySelector('#myQuery'));
+let searchComponentInstance = ReactDOM.render(<Search />, document.querySelector('#myQuery'));

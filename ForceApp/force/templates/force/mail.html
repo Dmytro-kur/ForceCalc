@@ -51,7 +51,7 @@
         <p>Inbox</p>
 
         <div id="inbox-email-list">
-            <div id="myMail"></div>
+            <div id="myQuery"></div>
         </div>
 
         <div style="display: none;" id="inbox-email-render">
@@ -84,7 +84,7 @@
             <input id="compose-sender" type='email' disabled value="{{ request.user.email }}">
             
             <label for="id_compose-recipients">To: </label>
-            <input type="text" required id="compose-recipients" placeholder="harry@example.com, ron@example.com">
+            <input type="text" required id="compose-recipients" placeholder="for example: harry@example.com, ron@example.com">
 
             <label for="id_compose-subject"></label>
             <input type="text" required id="compose-subject" placeholder="Subject:">
@@ -100,7 +100,7 @@
         <p>Sent</p>
 
         <div id="sent-email-list">
-            <div id="myMail"></div>
+            <!-- <div id="myQuery"></div> -->
         </div>
 
         <div style="display: none;" id="sent-email-render">
@@ -119,7 +119,7 @@
         <p>Archived</p>
 
         <div id="archived-email-list">
-            <div id="myMail"></div>
+            <!-- <div id="myQuery"></div> -->
         </div>
 
         <div style="display: none;" id="archived-email-render">
@@ -147,5 +147,5 @@
 {% block script %}
     <script src="{% static 'force/filter.js' %}"></script>
     <script src="{% static 'force/mail.js' %}"></script>
-    <script src="{% static 'force/paginatormail.js' %}" type="text/babel"></script>
+    <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
 {% endblock %}

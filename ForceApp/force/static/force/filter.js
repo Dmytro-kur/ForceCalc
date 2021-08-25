@@ -1,44 +1,97 @@
-function projects_retrieve(query, page) {
+function items_retrieve(query, page, mailbox) {
+    
     if (query === "") {
-        query = "all"
+        query = "all";
     }
-    return fetch(`/projects/${query}?page=${page}`)
-    .then(response => response.json())
-    .then(projects => {
-        remove_list();
-        document.querySelector("#pages").innerHTML = Math.ceil(projects[0].projects_count/10);
-        document.querySelector("#numbers").innerHTML = projects[0].projects_count;
+    
+    if (mailbox !== 'project') {
 
-        projects.slice(1).forEach(project => {
-            const new_tr = document.createElement('tr');
-            const date_td = document.createElement('td');
-            const num_td = document.createElement('td');
-            const name_td = document.createElement('td');
-            const ass_td = document.createElement('td');
-            const user_td = document.createElement('td');
+        return fetch(`/mailbox/${query}/${mailbox}?page=${page}`)
+        .then(response => response.json())
+        .then(emails => {
 
-            new_tr.className = "table_content";
-            new_tr.dataset.id = project.id;
+            remove_list();
+            document.querySelector("#pages").innerHTML = Math.ceil(emails[0].count/50);
+            document.querySelector("#numbers").innerHTML = emails[0].count;
+            searchComponentInstance.setState({pages: parseInt(document.querySelector('#pages').innerHTML)})
 
-            date_td.innerHTML = project.timestamp;
-            num_td.innerHTML = project.project_number;
-            name_td.innerHTML = project.project_name;
-            ass_td.innerHTML = project.assembly_number;
-            user_td.innerHTML = `${project.user.username} (${project.user.email})`;
+            emails.slice(1).forEach(email => {
+              const new_tr = document.createElement('tr');
+              const date_td = document.createElement('td');
 
-            new_tr.append(date_td);
-            new_tr.append(num_td);
-            new_tr.append(name_td);
-            new_tr.append(ass_td);
-            new_tr.append(user_td);
+              const sub_td = document.createElement('td');
+              const body_td = document.createElement('td');
 
-            document.querySelector('#homeTable').querySelector('tbody').append(new_tr);
-            link_calc();
+              const sen_td = document.createElement('td');
+              const rec_td = document.createElement('td');
+
+              new_tr.className = 'email';
+              new_tr.dataset.id = email.id;
+
+              date_td.innerHTML = email.timestamp;
+
+              sub_td.innerHTML = `subject: ${email.text.subject}`;
+              body_td.innerHTML = `body: ${email.text.body}`;
+
+              sen_td.innerHTML = `sender: ${email.user_objs.sender.username} (${email.user_objs.sender.email})`;
+              rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
+  
+              new_tr.append(date_td);
+              new_tr.append(sub_td);
+              new_tr.append(body_td);
+              new_tr.append(sen_td);
+              new_tr.append(rec_td);
+             
+              document.querySelector(`#${mailbox}-view`)
+              .querySelector(`#${mailbox}-email-list`)
+              .querySelector('#homeTable').querySelector('tbody').append(new_tr);
+              
+            });
+            open_email(mailbox);
+        });
+      
+    } else if (mailbox === 'project'){
+
+        return fetch(`/projects/${query}?page=${page}`)
+        .then(response => response.json())
+        .then(projects => {
+
+            remove_list();
+            document.querySelector("#pages").innerHTML = Math.ceil(projects[0].count/10);
+            document.querySelector("#numbers").innerHTML = projects[0].count;
+            searchComponentInstance.setState({pages: parseInt(document.querySelector('#pages').innerHTML)})
+
+            projects.slice(1).forEach(project => {
+                const new_tr = document.createElement('tr');
+                const date_td = document.createElement('td');
+                const num_td = document.createElement('td');
+                const name_td = document.createElement('td');
+                const ass_td = document.createElement('td');
+                const user_td = document.createElement('td');
+    
+                new_tr.className = "table_content";
+                new_tr.dataset.id = project.id;
+    
+                date_td.innerHTML = project.timestamp;
+                num_td.innerHTML = project.text.project_number;
+                name_td.innerHTML = project.text.project_name;
+                ass_td.innerHTML = project.text.assembly_number;
+                user_td.innerHTML = `${project.user_objs.user.username} (${project.user_objs.user.email})`;
+    
+                new_tr.append(date_td);
+                new_tr.append(num_td);
+                new_tr.append(name_td);
+                new_tr.append(ass_td);
+                new_tr.append(user_td);
+    
+                document.querySelector('#homeTable').querySelector('tbody').append(new_tr);
+                link_calc();
+            })
         })
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .catch(error => {
+            console.log(error);
+        });    
+    }
 }
 
 function remove_list() {
@@ -47,20 +100,6 @@ function remove_list() {
     }
     
 }
-
-// function projects_count(query, page) {
-//     if (query === "") {
-//         query = "all"
-//     }
-//     return fetch(`/projects/${query}?page=${page}`)
-//     .then(response => response.json())
-//     .then(projects => {
-//         return projects.slice(0,1)[0].projects_count
-//     })
-//     .catch(error => {
-//         console.log('Error: ', error);
-//     });
-// }
 
 function link_calc() {
     document.querySelectorAll('.table_content')
@@ -72,6 +111,8 @@ function link_calc() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    history.pushState({page: 'project'}, "", "");
 
     unread_emails();
     
@@ -111,39 +152,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('#id_assembly_number').value = '';
             })
             .then(() => {
-                projects_retrieve("", 1);
+                items_retrieve("", 1, 'project');
             })
         }
     }
-
-    document.querySelector('#wave-btn__newProject')
-    .addEventListener('click', (e) => {
-        waves('#wave-btn__newProject', '#wave__newProject', 250, e, 'sidebar');
-
-        let box = document.querySelector('#expanded_box__newProject');
-
-        if (box.dataset.state === 'closed') {
-            // box.style.animationPlayState = 'running';
-            // box.style.visibility = 'visible';
-            // box.style.animationDirection ="normal";
-            box.style.animation = '70ms ease forwards running expand';
-            box.dataset.state = 'expanded';
-            
-            document.querySelector('#wave-btn__newProject')
-            .querySelector('.expand__sidebar')
-            .style.animation = '70ms ease forwards running arrow-rotate-downwards';
-        }
-        else if (box.dataset.state === 'expanded') {
-            // box.style.animationPlayState = 'running';
-            // box.style.visibility = 'hidden';
-            // box.style.animationDirection ="reverse";
-            box.style.animation = '70ms ease forwards running closed';
-            box.dataset.state = 'closed';
-
-            document.querySelector('#wave-btn__newProject')
-            .querySelector('.expand__sidebar')
-            .style.animation = '70ms ease forwards running arrow-rotate-upwards';
-        }
-    })
+    if (document.querySelector('#wave-btn__newProject')) {
+        document.querySelector('#wave-btn__newProject')
+        .addEventListener('click', (e) => {
+            waves('#wave-btn__newProject', '#wave__newProject', 250, e, 'sidebar');
+    
+            let box = document.querySelector('#expanded_box__newProject');
+    
+            if (box.dataset.state === 'closed') {
+                box.style.animation = '70ms ease forwards running expand';
+                box.dataset.state = 'expanded';
+                
+                document.querySelector('#wave-btn__newProject')
+                .querySelector('.expand__sidebar')
+                .style.animation = '70ms ease forwards running arrow-rotate-downwards';
+            }
+            else if (box.dataset.state === 'expanded') {
+                box.style.animation = '70ms ease forwards running closed';
+                box.dataset.state = 'closed';
+    
+                document.querySelector('#wave-btn__newProject')
+                .querySelector('.expand__sidebar')
+                .style.animation = '70ms ease forwards running arrow-rotate-upwards';
+            }
+        })
+    }
 
 })
