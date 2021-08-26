@@ -290,39 +290,46 @@ def email(request, mailbox, email_id):
     # Query for requested email
     if mailbox == 'inbox' or mailbox == 'archived':
         try:
-
             email_ = Mail.objects.get(id=email_id)
             # Preventing bad retrieving of email 
             flag = email_.mail_flags.get(user=request.user)
-            email = flag.mail
 
         except Mail.DoesNotExist:
             return JsonResponse({"error": "Email not found."}, status=404)
 
     if mailbox == 'sent':
         try:
-            email = Mail.objects.get(sender=request.user, pk=email_id)
+            flag = Mail.objects.get(sender=request.user, pk=email_id)
         except Mail.DoesNotExist:
             return JsonResponse({"error": "Email not found."}, status=404)
 
     # Return email contents
     if request.method == "GET":
-        return JsonResponse(email.serialize())
+        return JsonResponse(flag.serialize(), safe=False)
 
     # Update whether email is read or should be archived
     elif request.method == "PUT":
 
         data = json.loads(request.body)
         if data.get("read") is not None:
-
             flag.read = data["read"]
 
-        if data.get("archived") is not None:
+            flag.save()
+            if data["read"]:
+                return JsonResponse({"message": "The message has been read."}, status=201)
+            if not data["read"]:
+                return JsonResponse({"message": "The message was not read."}, status=201)
 
+        if data.get("archived") is not None:
             flag.archived = data["archived"]
 
-        flag.save()
-        return HttpResponse(status=204)
+            flag.save()
+            if data["archived"]:
+                return JsonResponse({"message": "Email was archived."}, status=201)
+            if not data["archived"]:
+                return JsonResponse({"message": "Email was unarchived."}, status=201)
+
+        return JsonResponse({"message": "Email state wasn't change."}, status=201)
 
     # Email must be via GET or PUT
     else:
@@ -330,16 +337,12 @@ def email(request, mailbox, email_id):
             "error": "GET or PUT request required."
         }, status=400)
 
-def readArchived(email, request):
-
+def Read(email, request):
     ser_email = email.serialize()
     try:
         ser_email["read"] = Flag.objects.get(mail=email, user=request).read
-        ser_email["archived"] = Flag.objects.get(mail=email, user=request).archived
     except Flag.DoesNotExist:
         ser_email["read"] = ''
-        ser_email["archived"] = ''
-        
     return ser_email
 
 @login_required
@@ -389,7 +392,7 @@ def mailbox(request, query, mailbox):
             # time.sleep(0.3)
 
             return JsonResponse([{"count": emails_1.count()}] + 
-            [readArchived(email, request.user) for email in emails], safe=False)
+            [Read(email, request.user) for email in emails], safe=False)
 
         # make queries
 
@@ -461,7 +464,7 @@ def mailbox(request, query, mailbox):
 
         # Return list of emails
         return JsonResponse([{"count": emails_2.count()}] + 
-        [readArchived(email, request.user) for email in emails], safe=False)
+        [Read(email, request.user) for email in emails], safe=False)
 
 ########
 # MAIL #
@@ -491,7 +494,7 @@ def new_project(request):
             return JsonResponse({"message": "New project is created."}, status=201)
         else:
             # error about uniqueness of the value
-            return JsonResponse({"error": project_data.errors["project_number"][0]}, status=400)
+            return JsonResponse({"message": project_data.errors["project_number"][0]}, status=400)
         
 
 def projects(request, query):

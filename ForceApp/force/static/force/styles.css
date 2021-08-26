@@ -21,7 +21,10 @@ body, #user_container, #logo_container,
 #sent-email-render, #archived-email-render,
 #compose-form, #myQuery,
 #batch, #search_module,
-.paginator, #myQueryDiv {
+.paginator, #myQueryDiv, 
+#inbox-email-head, #inbox-email-body,
+#sent-email-head, #sent-email-body,
+#archived-email-head, #archived-email-body {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -349,11 +352,6 @@ table {
 tr:hover {
   box-shadow: 1px 1px 10px #868686;
 }
-/* td {
-  border-width: 0.5px;
-  border-style: solid;
-  border-color: lightblue;
-} */
 
 td {
   text-overflow: ellipsis;
@@ -415,6 +413,18 @@ td {
   max-width: 300px;
   min-width: 300px;
   width: 300px;
+}
+
+#inbox-email-head,
+#sent-email-head,
+#archived-email-head {
+  flex-direction: column;
+}
+
+#inbox-email-body,
+#sent-email-body,
+#archived-email-body {
+  flex-direction: column;
 }
 /*///////////////////////////*/
 #wave-btn__newProject {

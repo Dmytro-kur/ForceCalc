@@ -67,8 +67,6 @@ class Mail(models.Model):
             },
 
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
-            # "read": Flag.objects.filter(),
-            # "archived": self.flags.get(mail=self).archived,
         }
     def __str__(self):
         return f"{self.id}: ({self.sender}) subject - {self.subject}"
@@ -82,8 +80,25 @@ class Flag(models.Model):
 
     def serialize(self):
         return {
-            "user": self.user,
-            "mail": self.mail,
+            "id": self.mail.id,
+
+            # user object or list of objects
+            "user_objs": {
+                "sender": {
+                    "username": self.mail.sender.username,
+                    "email": self.mail.sender.email,
+                },
+                "recipients": {i: user.email for i, user in enumerate(self.mail.recipients.all())},
+            },
+
+            # text fields
+            "text": {
+                "subject": self.mail.subject,
+                "body": self.mail.body,
+            },
+
+            "timestamp": self.mail.timestamp.strftime("%b %d %Y, %I:%M %p"),
+
             "read": self.read,
             "archived": self.archived
         }

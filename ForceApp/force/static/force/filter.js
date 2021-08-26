@@ -28,6 +28,7 @@ function items_retrieve(query, page, mailbox) {
 
                 new_tr.className = 'email';
                 new_tr.dataset.id = email.id;
+                
                 if (email.read === false) {
                     new_tr.style.backgroundColor = "lightsteelblue";
                 }
