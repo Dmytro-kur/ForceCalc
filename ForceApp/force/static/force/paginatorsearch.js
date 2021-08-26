@@ -16,6 +16,7 @@ class Search extends React.Component {
                         <img id="myQueryImg" src={"/static/force/loupe.png"}/><input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
                     </div>
                     <table id="homeTable">
+                        <thead></thead>
                         <tbody></tbody>
                     </table>
                 </div>

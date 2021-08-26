@@ -11,6 +11,13 @@ function items_retrieve(query, page, mailbox) {
         .then(emails => {
 
             remove_list();
+            document.querySelector('#homeTable').querySelector('thead').innerHTML = 
+            '<tr style="border-bottom: 0.5px solid lightskyblue;">'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Created</th>'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Subject</th>'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Body</th>'
+            + '<th >Sender</th>'
+            + '</tr>';
             document.querySelector("#pages").innerHTML = Math.ceil(emails[0].count/50);
             document.querySelector("#numbers").innerHTML = emails[0].count;
             searchComponentInstance.setState({pages: parseInt(document.querySelector('#pages').innerHTML)})
@@ -36,15 +43,15 @@ function items_retrieve(query, page, mailbox) {
                 date_td.innerHTML = `${email.timestamp}`;
                 date_td.className = 'email-timestamp';
 
-                sub_td.innerHTML = `subject: ${email.text.subject}`;
+                sub_td.innerHTML = `${email.text.subject}`;
                 sub_td.className = 'email-subject';
-                body_td.innerHTML = `body: ${email.text.body}`;
+                body_td.innerHTML = `${email.text.body}`;
                 body_td.className = 'email-body';
 
-                sen_td.innerHTML = `sender: ${email.user_objs.sender.username} (${email.user_objs.sender.email})`;
+                sen_td.innerHTML = `${email.user_objs.sender.email}`;
                 sen_td.className = 'email-sender';
-                rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
-                rec_td.className = 'email-recipients';
+                // rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
+                // rec_td.className = 'email-recipients';
 
                 new_tr.append(date_td);
                 new_tr.append(sub_td);
@@ -67,6 +74,14 @@ function items_retrieve(query, page, mailbox) {
         .then(projects => {
 
             remove_list();
+            document.querySelector('#homeTable').querySelector('thead').innerHTML = 
+            '<tr style="border-bottom: 0.5px solid lightskyblue;">'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Created</th>'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Project</th>'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Name</th>'
+            + '<th style="border-right: 0.5px solid lightskyblue;">Number</th>'
+            + '<th>Creator</th>'
+            + '</tr>';
             document.querySelector("#pages").innerHTML = Math.ceil(projects[0].count/10);
             document.querySelector("#numbers").innerHTML = projects[0].count;
             searchComponentInstance.setState({pages: parseInt(document.querySelector('#pages').innerHTML)})
@@ -114,8 +129,9 @@ function items_retrieve(query, page, mailbox) {
 }
 
 function remove_list() {
-    if (document.querySelector('#homeTable').querySelector('tbody')) {
+    if (document.querySelector('#homeTable')) {
         document.querySelector('#homeTable').querySelector('tbody').innerHTML = '';
+        document.querySelector('#homeTable').querySelector('thead').innerHTML = '';
     }
     
 }

@@ -81,7 +81,9 @@ body {
 }
 
 #alert-circle__top {
-  position: fixed;
+  position: relative;
+  width: 0px;
+  height: 0px;
 }
 #alert-circle {
   position: relative;
@@ -198,8 +200,10 @@ body {
 }
 
 .user-menu__top {
-  position: fixed;
+  position: relative;
   pointer-events: none;
+  width: 0px;
+  height: 0px;
 }
 
 #user-menu {
@@ -210,6 +214,8 @@ body {
   border-radius: 10px;
   box-shadow: 1px 1px 10px #868686;
   pointer-events: auto;
+  width: 289.6px;
+  height: 193.8px;
 }
 
 .first_last_name, div.email.user-menu,
@@ -320,7 +326,8 @@ body {
 #myQueryInput:focus, 
 #id_project_number:focus,
 #id_project_name:focus,
-#id_assembly_number:focus {
+#id_assembly_number:focus,
+#search_page:focus {
   outline: none;
 }
 #homeTable {
@@ -328,18 +335,23 @@ body {
 }
 .paginator {
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   flex-grow: 0;
   margin-top: 15px;
 }
 .paginator_items {
-  margin: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
   text-decoration: none;
   cursor: pointer;
 }
 #search_page {
   width: 50px;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  height: 24px;
 }
 .table_content:hover, .email:hover {
   cursor: pointer;
@@ -404,16 +416,16 @@ td {
   border-right: 0.5px solid lightskyblue;
 }
 .email-sender {
-  max-width: 150px;
-  min-width: 150px;
-  width: 150px;
-  border-right: 0.5px solid lightskyblue;
+  max-width: 200px;
+  min-width: 200px;
+  width: 200px;
+  /* border-right: 0.5px solid lightskyblue; */
 }
-.email-recipients {
+/* .email-recipients {
   max-width: 300px;
   min-width: 300px;
   width: 300px;
-}
+} */
 
 #inbox-email-head,
 #sent-email-head,

@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#user-menu').style.display === 'flex') {
       document.querySelector('#user-menu').style.display = 'none';
     } else if (document.querySelector('#user-menu').style.display === 'none') {
-      document.querySelector('#user-menu').style.left = `${0}px`;
-      document.querySelector('#user-menu').style.top = `${120}px`;
+      document.querySelector('#user-menu').style.right = `${300}px`;
+      document.querySelector('#user-menu').style.top = `${25}px`;
       document.querySelector('#user-menu').style.display = 'flex';
       document.querySelector('.change_pwd_logo_wave').style.animationPlayState = 'paused';
       document.querySelector('.logout_logo_wave').style.animationPlayState = 'paused';

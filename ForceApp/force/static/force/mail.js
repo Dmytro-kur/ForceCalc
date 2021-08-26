@@ -137,6 +137,7 @@ function shutOff_archived() {
   document.querySelector('#inbox-archived-button').style.display = 'none';
   document.querySelector('#archived-archived-button').style.display = 'none';
 }
+
 function submit_compose_form() {
   document.querySelector("#compose-form").onsubmit = function () {
 
@@ -158,6 +159,10 @@ function submit_compose_form() {
     .then(response => response.json())
     .then(result => {
         alert(result.message);
+        unread_emails();
+        document.querySelector('#compose-recipients').value = '';
+        document.querySelector('#compose-subject').value = '';
+        document.querySelector('#compose-body').value = '';
     });
     return false;
   };
@@ -218,24 +223,27 @@ function render_email(email, mailbox) {
   shutOff_elements();
   shutOff_archived();
   shutOff_views();
-  console.log(email)
+  
   document.querySelector(`#${mailbox}-view`).style.display = 'flex';
   document.querySelector(`#${mailbox}-email-render`).style.display = 'flex';
-  document.querySelector(`#${mailbox}-archived-button`).style.display = 'inline-block';
   document.querySelector(`#${mailbox}-email-head`).innerHTML = 
-    'From: '.bold() + `${email.user_objs.sender.email}` + '<br>' + 
-    'To: '.bold() + `${Object.values(email.user_objs.recipients)}` + '<br>' + 
-    'Subject: '.bold() + `${email.text.subject}` + '<br>' +
-    'Timestamp: '.bold() + `${email.timestamp}` + '<br>';
+    '<p style="margin: 0px;">From: '.bold() + `${email.user_objs.sender.email}</p>` +  
+    '<p style="margin: 0px;">To: '.bold() + `${Object.values(email.user_objs.recipients)}</p>` + 
+    '<p style="margin: 0px;">Subject: '.bold() + `${email.text.subject}</p>` + 
+    '<p style="margin: 0px;">Timestamp: '.bold() + `${email.timestamp}</p>`;
+
   document.querySelector(`#${mailbox}-email-content`).value = email.text.body;
 
-  if (!email.archived) {
-    document.querySelector(`#${mailbox}-archived-button`).innerText = 'Archive';
-  } else if (email.archived) {
-    document.querySelector(`#${mailbox}-archived-button`).innerText = 'Unarchive';
-  }
-
   if (mailbox === 'inbox' || mailbox === 'archived') {
+
+    document.querySelector(`#${mailbox}-archived-button`).style.display = 'inline-block';
+
+    if (!email.archived) {
+      document.querySelector(`#${mailbox}-archived-button`).innerText = 'Archive';
+    } else if (email.archived) {
+      document.querySelector(`#${mailbox}-archived-button`).innerText = 'Unarchive';
+    }
+
     document.querySelector(`#${mailbox}-archived-button`).addEventListener('click', () => {
       
       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
