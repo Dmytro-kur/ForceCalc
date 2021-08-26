@@ -293,7 +293,7 @@ def email(request, mailbox, email_id):
 
             email_ = Mail.objects.get(id=email_id)
             # Preventing bad retrieving of email 
-            flag = email_.flags.get(user=request.user)
+            flag = email_.mail_flags.get(user=request.user)
             email = flag.mail
 
         except Mail.DoesNotExist:
@@ -329,6 +329,18 @@ def email(request, mailbox, email_id):
         return JsonResponse({
             "error": "GET or PUT request required."
         }, status=400)
+
+def readArchived(email, request):
+
+    ser_email = email.serialize()
+    try:
+        ser_email["read"] = Flag.objects.get(mail=email, user=request).read
+        ser_email["archived"] = Flag.objects.get(mail=email, user=request).archived
+    except Flag.DoesNotExist:
+        ser_email["read"] = ''
+        ser_email["archived"] = ''
+        
+    return ser_email
 
 @login_required
 def mailbox(request, query, mailbox):
@@ -377,7 +389,7 @@ def mailbox(request, query, mailbox):
             # time.sleep(0.3)
 
             return JsonResponse([{"count": emails_1.count()}] + 
-            [email.serialize() for email in emails], safe=False)
+            [readArchived(email, request.user) for email in emails], safe=False)
 
         # make queries
 
@@ -447,10 +459,9 @@ def mailbox(request, query, mailbox):
         # Artificially delay speed of response
         # time.sleep(0.3)
 
-        # Return list of projects
-        
+        # Return list of emails
         return JsonResponse([{"count": emails_2.count()}] + 
-        [email.serialize() for email in emails], safe=False)
+        [readArchived(email, request.user) for email in emails], safe=False)
 
 ########
 # MAIL #

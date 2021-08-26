@@ -1,3 +1,4 @@
+
 class Search extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +12,9 @@ class Search extends React.Component {
         return (
             <div id="batch">
                 <div id="search_module">
-                    <input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
+                    <div id="myQueryDiv">
+                        <img id="myQueryImg" src={"/static/force/loupe.png"}/><input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
+                    </div>
                     <table id="homeTable">
                         <tbody></tbody>
                     </table>
@@ -20,7 +23,7 @@ class Search extends React.Component {
                     <a className="paginator_items" onClick={this.firstPage}>&laquo; first</a>
                     <a className="paginator_items" onClick={this.previousPage}> previous </a>
                     <span> Page {this.state.page} of {this.state.pages}.</span>
-                    <input onKeyPress={this.updatePage} type="number" id="search_page"/>
+                    <input onKeyPress={this.updatePage} id="search_page"/>
                     <a className="paginator_items" onClick={this.nextPage}> next </a>
                     <a className="paginator_items" onClick={this.lastPage}> last &raquo;</a>
                 </div>

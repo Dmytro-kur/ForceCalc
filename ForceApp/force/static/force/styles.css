@@ -21,7 +21,7 @@ body, #user_container, #logo_container,
 #sent-email-render, #archived-email-render,
 #compose-form, #myQuery,
 #batch, #search_module,
-.paginator {
+.paginator, #myQueryDiv {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -293,9 +293,32 @@ body {
   flex-grow: 10;
   flex-direction: column;
 }
-#myQueryInput {
+#myQueryDiv {
   flex-grow: 0;
   margin-bottom: 15px;
+  border-radius: 15px;
+  width: 500px;
+  height: 30px;
+  box-shadow: 1px 1px 10px #868686;
+}
+#myQueryInput {
+  border: none;
+  width: 470px;
+  border-radius: 0px 15px 15px 0px;
+}
+#myQueryImg {
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
+  margin-left: 7.5px;
+  margin-right: 7.5px;
+  width: 15px;
+  height: 15px;
+}
+#myQueryInput:focus, 
+#id_project_number:focus,
+#id_project_name:focus,
+#id_assembly_number:focus {
+  outline: none;
 }
 #homeTable {
   flex-grow: 0;
@@ -303,18 +326,23 @@ body {
 .paginator {
   flex-direction: row;
   align-items: baseline;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-grow: 0;
   margin-top: 15px;
 }
 .paginator_items {
+  margin: 5px;
   text-decoration: none;
   cursor: pointer;
+}
+#search_page {
+  width: 50px;
 }
 .table_content:hover, .email:hover {
   cursor: pointer;
   color: coral;
 }
+
 table {
   border: none;
 }
@@ -334,35 +362,59 @@ td {
 }
 
 .project-timestamp {
-  max-width: 180px;
+  max-width: 190px;
+  min-width: 190px;
+  width: 190px;
+  border-right: 0.5px solid lightskyblue;
 }
 .project-number {
   max-width: 70px;
+  min-width: 70px;
+  width: 70px;
+  border-right: 0.5px solid lightskyblue;
 }
 .project-name {
   max-width: 100px;
+  border-right: 0.5px solid lightskyblue;
 }
 .project-assembly {
   max-width: 80px;
+  min-width: 80px;
+  width: 80px;
+  border-right: 0.5px solid lightskyblue;
 }
 .project-username {
   max-width: 300px;
+  min-width: 300px;
+  width: 300px;
 }
 
 .email-timestamp {
-  max-width: 180px;
+  max-width: 190px;
+  min-width: 190px;
+  width: 190px;
+  border-right: 0.5px solid lightskyblue;
 }
 .email-subject {
-  max-width: 70px;
+  max-width: 160px;
+  min-width: 160px;
+  width: 160px;
+  border-right: 0.5px solid lightskyblue;
 }
 .email-body {
-  max-width: 50px;
+  max-width: 100px;
+  border-right: 0.5px solid lightskyblue;
 }
 .email-sender {
-  max-width: 80px;
+  max-width: 150px;
+  min-width: 150px;
+  width: 150px;
+  border-right: 0.5px solid lightskyblue;
 }
 .email-recipients {
   max-width: 300px;
+  min-width: 300px;
+  width: 300px;
 }
 /*///////////////////////////*/
 #wave-btn__newProject {
@@ -447,9 +499,8 @@ p.wave-btn__sidebar {
 
 #post_new_project {
   margin-top: 10px;
-  align-self: flex-end;
-  width: 70px;
-
+  /* align-self: flex-end; */
+  /* width: 70px; */
 }
 
 @keyframes arrow-rotate-downwards {

@@ -16,40 +16,44 @@ function items_retrieve(query, page, mailbox) {
             searchComponentInstance.setState({pages: parseInt(document.querySelector('#pages').innerHTML)})
 
             emails.slice(1).forEach(email => {
-              const new_tr = document.createElement('tr');
-              const date_td = document.createElement('td');
+                
+                const new_tr = document.createElement('tr');
+                const date_td = document.createElement('td');
 
-              const sub_td = document.createElement('td');
-              const body_td = document.createElement('td');
+                const sub_td = document.createElement('td');
+                const body_td = document.createElement('td');
 
-              const sen_td = document.createElement('td');
-              const rec_td = document.createElement('td');
+                const sen_td = document.createElement('td');
+                const rec_td = document.createElement('td');
 
-              new_tr.className = 'email';
-              new_tr.dataset.id = email.id;
+                new_tr.className = 'email';
+                new_tr.dataset.id = email.id;
+                if (email.read === false) {
+                    new_tr.style.backgroundColor = "lightsteelblue";
+                }
 
-              date_td.innerHTML = email.timestamp;
-              date_td.className = 'email-timestamp';
+                date_td.innerHTML = `${email.timestamp}`;
+                date_td.className = 'email-timestamp';
 
-              sub_td.innerHTML = `subject: ${email.text.subject}`;
-              sub_td.className = 'email-subject';
-              body_td.innerHTML = `body: ${email.text.body}`;
-              body_td.className = 'email-body';
+                sub_td.innerHTML = `subject: ${email.text.subject}`;
+                sub_td.className = 'email-subject';
+                body_td.innerHTML = `body: ${email.text.body}`;
+                body_td.className = 'email-body';
 
-              sen_td.innerHTML = `sender: ${email.user_objs.sender.username} (${email.user_objs.sender.email})`;
-              sen_td.className = 'email-sender';
-              rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
-              rec_td.className = 'email-recipients';
+                sen_td.innerHTML = `sender: ${email.user_objs.sender.username} (${email.user_objs.sender.email})`;
+                sen_td.className = 'email-sender';
+                rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
+                rec_td.className = 'email-recipients';
 
-              new_tr.append(date_td);
-              new_tr.append(sub_td);
-              new_tr.append(body_td);
-              new_tr.append(sen_td);
-              new_tr.append(rec_td);
-             
-              document.querySelector(`#${mailbox}-view`)
-              .querySelector(`#${mailbox}-email-list`)
-              .querySelector('#homeTable').querySelector('tbody').append(new_tr);
+                new_tr.append(date_td);
+                new_tr.append(sub_td);
+                new_tr.append(body_td);
+                new_tr.append(sen_td);
+                new_tr.append(rec_td);
+                
+                document.querySelector(`#${mailbox}-view`)
+                .querySelector(`#${mailbox}-email-list`)
+                .querySelector('#homeTable').querySelector('tbody').append(new_tr);
               
             });
             open_email(mailbox);
@@ -77,16 +81,16 @@ function items_retrieve(query, page, mailbox) {
                 new_tr.className = "table_content";
                 new_tr.dataset.id = project.id;
     
-                date_td.innerHTML = project.timestamp;
+                date_td.innerHTML = `${project.timestamp}`;
                 date_td.className = 'project-timestamp';
 
-                num_td.innerHTML = project.text.project_number;
+                num_td.innerHTML = `${project.text.project_number}`;
                 num_td.className = 'project-number';
 
-                name_td.innerHTML = project.text.project_name;
+                name_td.innerHTML = `${project.text.project_name}`;
                 name_td.className = 'project-name';
                 
-                ass_td.innerHTML = project.text.assembly_number;
+                ass_td.innerHTML = `${project.text.assembly_number}`;
                 ass_td.className = 'project-assembly';
 
                 user_td.innerHTML = `${project.user_objs.user.username} (${project.user_objs.user.email})`;

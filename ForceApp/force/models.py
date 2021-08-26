@@ -67,13 +67,15 @@ class Mail(models.Model):
             },
 
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
+            # "read": Flag.objects.filter(),
+            # "archived": self.flags.get(mail=self).archived,
         }
     def __str__(self):
         return f"{self.id}: ({self.sender}) subject - {self.subject}"
 
 class Flag(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="flags")
-    mail = models.ForeignKey("Mail", on_delete=models.CASCADE, related_name="flags")
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_flags")
+    mail = models.ForeignKey("Mail", on_delete=models.CASCADE, related_name="mail_flags")
 
     read = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
