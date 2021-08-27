@@ -271,7 +271,6 @@ body {
   flex-grow: 10;
   z-index: 1;
 }
-
 #side_bar {
   flex-direction: column;
   background-color: white;
@@ -291,6 +290,27 @@ body {
   padding: 15px;
   flex-grow: 10;
 }
+@media all and (max-width: 800px) {
+  #container {
+    flex-direction: column;
+  }
+  #side_bar {
+    flex-direction: row;
+    border-radius: 10px 10px 10px 10px;
+    margin: 5px 10px 5px 10px;
+    justify-content: space-around;
+    min-width: 520px;
+  }
+  #body {
+    margin: 5px 10px 5px 10px;
+    min-width: 520px;
+  }
+  #wave-btn__inbox {
+    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+    clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+  }
+}
+
 #search_box, #inbox-view,
 #compose-view, #sent-view,
 #archived-view,
@@ -345,6 +365,7 @@ body {
   justify-content: center;
   flex-grow: 0;
   margin-top: 15px;
+  white-space: nowrap;
 }
 .paginator_items {
   margin-right: 5px;
@@ -694,12 +715,14 @@ td {
 #wave-btn__inbox {
   -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
   clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+  width: 250px;
 }
 #wave-btn__compose,
 #wave-btn__sent,
 #wave-btn__archived {
   -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
   clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+  width: 250px;
 }
 
 #wave-btn__inbox:hover,
@@ -713,10 +736,11 @@ td {
 
 #compose-form {
   flex-direction: column;
+  height: 100%;
 }
 textarea {
   /* width: 700px; */
-  height: 500px;
+  height: 100%;
 }
 /*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */
