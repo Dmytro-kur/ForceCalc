@@ -824,7 +824,8 @@ td {
 }
 textarea, #inbox-email-body,
 #inbox-email-content {
-  height: max-content;
+  /* flex: 1; */
+  height: 100%;
 }
 /*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */

@@ -76,12 +76,12 @@
 
             <label for="id_compose-subject"></label>
             <input type="text" required id="compose-subject" placeholder="Subject:">
+            
+            <textarea id="compose-body" placeholder="Text:"></textarea>
 
-            <textarea oninput="textResize(event)" id="compose-body" placeholder="Text:"></textarea>
             <input style="margin-top: 15px;" id="compose-button" type="submit" class="btn btn-sm btn-outline-primary"/>
         </form>
         <!-- oninput='this.style.height = ""; this.style.height = (this.scrollHeight) + "px"' -->
-        <!-- Link for autogrowing https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement -->
     </div>
 
     <div id="sent-view">
@@ -130,11 +130,49 @@
 
 {% block script %}
     <script>
-        function textResize(event) {
-                event.preventDefault();
-                event.target.style.height = "";
-                event.target.style.height = (event.target.scrollHeight) + "px";
-        };
+        document.addEventListener('DOMContentLoaded', function() {
+            (function() {
+
+                function adjustHeight(el, minHeight) {
+                    // compute the height difference which is caused by border and outline
+                    let outerHeight = parseInt(window.getComputedStyle(el).height, 10);
+                    let diff = outerHeight - el.clientHeight;
+
+                    // set the height to 0 in case of it has to be shrinked
+                    el.style.height = (el.scrollHeight - 24) + 'px';
+
+                    // set the correct height
+                    // el.scrollHeight is the full height of the content, not just the visible part
+                    el.style.height = Math.max(minHeight, el.scrollHeight + diff) + 'px';
+                }
+
+                let textAreas = document.querySelector('#compose-body');
+
+                // we don't need any scrollbars, do we? :)
+                textAreas.style.overflowY = 'hidden';
+
+                // the minimum height initiated through the "rows" attribute
+                let minHeight = textAreas.scrollHeight;
+
+                textAreas.addEventListener('input', function() {
+                    adjustHeight(textAreas, minHeight);
+                });
+
+                // // we have to readjust when window size changes (e.g. orientation change)
+                // window.addEventListener('resize', function() {
+                //     adjustHeight(textAreas, minHeight);
+                // });
+
+                // we adjust height to the initial content
+                // adjustHeight(textAreas, minHeight);
+
+            }());
+        });
+        // function textareaResize(event) {
+        //         // event.preventDefault();
+        //         // event.target.style.height = "";
+        //         event.target.style.height = (event.target.innerHTML.offsetHeight) + "px";
+        // };
     </script>
     <script src="{% static 'force/filter.js' %}"></script>
     <script src="{% static 'force/mail.js' %}"></script>
