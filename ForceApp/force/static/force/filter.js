@@ -1,5 +1,8 @@
 function items_retrieve(query, page, mailbox) {
     
+    if (!document.querySelector('#homeTable')) {
+        ReactDOM.render(<Search />, document.querySelector('#myQuery'));
+    }
     if (query === "") {
         query = "all";
     }
@@ -10,7 +13,7 @@ function items_retrieve(query, page, mailbox) {
         .then(response => response.json())
         .then(emails => {
 
-            remove_list();
+            remove_list();            
             document.querySelector('#homeTable').querySelector('thead').innerHTML = 
             '<tr style="border-bottom: 0.5px solid lightskyblue;">'
             + '<th style="border-right: 0.5px solid lightskyblue;">Created</th>'
