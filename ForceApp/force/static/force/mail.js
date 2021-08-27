@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let page = event.state.page
 
-        if (page !== 'compose') {
+        if (page === 'inbox' || page === 'sent') {
 
           shutOff_views();
           document.querySelector(`#${page}-view`).style.display = 'flex';
@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
           unread_emails();
           submit_compose_form();
       
+        } else if (page === 'project') {
+          shutOff_views();
+          shutOff_elements();
+          window.location.pathname = `/`
         }
     }
     
