@@ -265,32 +265,45 @@ body {
 /*
 /*
 /* --------------- BODY ------------- */
-#container {
-  flex-direction: row;
-  flex-wrap: nowrap;
-  flex-grow: 10;
-  z-index: 1;
+
+@media (max-width: 800px) {
+  #container {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 10;
+    z-index: 1;
+  }  
+  #side_bar {
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 1px 1px 10px #868686;
+    border-radius: 0px 10px 10px 0px;
+    margin: 5px 10px 5px 0px;
+    width: 250px;
+    min-width: 250px;
+    flex-grow: 0;
+  }
+  #body {
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 1px 1px 10px #868686;
+    border-radius: 10px 10px 10px 10px;
+    margin: 5px 10px 5px 0px;
+    padding: 15px;
+    flex-grow: 10;
+  }
+  #wave-btn__inbox {
+    -webkit-clip-path: inset(0px 0px 0px 0px round 10px 0px 0px 10px);
+    clip-path: inset(0px 0px 0px 0px round 10px 0px 0px 10px);
+  }
+  #wave-btn__archived {
+    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+    clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+    width: 250px;
+  }
 }
-#side_bar {
-  flex-direction: column;
-  background-color: white;
-  box-shadow: 1px 1px 10px #868686;
-  border-radius: 0px 10px 10px 0px;
-  margin: 5px 10px 5px 0px;
-  width: 250px;
-  min-width: 250px;
-  flex-grow: 0;
-}
-#body {
-  flex-direction: column;
-  background-color: white;
-  box-shadow: 1px 1px 10px #868686;
-  border-radius: 10px 10px 10px 10px;
-  margin: 5px 10px 5px 0px;
-  padding: 15px;
-  flex-grow: 10;
-}
-@media all and (max-width: 800px) {
+
+@media (min-width: 800px) {
   #container {
     flex-direction: column;
   }
@@ -298,7 +311,8 @@ body {
     flex-direction: row;
     border-radius: 10px 10px 10px 10px;
     margin: 5px 10px 5px 10px;
-    justify-content: space-around;
+    justify-content: flex-end;
+    width: auto;
     min-width: 520px;
   }
   #body {
@@ -306,8 +320,13 @@ body {
     min-width: 520px;
   }
   #wave-btn__inbox {
-    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
-    clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+    clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+    width: 250px;
+  }
+  #wave-btn__archived {
+    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 10px 0px);
+    clip-path: inset(0px 0px 0px 0px round 0px 10px 10px 0px);
   }
 }
 
@@ -712,14 +731,9 @@ td {
   align-items: center;
   justify-content: center;
 }
-#wave-btn__inbox {
-  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
-  clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
-  width: 250px;
-}
+
 #wave-btn__compose,
-#wave-btn__sent,
-#wave-btn__archived {
+#wave-btn__sent {
   -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
   clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
   width: 250px;
