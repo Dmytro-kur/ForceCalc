@@ -214,18 +214,24 @@ body {
   border-radius: 10px;
   box-shadow: 1px 1px 10px #868686;
   pointer-events: auto;
-  width: 289.6px;
-  height: 193.8px;
+  width: max-content;
+  height: 182px;
+  min-height: 182px;
+  max-height: 182px;
 }
 
-.first_last_name, div.email.user-menu,
 #user-menu a {
-  font-size: 14px;
   text-decoration: none;
   color: black;
 }
+#first-last-name, #email-info {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
 .user_requisites {
-  margin: 15px 15px 15px 0px;
+  margin: auto 15px auto 0px;
+  max-height: 60px;
 }
  
 .change_pwd_logo:hover, 
@@ -236,7 +242,7 @@ body {
 
 .user_logo, img.user-menu {
   margin: 15px;
-  width: 30px;
+  width: 30px; 
 }
 
 

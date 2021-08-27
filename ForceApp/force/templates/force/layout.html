@@ -55,24 +55,20 @@
 
                     <div id="user-menu" style="display: none;" class="user-menu">
                         
-                        <div class="user_logo_requisites user-menu">
+                        <div style="border-bottom: 0.5px solid lightgrey;" class="user_logo_requisites user-menu">
                             <img  class="user_logo user-menu" src="{% static 'force/user.png' %}" alt="logo">
                             <div class="user_requisites user-menu">
-                                <div class="first_last_name user-menu">{{ user.first_name }} {{ user.last_name }}</div>
-                                <div class="email user-menu"><b>Email:</b> {{ user.email }}</div>    
+                                <div style="margin: 0px;" id="first-last-name">{{ user.first_name }} {{ user.last_name }}</div>
+                                <div style="margin: 0px;" id="email-info"><b>Email:</b> {{ user.email }}</div>    
                             </div>    
                         </div>
     
-                        <hr class="user-menu" style="margin: 0px;">
-    
-                        <div class="change_pwd_logo user-menu">
+                        <div style="border-bottom: 0.5px solid lightgrey;" class="change_pwd_logo user-menu">
                             <a style="z-index: 1; width: 100%;" class="user-menu" href="{% url 'password_change' %}">
                                 <img class="user-menu" src="{% static 'force/lock.png' %}" alt="logo">Change password</a>
                             <div style="z-index: 0;" class="user-menu change_pwd_logo_wave"></div>
                         </div>
-    
-                        <hr class="user-menu" style="margin: 0px;">
-    
+        
                         <div class="logout_logo user-menu">
                             <a  style="z-index: 1; width: 100%;" class="user-menu" href="{% url 'logout' %}">
                                 <img class="user-menu" src="{% static 'force/logout.png' %}" alt="logo">Log Out</a>
