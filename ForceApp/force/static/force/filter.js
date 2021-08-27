@@ -1,8 +1,5 @@
 function items_retrieve(query, page, mailbox) {
     
-    if (!document.querySelector('#homeTable')) {
-        ReactDOM.render(<Search />, document.querySelector('#myQuery'));
-    }
     if (query === "") {
         query = "all";
     }
@@ -16,10 +13,10 @@ function items_retrieve(query, page, mailbox) {
             remove_list();            
             document.querySelector('#homeTable').querySelector('thead').innerHTML = 
             '<tr style="border-bottom: 0.5px solid lightskyblue;">'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Created</th>'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Subject</th>'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Body</th>'
-            + '<th >Sender</th>'
+            + '<th class="email-timestamp" style="border-right: 0.5px solid lightskyblue;">Created</th>'
+            + '<th class="email-subject" style="border-right: 0.5px solid lightskyblue;">Subject</th>'
+            + '<th class="email-body" style="border-right: 0.5px solid lightskyblue;">Body</th>'
+            + '<th class="email-sender">Sender</th>'
             + '</tr>';
             document.querySelector("#pages").innerHTML = Math.ceil(emails[0].count/50);
             document.querySelector("#numbers").innerHTML = emails[0].count;
@@ -79,11 +76,11 @@ function items_retrieve(query, page, mailbox) {
             remove_list();
             document.querySelector('#homeTable').querySelector('thead').innerHTML = 
             '<tr style="border-bottom: 0.5px solid lightskyblue;">'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Created</th>'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Project</th>'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Name</th>'
-            + '<th style="border-right: 0.5px solid lightskyblue;">Number</th>'
-            + '<th>Creator</th>'
+            + '<th class="project-timestamp" style="border-right: 0.5px solid lightskyblue;">Created</th>'
+            + '<th class="project-number" style="border-right: 0.5px solid lightskyblue;">Project</th>'
+            + '<th class="project-name" style="border-right: 0.5px solid lightskyblue;">Name</th>'
+            + '<th class="project-assembly" style="border-right: 0.5px solid lightskyblue;">Number</th>'
+            + '<th class="project-username">Creator</th>'
             + '</tr>';
             document.querySelector("#pages").innerHTML = Math.ceil(projects[0].count/10);
             document.querySelector("#numbers").innerHTML = projects[0].count;

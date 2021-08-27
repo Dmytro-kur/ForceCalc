@@ -4,45 +4,37 @@
 
 
 {% block sidebar %}
-    <div id="wave-btn__inbox" class="wave-btn__sidebar">
-        <div  class="wave-btn__sidebar text__sidebar">
+    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__inbox" class="wave-btn__sidebar">
+        <div class="wave-btn__sidebar text__sidebar">
             <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/inbox.png' %}" alt="logo">
             <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Inbox</p>
         </div>
         <div style="z-index: 0;" id="wave__inbox" class="wave-btn__sidebar"></div>
     </div>
 
-    <hr class="user-menu" style="margin: 0px;">
-
-    <div id="wave-btn__compose" class="wave-btn__sidebar">
-        <div  class="wave-btn__sidebar text__sidebar">
+    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__compose" class="wave-btn__sidebar">
+        <div class="wave-btn__sidebar text__sidebar">
             <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/message.png' %}" alt="logo">
             <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Compose</p>
         </div>
         <div style="z-index: 0;" id="wave__compose" class="wave-btn__sidebar"></div>
     </div>
 
-    <hr class="user-menu" style="margin: 0px;">
-
-    <div id="wave-btn__sent" class="wave-btn__sidebar">
-        <div  class="wave-btn__sidebar text__sidebar">
+    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__sent" class="wave-btn__sidebar">
+        <div class="wave-btn__sidebar text__sidebar">
             <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/sent.png' %}" alt="logo">
             <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Sent</p>
         </div>
         <div style="z-index: 0;" id="wave__sent" class="wave-btn__sidebar"></div>
     </div>
 
-    <hr class="user-menu" style="margin: 0px;">
-
-    <div id="wave-btn__archived" class="wave-btn__sidebar">
-        <div  class="wave-btn__sidebar text__sidebar">
+    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__archived" class="wave-btn__sidebar">
+        <div class="wave-btn__sidebar text__sidebar">
             <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/bag.png' %}" alt="logo">
             <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Archived</p>
         </div>
         <div style="z-index: 0;" id="wave__archived" class="wave-btn__sidebar"></div>
     </div>
-
-    <hr class="user-menu" style="margin: 0px;">
 
 {% endblock %}
 
@@ -85,11 +77,11 @@
             <label for="id_compose-subject"></label>
             <input type="text" required id="compose-subject" placeholder="Subject:">
 
-            <textarea id="compose-body" placeholder="Text:"></textarea>
-
+            <textarea oninput="textResize(event)" id="compose-body" placeholder="Text:"></textarea>
             <input style="margin-top: 15px;" id="compose-button" type="submit" class="btn btn-sm btn-outline-primary"/>
         </form>
-
+        <!-- oninput='this.style.height = ""; this.style.height = (this.scrollHeight) + "px"' -->
+        <!-- Link for autogrowing https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement -->
     </div>
 
     <div id="sent-view">
@@ -137,7 +129,13 @@
 
 
 {% block script %}
+    <script>
+        function textResize(event) {
+                event.preventDefault();
+                event.target.style.height = "";
+                event.target.style.height = (event.target.scrollHeight) + "px";
+        };
+    </script>
     <script src="{% static 'force/filter.js' %}"></script>
     <script src="{% static 'force/mail.js' %}"></script>
-    <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
 {% endblock %}

@@ -4,13 +4,12 @@
 
 {% block sidebar %}
     {% if user.is_authenticated %}
-        <div id="wave-btn__newProject" class="wave-btn__sidebar">
-            <div  class="wave-btn__sidebar text__sidebar">
+        <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__newProject" class="wave-btn__sidebar">
+            <div class="wave-btn__sidebar text__sidebar">
                 <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/blueprint.png' %}" alt="logo">
                 <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">New Project</p>
                 <img style="z-index: 1;" class="wave-btn__sidebar expand__sidebar" src="{% static 'force/expand-button.png' %}" alt="logo"></div>
             <div style="z-index: 0;" id="wave__newProject" class="wave-btn__sidebar"></div>
-            <hr style="margin: 0;">
         </div>
 
         <div id="expanded_box__newProject" class="expanded_box" data-state="closed">
@@ -30,5 +29,4 @@
 
 {% block script %}
     <script src="{% static 'force/filter.js' %}"></script>
-    <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
 {% endblock %}
