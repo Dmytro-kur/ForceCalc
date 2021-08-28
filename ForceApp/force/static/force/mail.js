@@ -232,7 +232,7 @@ function render_email(email, mailbox) {
   document.querySelector(`#${mailbox}-email-render`).style.display = 'flex';
   document.querySelector(`#${mailbox}-email-head`).innerHTML = 
     '<p style="margin: 0px;">From: '.bold() + `${email.user_objs.sender.email}</p>` +  
-    '<p style="margin: 0px;">To: '.bold() + `${Object.values(email.user_objs.recipients)}</p>` + 
+    '<p style="margin: 0px;">To: '.bold() + `${Object.values(email.user_objs.recipients).join(', ')}</p>` + 
     '<p style="margin: 0px;">Subject: '.bold() + `${email.text.subject}</p>` + 
     '<p style="margin: 0px;">Timestamp: '.bold() + `${email.timestamp}</p>`;
 

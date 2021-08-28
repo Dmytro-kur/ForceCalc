@@ -138,7 +138,7 @@
                     let outerHeight = parseInt(window.getComputedStyle(el).height, 10);
                     let diff = outerHeight - el.clientHeight;
 
-                    // set the height to 0 in case of it has to be shrinked
+                    // set the height 24 (height of row) less in case of it has to be shrinked
                     el.style.height = (el.scrollHeight - 24) + 'px';
 
                     // set the correct height
@@ -148,13 +148,11 @@
 
                 let textAreas = document.querySelector('#compose-body');
 
-                // we don't need any scrollbars, do we? :)
-                textAreas.style.overflowY = 'hidden';
-
                 // the minimum height initiated through the "rows" attribute
                 let minHeight = textAreas.scrollHeight;
 
-                textAreas.addEventListener('input', function() {
+                textAreas.addEventListener('input', function(event) {
+                    console.log(event)
                     adjustHeight(textAreas, minHeight);
                 });
 

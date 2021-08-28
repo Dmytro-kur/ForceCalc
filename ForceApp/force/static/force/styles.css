@@ -58,6 +58,7 @@ body {
   background-color: #659DBD;
   flex-grow: 0;
   z-index: 2;
+  min-width: 250px;
 }
 
 #logo_container {
@@ -318,6 +319,7 @@ body {
 
 p.wave-btn__sidebar {
   flex-grow: 10;
+  width: 70px;
 }
 .logo__sidebar {
   flex-grow: 0;
@@ -826,6 +828,7 @@ textarea, #inbox-email-body,
 #inbox-email-content {
   /* flex: 1; */
   height: 100%;
+  overflow-y: hidden;
 }
 /*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */
