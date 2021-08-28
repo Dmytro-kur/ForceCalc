@@ -60,11 +60,16 @@ document.addEventListener('DOMContentLoaded', function() {
     waves('#wave-btn__compose', '#wave__compose', 250, event, 'sidebar');
 
     history.pushState({page: 'compose'}, "", "/mail/compose");
-    
+
     shutOff_views();
     shutOff_elements();
+    
     document.querySelector('#compose-view').style.display = 'flex';
     document.querySelector('#compose-form').style.display = 'flex';
+
+    const textArea = document.querySelector('#compose-body');
+
+    localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
 
     document.querySelector('#compose-recipients').value = '';
     document.querySelector('#compose-subject').value = '';

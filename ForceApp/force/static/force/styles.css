@@ -636,7 +636,7 @@ td {
   font-size: 12px;
 
   height: 0px;
-  overflow: hidden;
+  /* overflow: hidden; */
 
   border-width: 0px;
   border-style: solid;
@@ -653,6 +653,9 @@ td {
   /* width: 70px; */
 }
 
+#expand-arrow {
+  transform: rotate(0deg);
+}
 @keyframes arrow-rotate-downwards {
   from {
     transform: rotate(0deg);
@@ -696,6 +699,146 @@ td {
     border-width: 0px;
     margin: 0px;
     padding: 0px;
+  }
+}
+@media (max-width: 970px) {
+  .expanded_box {
+    flex-direction: row;
+    
+    justify-content: flex-start;
+    font-size: 12px;
+  
+    width: 0px;
+    border-width: 0px;
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  #post_new_project {
+    margin-top: 10px;
+    /* align-self: flex-end; */
+    /* width: 70px; */
+  }
+  
+  #expand-arrow {
+    transform: rotate(270deg);
+  }
+  @keyframes arrow-rotate-downwards {
+    from {
+      transform: rotate(270deg);
+    }
+    to {
+      transform: rotate(90deg);
+    }
+  }
+  @keyframes arrow-rotate-upwards {
+    from {
+      transform: rotate(90deg);
+    }
+    to {
+      transform: rotate(270deg);
+    }
+  }
+  
+  @keyframes expand {
+    0% {
+      width: 0px;
+      border-width: 0px;
+      margin: 0px;
+      padding: 0px;
+    }
+    100% {
+      width: 190px;
+      border-width: 1px;
+      margin: 10px;
+      padding: 10px;
+    }
+  }
+  @keyframes closed {
+    0% {
+      width: 190px;
+      border-width: 1px;
+      margin: 10px;
+      padding: 10px;
+    }
+    100% {
+      width: 0px;
+      border-width: 0px;
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .expanded_box {
+    flex-direction: column;
+      
+    height: 0px;
+    overflow: hidden;
+  
+    border-width: 0px;
+    border-style: solid;
+    border-color: silver;
+  
+    border-radius: 5px 5px 5px 5px;
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  #post_new_project {
+    margin-top: 10px;
+    /* align-self: flex-end; */
+    /* width: 70px; */
+  }
+  
+  #expand-arrow {
+    transform: rotate(0deg);
+  }
+  @keyframes arrow-rotate-downwards {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(180deg);
+    }
+  }
+  @keyframes arrow-rotate-upwards {
+    from {
+      transform: rotate(180deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+  
+  @keyframes expand {
+    0% {
+      height: 0px;
+      border-width: 0px;
+      margin: 0px;
+      padding: 0px;
+    }
+    100% {
+      height: 190px;
+      border-width: 1px;
+      margin: 10px;
+      padding: 10px;
+    }
+  }
+  @keyframes closed {
+    0% {
+      height: 190px;
+      border-width: 1px;
+      margin: 10px;
+      padding: 10px;
+    }
+    100% {
+      height: 0px;
+      border-width: 0px;
+      margin: 0px;
+      padding: 0px;
+    }
   }
 }
 /*/////////////EXPANDED BOX//////////////*/
@@ -820,12 +963,17 @@ td {
 }
 
 
-#compose-form {
+#compose-form,
+#sent-email-body,
+#archived-email-body,
+#inbox-email-body {
   flex-direction: column;
   height: 100%;
 }
-textarea, #inbox-email-body,
-#inbox-email-content {
+textarea, 
+#inbox-email-content,
+#sent-email-content,
+#archived-email-content {
   /* flex: 1; */
   height: 100%;
   overflow-y: hidden;
