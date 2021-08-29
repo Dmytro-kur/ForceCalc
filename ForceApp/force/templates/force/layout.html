@@ -14,8 +14,6 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'force/favicon.ico' %}">
     <script src="{% static 'force/header.js' %}"></script>
     <script src="{% static 'force/waves.js' %}"></script>
-    <!-- <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script> -->
-    
     <script>
         function unread_emails() {
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -88,8 +86,14 @@
                 </form>
 
             {% else %}
-                <a href="{% url 'login' %}">Log In</a>
-                <a href="{% url 'register' %}">Register</a>
+                <div id="login-btn" class="wave-btn">
+                    <div style="z-index: 1;" id="login-btn__text" class="wave-btn">Login</div>
+                    <div style="z-index: 0;" class="login-btn__wave wave-btn"></div>
+                </div>
+                <div id="register-btn" class="wave-btn">
+                    <div style="z-index: 1;" id="register-btn__text" class="wave-btn">Register</div>
+                    <div style="z-index: 0;" class="register-btn__wave wave-btn"></div>
+                </div>
             {% endif %}
         </div>
        

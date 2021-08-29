@@ -52,7 +52,7 @@
     
             <div id="inbox-email-body">
                 <hr>
-                <textarea disabled id="inbox-email-content" placeholder="Body"></textarea>
+                <textarea disabled id="inbox-email-content" class="form-control" placeholder="Body"></textarea>
             </div>
     
             <button style="margin-top: 15px;" id="inbox-reply-button" class='btn btn-sm btn-outline-primary'>
@@ -68,16 +68,17 @@
         <p style="font-size: 30px; font-style: bold;">New Email</p>
     
         <form id="compose-form">
-            <label for="id_compose-sender">From: </label>
-            <input id="compose-sender" type='email' disabled value="{{ request.user.email }}">
             
+            <label for="id_compose-sender">From: </label>
+            <input id="compose-sender" class="form-control" type='email' disabled value="{{ request.user.email }}">
+
             <label for="id_compose-recipients">To: </label>
-            <input type="text" required id="compose-recipients" placeholder="for example: harry@example.com, ron@example.com">
+            <input type="text" required id="compose-recipients" class="form-control" placeholder="for example: harry@example.com, ron@example.com">    
 
             <label for="id_compose-subject"></label>
-            <input type="text" required id="compose-subject" placeholder="Subject:">
-            
-            <textarea id="compose-body" placeholder="Text:"></textarea>
+            <input type="text" required id="compose-subject" class="form-control" placeholder="Subject:">
+
+            <textarea id="compose-body" class="form-control" placeholder="Text:"></textarea>
 
             <input style="margin-top: 15px;" id="compose-button" type="submit" value="Send" class="btn btn-sm btn-outline-primary"/>
         </form>
@@ -96,7 +97,7 @@
     
             <div id="sent-email-body">
                 <hr>
-                <textarea disabled id="sent-email-content" placeholder="Body"></textarea>
+                <textarea disabled id="sent-email-content" class="form-control" placeholder="Body"></textarea>
             </div>
         </div>
     </div>
@@ -113,7 +114,7 @@
 
             <div id="archived-email-body">
                 <hr>
-                <textarea disabled id="archived-email-content" placeholder="Body"></textarea>
+                <textarea disabled id="archived-email-content" class="form-control" placeholder="Body"></textarea>
             </div>
 
             <button style="margin-top: 15px;" id="archived-reply-button" class='btn btn-sm btn-outline-primary'>

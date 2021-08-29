@@ -8,32 +8,20 @@
         <div>{{ message }}</div>
     {% endif %}
 
-    <form action="{% url 'register' %}" method="post">
+    <form class="form-group" action="{% url 'register' %}" method="post">
         {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
+        <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+        <input class="form-control" type="email" name="email" placeholder="Email Address">
 
-        <div class="form-group">
-            <input class="form-control" type="text" name="first_name" placeholder="First Name">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="last_name" placeholder="Last Name">
-        </div>
+        <input class="form-control" type="text" name="first_name" placeholder="First Name">
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name">
 
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Register">
+        <input class="form-control" type="password" name="password" placeholder="Password">
+        <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+        <input class="btn btn-sm btn-outline-primary" type="submit" value="Register">
     </form>
 
     <p>Already have an account?</p>
-    <a href="{% url 'login' %}">Log In here.</a>
+    <a style="align-self: flex-start;" href="{% url 'login' %}">Log In here.</a>
 
 {% endblock %}

@@ -7,7 +7,7 @@
 
 /* VARIABLES */
 body, #user_container, #logo_container, 
-.header, #wave-btn,
+.header, #wave-btn, #login-btn, #register-btn,
 .wave-btn__waves, .wave-btn__text, 
 #user-menu, .user_logo_requisites,
 .change_pwd_logo, .logout_logo, 
@@ -24,7 +24,8 @@ body, #user_container, #logo_container,
 .paginator, #myQueryDiv, 
 #inbox-email-head, #inbox-email-body,
 #sent-email-head, #sent-email-body,
-#archived-email-head, #archived-email-body {
+#archived-email-head, #archived-email-body,
+.form-group {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -97,7 +98,9 @@ body {
   top: -33px;
 }
 
-#wave-btn {
+#wave-btn,
+#login-btn,
+#register-btn {
   margin-left: 15px;
   border-radius: 15px;
   user-select: none;
@@ -109,12 +112,17 @@ body {
   clip-path: inset(0px 0px 0px 0px round 15px);
 
 }
-#wave-btn:hover {
+#wave-btn:hover,
+#login-btn:hover,
+#register-btn:hover {
   cursor: pointer;
   background-color:rgba(70, 130, 180, 0.5);
 }
 
-.wave-btn__text {
+.wave-btn__text,
+#login-btn__text,
+#register-btn__text
+ {
   margin-left: 15px;
   margin-right: 15px;
 
@@ -123,7 +131,9 @@ body {
   color: black;
 }
 
-.wave-btn__waves {
+.wave-btn__waves,
+.login-btn__wave,
+.register-btn__wave {
   position: fixed;
   width: 400px;
   height: 400px;
@@ -426,7 +436,7 @@ p.wave-btn__sidebar {
                                     border-radius: 10px 10px 10px 10px;
                                     margin: 5px 10px 5px 10px;
                                     justify-content: flex-start;
-                                    height: 61px;
+                                    max-height: 61px;
                                     width: auto;
                                     min-width: 520px;
                                   }
@@ -846,5 +856,13 @@ textarea,
   height: 100%;
   overflow-y: hidden;
 }
+/* ---------------------------- AUTH ------------------------ */
+.form-control {
+  margin-bottom: 10px;
+}
+.form-group {
+  flex-direction: column;
+}
+/* ---------------------------- end AUTH ------------------------ */
 /*/// WAVE end ///*/
 /* ---------------------------- end MAIL ------------------------ */

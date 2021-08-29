@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#inbox-view').style.display = 'flex';
 
   unread_emails();
-  // items_retrieve('', 1, 'inbox')
 });
 function shutOff_elements() {
   document.querySelector('#inbox-email-list').style.display = 'none';

@@ -50,8 +50,6 @@ function items_retrieve(query, page, mailbox) {
 
                 sen_td.innerHTML = `${email.user_objs.sender.email}`;
                 sen_td.className = 'email-sender';
-                // rec_td.innerHTML = `recipients: ${Object.values(email.user_objs.recipients)}`;
-                // rec_td.className = 'email-recipients';
 
                 new_tr.append(date_td);
                 new_tr.append(sub_td);
