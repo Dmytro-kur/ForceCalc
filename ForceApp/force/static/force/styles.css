@@ -25,7 +25,7 @@ body, #user_container, #logo_container,
 #inbox-email-head, #inbox-email-body,
 #sent-email-head, #sent-email-body,
 #archived-email-head, #archived-email-body,
-.form-group {
+.form-group, #password_change {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -468,6 +468,7 @@ p.wave-btn__sidebar {
                                     border-radius: 10px 10px 10px 10px;
                                     margin: 5px 10px 5px 10px;
                                     justify-content: flex-start;
+                                    max-height: fit-content;
                                     height: auto;
                                     width: auto;
                                     min-width: 250px;
@@ -862,6 +863,14 @@ textarea,
 }
 .form-group {
   flex-direction: column;
+}
+#password_change {
+  flex-direction: column;
+}
+#id_old_password,
+#id_new_password1,
+#id_new_password2 {
+  width: 100%;
 }
 /* ---------------------------- end AUTH ------------------------ */
 /*/// WAVE end ///*/

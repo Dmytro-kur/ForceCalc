@@ -79,12 +79,6 @@
     
                 </div>
 
-                <form id="password_change" style="display: none;" action="{% url 'password_change' %}" method="POST">
-                    {% csrf_token %}
-                    {{ password_change.as_p }}
-                    <button type="submit">Submit</button>
-                </form>
-
             {% else %}
                 <div id="login-btn" class="wave-btn">
                     <div style="z-index: 1;" id="login-btn__text" class="wave-btn">Login</div>

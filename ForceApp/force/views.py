@@ -138,11 +138,23 @@ class VariablesForm(forms.ModelForm):
             'Nb': _('Force Reaction in Point B (N)'),
             'NR': _('Force Reaction in Contact Point (N)'),
         }
+        
+class PasswordChangeForm2(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({
+            'class': 'form-control'
+        })
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'form-control'
+        })
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'form-control'
+        })
 
 def index(request):
     return render(request, 'force/index.html', {
-        "projectForm": ProjectForm(),
-        "password_change": PasswordChangeForm(user=request.user),
+        "projectForm": ProjectForm()
     })
 
 def login_view(request):
@@ -202,9 +214,8 @@ def register(request):
 
 @login_required
 def password_change(request):
+
     if request.method == "POST":
-        # Artificially delay speed of response
-        time.sleep(0.3)
         form = PasswordChangeForm(user=request.user,
         data=request.POST)
 
@@ -214,9 +225,9 @@ def password_change(request):
             logout(request)
             return HttpResponseRedirect(reverse("login"))
     else:
-        # Artificially delay speed of response
-        time.sleep(0.3)
-        return JsonResponse({"error": "POST request required."}, status=400)
+        return render(request, 'force/password_change.html', {
+            "password_change": PasswordChangeForm2(user=request.user),
+        })
 #####################################################################################
 # MAIL #
 ########

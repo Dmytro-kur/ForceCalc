@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setInterval(() => {
         window.location.pathname = '/login';
-      }, 70);
+      }, 300);
       
     });
   }
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       waves("#register-btn", '.register-btn__wave', 200, event, 'header');
       setInterval(() => {
         window.location.pathname = '/register';
-      }, 70);
+      }, 300);
     }
   }
 
@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.change_pwd_logo')) {
     document.querySelector('.change_pwd_logo').addEventListener('click', (e) => {
       waves('.change_pwd_logo', '.change_pwd_logo_wave', 250, e, 'header');
+      unread_emails();
     })
   }
 
