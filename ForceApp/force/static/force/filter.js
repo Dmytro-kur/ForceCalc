@@ -109,7 +109,7 @@ function items_retrieve(query, page, mailbox) {
                 ass_td.innerHTML = `${project.text.assembly_number}`;
                 ass_td.className = 'project-assembly';
 
-                user_td.innerHTML = `${project.user_objs.user.username} (${project.user_objs.user.email})`;
+                user_td.innerHTML = `${project.user_objs.user.email}`;
                 user_td.className = 'project-username';
 
                 new_tr.append(date_td);
