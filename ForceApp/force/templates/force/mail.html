@@ -79,7 +79,7 @@
             
             <textarea id="compose-body" placeholder="Text:"></textarea>
 
-            <input style="margin-top: 15px;" id="compose-button" type="submit" class="btn btn-sm btn-outline-primary"/>
+            <input style="margin-top: 15px;" id="compose-button" type="submit" value="Send" class="btn btn-sm btn-outline-primary"/>
         </form>
         <!-- oninput='this.style.height = ""; this.style.height = (this.scrollHeight) + "px"' -->
     </div>
@@ -174,6 +174,7 @@
         //         event.target.style.height = (event.target.innerHTML.offsetHeight) + "px";
         // };
     </script>
+    <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
     <script src="{% static 'force/filter.js' %}"></script>
     <script src="{% static 'force/mail.js' %}"></script>
 {% endblock %}

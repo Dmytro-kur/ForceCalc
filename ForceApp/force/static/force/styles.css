@@ -625,9 +625,9 @@ td {
   border-right: 0.5px solid lightskyblue;
 }
 .project-username {
-  max-width: 300px;
-  min-width: 300px;
-  width: 300px;
+  max-width: 200px;
+  min-width: 200px;
+  width: 200px;
 }
 .email-timestamp {
   max-width: 190px;
