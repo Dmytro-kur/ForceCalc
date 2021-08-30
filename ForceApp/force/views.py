@@ -590,6 +590,9 @@ def projects(request, query):
 # PROJECT #
 #####################################################################################
 
+
+
+
 #####################################################################################
 # CALCULATION #
 ########
@@ -677,7 +680,6 @@ def calculation(request, project_num):
             "SpringForm": SpringForm(),
             "AnglesForm": AnglesForm(),
             "VariablesForm": VariablesForm(),
-            "password_change": PasswordChangeForm(user=request.user),
         })
     
     if request.method == "POST":
