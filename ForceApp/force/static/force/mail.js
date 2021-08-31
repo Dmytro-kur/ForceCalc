@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if (document.querySelector(`#${page}-email-list`).children.length === 0) {
             document.querySelector(`#${page}-email-list`).appendChild(document.querySelector('#myQuery'))
           }
-      
+
           items_retrieve('', 1, `${page}`)
           
           unread_emails();
@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
           document.querySelector('#compose-view').style.display = 'flex';
           document.querySelector('#compose-form').style.display = 'flex';
           
+          const textArea = document.querySelector('#compose-body');
+          localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
+      
           unread_emails();
           submit_compose_form();
       
@@ -68,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#compose-form').style.display = 'flex';
 
     const textArea = document.querySelector('#compose-body');
-
     localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
 
     document.querySelector('#compose-recipients').value = '';
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     shutOff_elements();
     document.querySelector('#archived-email-list').style.display = 'flex';
-
+    
     items_retrieve('', 1, 'archived')
     unread_emails();
   });
@@ -123,9 +125,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
   shutOff_views();
   document.querySelector('#inbox-view').style.display = 'flex';
-
+  
   unread_emails();
 });
+function refresh_textarea() {
+    
+  function adjustHeight(el, minHeight) {
+      // compute the height difference which is caused by border and outline
+      let outerHeight = parseInt(window.getComputedStyle(el).height, 10);
+      let diff = outerHeight - el.clientHeight;
+
+      // set the height 24 (height of row) less in case of it has to be shrinked
+      el.style.height = (el.scrollHeight - 24) + 'px';
+
+      // set the correct height
+      // el.scrollHeight is the full height of the content, not just the visible part
+
+      el.style.height = Math.max(parseInt(localStorage.getItem('textarea'), 10), minHeight, el.scrollHeight + diff) + 'px';
+  }
+
+  document.querySelectorAll('textarea')
+  .forEach(textArea => {
+    // the minimum height initiated through the "rows" attribute
+    let minHeight = textArea.scrollHeight;
+    adjustHeight(textArea, minHeight);
+    textArea.addEventListener('input', function() {
+        adjustHeight(textArea, minHeight);
+    });
+  })
+
+
+
+  // // we have to readjust when window size changes (e.g. orientation change)
+  // window.addEventListener('resize', function() {
+  //     adjustHeight(textAreas, minHeight);
+  // });
+
+  // we adjust height to the initial content
+  // adjustHeight(textAreas, minHeight);
+
+};
+
 function shutOff_elements() {
   document.querySelector('#inbox-email-list').style.display = 'none';
   document.querySelector('#inbox-email-render').style.display = 'none';
@@ -231,7 +271,9 @@ function render_email(email, mailbox) {
   shutOff_elements();
   shutOff_archived();
   shutOff_views();
-  
+
+  document.querySelector(`#${mailbox}-email-content`).style.height = '0px';
+
   document.querySelector(`#${mailbox}-view`).style.display = 'flex';
   document.querySelector(`#${mailbox}-email-render`).style.display = 'flex';
   document.querySelector(`#${mailbox}-email-head`).innerHTML = 
@@ -239,9 +281,13 @@ function render_email(email, mailbox) {
     '<p style="margin: 0px;">To: '.bold() + `${Object.values(email.user_objs.recipients).join(', ')}</p>` + 
     '<p style="margin: 0px;">Subject: '.bold() + `${email.text.subject}</p>` + 
     '<p style="margin: 0px;">Timestamp: '.bold() + `${email.timestamp}</p>`;
-
+    
   document.querySelector(`#${mailbox}-email-content`).value = email.text.body;
 
+  const textArea = document.querySelector(`#${mailbox}-email-content`);
+  localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
+
+  refresh_textarea();
   if (mailbox === 'inbox' || mailbox === 'archived') {
 
     document.querySelector(`#${mailbox}-archived-button`).style.display = 'inline-block';
@@ -299,6 +345,7 @@ function render_email(email, mailbox) {
 
   ${email.text.body}`;
 
+      refresh_textarea();
       submit_compose_form();
     }
   }

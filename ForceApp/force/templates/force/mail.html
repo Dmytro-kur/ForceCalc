@@ -131,49 +131,6 @@
 
 {% block script %}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            (function() {
-                
-                function adjustHeight(el, minHeight) {
-                    // compute the height difference which is caused by border and outline
-                    let outerHeight = parseInt(window.getComputedStyle(el).height, 10);
-                    let diff = outerHeight - el.clientHeight;
-
-                    // set the height 24 (height of row) less in case of it has to be shrinked
-                    el.style.height = (el.scrollHeight - 24) + 'px';
-
-                    // set the correct height
-                    // el.scrollHeight is the full height of the content, not just the visible part
-                    if (el.scrollHeight + diff) {
-
-                    }
-                    el.style.height = Math.max(parseInt(localStorage.getItem('textarea'), 10), minHeight, el.scrollHeight + diff) + 'px';
-                }
-
-                let textArea = document.querySelector('#compose-body');
-
-                // the minimum height initiated through the "rows" attribute
-                let minHeight = textArea.scrollHeight;
-
-                textArea.addEventListener('input', function(event) {
-                    adjustHeight(textArea, minHeight);
-                });
-
-                // // we have to readjust when window size changes (e.g. orientation change)
-                // window.addEventListener('resize', function() {
-                //     adjustHeight(textAreas, minHeight);
-                // });
-
-                // we adjust height to the initial content
-                // adjustHeight(textAreas, minHeight);
-
-            }());
-        });
-        // function textareaResize(event) {
-        //         // event.preventDefault();
-        //         // event.target.style.height = "";
-        //         event.target.style.height = (event.target.innerHTML.offsetHeight) + "px";
-        // };
     </script>
     <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
     <script src="{% static 'force/filter.js' %}"></script>
