@@ -5,8 +5,6 @@ from django.core.exceptions import ValidationError
 import math
 import numpy as np
 
-
-
 def cos(deg):
     """take as input deg convert it to rad and return cos(rad)"""
     return math.cos(deg*math.pi/180)
@@ -14,7 +12,6 @@ def cos(deg):
 def sin(deg):
     """take as input deg convert it to rad and return sin(rad)"""
     return math.sin(deg*math.pi/180)
-
 
 
 
@@ -287,7 +284,6 @@ class Variables(models.Model):
         return f"{self.key}"
 
     def calc_vars(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
-
         M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
                             [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
                             [a+b,           -a,               0]])
