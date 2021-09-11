@@ -20,6 +20,8 @@ urlpatterns = [
     # API Routes
     path("projects/<str:query>", views.projects, name="projects"),
     path("new_project", views.new_project, name="new_project"),
+
+    # CALCULATION API Routes
     path("parameter/<str:item>/<int:value>", views.parameter, name="parameter"),
     path("result/<int:project_num>/<int:value>", views.result, name="result"),
     path("check/<int:project_num>/<int:value>", views.check, name="check"),

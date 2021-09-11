@@ -656,7 +656,6 @@ def result(request, project_num, value):
             "message": f"Variables {key} was successfully deleted",
         }, status=200)
 
-
 @login_required
 def calculation(request, project_num):
 
@@ -733,7 +732,7 @@ def calculation(request, project_num):
             angles = Angles.objects.get(pk=mydata['angles'])
 
             Pl_F_tr_angle = angles.plungerFric
-            F = spring.force()
+            Force = spring.force()
             a = plunger.a
             b = plunger.b
             f = plunger.f
@@ -741,7 +740,7 @@ def calculation(request, project_num):
             N_angle = angles.N
             F_tr_angle = angles.FN
 
-            c1 = Variables.calc_vars(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle)
+            c1 = Variables.calc_vars(Pl_F_tr_angle, Force, a, b, f, mu, N_angle, F_tr_angle)
             
             var = Variables(key=mydata['key'], Na=c1[0], Nb=c1[1], NR=c1[2], 
             project=project, contact_input=contact, plunger_input=plunger,

@@ -276,17 +276,15 @@ class Variables(models.Model):
     # Access policy also should be implemented: 
     # - Specialist user only can create project and make a calculations
     # - Designer can change the input but cannot add input
+
     # Validators for some angles field that restricted values:
     # for positive length for friction angles
-    # mobile responsiveness should be worked 
     # (by adding a buttons like zoom up zoom down, moving button)
-    # styling (waves on the buttons)
-    # Fast feedback when put values in input field
     
     def __str__(self):
         return f"{self.key}"
 
-    def calc_vars(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
+    def calc_vars(self, Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
 
         M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
                             [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
