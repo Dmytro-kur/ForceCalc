@@ -5,8 +5,6 @@ from django.core.exceptions import ValidationError
 import math
 import numpy as np
 
-
-
 def cos(deg):
     """take as input deg convert it to rad and return cos(rad)"""
     return math.cos(deg*math.pi/180)
@@ -14,7 +12,6 @@ def cos(deg):
 def sin(deg):
     """take as input deg convert it to rad and return sin(rad)"""
     return math.sin(deg*math.pi/180)
-
 
 
 
