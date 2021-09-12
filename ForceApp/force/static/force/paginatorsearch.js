@@ -32,9 +32,9 @@ class Search extends React.Component {
         );
     }
 
-    Update() {
-        this.forceUpdate();
-    }
+    // Update() {
+    //     this.forceUpdate();
+    // }
 
     componentDidMount() {
         items_retrieve(this.state.query, this.state.page, `${history.state.page}`)

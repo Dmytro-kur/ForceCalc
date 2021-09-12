@@ -12,88 +12,29 @@
     
     <button id="home_btn"><img id="source" src="{% static 'force/home.png' %}" alt="icon"></button>
     
-    
-    <form method="post">{% csrf_token %}</form>
     <!-- Contact ------------------------------------------------------------------------------>
-    <p><label for="contacts">Choose contact:</label></p>
-    <p>
-        <button id="new_contact_btn" class="btn btn-success btn-sm">New</button>
-        <button style="display: none;" id="save_contact_btn" class="btn btn-success btn-sm">Save</button>
-    </p>
+    <div id="calc_input"></div>
 
-    <div id="new_contact" style="display: none;">
-        {{ ContactForm.as_p }}
-    </div>
-
-    <p><select name="contacts" id="contacts">
-        <option value="0" selected>Unknown</option>
-        {% if Contacts %} 
-            {% for contact in Contacts %}
-                <option value="{{ contact.id }}">{{ contact.key }}</option>
-            {% endfor %}
-        {% endif %}
-        </select></p>
-    <p>
-        <label for id="mu">Friction in Contact <span style="font-style: italic;">&mu;</span>:</label>
-        <input type="number" name="mu" step="any" required id="mu">
-    </p>
-    <p>
-        <label for id="contactCoord_X">Contact Point X Coordinate (mm):</label>
-        <input type="number" name="contactCoord_X" step="any" required id="contactCoord_X">
-    </p>
-    <p>
-        <label for id="contactCoord_Y">Contact Point Y Coordinate (mm):</label>
-        <input type="number" name="contactCoord_Y" step="any" required id="contactCoord_Y">
-    </p>
-
-    <p>
-        <button style="display: none;" id="edit_contact_btn" class="btn btn-success btn-sm">Edit</button>
-        <button style="display: none;" id="delete_contact_btn" class="btn btn-success btn-sm">Delete</button>
-    </p>
-
-
-    <hr>
     <!-- Plunger ------------------------------------------------------------------------------>
-    <p><label for="plungers">Choose Plunger:</label></p>
-    <p>
-        <button id="new_plunger_btn" class="btn btn-success btn-sm">New</button>
-        <button style="display: none;" id="save_plunger_btn" class="btn btn-success btn-sm">Save</button>
-    </p>
-    
-    <div id="new_plunger" style="display: none;">
-        {{ PlungerForm.as_p }}
-    </div>
-    
+    <!-- <h2>Choose Plunger:</h2>
+    <div id="Plunger"></div>
 
-    <p><select name="plungers" id="plungers">
+    <label for id="plunger_key">Save Plunger as: </label>
+    <input type="text" required id="plunger_key">
+    <button id="save_plunger_btn" class="btn btn-success btn-sm">Save</button>
+    
+    <select name="plungers" id="plungers">
         <option value="0" selected>Unknown</option>
         {% if Plungers %}
             {% for plunger in Plungers %}
                 <option value="{{ plunger.id }}">{{ plunger.key }}</option>
             {% endfor %}
         {% endif %}
-    </select></p>
-    <p>
-        <label for id="a">Distance between Contact Point and Point B (mm):</label>
-        <input type="number" name="a" step="any" required id="a">
-    </p>
-    <p>
-        <label for id="b">Distance between Point A and Point B (mm):</label>
-        <input type="number" name="b" step="any" required id="b">
-    </p>
-    <p>
-        <label for id="f">Friction in Plunger Joints:</label>
-        <input type="number" name="f" step="any" required id="f">
-    </p>
+    </select>
 
-    <p>
-        <button style="display: none;" id="edit_plunger_btn" class="btn btn-success btn-sm">Edit</button>
-        <button style="display: none;" id="delete_plunger_btn" class="btn btn-success btn-sm">Delete</button>
-    </p>
-
-    <hr>
+    <hr> -->
     <!-- Spring ------------------------------------------------------------------------------>
-    <p><label for="springs">Choose Spring:</label></p>
+    <!-- <p><label for="springs">Choose Spring:</label></p>
     <p>
         <button id="new_spring_btn" class="btn btn-success btn-sm">New</button>
         <button style="display: none;" id="save_spring_btn" class="btn btn-success btn-sm">Save</button>
@@ -125,9 +66,9 @@
         <button style="display: none;" id="edit_spring_btn" class="btn btn-success btn-sm">Edit</button>
         <button style="display: none;" id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button>
     </p>
-    <hr>
+    <hr> -->
     <!-- Angles ------------------------------------------------------------------------------>
-    <p><label for="angles">Choose Angles:</label></p>
+    <!-- <p><label for="angles">Choose Angles:</label></p>
     <p>
         <button type="submit" id="new_angles_btn" class="btn btn-success btn-sm">New</button>
         <button style="display: none;" id="save_angles_btn" class="btn btn-success btn-sm">Save</button>
@@ -182,7 +123,7 @@
     </p>
         
     
-    <hr>
+    <hr> -->
     <!-- Variables ------------------------------------------------------------------------------>
     <p><label for="variables">Choose Variables:</label></p>
     
@@ -211,5 +152,10 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'force/calculation.js' %}"></script>
+    <script src="{% static 'force/calculation_react.js' %}" type="text/babel"></script>
+    <script src="{% static 'force/calculation_canvas.js' %}"></script>
+    <script src="{% static 'force/calculation_get.js' %}"></script>
+    <script src="{% static 'force/calculation_post.js' %}"></script>
+    <script src="{% static 'force/calculation_put.js' %}"></script>
+    <script src="{% static 'force/calculation_delete.js' %}"></script>
 {% endblock %}
