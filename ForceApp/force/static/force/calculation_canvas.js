@@ -110,39 +110,20 @@ function draw_initialization() {
 function drawRect(ctx, scale, posX, posY,
     parse_contactCoord_X, parse_contactCoord_Y, 
     parse_a, parse_b) {
-    
-    ctx.clearRect(0, 0, canvas.clientWidth + 100, canvas.height);
-    ctx.lineWidth = 0.5;
-    ctx.strokeStyle = 'black';
+
+// dimensions of a reference rectangle
     const rect = {
-        startX: canvas.width/2 * (1 - scale) + posX,
-        startY: canvas.height/2 * (1 - scale) + posY,
+        startX: ( canvas.width * (1 - scale) ) / 2 + posX,
+        startY: ( canvas.height * (1 - scale) ) / 2 + posY,
         width: canvas.width * scale,
         height: canvas.height * scale,
     }
-    ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
-
+// Center of the canvas
     const origin ={
-        x: canvas.width/2,
-        y: canvas.height/2,
+        x: canvas.width / 2,
+        y: canvas.height / 2,
     }
-
-// lines through center
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.moveTo(origin.x, origin.y - (origin.y * 0.03));
-    ctx.lineTo(origin.x, origin.y + (origin.y * 0.03));
-    ctx.closePath();
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(origin.x - (origin.y * 0.03), origin.y);
-    ctx.lineTo(origin.x + (origin.y * 0.03), origin.y);
-    ctx.closePath();
-    ctx.stroke();
-
-    ctx.strokeStyle = 'green';
-
+// Absolute coordinates of a beam
     const C = {
         x: parse_contactCoord_X,
         y: parse_contactCoord_Y,
@@ -158,6 +139,7 @@ function drawRect(ctx, scale, posX, posY,
         y: parse_contactCoord_Y,
     }
 
+// Find maximum possible scale factor for fitting inside rectangle
     const max_width = Math.max(0, A.x, B.x, C.x) - Math.min(0, A.x, B.x, C.x);
     const max_height = Math.max(0, A.y, B.y, C.y) - Math.min(0, A.y, B.y, C.y);
 
@@ -165,10 +147,6 @@ function drawRect(ctx, scale, posX, posY,
     const parse_scale_Y = rect.height/max_height;
 
     let parse_scale = 1;
-    let _O = {
-        x: rect.startX + rect.width/2,
-        y: rect.startY + rect.height/2,
-    }
 
     if (parse_scale_X < parse_scale_Y) {
         parse_scale = parse_scale_X;
@@ -178,21 +156,31 @@ function drawRect(ctx, scale, posX, posY,
         parse_scale = parse_scale_X;
     }
 
+// Floating origin
+    let _O = {
+        x: rect.startX + rect.width/2,
+        y: rect.startY + rect.height/2,
+    }
+// Conditions for centering content inside rectangle
+
     if (Math.min(0, A.x, B.x, C.x) === 0) {
-        _O.x = rect.startX + rect.width/2 - (max_width * parse_scale)/2;
+        _O.x = _O.x - (max_width * parse_scale)/2;
+
     } else if (Math.max(0, A.x, B.x, C.x) === 0) {
-        _O.x = rect.startX + rect.width/2 + (max_width * parse_scale)/2;
+        _O.x = _O.x + (max_width * parse_scale)/2;
+
     } else if (Math.min(0, A.x, B.x, C.x) !== 0
-     && Math.max(0, A.x, B.x, C.x) !== 0) {
-        _O.x = rect.startX + rect.width/2 + (max_width * parse_scale)/2 - Math.max(0, A.x, B.x, C.x) * parse_scale;
+    && Math.max(0, A.x, B.x, C.x) !== 0) {
+        _O.x = _O.x + (max_width * parse_scale)/2 - Math.max(0, A.x, B.x, C.x) * parse_scale;
     }
 
     if (Math.min(0, A.y, B.y, C.y) === 0) {
-        _O.y = rect.startY + rect.height/2 - (max_height * parse_scale)/2;
+        _O.y = _O.y - (max_height * parse_scale)/2;
     } else if (Math.max(0, A.y, B.y, C.y) === 0) {
-        _O.y = rect.startY + rect.height/2 + (max_height * parse_scale)/2;
+        _O.y = _O.y + (max_height * parse_scale)/2;
     }
 
+// Relative coordinates of a beam
     const _C = {
         x: _O.x + C.x * parse_scale,
         y: _O.y + C.y * parse_scale,
@@ -208,13 +196,42 @@ function drawRect(ctx, scale, posX, posY,
         y: _O.y + A.y * parse_scale,
     }
 
+    const absolute_coordinate_X = -(_O.x - origin.x)/parse_scale;
+    const absolute_coordinate_Y = -(_O.y - origin.y)/parse_scale;
+
+// Clear all previous drawings
+    ctx.clearRect(0, 0, canvas.clientWidth + 100, canvas.height);
+
+// Build rectangle as a reference (optionally)
+    // ctx.lineWidth = 0.5;
+    // ctx.strokeStyle = 'black';
+    // ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
+
+// lines through center (cross)
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = 'black';
+    ctx.beginPath();
+    ctx.moveTo(origin.x, origin.y - (origin.y * 0.03));
+    ctx.lineTo(origin.x, origin.y + (origin.y * 0.03));
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(origin.x - (origin.y * 0.03), origin.y);
+    ctx.lineTo(origin.x + (origin.y * 0.03), origin.y);
+    ctx.closePath();
+    ctx.stroke();
+
+// Build first part of beam
+    ctx.strokeStyle = 'green';
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(_A.x, _A.y);
     ctx.lineTo(_B.x, _B.y);
     ctx.closePath();
     ctx.stroke();
-    
+
+// Build second part of beam
     ctx.strokeStyle = 'coral';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -222,29 +239,46 @@ function drawRect(ctx, scale, posX, posY,
     ctx.lineTo(_C.x, _C.y);
     ctx.closePath();
     ctx.stroke();
-    
+
+// Build floating origin
     ctx.beginPath();
     ctx.arc(_O.x, _O.y, 5, 0, Math.PI*2);
     ctx.fillStyle = 'purple';
     ctx.fill();
 
-// lines through center
+// Grid
     ctx.lineWidth = 0.1;
     ctx.strokeStyle = 'black';
-    ctx.beginPath();
-    ctx.moveTo(_O.x,            0);
-    ctx.lineTo(_O.x, 2 * origin.y);
-    ctx.closePath();
-    ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(           0, _O.y);
-    ctx.lineTo(2 * origin.x, _O.y);
-    ctx.closePath();
-    ctx.stroke();
+    for (let i = 0; i < 100; i++) {
+        ctx.beginPath();
+        ctx.moveTo(_O.x + (i*5) * parse_scale,            0);
+        ctx.lineTo(_O.x + (i*5) * parse_scale, 2 * origin.y);
+        ctx.closePath();
+        ctx.stroke();
 
-    const absolute_coordinate_X = -(_O.x - origin.x)/parse_scale;
-    const absolute_coordinate_Y = -(_O.y - origin.y)/parse_scale;
+        ctx.beginPath();
+        ctx.moveTo(_O.x - (i*5) * parse_scale,            0);
+        ctx.lineTo(_O.x - (i*5) * parse_scale, 2 * origin.y);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(           0, _O.y + (i*5) * parse_scale);
+        ctx.lineTo(2 * origin.x, _O.y + (i*5) * parse_scale);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(           0, _O.y - (i*5) * parse_scale);
+        ctx.lineTo(2 * origin.x, _O.y - (i*5) * parse_scale);
+        ctx.closePath();
+        ctx.stroke();
+    }
+
+
+
+
 
     // document.querySelector('#posX').innerHTML = `X: <small>${absolute_coordinate_X.toFixed(3)}</small>`
     // document.querySelector('#posY').innerHTML = ` Y: <small>${-absolute_coordinate_Y.toFixed(3)}</small>`
