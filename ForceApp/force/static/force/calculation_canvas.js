@@ -22,8 +22,10 @@ function draw_initialization() {
         parse_a, parse_b);
 
     document.querySelector('#home_btn').addEventListener('click', () => {
-        scale   = 0.8;
-
+        scale   =   0.8;
+        cscale  = scale;
+        // number of pixels in unit square
+        i = 35;
 // coordinate of starting point when mouse was clicked at first
         coord.X = 0;
         coord.Y = 0;
@@ -42,11 +44,12 @@ function draw_initialization() {
 // canvas scrolling ---------------------------------------------->
     canvas.addEventListener('wheel', function(event) {
         
-        scale += 0.05 * Math.sign(event.deltaY)
-        if (scale < 0.05) {
-            scale = 0.05;
+        scale += 0.01 * Math.sign(event.deltaY)
+        if (scale < 0.01) {
+            scale = 0.01;
         }
-        
+        // console.log(scale)
+
         drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
             reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
     })
@@ -207,7 +210,167 @@ function drawRect(ctx, scale, posX, posY,
     // ctx.strokeStyle = 'black';
     // ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
 
+
+
+// Build first part of beam
+    let koef = 0.4
+
+    ctx.strokeStyle = 'green';
+    ctx.lineWidth = koef * parse_scale;
+    ctx.beginPath();
+    ctx.moveTo(_A.x, _A.y);
+    ctx.lineTo(_B.x, _B.y);
+    ctx.closePath();
+    ctx.stroke();
+
+// Build second part of beam
+    ctx.strokeStyle = 'coral';
+    ctx.lineWidth = koef * parse_scale;
+    ctx.beginPath();
+    ctx.moveTo(_B.x, _B.y);
+    ctx.lineTo(_C.x, _C.y);
+    ctx.closePath();
+    ctx.stroke();
+
+// Build floating origin
+
+    let circle_radius = 0.3
+
+    ctx.beginPath();
+    ctx.arc(_O.x, _O.y, circle_radius * parse_scale, 0, Math.PI*2);
+    ctx.fillStyle = 'purple';
+    ctx.fill();
+
+// Grid
+
+// Central lines
+
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = 'black';
+    ctx.beginPath();
+    ctx.moveTo(_O.x,            0);
+    ctx.lineTo(_O.x, 2 * origin.y);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(           0, _O.y);
+    ctx.lineTo(2 * origin.x, _O.y);
+    ctx.closePath();
+    ctx.stroke();
+    
+
+// build auto grid
+    if (scale > cscale) {
+        i++;
+        if (i === 50) {
+            i = 21
+        }
+    } else if (scale < cscale) {
+        i--;
+        if (i === 20) {
+            i = 49
+        }
+    } else if (scale === cscale) {
+        i = i;
+    }
+
+    cscale = scale;
+
+    let mm = i/parse_scale;
+
+    
+    ctx.fillStyle = 'black';
+    ctx.font = "15px Arial";
+
+    let grid_right = Math.ceil( (700 - _O.x) / i );
+    for (let i = 1; i < grid_right; i++) {
+        if (i % 5 == 0) {
+            ctx.lineWidth = 0.25;
+            ctx.beginPath();
+            ctx.moveTo(_O.x + (i*mm) * parse_scale,            0);
+            ctx.lineTo(_O.x + (i*mm) * parse_scale, 2 * origin.y);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.fillText(Math.round(i*mm*1000) / 1000, _O.x + (i*mm) * parse_scale - 20, 15);
+            ctx.fillText(Math.round(i*mm*1000) / 1000, _O.x + (i*mm) * parse_scale - 20, 2 * origin.y);
+        } else {
+            ctx.lineWidth = 0.1;
+            ctx.beginPath();
+            ctx.moveTo(_O.x + (i*mm) * parse_scale,            0);
+            ctx.lineTo(_O.x + (i*mm) * parse_scale, 2 * origin.y);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+    }
+    let grid_left = Math.ceil( (_O.x) / i );
+    for (let i = 1; i < grid_left; i++) {
+        if (i % 5 == 0) {
+            ctx.lineWidth = 0.25;
+            ctx.beginPath();
+            ctx.moveTo(_O.x - (i*mm) * parse_scale,            0);
+            ctx.lineTo(_O.x - (i*mm) * parse_scale, 2 * origin.y);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, _O.x - (i*mm) * parse_scale - 20, 15);
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, _O.x - (i*mm) * parse_scale - 20, 2 * origin.y);
+        } else {
+            ctx.lineWidth = 0.1;
+            ctx.beginPath();
+            ctx.moveTo(_O.x - (i*mm) * parse_scale,            0);
+            ctx.lineTo(_O.x - (i*mm) * parse_scale, 2 * origin.y);
+            ctx.closePath();
+            ctx.stroke();
+        }
+    }
+    let grid_bottom = Math.ceil( (600 - _O.y) / i );
+    for (let i = 1; i < grid_bottom; i++) {
+        if (i % 5 == 0) {
+            ctx.lineWidth = 0.25;
+            ctx.beginPath();
+            ctx.moveTo(           0, _O.y + (i*mm) * parse_scale);
+            ctx.lineTo(2 * origin.x, _O.y + (i*mm) * parse_scale);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, 0                , _O.y + (i*mm) * parse_scale);
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, 2 * origin.x - 45, _O.y + (i*mm) * parse_scale);
+        } else {
+            ctx.lineWidth = 0.1;
+            ctx.beginPath();
+            ctx.moveTo(           0, _O.y + (i*mm) * parse_scale);
+            ctx.lineTo(2 * origin.x, _O.y + (i*mm) * parse_scale);
+            ctx.closePath();
+            ctx.stroke();
+        }
+    }
+    let grid_top = Math.ceil( (_O.y) / i );
+    for (let i = 1; i < grid_top; i++) {
+        if (i % 5 == 0) {
+            ctx.lineWidth = 0.25;
+            ctx.beginPath();
+            ctx.moveTo(           0, _O.y - (i*mm) * parse_scale);
+            ctx.lineTo(2 * origin.x, _O.y - (i*mm) * parse_scale);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.fillText(Math.round(i*mm*1000) / 1000, 0                , _O.y - (i*mm) * parse_scale);
+            ctx.fillText(Math.round(i*mm*1000) / 1000, 2 * origin.x - 40, _O.y - (i*mm) * parse_scale); 
+        } else {
+            ctx.lineWidth = 0.1;
+            ctx.beginPath();
+            ctx.moveTo(           0, _O.y - (i*mm) * parse_scale);
+            ctx.lineTo(2 * origin.x, _O.y - (i*mm) * parse_scale);
+            ctx.closePath();
+            ctx.stroke();
+        }
+    }
+
 // lines through center (cross)
+
     ctx.lineWidth = 2.5;
     ctx.strokeStyle = 'black';
     ctx.beginPath();
@@ -221,61 +384,6 @@ function drawRect(ctx, scale, posX, posY,
     ctx.lineTo(origin.x + (origin.y * 0.03), origin.y);
     ctx.closePath();
     ctx.stroke();
-
-// Build first part of beam
-    ctx.strokeStyle = 'green';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(_A.x, _A.y);
-    ctx.lineTo(_B.x, _B.y);
-    ctx.closePath();
-    ctx.stroke();
-
-// Build second part of beam
-    ctx.strokeStyle = 'coral';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(_B.x, _B.y);
-    ctx.lineTo(_C.x, _C.y);
-    ctx.closePath();
-    ctx.stroke();
-
-// Build floating origin
-    ctx.beginPath();
-    ctx.arc(_O.x, _O.y, 5, 0, Math.PI*2);
-    ctx.fillStyle = 'purple';
-    ctx.fill();
-
-// Grid
-    ctx.lineWidth = 0.1;
-    ctx.strokeStyle = 'black';
-
-    for (let i = 0; i < 100; i++) {
-        ctx.beginPath();
-        ctx.moveTo(_O.x + (i*5) * parse_scale,            0);
-        ctx.lineTo(_O.x + (i*5) * parse_scale, 2 * origin.y);
-        ctx.closePath();
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(_O.x - (i*5) * parse_scale,            0);
-        ctx.lineTo(_O.x - (i*5) * parse_scale, 2 * origin.y);
-        ctx.closePath();
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(           0, _O.y + (i*5) * parse_scale);
-        ctx.lineTo(2 * origin.x, _O.y + (i*5) * parse_scale);
-        ctx.closePath();
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(           0, _O.y - (i*5) * parse_scale);
-        ctx.lineTo(2 * origin.x, _O.y - (i*5) * parse_scale);
-        ctx.closePath();
-        ctx.stroke();
-    }
-
 
 
 

@@ -215,6 +215,9 @@ let scale = 0.8;
 let coord = {X: 0, Y: 0}
 let mouse = {X: 0, Y: 0}
 let pos   = {X: 0, Y: 0}
+let cscale  = scale;
+// number of pixels in unit square
+let i = 35;
 
 draw_initialization();
 
