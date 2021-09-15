@@ -277,8 +277,14 @@ function drawRect(ctx, scale, posX, posY,
 
     cscale = scale;
 
-    let mm = i/parse_scale;
+    // let mm = i/parse_scale;
+    let mm = 0.5;
+    // let mm = 1;
+    // let mm = 1.5;
+    // let mm = 2.0;
 
+    console.log('mm: ', mm)
+    console.log('parse_scale: ', parse_scale)
     
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial";
