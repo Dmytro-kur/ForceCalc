@@ -23,28 +23,62 @@ function par(event){
 
 }
 
-function check(event) {
-    
-    if (event.target.value !== "0") {
-        const val = event.target.value;
-        const path = window.location.pathname.slice(13);
-    
-        fetch(`/check/${path}/${val}`)
-        .then(response => response.json())
-        .then(result => {
-            if (result.agree === true) {
-                console.log(result)
-                document.querySelector('#agree').style.display = 'block';
-                document.querySelector('#discard').style.display = 'none';
-        
-            } else if (result.agree === false) {
-                console.log(result)
-                document.querySelector('#agree').style.display = 'none';
-                document.querySelector('#discard').style.display = 'block';
-            }
-        })
-    }
+function get_vars() {
+    const project_num = window.location.pathname.slice(13)
+    const option_num = document.querySelector('#variables').value;
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const request = new Request(
+        `/result/${project_num}/${option_num}`,
+        {headers: {'X-CSRFToken': csrftoken}}
+    );
+    fetch(request, {
+        method: 'DELETE',
+        mode: 'same-origin',
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.error) {
+            console.log(result.error)
+        } else {
+            const x = document.querySelector('#variables')
+            x.remove(x.selectedIndex)
+            console.log(result.message)
+
+            x.value = 0;
+            document.querySelector(`#delete_variables_btn`).style.display = 'none';
+            document.querySelector('input#id_Na').value = '';
+            document.querySelector('input#id_Nb').value = '';
+            document.querySelector('input#id_NR').value = '';
+            
+        }
+    })
+
 }
+
+
+// function check(event) {
+    
+//     if (event.target.value !== "0") {
+//         const val = event.target.value;
+//         const path = window.location.pathname.slice(13);
+    
+//         fetch(`/check/${path}/${val}`)
+//         .then(response => response.json())
+//         .then(result => {
+//             if (result.agree === true) {
+//                 console.log(result)
+//                 document.querySelector('#agree').style.display = 'block';
+//                 document.querySelector('#discard').style.display = 'none';
+        
+//             } else if (result.agree === false) {
+//                 console.log(result)
+//                 document.querySelector('#agree').style.display = 'none';
+//                 document.querySelector('#discard').style.display = 'block';
+//             }
+//         })
+//     }
+// }
 
 function calculate() {
     

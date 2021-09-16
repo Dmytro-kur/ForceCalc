@@ -125,7 +125,6 @@ body {
  {
   margin-left: 15px;
   margin-right: 15px;
-
   align-items: center;
   justify-content: center;
   color: black;
@@ -179,7 +178,7 @@ body {
   position: fixed;
   width: 500px;
   height: 500px;
-  border-radius: 250px;
+  border-radius: 300px;
   align-items: center;
   justify-content: center;
   background-color: rgba(126, 189, 240);
@@ -191,7 +190,7 @@ body {
     clip-path: circle(0px);
   }
   99.9% {
-    clip-path: circle(250px);
+    clip-path: circle(300px);
   }
   100% {
     clip-path: circle(0px);
@@ -286,8 +285,10 @@ body {
   border-radius: 0px 10px 10px 0px;
   margin: 5px 10px 5px 0px;
   height: auto;
-  width: 250px;
-  min-width: 250px;
+  /* width: 250px;
+  min-width: 250px; */
+  width: 300px;
+  min-width: 300px;
   flex-grow: 0;
 }
 #body {
@@ -315,7 +316,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 250px;
+  width: 300px;
 }
 #wave-btn__compose,
 #wave-btn__sent {
@@ -699,7 +700,7 @@ td {
   position: fixed;
   width: 500px;
   height: 500px;
-  border-radius: 250px;
+  border-radius: 300px;
   align-items: center;
   justify-content: center;
   background-color: rgba(126, 189, 240);
@@ -710,7 +711,7 @@ td {
     clip-path: circle(0px);
   }
   99.9% {
-    clip-path: circle(250px);
+    clip-path: circle(300px);
   }
   100% {
     clip-path: circle(0px);

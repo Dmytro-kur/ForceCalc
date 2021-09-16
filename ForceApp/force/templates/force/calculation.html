@@ -1,6 +1,10 @@
 {% extends "force/layout.html" %}
 {% load static %}
 
+{% block sidebar %}
+    <div id="calc_input"></div>
+{% endblock %}
+
 {% block body %}
 
     <h1>Force Travel Calculation</h1>
@@ -13,7 +17,7 @@
     <button id="home_btn"><img id="source" src="{% static 'force/home.png' %}" alt="icon"></button>
     
     <!-- Contact ------------------------------------------------------------------------------>
-    <div id="calc_input"></div>
+    
 
     <!-- Plunger ------------------------------------------------------------------------------>
     <!-- <h2>Choose Plunger:</h2>
@@ -125,7 +129,7 @@
     
     <hr> -->
     <!-- Variables ------------------------------------------------------------------------------>
-    <p><label for="variables">Choose Variables:</label></p>
+    <!-- <p><label for="variables">Choose Variables:</label></p>
     
 
         
@@ -139,15 +143,8 @@
     </select></p>
     <p>
         <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
-    </p>
-    <div id="new_variables" style="display: block;">
-        {{ VariablesForm.as_p }}
-    </div>        
+    </p> -->
 
-    <p id="agree" style="display: none;">Valid &#10003;</p>
-    <p id="discard" style="display: none;">Results should be recalculated! &#10060;</p>
-
-    <button id="calculate" class="btn btn-primary btn-sm">Calculate</button>
 
 {% endblock %}
 

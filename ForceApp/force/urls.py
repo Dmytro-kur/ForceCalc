@@ -24,7 +24,7 @@ urlpatterns = [
     # CALCULATION API Routes
     path("parameter/<str:item>/<int:value>", views.parameter, name="parameter"),
     path("result/<int:project_num>/<int:value>", views.result, name="result"),
-    path("check/<int:project_num>/<int:value>", views.check, name="check"),
+    # path("check/<int:project_num>/<int:value>", views.check, name="check"),
 
     # MAIL API Routes
     path("compose", views.compose, name="compose"),

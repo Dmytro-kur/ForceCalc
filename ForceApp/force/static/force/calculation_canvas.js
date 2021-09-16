@@ -13,8 +13,15 @@ function draw_initialization() {
     const parse_a = parseFloat(document.querySelector('#plunger_a').value);
     const parse_b = parseFloat(document.querySelector('#plunger_b').value);
 
-    canvas.width = 700;
-    canvas.height = 600;
+    el = document.querySelector('#body').offsetWidth
+    canvas.width = el * 0.9;
+    
+    if (canvas.width < 600) {
+        canvas.height = canvas.width;
+    } else {
+        canvas.height = 600;
+    }
+
     let mouseState = 'mouseup';
 
     drawRect(ctx, scale, pos.X, pos.Y,
@@ -98,15 +105,24 @@ function draw_initialization() {
         }
     })
 
-// // window resizing ---------------------------------------------->
-//     window.addEventListener('resize', (event) => {
-//         event.preventDefault();
-//         canvas.width = window.innerWidth * canvas_scale;
-//         canvas.height = window.innerHeight * canvas_scale;
-//         drawRect(ctx, scale, pos.X, pos.Y,
-//             parse_contactCoord_X, parse_contactCoord_Y, 
-//             parse_a, parse_b);
-//     })
+// window resizing ---------------------------------------------->
+    window.addEventListener('resize', (event) => {
+        event.preventDefault();
+
+        el = document.querySelector('#body').offsetWidth
+        canvas.width = el * 0.9;
+        
+        if (canvas.width < 600) {
+            canvas.height = canvas.width;
+        } else {
+            canvas.height = 600;
+        }
+
+
+
+        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
+            reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
+    })
     
 }
 
@@ -281,7 +297,7 @@ function drawRect(ctx, scale, posX, posY,
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial";
 
-    let grid_right = Math.ceil( (700 - _O.x) / box );
+    let grid_right = Math.ceil( (canvas.width - _O.x) / box );
     for (let i = 1; i < grid_right; i++) {
         if (i % 5 == 0) {
             ctx.lineWidth = 0.25;
@@ -324,7 +340,7 @@ function drawRect(ctx, scale, posX, posY,
             ctx.stroke();
         }
     }
-    let grid_bottom = Math.ceil( (600 - _O.y) / box );
+    let grid_bottom = Math.ceil( (canvas.height - _O.y) / box );
     for (let i = 1; i < grid_bottom; i++) {
         if (i % 5 == 0) {
             ctx.lineWidth = 0.25;

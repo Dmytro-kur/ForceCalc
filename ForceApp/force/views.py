@@ -600,52 +600,57 @@ def projects(request, query):
 #####################################################################################
 # CALCULATION #
 ########
-@login_required
-def check(request, project_num, value):
+# @login_required
+# def check(request, project_num, value):
 
-    ''' Checking the correctness of the calculation '''
-    if request.method == "GET":
-        project_inst = Project.objects.get(pk=project_num)
-        vars = project_inst.variables.all().get(pk=value)
+#     ''' Checking the correctness of the calculation '''
+#     if request.method == "GET":
+#         project_inst = Project.objects.get(pk=project_num)
+#         vars = project_inst.variables.all().get(pk=value)
 
-        cont = vars.contact_input
-        plng = vars.plunger_input
-        sprg = vars.spring_input
-        angl = vars.angles_input
+#         cont = vars.contact_input
+#         plng = vars.plunger_input
+#         sprg = vars.spring_input
+#         angl = vars.angles_input
 
-        first_statement = round(vars.Na*plng.f*cos(angl.plungerFric) + \
-                vars.Nb*plng.f*cos(angl.plungerFric) + \
-                vars.NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5) == \
-                round(-sprg.force(), 5)
+#         first_statement = round(vars.Na*plng.f*cos(angl.plungerFric) + \
+#                 vars.Nb*plng.f*cos(angl.plungerFric) + \
+#                 vars.NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5) == \
+#                 round(-sprg.force(), 5)
 
-        second_statement = round(-vars.Na + vars.Nb + \
-            vars.NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5) == 0
+#         second_statement = round(-vars.Na + vars.Nb + \
+#             vars.NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5) == 0
 
-        third_statement = round(vars.Na*(plng.a + plng.b) - \
-            vars.Nb*plng.a, 5) == 0
+#         third_statement = round(vars.Na*(plng.a + plng.b) - \
+#             vars.Nb*plng.a, 5) == 0
 
-        project_inst = Project.objects.get(pk=project_num)
-        vars = project_inst.variables.all().get(pk=value)
+#         project_inst = Project.objects.get(pk=project_num)
+#         vars = project_inst.variables.all().get(pk=value)
 
-        if first_statement and second_statement and third_statement:
-            vars.agree = True
-            vars.save()
-            return JsonResponse({
-                "agree": True,
-                "message": f"Variables {vars.key} are valid",
-            }, status=200)
+#         if first_statement and second_statement and third_statement:
+#             vars.agree = True
+#             vars.save()
+#             return JsonResponse({
+#                 "agree": True,
+#                 "message": f"Variables {vars.key} are valid",
+#             }, status=200)
 
-        else:
-            vars.agree = False
-            vars.save()
-            return JsonResponse({
-                "agree": False,
-                "message": f"Variables {vars.key} aren't valid, please recalculate",
-            }, status=200)
+#         else:
+#             vars.agree = False
+#             vars.save()
+#             return JsonResponse({
+#                 "agree": False,
+#                 "message": f"Variables {vars.key} aren't valid, please recalculate",
+#             }, status=200)
+
+def is_valid_spring(freeLen, springLen):
+    return round(freeLen, 5) > round(springLen, 5)
 
 @login_required
 def result(request, project_num, value):
 
+    '''Get or remove corresponding set of parameters'''
+    
     if request.method == "GET":
         project_inst = Project.objects.get(pk=project_num)
         vars = project_inst.variables.all().get(pk=value)
@@ -748,13 +753,12 @@ def calculation(request, project_num):
             
             var = Variables(key=mydata['key'], Na=c1[0], Nb=c1[1], NR=c1[2], 
             project=project, contact_input=contact, plunger_input=plunger,
-            spring_input=spring, angles_input=angles, agree=True)
+            spring_input=spring, angles_input=angles)
             var.save()
                     
             return JsonResponse(var.serialize())
 
-def is_valid_spring(freeLen, springLen):
-    return round(freeLen, 5) > round(springLen, 5)
+
 
 @login_required
 def parameter(request, item, value):

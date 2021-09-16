@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
   // Inbox View
   document.querySelector('#wave-btn__inbox').addEventListener('click', (event) => {
-    waves('#wave-btn__inbox', '#wave__inbox', 250, event, 'sidebar');
+    waves('#wave-btn__inbox', '#wave__inbox', 300, event, 'sidebar');
 
     document.querySelector('#myQueryInput').value = '';
     history.pushState({page: 'inbox'}, "", "/mail/inbox");
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Compose View
   document.querySelector('#wave-btn__compose').addEventListener('click', (event) => {
-    waves('#wave-btn__compose', '#wave__compose', 250, event, 'sidebar');
+    waves('#wave-btn__compose', '#wave__compose', 300, event, 'sidebar');
 
     history.pushState({page: 'compose'}, "", "/mail/compose");
 
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Sent View
   document.querySelector('#wave-btn__sent').addEventListener('click', (event) => {
-    waves('#wave-btn__sent', '#wave__sent', 250, event, 'sidebar');
+    waves('#wave-btn__sent', '#wave__sent', 300, event, 'sidebar');
 
     document.querySelector('#myQueryInput').value = '';
     history.pushState({page: 'sent'}, "", "/mail/sent");
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Archived View
   document.querySelector('#wave-btn__archived').addEventListener('click', (event) => {
-    waves('#wave-btn__archived', '#wave__archived', 250, event, 'sidebar');
+    waves('#wave-btn__archived', '#wave__archived', 300, event, 'sidebar');
 
     document.querySelector('#myQueryInput').value = '';
     history.pushState({page: 'archived'}, "", "/mail/archived");

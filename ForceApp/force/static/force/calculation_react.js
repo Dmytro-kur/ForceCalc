@@ -88,6 +88,13 @@ class CalcInput extends React.Component {
                 <div>Direction of normal reaction friction force: </div>
                 <input id="angles_FN" type="number" step="0.1" min="0" onChange={this.updateFN} value={this.state.FN} required />
 
+                <h2>Choose Variables:</h2>
+                <select name="variables" id="variables" onChange={this.addOption}>
+                    <option value="0" defaultValue>Unknown</option>
+                </select>
+                <button id="delete_variables_btn" className="btn btn-success btn-sm">Delete</button>
+                <button id="save_variables_btn" className="btn btn-success btn-sm">Save</button>
+
             </div>
         );
     }
@@ -100,6 +107,28 @@ class CalcInput extends React.Component {
         document.querySelector('#plunger_a').value = this.state.a;
         
         unread_emails();
+
+        let select = document.querySelector('#variables');
+
+        let opt1 = document.createElement('option');
+        let opt2 = document.createElement('option');
+        let opt3 = document.createElement('option');
+
+        opt1.value = 1;
+        opt2.value = 2;
+        opt3.value = 3;
+
+        opt1.innerHTML = 'Option 1';
+        opt2.innerHTML = 'Option 2';
+        opt3.innerHTML = 'Option 3';
+
+        select.appendChild(opt1);
+        select.appendChild(opt2);
+        select.appendChild(opt3);
+
+    }
+    addOption() {
+        console.log('Option was changed!')
     }
 
     updateContactFriction = (event) => {unread_emails(); 
@@ -210,6 +239,7 @@ let reactInputInstance = ReactDOM.render(<CalcInput />, document.querySelector('
 
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d');
+
 
 let scale = 0.8;
 let coord = {X: 0, Y: 0}
