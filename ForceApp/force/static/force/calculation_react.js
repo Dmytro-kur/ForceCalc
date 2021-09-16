@@ -3,8 +3,8 @@ class CalcInput extends React.Component {
         super(props);
         this.state = {
             contact_friction: 0.15,
-            Xcoord: 0,
-            Ycoord: 0,
+            Xcoord: -3,
+            Ycoord: 4,
             a: 3,
             b: 5,
             plunger_friction: 0.15,
@@ -215,9 +215,9 @@ let scale = 0.8;
 let coord = {X: 0, Y: 0}
 let mouse = {X: 0, Y: 0}
 let pos   = {X: 0, Y: 0}
-let cscale  = scale;
-// number of pixels in unit square
-let i = 35;
+
+// initial box size in mm
+let mm = 1;
 
 draw_initialization();
 

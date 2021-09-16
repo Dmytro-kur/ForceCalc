@@ -849,4 +849,7 @@ display: block;
 margin-left: auto;
 margin-right: auto;
 }
+#canvas:hover {
+  cursor: move;
+}
 /* ---------------------------- end CALCULATION -------------------- */

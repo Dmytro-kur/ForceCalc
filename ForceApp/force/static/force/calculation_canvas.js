@@ -9,7 +9,7 @@ function enableScroll() {
 function draw_initialization() {
 
     const parse_contactCoord_X = parseFloat(document.querySelector('#contact_Xcoord').value);
-    const parse_contactCoord_Y = -parseFloat(document.querySelector('#contact_Ycoord').value);
+    const parse_contactCoord_Y = parseFloat(document.querySelector('#contact_Ycoord').value);
     const parse_a = parseFloat(document.querySelector('#plunger_a').value);
     const parse_b = parseFloat(document.querySelector('#plunger_b').value);
 
@@ -44,14 +44,15 @@ function draw_initialization() {
 // canvas scrolling ---------------------------------------------->
     canvas.addEventListener('wheel', function(event) {
         
-        scale += 0.01 * Math.sign(event.deltaY)
+        scale -= 0.05 * Math.sign(event.deltaY)
         if (scale < 0.01) {
             scale = 0.01;
         }
         // console.log(scale)
 
         drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
-            reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
+            reactInputInstance.state.Ycoord, reactInputInstance.state.a,
+            reactInputInstance.state.b);
     })
 
 // detecting cursor
@@ -79,7 +80,7 @@ function draw_initialization() {
 
 // translate context
     canvas.addEventListener('mousedown', (event)=> {
-        if (event.button === 1) {
+        if (event.button === 0) {
             event.preventDefault();
             mouseState = 'mousedown'
 
@@ -87,7 +88,7 @@ function draw_initialization() {
             coord.Y = mouse.Y - pos.Y;
 
             document.body.addEventListener('mouseup', (event) => {
-                if (event.button === 1) {
+                if (event.button === 0) {
                     event.preventDefault();
                     mouseState = 'mouseup'
 
@@ -121,6 +122,7 @@ function drawRect(ctx, scale, posX, posY,
         width: canvas.width * scale,
         height: canvas.height * scale,
     }
+
 // Center of the canvas
     const origin ={
         x: canvas.width / 2,
@@ -142,7 +144,7 @@ function drawRect(ctx, scale, posX, posY,
         y: parse_contactCoord_Y,
     }
 
-// Find maximum possible scale factor for fitting inside rectangle
+// Find maximum possible scale factor for fitting rectangle
     const max_width = Math.max(0, A.x, B.x, C.x) - Math.min(0, A.x, B.x, C.x);
     const max_height = Math.max(0, A.y, B.y, C.y) - Math.min(0, A.y, B.y, C.y);
 
@@ -164,7 +166,7 @@ function drawRect(ctx, scale, posX, posY,
         x: rect.startX + rect.width/2,
         y: rect.startY + rect.height/2,
     }
-// Conditions for centering content inside rectangle
+// Correction of floating origin
 
     if (Math.min(0, A.x, B.x, C.x) === 0) {
         _O.x = _O.x - (max_width * parse_scale)/2;
@@ -178,29 +180,29 @@ function drawRect(ctx, scale, posX, posY,
     }
 
     if (Math.min(0, A.y, B.y, C.y) === 0) {
-        _O.y = _O.y - (max_height * parse_scale)/2;
-    } else if (Math.max(0, A.y, B.y, C.y) === 0) {
         _O.y = _O.y + (max_height * parse_scale)/2;
+
+    } else if (Math.max(0, A.y, B.y, C.y) === 0) {
+        _O.y = _O.y - (max_height * parse_scale)/2;
     }
 
 // Relative coordinates of a beam
     const _C = {
         x: _O.x + C.x * parse_scale,
-        y: _O.y + C.y * parse_scale,
+        y: _O.y - C.y * parse_scale,
     }
 
     const _B = {
         x: _O.x + B.x * parse_scale,
-        y: _O.y + B.y * parse_scale,
+        y: _O.y - B.y * parse_scale,
     }
 
     const _A = {
         x: _O.x + A.x * parse_scale,
-        y: _O.y + A.y * parse_scale,
+        y: _O.y - A.y * parse_scale,
     }
 
-    const absolute_coordinate_X = -(_O.x - origin.x)/parse_scale;
-    const absolute_coordinate_Y = -(_O.y - origin.y)/parse_scale;
+
 
 // Clear all previous drawings
     ctx.clearRect(0, 0, canvas.clientWidth + 100, canvas.height);
@@ -259,117 +261,108 @@ function drawRect(ctx, scale, posX, posY,
     ctx.closePath();
     ctx.stroke();
     
+// box size in px
+    let box = mm * parse_scale;
 
-// build auto grid
-    if (scale > cscale) {
-        i++;
-        if (i === 50) {
-            i = 21
-        }
-    } else if (scale < cscale) {
-        i--;
-        if (i === 20) {
-            i = 49
-        }
-    } else if (scale === cscale) {
-        i = i;
+    while (box > 50) {
+        mm /= 2;
+        box = mm * parse_scale;
     }
 
-    cscale = scale;
+    while (box < 20) {
+        mm *= 2;
+        box = mm * parse_scale;
+    }
+    // console.log('mm: ', mm)
+    // console.log('parse_scale: ', parse_scale)
+    // console.log('scale: ', scale)
 
-    // let mm = i/parse_scale;
-    let mm = 0.5;
-    // let mm = 1;
-    // let mm = 1.5;
-    // let mm = 2.0;
-
-    console.log('mm: ', mm)
-    console.log('parse_scale: ', parse_scale)
+    // console.log('size of element: ', box)
     
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial";
 
-    let grid_right = Math.ceil( (700 - _O.x) / i );
+    let grid_right = Math.ceil( (700 - _O.x) / box );
     for (let i = 1; i < grid_right; i++) {
         if (i % 5 == 0) {
             ctx.lineWidth = 0.25;
             ctx.beginPath();
-            ctx.moveTo(_O.x + (i*mm) * parse_scale,            0);
-            ctx.lineTo(_O.x + (i*mm) * parse_scale, 2 * origin.y);
+            ctx.moveTo(_O.x + i * box,            0);
+            ctx.lineTo(_O.x + i * box, 2 * origin.y);
             ctx.closePath();
             ctx.stroke();
 
-            ctx.fillText(Math.round(i*mm*1000) / 1000, _O.x + (i*mm) * parse_scale - 20, 15);
-            ctx.fillText(Math.round(i*mm*1000) / 1000, _O.x + (i*mm) * parse_scale - 20, 2 * origin.y);
+            ctx.fillText(Math.round(i*mm*1000) / 1000, _O.x + i * box - 20, 15);
+            ctx.fillText(Math.round(i*mm*1000) / 1000, _O.x + i * box - 20, 2 * origin.y);
         } else {
             ctx.lineWidth = 0.1;
             ctx.beginPath();
-            ctx.moveTo(_O.x + (i*mm) * parse_scale,            0);
-            ctx.lineTo(_O.x + (i*mm) * parse_scale, 2 * origin.y);
+            ctx.moveTo(_O.x + i * box,            0);
+            ctx.lineTo(_O.x + i * box, 2 * origin.y);
             ctx.closePath();
             ctx.stroke();
         }
 
     }
-    let grid_left = Math.ceil( (_O.x) / i );
+    let grid_left = Math.ceil( (_O.x) / box );
     for (let i = 1; i < grid_left; i++) {
         if (i % 5 == 0) {
             ctx.lineWidth = 0.25;
             ctx.beginPath();
-            ctx.moveTo(_O.x - (i*mm) * parse_scale,            0);
-            ctx.lineTo(_O.x - (i*mm) * parse_scale, 2 * origin.y);
+            ctx.moveTo(_O.x - i * box,            0);
+            ctx.lineTo(_O.x - i * box, 2 * origin.y);
             ctx.closePath();
             ctx.stroke();
 
-            ctx.fillText(-Math.round(i*mm*1000) / 1000, _O.x - (i*mm) * parse_scale - 20, 15);
-            ctx.fillText(-Math.round(i*mm*1000) / 1000, _O.x - (i*mm) * parse_scale - 20, 2 * origin.y);
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, _O.x - i * box - 20, 15);
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, _O.x - i * box - 20, 2 * origin.y);
         } else {
             ctx.lineWidth = 0.1;
             ctx.beginPath();
-            ctx.moveTo(_O.x - (i*mm) * parse_scale,            0);
-            ctx.lineTo(_O.x - (i*mm) * parse_scale, 2 * origin.y);
+            ctx.moveTo(_O.x - i * box,            0);
+            ctx.lineTo(_O.x - i * box, 2 * origin.y);
             ctx.closePath();
             ctx.stroke();
         }
     }
-    let grid_bottom = Math.ceil( (600 - _O.y) / i );
+    let grid_bottom = Math.ceil( (600 - _O.y) / box );
     for (let i = 1; i < grid_bottom; i++) {
         if (i % 5 == 0) {
             ctx.lineWidth = 0.25;
             ctx.beginPath();
-            ctx.moveTo(           0, _O.y + (i*mm) * parse_scale);
-            ctx.lineTo(2 * origin.x, _O.y + (i*mm) * parse_scale);
+            ctx.moveTo(           0, _O.y + i * box);
+            ctx.lineTo(2 * origin.x, _O.y + i * box);
             ctx.closePath();
             ctx.stroke();
 
-            ctx.fillText(-Math.round(i*mm*1000) / 1000, 0                , _O.y + (i*mm) * parse_scale);
-            ctx.fillText(-Math.round(i*mm*1000) / 1000, 2 * origin.x - 45, _O.y + (i*mm) * parse_scale);
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, 0                , _O.y + i * box);
+            ctx.fillText(-Math.round(i*mm*1000) / 1000, 2 * origin.x - 45, _O.y + i * box);
         } else {
             ctx.lineWidth = 0.1;
             ctx.beginPath();
-            ctx.moveTo(           0, _O.y + (i*mm) * parse_scale);
-            ctx.lineTo(2 * origin.x, _O.y + (i*mm) * parse_scale);
+            ctx.moveTo(           0, _O.y + i * box);
+            ctx.lineTo(2 * origin.x, _O.y + i * box);
             ctx.closePath();
             ctx.stroke();
         }
     }
-    let grid_top = Math.ceil( (_O.y) / i );
+    let grid_top = Math.ceil( (_O.y) / box );
     for (let i = 1; i < grid_top; i++) {
         if (i % 5 == 0) {
             ctx.lineWidth = 0.25;
             ctx.beginPath();
-            ctx.moveTo(           0, _O.y - (i*mm) * parse_scale);
-            ctx.lineTo(2 * origin.x, _O.y - (i*mm) * parse_scale);
+            ctx.moveTo(           0, _O.y - i * box);
+            ctx.lineTo(2 * origin.x, _O.y - i * box);
             ctx.closePath();
             ctx.stroke();
 
-            ctx.fillText(Math.round(i*mm*1000) / 1000, 0                , _O.y - (i*mm) * parse_scale);
-            ctx.fillText(Math.round(i*mm*1000) / 1000, 2 * origin.x - 40, _O.y - (i*mm) * parse_scale); 
+            ctx.fillText(Math.round(i*mm*1000) / 1000, 0                , _O.y - i * box);
+            ctx.fillText(Math.round(i*mm*1000) / 1000, 2 * origin.x - 40, _O.y - i * box); 
         } else {
             ctx.lineWidth = 0.1;
             ctx.beginPath();
-            ctx.moveTo(           0, _O.y - (i*mm) * parse_scale);
-            ctx.lineTo(2 * origin.x, _O.y - (i*mm) * parse_scale);
+            ctx.moveTo(           0, _O.y - i * box);
+            ctx.lineTo(2 * origin.x, _O.y - i * box);
             ctx.closePath();
             ctx.stroke();
         }
@@ -391,6 +384,22 @@ function drawRect(ctx, scale, posX, posY,
     ctx.closePath();
     ctx.stroke();
 
+// Clear rectangle for coordinates
+    ctx.clearRect(0, 0, 150, 30);
+
+// Build coordinates in upper left corner
+    const absolute_coordinate_X = (-(_O.x - origin.x)/parse_scale).toFixed(2);
+    const absolute_coordinate_Y = ((_O.y - origin.y)/parse_scale).toFixed(2);
+    
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'black';
+    ctx.beginPath();
+    ctx.rect(0, 0, 150, 30);
+    ctx.stroke();
+
+    ctx.fillStyle = 'black';
+    ctx.font = "15px Arial";
+    ctx.fillText(`X: ${absolute_coordinate_X}; Y: ${absolute_coordinate_Y}`, 15, 20);
 
 
 
