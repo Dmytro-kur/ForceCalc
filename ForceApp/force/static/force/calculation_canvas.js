@@ -23,9 +23,7 @@ function draw_initialization() {
 
     document.querySelector('#home_btn').addEventListener('click', () => {
         scale   =   0.8;
-        cscale  = scale;
-        // number of pixels in unit square
-        i = 35;
+
 // coordinate of starting point when mouse was clicked at first
         coord.X = 0;
         coord.Y = 0;
@@ -37,9 +35,10 @@ function draw_initialization() {
 // Value of the shifted position
         pos.X   = 0;
         pos.Y   = 0;
+
         drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
             reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
-    })
+        })
 
 // canvas scrolling ---------------------------------------------->
     canvas.addEventListener('wheel', function(event) {
