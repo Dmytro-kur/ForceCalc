@@ -1,11 +1,11 @@
-function delete_data(select, name, v1, v2, v3) {
+function delete_data(select, name) {
 
     const project_num = window.location.pathname.slice(13)
-    const option_num = document.querySelector(id).value;
+    const val = document.querySelector(`#${name}`).value;
 
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const request = new Request(
-        `/parameter/${item}/${project_num}?num=${option_num}`,
+        `/parameter/${name}/${project_num}?value=${val}`,
         {headers: {'X-CSRFToken': csrftoken}}
     );
     fetch(request, {
@@ -15,16 +15,10 @@ function delete_data(select, name, v1, v2, v3) {
     .then(response => response.json())
     .then(result => {
         if (result.error) {
-            console.log(result.error)
+            alert(result.error)
         } else {
-            const x = document.querySelector(id)
-            x.remove(x.selectedIndex)
-            console.log(result.message)
-            document.querySelector(`input#${var1}`).value = '';
-            document.querySelector(`input#${var2}`).value = '';
-            document.querySelector(`input#${var3}`).value = '';
-            document.querySelector(`#edit_${item}_btn`).style.display = 'none';
-            document.querySelector(`#delete_${item}_btn`).style.display = 'none';
+            select.remove(select.selectedIndex)
+            alert(result.message)
         }
     })
 

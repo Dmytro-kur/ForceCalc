@@ -858,6 +858,12 @@ def parameter(request, name, project_num):
             mydata['springStiff'] = mydata['var1']
             mydata['freeLen'] = mydata['var2']
             mydata['springLen'] = mydata['var3']
+
+            if is_valid_spring(float(mydata['var2']), float(mydata['var3'])) != True:
+                return JsonResponse({"error": [
+                    {'spring': 'The spring must be compressed, now it is stretched.'}
+                ]}, status=400)
+
             data = SpringForm(mydata, instance=a)
 
         if name == "angles":
@@ -883,7 +889,7 @@ def parameter(request, name, project_num):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Contact {key} was successfully deleted",
+                "message": f"{key} was successfully deleted",
             }, status=200)
 
         if name == "plunger":
@@ -891,7 +897,7 @@ def parameter(request, name, project_num):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Plunger {key} was successfully deleted",
+                "message": f"{key} was successfully deleted",
             }, status=200)
 
         if name == "spring":
@@ -899,7 +905,7 @@ def parameter(request, name, project_num):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Spring {key} was successfully deleted",
+                "message": f"{key} was successfully deleted",
             }, status=200)
 
         if name == "angles":
@@ -907,7 +913,7 @@ def parameter(request, name, project_num):
             key = a.key
             a.delete()
             return JsonResponse({
-                "message": f"Angles {key} was successfully deleted",
+                "message": f"{key} was successfully deleted",
             }, status=200)
 
 ########

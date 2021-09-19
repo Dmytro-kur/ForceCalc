@@ -13,7 +13,8 @@ class CalcInput extends React.Component {
             springLen: 8.9,
             plungerFric: 0,
             N: 100,
-            FN: 10,
+            FN: 'plus',
+
             contact_status: 0,
             plunger_status: 0,
             spring_status: 0,
@@ -32,7 +33,7 @@ class CalcInput extends React.Component {
                 <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
                 <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
                 <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Save edited</button>
-                <select id="contacts" onChange={this.chooseContactOption}>
+                <select id="contact" onChange={this.chooseContactOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Friction in contact: </div>
@@ -50,7 +51,7 @@ class CalcInput extends React.Component {
                 <button id="delete_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerDelete}>Delete</button>
                 <button id="edit_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerEdit}>Save edited</button>
 
-                <select id="plungers" onChange={this.choosePlungerOption}>
+                <select id="plunger" onChange={this.choosePlungerOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Distance A: </div>
@@ -68,7 +69,7 @@ class CalcInput extends React.Component {
                 <button id="delete_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
                 <button id="edit_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Save edited</button>
 
-                <select id="springs">
+                <select id="spring" onChange={this.chooseSpringOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Spring Stiffness: </div>
@@ -86,21 +87,30 @@ class CalcInput extends React.Component {
                 <button id="delete_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
                 <button id="edit_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Save edited</button>
 
-                <select id="angles">
+                <select id="angles" onChange={this.chooseAnglesOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Direction of plunger friction forces: </div>
-                <input id="angles_plungerFric" type="number" step="180" min="0" max="180" onChange={this.updatePlungerFric} value={this.state.plungerFric}/>
+
+                <input id="angles_plungerFric1" type="radio" name="PlungerFric" value="0" onChange={this.updatePlungerFric}/>
+                <label htmlFor="angles_plungerFric1">0 deg</label>
+                <input id="angles_plungerFric2" type="radio" name="PlungerFric" value="180" onChange={this.updatePlungerFric}/>
+                <label htmlFor="angles_plungerFric2">180 deg</label>
+
                 <div>Direction of normal reaction force: </div>
                 <input id="angles_N" type="number" step="0.1" min="90" max="270" onChange={this.updateN} value={this.state.N}/>
+                
                 <div>Direction of normal reaction friction force: </div>
-                <input id="angles_FN" type="number" step="0.1" min="0" onChange={this.updateFN} value={this.state.FN}/>
+                <input type="submit" id="angles_FN1" type="radio" name="FN" value="plus" onChange={this.updateFN}/>
+                <label htmlFor="angles_FN1"> + 90 deg</label>
+                <input type="submit" id="angles_FN2" type="radio" name="FN" value="minus" onChange={this.updateFN}/>
+                <label htmlFor="angles_FN2"> - 90 deg</label>
 
 
 
                 <h2>Choose Variables:</h2>
                 <input type="text" required id="variables_key"/>
-                <select id="variables">
+                <select id="variables" onChange={this.chooseVariablesOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <button id="delete_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesSave}>Delete</button>
@@ -201,9 +211,9 @@ class CalcInput extends React.Component {
         this.hideAlledit();
 
         unread_emails();
-        let cnt_select = document.querySelector('#contacts');
-        let plng_select = document.querySelector('#plungers');
-        let sprg_select = document.querySelector('#springs');
+        let cnt_select = document.querySelector('#contact');
+        let plng_select = document.querySelector('#plunger');
+        let sprg_select = document.querySelector('#spring');
         let angl_select = document.querySelector('#angles');
         let vrbl_select = document.querySelector('#variables');
 
@@ -277,6 +287,7 @@ class CalcInput extends React.Component {
                     a: 1,
                     b: 1,
                     plunger_friction: 0.15,
+                    plunger_status: 0,
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
                     1, 1);
@@ -286,6 +297,7 @@ class CalcInput extends React.Component {
                     a: result.var1,
                     b: result.var2,
                     plunger_friction: result.var3,
+                    plunger_status: 1,
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
                     result.var1, result.var2);
@@ -295,7 +307,33 @@ class CalcInput extends React.Component {
     }
 
     chooseSpringOption = (event) => {
+        parameter(event, "spring")
+        .then(result => {
 
+            if (result.var1 === 'unknown' &&
+                result.var2 === 'unknown' &&
+                result.var3 === 'unknown') {
+                this.setState({
+                    springStiff: 4.1,
+                    freeLen: 10.7,
+                    springLen: 8.9,
+                    spring_status: 0,
+                })
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                    this.state.a, this.state.b);
+                this.newState('spring');
+            } else {
+                this.setState({
+                    springStiff: result.var1,
+                    freeLen: result.var2,
+                    springLen: result.var3,
+                    spring_status: 1,
+                })
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                    this.state.a, this.state.b);
+                this.activeState('spring');
+            }
+        })
     }
 
     chooseAnglesOption = (event) => {
@@ -331,12 +369,14 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, event.target.value, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('contact');
 
         if (this.state.contact_status === 0) {
             this.newState('contact');
         } else {
             this.editState('contact');
+            this.setState({
+                contact_status: 2,
+            })  
         }
     }
 
@@ -346,12 +386,14 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, event.target.value,
             this.state.a, this.state.b);
-        this.editState('contact');
 
         if (this.state.contact_status === 0) {
             this.newState('contact');
         } else {
             this.editState('contact');
+            this.setState({
+                contact_status: 2,
+            })  
         }
     }
         /////////////////////////////////////
@@ -361,7 +403,15 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             event.target.value, this.state.b);
-        this.editState('plunger');
+
+        if (this.state.plunger_status === 0) {
+            this.newState('plunger');
+        } else {
+            this.editState('plunger');
+            this.setState({
+                plunger_status: 2,
+            })  
+        }
     }
 
     updateB = (event) => {unread_emails(); 
@@ -370,7 +420,14 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, event.target.value);
-        this.editState('plunger');
+        if (this.state.plunger_status === 0) {
+            this.newState('plunger');
+        } else {
+            this.editState('plunger');
+            this.setState({
+                plunger_status: 2,
+            })  
+        }
     }
 
     updatePlungerFriction = (event) => {unread_emails(); 
@@ -379,7 +436,15 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('plunger');    
+
+        if (this.state.plunger_status === 0) {
+            this.newState('plunger');
+        } else {
+            this.editState('plunger');
+            this.setState({
+                plunger_status: 2,
+            })  
+        }
     }
         /////////////////////////////////////
     updateSpringStiff = (event) => {unread_emails(); 
@@ -388,7 +453,15 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('spring');      
+
+        if (this.state.spring_status === 0) {
+            this.newState('spring');
+        } else {
+            this.editState('spring');
+            this.setState({
+                spring_status: 2,
+            })  
+        }           
     }
     updateFreeLen = (event) => {unread_emails(); 
         this.setState({
@@ -396,7 +469,15 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('spring');      
+
+        if (this.state.spring_status === 0) {
+            this.newState('spring');
+        } else {
+            this.editState('spring');
+            this.setState({
+                spring_status: 2,
+            })  
+        }            
     }
     updateSpringLen = (event) => {unread_emails(); 
         this.setState({
@@ -404,16 +485,33 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('spring');
+
+        if (this.state.spring_status === 0) {
+            this.newState('spring');
+        } else {
+            this.editState('spring');
+            this.setState({
+                spring_status: 2,
+            })  
+        }
     }
         /////////////////////////////////////
     updatePlungerFric = (event) => {unread_emails(); 
+
         this.setState({
             plungerFric: event.target.value,
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('angles');
+
+        if (this.state.angles_status === 0) {
+            this.newState('angles');
+        } else {
+            this.editState('angles');
+            this.setState({
+                angles_status: 2,
+            })  
+        }
     }
     updateN = (event) => {unread_emails(); 
         this.setState({
@@ -421,76 +519,123 @@ class CalcInput extends React.Component {
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('angles');
+
+        if (this.state.angles_status === 0) {
+            this.newState('angles');
+        } else {
+            this.editState('angles');
+            this.setState({
+                angles_status: 2,
+            })  
+        }
     }
     updateFN = (event) => {unread_emails(); 
+        console.log(event.target.value)
         this.setState({
             FN: event.target.value,
         })
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
-        this.editState('angles');
+
+        if (this.state.angles_status === 0) {
+            this.newState('angles');
+        } else {
+            this.editState('angles');
+            this.setState({
+                angles_status: 2,
+            })  
+        }
     }
         /////////////////////////////////////
 
     clickContactSave = () => {
-        const select = document.querySelector('#contacts');
+        const select = document.querySelector('#contact');
         post_data(select, 'contact', this.state.contact_friction, this.state.Xcoord, this.state.Ycoord)
     }
 
-    clickPlungerSave = (event) => {
+    clickPlungerSave = () => {
+        const select = document.querySelector('#plunger');
+        post_data(select, 'plunger', this.state.a, this.state.b, this.state.plunger_friction)
+    }
+
+    clickSpringSave = () => {
+        const select = document.querySelector('#spring');
+        post_data(select, 'spring', this.state.springStiff, this.state.freeLen, this.state.springLen)
+    }
+
+    clickAnglesSave = () => {
         
     }
 
-    clickSpringSave = (event) => {
-        
-    }
-
-    clickAnglesSave = (event) => {
-        
-    }
-
-    clickVariablesSave = (event) => {
-        
-    }
-//
-    clickContactDelete = (event) => {
-
-    }
-
-    clickPlungerDelete = (event) => {
-        
-    }
-
-    clickSpringDelete = (event) => {
-        
-    }
-
-    clickAnglesDelete = (event) => {
-        
-    }
-
-    clickVariablesDelete = (event) => {
+    clickVariablesSave = () => {
         
     }
 //
-    clickContactEdit = (event) => {
-
+    clickContactDelete = () => {
+        const select = document.querySelector('#contact');
+        delete_data(select, 'contact');
+        this.newState('contact');
+        this.setState({
+            contact_status: 0,
+        })
     }
 
-    clickPlungerEdit = (event) => {
+    clickPlungerDelete = () => {
+        const select = document.querySelector('#plunger');
+        delete_data(select, 'plunger');
+        this.newState('plunger');
+        this.setState({
+            plunger_status: 0,
+        })
+    }
+
+    clickSpringDelete = () => {
+        const select = document.querySelector('#spring');
+        delete_data(select, 'spring');
+        this.newState('spring');
+        this.setState({
+            spring_status: 0,
+        })
+    }
+
+    clickAnglesDelete = () => {
         
     }
 
-    clickSpringEdit = (event) => {
+    clickVariablesDelete = () => {
+        
+    }
+//
+    clickContactEdit = () => {
+        change_data('contact', this.state.contact_friction, this.state.Xcoord, this.state.Ycoord);
+        this.activeState('contact');
+        this.setState({
+            contact_status: 1,
+        })
+
+    }
+
+    clickPlungerEdit = () => {
+        change_data('plunger', this.state.a, this.state.b, this.state.plunger_friction);
+        this.activeState('plunger');
+        this.setState({
+            plunger_status: 1,
+        })
+    }
+
+    clickSpringEdit = () => {
+        change_data('spring', this.state.springStiff, this.state.freeLen, this.state.springLen);
+        this.activeState('spring');
+        this.setState({
+            spring_status: 1,
+        })
+    }
+
+    clickAnglesEdit = () => {
         
     }
 
-    clickAnglesEdit = (event) => {
-        
-    }
-
-    clickVariablesEdit = (event) => {
+    clickVariablesEdit = () => {
         
     }
 }
