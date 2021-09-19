@@ -1,4 +1,4 @@
-function delete_data(id, item, v1, v2, v3) {
+function delete_data(select, name, v1, v2, v3) {
 
     const project_num = window.location.pathname.slice(13)
     const option_num = document.querySelector(id).value;

@@ -1,26 +1,16 @@
-function par(event){
+function parameter(event, name){
+
+// val is a value of selected choice
+// name is a string, i.e. "contacts", "plunger" etc.
+
     const val = event.target.value
-    const path = window.location.pathname.slice(13)
+    const project_num = window.location.pathname.slice(13)
 
-    if (val !== '0') {
-        document.querySelector(`#edit_${item}_btn`).style.display = 'block';
-        document.querySelector(`#delete_${item}_btn`).style.display = 'block';
-    } else if (val === '0') {
-        document.querySelector(`#edit_${item}_btn`).style.display = 'none';
-        document.querySelector(`#delete_${item}_btn`).style.display = 'none';
-    }
-
-    fetch(`/parameter/${item}/${path}?num=${val}`)
+    return fetch(`/parameter/${name}/${project_num}?value=${val}`)
     .then(response => response.json())
     .then(result => {
-        document.querySelector(`input#${var1}`).value = result.var1;
-        document.querySelector(`input#${var2}`).value = result.var2;
-        document.querySelector(`input#${var3}`).value = result.var3;
+        return result
     })
-    .catch(err => {
-        console.log(err)
-    })
-
 }
 
 function get_vars() {

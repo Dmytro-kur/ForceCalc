@@ -1,10 +1,11 @@
-function post_data(id, item, v1, v2, v3) {
+function post_data(select, name, v1, v2, v3) {
 
-    const path = window.location.pathname.slice(13)
+    const key = document.querySelector(`#${name}_key`).value
+    const project_num = window.location.pathname.slice(13)
 
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const request = new Request(
-        `/parameter/${item}/${path}?num=none`,
+        `/parameter/${name}/${project_num}?value=none`,
         {headers: {'X-CSRFToken': csrftoken}}
     );
 
@@ -21,13 +22,14 @@ function post_data(id, item, v1, v2, v3) {
     .then(response => response.json())
     .then(result => {
         if (result.error) {
-            console.log(result.error)
+            alert(result.error)
         } else {
-            console.log(result.message)
+            alert(result.message)
             const newOption = document.createElement('option');
             newOption.value = result.id;
             newOption.innerHTML = result.key;
-            document.querySelector(id).append(newOption)
+            newOption.selected = true;
+            select.append(newOption)
         }
     })
 }

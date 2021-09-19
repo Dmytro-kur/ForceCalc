@@ -45,99 +45,99 @@ class ProjectForm(forms.ModelForm):
         fields = ['project_number','project_name','assembly_number']
 
 class ContactForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['key'].widget.attrs.update({
-            'id': 'id_contact_key'
-        })
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['key'].widget.attrs.update({
+    #         'id': 'id_contact_key'
+    #     })
     class Meta:
         model = Contact
         fields = ['key', 'mu', 'contactCoord_X', 'contactCoord_Y']
-        labels = {
-            'contact_key': _('Name of the Contact'),
-            'mu': _('Friction in Contact μ'),
-            'contactCoord_X': _('Contact Point X Coordinate (mm)'),
-            'contactCoord_Y': _('Contact Point Y Coordinate (mm)'),
-        }
+        # labels = {
+        #     'contact_key': _('Name of the Contact'),
+        #     'mu': _('Friction in Contact μ'),
+        #     'contactCoord_X': _('Contact Point X Coordinate (mm)'),
+        #     'contactCoord_Y': _('Contact Point Y Coordinate (mm)'),
+        # }
         # help_texts = {
         #     'name': _('Some useful help text.'),
         # }
 
 class PlungerForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['key'].widget.attrs.update({
-            'id': 'id_plunger_key'
-        })
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['key'].widget.attrs.update({
+    #         'id': 'id_plunger_key'
+    #     })
     class Meta:
         model = Plunger
         fields = ['key', 'a','b', 'f']
-        labels = {
-            'key': _('Name of the Plunger'),
-            'a': _('Distance between Contact Point and Point B (mm)'),
-            'b': _('Distance between Point A and Point (mm)'),
-            'f': _('Friction in Plunger Joints'),
-        }
+        # labels = {
+        #     'key': _('Name of the Plunger'),
+        #     'a': _('Distance between Contact Point and Point B (mm)'),
+        #     'b': _('Distance between Point A and Point (mm)'),
+        #     'f': _('Friction in Plunger Joints'),
+        # }
 
 class SpringForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['key'].widget.attrs.update({
-            'id': 'id_spring_key'
-        })
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['key'].widget.attrs.update({
+    #         'id': 'id_spring_key'
+    #     })
     class Meta:
         model = Spring
         fields = ['key', 'springStiff','freeLen', 'springLen']
-        labels = {
-            'key': _('Name of the Spring'),
-            'springStiff': _('Spring Stiffness (N/mm)'),
-            'freeLen': _('Free Spring Length (mm)'),
-            'springLen': _('Spring Length (mm)'),
-        }
+        # labels = {
+        #     'key': _('Name of the Spring'),
+        #     'springStiff': _('Spring Stiffness (N/mm)'),
+        #     'freeLen': _('Free Spring Length (mm)'),
+        #     'springLen': _('Spring Length (mm)'),
+        # }
 
 class AnglesForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['key'].widget.attrs.update({
-            'id': 'angles_key',
-            'style': 'display:none;'
-        })
-        self.fields['plungerFric'].widget.attrs.update({
-            'id': 'plungerFric',
-            'readonly': ''
-        })
-        self.fields['N'].widget.attrs.update({
-            'id': 'N'
-        })
-        self.fields['FN'].widget.attrs.update({
-            'id': 'FN',
-            'readonly': ''
-        })
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['key'].widget.attrs.update({
+    #         'id': 'angles_key',
+    #         'style': 'display:none;'
+    #     })
+    #     self.fields['plungerFric'].widget.attrs.update({
+    #         'id': 'plungerFric',
+    #         'readonly': ''
+    #     })
+    #     self.fields['N'].widget.attrs.update({
+    #         'id': 'N'
+    #     })
+    #     self.fields['FN'].widget.attrs.update({
+    #         'id': 'FN',
+    #         'readonly': ''
+    #     })
     class Meta:
         model = Angles
         fields = ['key', 'plungerFric','N', 'FN']
-        labels = {
-            'key': '',
-            'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
-            'N': _('Direction of Normal Reaction (deg)'),
-            'FN': _('Direction of Friction Force in Contact (deg)'),
-        }
+        # labels = {
+        #     'key': '',
+        #     'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
+        #     'N': _('Direction of Normal Reaction (deg)'),
+        #     'FN': _('Direction of Friction Force in Contact (deg)'),
+        # }
 
 class VariablesForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['key'].widget.attrs.update({
-            'id': 'id_variables_key'
-        })
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['key'].widget.attrs.update({
+    #         'id': 'id_variables_key'
+    #     })
     class Meta:
         model = Variables
         fields = ['key', 'Na','Nb', 'NR']
-        labels = {
-            'key': _('Result name'),
-            'Na': _('Force Reaction in Point A (N)'),
-            'Nb': _('Force Reaction in Point B (N)'),
-            'NR': _('Force Reaction in Contact Point (N)'),
-        }
+        # labels = {
+        #     'key': _('Result name'),
+        #     'Na': _('Force Reaction in Point A (N)'),
+        #     'Nb': _('Force Reaction in Point B (N)'),
+        #     'NR': _('Force Reaction in Contact Point (N)'),
+        # }
         
 class PasswordChangeForm2(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
@@ -232,15 +232,16 @@ def password_change(request):
 #####################################################################################
 # MAIL #
 ########
+@login_required
 def mail(request):
     if request.method == "GET":
         # Authenticated users view their inbox
-        if request.user.is_authenticated:
-            return render(request, "force/mail.html")
+        # if request.user.is_authenticated:
+        return render(request, "force/mail.html")
 
         # Everyone else is prompted to sign in
-        else:
-            return HttpResponseRedirect(reverse("login"))
+        # else:
+        #     return HttpResponseRedirect(reverse("login"))
 
 @login_required
 def compose(request):
@@ -285,8 +286,7 @@ def compose(request):
                 read=False, archived=False).save()
         email.save()
         return JsonResponse({"message": "Email sent successfully."}, status=201)
-    else: 
-        return HttpResponseRedirect(reverse("login"))
+
 
 @login_required
 def unread(request):
@@ -683,11 +683,11 @@ def calculation(request, project_num):
             "Springs": springs,
             "Angles": angles,
             "Variables": variables,
-            "ContactForm": ContactForm(),
-            "PlungerForm": PlungerForm(),
-            "SpringForm": SpringForm(),
-            "AnglesForm": AnglesForm(),
-            "VariablesForm": VariablesForm(),
+            # "ContactForm": ContactForm(),
+            # "PlungerForm": PlungerForm(),
+            # "SpringForm": SpringForm(),
+            # "AnglesForm": AnglesForm(),
+            # "VariablesForm": VariablesForm(),
         })
     
     if request.method == "POST":
@@ -761,29 +761,28 @@ def calculation(request, project_num):
 
 
 @login_required
-def parameter(request, item, value):
+def parameter(request, name, project_num):
 
-# value - is a project number
     if request.method == "GET":
-        if int(request.GET.get("num")) != 0:
-            inst = Project.objects.get(pk=value)
 
-            if item == "contact":
-                param = inst.contacts.get(pk=request.GET.get("num"))
-            if item == "plunger":
-                param = inst.plungers.get(pk=request.GET.get("num"))
-            if item == "spring":
-                param = inst.springs.get(pk=request.GET.get("num"))
-            if item == "angles":
-                param = inst.angles.get(pk=request.GET.get("num"))
+        if request.GET.get("value") != 'None':
+            inst = Project.objects.get(pk=project_num)
+            if name == "contact":
+                param = inst.contacts.get(pk=request.GET.get("value"))
+            if name == "plunger":
+                param = inst.plungers.get(pk=request.GET.get("value"))
+            if name == "spring":
+                param = inst.springs.get(pk=request.GET.get("value"))
+            if name == "angles":
+                param = inst.angles.get(pk=request.GET.get("value"))
 
             return JsonResponse(param.serialize())
 
-        elif int(request.GET.get("num")) == 0:
+        elif request.GET.get("value") == 'None':
             return JsonResponse({
-                "var1": "",
-                "var2": "",
-                "var3": "",
+                "var1": "unknown",
+                "var2": "unknown",
+                "var3": "unknown",
             })
 
     if request.method == "POST":
@@ -791,19 +790,19 @@ def parameter(request, item, value):
         mydata = parse_from_js(request.body)
         print('My Data results:', mydata)
 
-        if item == "contact":
+        if name == "contact":
             mydata['mu'] = mydata['var1']
             mydata['contactCoord_X'] = mydata['var2']
             mydata['contactCoord_Y'] = mydata['var3']
             data = ContactForm(mydata)
 
-        if item == "plunger":
+        if name == "plunger":
             mydata['a'] = mydata['var1']
             mydata['b'] = mydata['var2']
             mydata['f'] = mydata['var3']
             data = PlungerForm(mydata)
 
-        if item == "spring":
+        if name == "spring":
             mydata['springStiff'] = mydata['var1']
             mydata['freeLen'] = mydata['var2']
             mydata['springLen'] = mydata['var3']
@@ -814,14 +813,14 @@ def parameter(request, item, value):
                     {'spring': 'The spring must be compressed, now it is stretched.'}
                 ]}, status=400)
 
-        if item == "angles":
+        if name == "angles":
             mydata['plungerFric'] = mydata['var1']
             mydata['N'] = mydata['var2']
             mydata['FN'] = mydata['var3']
             data = AnglesForm(mydata)
 
         if data.is_valid():
-            inst = Project.objects.get(pk=value)
+            inst = Project.objects.get(pk=project_num)
             param = data.save(commit=False)
             param.project = inst
             param.save()
@@ -837,32 +836,32 @@ def parameter(request, item, value):
     if request.method == "PUT":
         mydata = parse_from_js(request.body)
 
-        if item == "contact":
-            a = Contact.objects.get(pk=request.GET.get("num"))
+        if name == "contact":
+            a = Contact.objects.get(pk=request.GET.get("value"))
             mydata['key'] = a.key
             mydata['mu'] = mydata['var1']
             mydata['contactCoord_X'] = mydata['var2']
             mydata['contactCoord_Y'] = mydata['var3']
             data = ContactForm(mydata, instance=a)
 
-        if item == "plunger":
-            a = Plunger.objects.get(pk=request.GET.get("num"))
+        if name == "plunger":
+            a = Plunger.objects.get(pk=request.GET.get("value"))
             mydata['key'] = a.key
             mydata['a'] = mydata['var1']
             mydata['b'] = mydata['var2']
             mydata['f'] = mydata['var3']
             data = PlungerForm(mydata, instance=a)
 
-        if item == "spring":
-            a = Spring.objects.get(pk=request.GET.get("num"))
+        if name == "spring":
+            a = Spring.objects.get(pk=request.GET.get("value"))
             mydata['key'] = a.key
             mydata['springStiff'] = mydata['var1']
             mydata['freeLen'] = mydata['var2']
             mydata['springLen'] = mydata['var3']
             data = SpringForm(mydata, instance=a)
 
-        if item == "angles":
-            a = Angles.objects.get(pk=request.GET.get("num"))
+        if name == "angles":
+            a = Angles.objects.get(pk=request.GET.get("value"))
             mydata['key'] = a.key
             mydata['plungerFric'] = mydata['var1']
             mydata['N'] = mydata['var2']
@@ -878,33 +877,33 @@ def parameter(request, item, value):
             return JsonResponse({"error": data.errors}, status=400)
 
     if request.method == "DELETE":
-        inst = Project.objects.get(pk=value)
-        if item == "contact":
-            a = inst.contacts.get(pk=request.GET.get("num"))
+        inst = Project.objects.get(pk=project_num)
+        if name == "contact":
+            a = inst.contacts.get(pk=request.GET.get("value"))
             key = a.key
             a.delete()
             return JsonResponse({
                 "message": f"Contact {key} was successfully deleted",
             }, status=200)
 
-        if item == "plunger":
-            a = inst.plungers.get(pk=request.GET.get("num"))
+        if name == "plunger":
+            a = inst.plungers.get(pk=request.GET.get("value"))
             key = a.key
             a.delete()
             return JsonResponse({
                 "message": f"Plunger {key} was successfully deleted",
             }, status=200)
 
-        if item == "spring":
-            a = inst.springs.get(pk=request.GET.get("num"))
+        if name == "spring":
+            a = inst.springs.get(pk=request.GET.get("value"))
             key = a.key
             a.delete()
             return JsonResponse({
                 "message": f"Spring {key} was successfully deleted",
             }, status=200)
 
-        if item == "angles":
-            a = inst.angles.get(pk=request.GET.get("num"))
+        if name == "angles":
+            a = inst.angles.get(pk=request.GET.get("value"))
             key = a.key
             a.delete()
             return JsonResponse({

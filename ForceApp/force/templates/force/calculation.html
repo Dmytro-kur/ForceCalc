@@ -3,148 +3,39 @@
 
 {% block sidebar %}
     <div id="calc_input"></div>
+    <div id='contact_options' style='display: none;'>
+        {% for cnt in Contacts %}
+            <option class="contact_options" value="{{ cnt.id }}">{{ cnt.key }}</option>
+        {% endfor %}
+    </div>
+    <div id='plunger_options' style='display: none;'>
+        {% for plng in Plungers %}
+            <option class="plunger_options" value="{{ plng.id }}">{{ plng.key }}</option>
+        {% endfor %}
+    </div>
+    <div id='spring_options' style='display: none;'>
+        {% for sprg in Springs %}
+            <option class="spring_options" value="{{ sprg.id }}">{{ sprg.key }}</option>
+        {% endfor %}
+    </div>
+    <div id='angles_options' style='display: none;'>
+        {% for angl in Angles %}
+            <option class='angles_options' value="{{ angl.id }}">{{ angl.key }}</option>
+        {% endfor %}
+    </div>
+    <div id='variables_options' style='display: none;'>
+        {% for vrbl in Variables %}
+            <option class='variables_options' value="{{ vrbl.id }}">{{ vrbl.key }}</option>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block body %}
-
-    <h1>Force Travel Calculation</h1>
     <h2>{{ project.project_number }} <h4>{{ project.project_name }}</h4></h2>
     <h6>was created {{ project.timestamp }}</h6>
 
-    <canvas id="canvas" aria-label="Force calculation" role="img"></canvas>
-    <p><span id="posX"></span><span id="posY"></span></p>
-    
+    <canvas id="canvas" aria-label="Force calculation" role="img"></canvas>    
     <button id="home_btn"><img id="source" src="{% static 'force/home.png' %}" alt="icon"></button>
-    
-    <!-- Contact ------------------------------------------------------------------------------>
-    
-
-    <!-- Plunger ------------------------------------------------------------------------------>
-    <!-- <h2>Choose Plunger:</h2>
-    <div id="Plunger"></div>
-
-    <label for id="plunger_key">Save Plunger as: </label>
-    <input type="text" required id="plunger_key">
-    <button id="save_plunger_btn" class="btn btn-success btn-sm">Save</button>
-    
-    <select name="plungers" id="plungers">
-        <option value="0" selected>Unknown</option>
-        {% if Plungers %}
-            {% for plunger in Plungers %}
-                <option value="{{ plunger.id }}">{{ plunger.key }}</option>
-            {% endfor %}
-        {% endif %}
-    </select>
-
-    <hr> -->
-    <!-- Spring ------------------------------------------------------------------------------>
-    <!-- <p><label for="springs">Choose Spring:</label></p>
-    <p>
-        <button id="new_spring_btn" class="btn btn-success btn-sm">New</button>
-        <button style="display: none;" id="save_spring_btn" class="btn btn-success btn-sm">Save</button>
-    </p>
-    <div id="new_spring" style="display: none;">
-        {{ SpringForm.as_p }}
-    </div>
-    <p><select name="springs" id="springs">
-        <option value="0" selected>Unknown</option>
-        {% if Springs %}
-            {% for spring in Springs %}
-                <option value="{{ spring.id }}">{{ spring.key }}</option>
-            {% endfor %}
-        {% endif %}
-    </select></p>
-    <p>
-        <label for id="springStiff">Spring Stiffness (N/mm):</label>
-        <input type="number" name="springStiff" step="any" required id="springStiff">
-    </p>
-    <p>
-        <label for id="freeLen">Free Spring Length (mm):</label>
-        <input type="number" name="freeLen" step="any" required id="freeLen">
-    </p>
-    <p>
-        <label for id="springLen">Spring Length (mm):</label>
-        <input type="number" name="springLen" step="any" required id="springLen">
-    </p>
-    <p>
-        <button style="display: none;" id="edit_spring_btn" class="btn btn-success btn-sm">Edit</button>
-        <button style="display: none;" id="delete_spring_btn" class="btn btn-success btn-sm">Delete</button>
-    </p>
-    <hr> -->
-    <!-- Angles ------------------------------------------------------------------------------>
-    <!-- <p><label for="angles">Choose Angles:</label></p>
-    <p>
-        <button type="submit" id="new_angles_btn" class="btn btn-success btn-sm">New</button>
-        <button style="display: none;" id="save_angles_btn" class="btn btn-success btn-sm">Save</button>
-    </p>
-    
-    <div id="new_angles" style="display: none;">
-        <p>
-            <label for id="id_angles_key">Name of the Angles:</label>
-            <input type="text" step="any" required id="id_angles_key">
-        </p>
-        Choose Plunger Force direction:
-        <p>
-            <input type="radio" id="id_plungerFric" name="direction"
-                value="0">
-            <label for="id_plungerFric">From Left to Right</label>
-        </p>
-        <p>
-            <input type="radio" id="id_plungerFric" name="direction"
-                value="180">
-            <label for="id_plungerFric">From Right to Left</label>
-        </p>
-        <p>
-            <label for id="id_N">Direction of Normal Reaction (deg):</label>
-            <input type="number" step="any" required id="id_N">
-        </p>
-        Choose direction for Friction Force from Normal reaction:
-        <p>
-            <input type="radio" id="id_FN" name="FN_direction"
-             value="+">
-            <label for="id_FN">Upwards</label>
-        
-            <input type="radio" id="id_FN" name="FN_direction"
-             value="-">
-            <label for="id_FN">Downwards</label>
-        </p>
-    </div>
-    
-    <p><select name="angles" id="angles">
-        <option value="0" selected>Unknown</option>
-        {% if Angles %}
-            {% for angles in Angles %}
-                <option value="{{ angles.id }}">{{ angles.key }}</option>
-            {% endfor %}
-        {% endif %}
-    </select></p>
-
-    {{ AnglesForm.as_p }}
-
-    <p>
-        <button style="display: none;" id="edit_angles_btn" class="btn btn-success btn-sm">Edit</button>
-        <button style="display: none;" id="delete_angles_btn" class="btn btn-success btn-sm">Delete</button>
-    </p>
-        
-    
-    <hr> -->
-    <!-- Variables ------------------------------------------------------------------------------>
-    <!-- <p><label for="variables">Choose Variables:</label></p>
-    
-
-        
-    <p><select name="variables" id="variables">
-        <option value="0" selected>Unknown</option>
-        {% if Variables %}
-            {% for variables in Variables %}
-                <option value="{{ variables.id }}">{{ variables.key }}</option>
-            {% endfor %}
-        {% endif %}
-    </select></p>
-    <p>
-        <button style="display: none;" id="delete_variables_btn" class="btn btn-success btn-sm">Delete</button>
-    </p> -->
-
 
 {% endblock %}
 
