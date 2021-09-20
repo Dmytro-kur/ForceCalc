@@ -5,15 +5,18 @@ class CalcInput extends React.Component {
             contact_friction: 0.15,
             Xcoord: 1,
             Ycoord: 1,
+
             a: 1,
             b: 1,
             plunger_friction: 0.15,
+
             springStiff: 4.1,
             freeLen: 10.7,
             springLen: 8.9,
-            plungerFric: 0,
-            N: 100,
-            FN: 'plus',
+
+            plungerFric: "0",
+            N: 120,
+            FN: '+',
 
             contact_status: 0,
             plunger_status: 0,
@@ -90,21 +93,27 @@ class CalcInput extends React.Component {
                 <select id="angles" onChange={this.chooseAnglesOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
-                <div>Direction of plunger friction forces: </div>
 
-                <input id="angles_plungerFric1" type="radio" name="PlungerFric" value="0" onChange={this.updatePlungerFric}/>
-                <label htmlFor="angles_plungerFric1">0 deg</label>
-                <input id="angles_plungerFric2" type="radio" name="PlungerFric" value="180" onChange={this.updatePlungerFric}/>
-                <label htmlFor="angles_plungerFric2">180 deg</label>
+                <div>Direction of plunger friction forces: </div>
+                <input id="angles_plungerFric0" type="radio" name="PlungerFric" className="form-check-input"
+                    value="0" checked={this.state.plungerFric === "0"} onChange={this.updatePlungerFric}/>
+                <label htmlFor="angles_plungerFric0">0 deg</label>
+
+                <input id="angles_plungerFric180" type="radio" name="PlungerFric" className="form-check-input"
+                    value="180" checked={this.state.plungerFric === "180"} onChange={this.updatePlungerFric}/>
+                <label htmlFor="angles_plungerFric180">180 deg</label>
 
                 <div>Direction of normal reaction force: </div>
                 <input id="angles_N" type="number" step="0.1" min="90" max="270" onChange={this.updateN} value={this.state.N}/>
                 
                 <div>Direction of normal reaction friction force: </div>
-                <input type="submit" id="angles_FN1" type="radio" name="FN" value="plus" onChange={this.updateFN}/>
-                <label htmlFor="angles_FN1"> + 90 deg</label>
-                <input type="submit" id="angles_FN2" type="radio" name="FN" value="minus" onChange={this.updateFN}/>
-                <label htmlFor="angles_FN2"> - 90 deg</label>
+                <input id="angles_FNplus" type="radio" name="FN" className="form-check-input"
+                    value="+" checked={this.state.FN === "+"} onChange={this.updateFN}/>
+                <label htmlFor="angles_FNplus"> + 90 deg</label>
+
+                <input id="angles_FNminus" type="radio" name="FN"className="form-check-input"
+                    value="-" checked={this.state.FN === "-"} onChange={this.updateFN}/>
+                <label htmlFor="angles_FNminus"> - 90 deg</label>
 
 
 
@@ -337,7 +346,43 @@ class CalcInput extends React.Component {
     }
 
     chooseAnglesOption = (event) => {
-        
+        parameter(event, "angles")
+        .then(result => {
+
+            if (result.var1 === 'unknown' &&
+                result.var2 === 'unknown' &&
+                result.var3 === 'unknown') {
+                this.setState({
+                    plungerFric: '0',
+                    N: 120,
+                    FN: '+',
+                    angles_status: 0,
+                })
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                    this.state.a, this.state.b);
+                this.newState('angles');
+
+            } else {
+                this.setState({
+                    plungerFric: String(result.var1),
+                    N: result.var2,
+                    angles_status: 1,
+                })
+                if (result.var3 > result.var2) {
+                    this.setState({
+                        FN: '+',
+                    })
+                } else if (result.var3 < result.var2) {
+                    this.setState({
+                        FN: '-',
+                    })
+                }
+
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                    this.state.a, this.state.b);
+                this.activeState('angles');
+            }
+        })
     }
 
     chooseVariablesOption = (event) => {
@@ -501,6 +546,7 @@ class CalcInput extends React.Component {
         this.setState({
             plungerFric: event.target.value,
         })
+
         drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
             this.state.a, this.state.b);
 
@@ -530,7 +576,7 @@ class CalcInput extends React.Component {
         }
     }
     updateFN = (event) => {unread_emails(); 
-        console.log(event.target.value)
+        
         this.setState({
             FN: event.target.value,
         })
@@ -564,7 +610,23 @@ class CalcInput extends React.Component {
     }
 
     clickAnglesSave = () => {
+        const select = document.querySelector('#angles');
+
+        let var1 = null;
+        if (this.state.plungerFric === "0") {
+            var1 = 0;
+        } else if (this.state.plungerFric === "180") {
+            var1 = 180;
+        }
+
+        let var3 = null
+        if (this.state.FN === "+") {
+            var3 = this.state.N + 90;
+        } else if (this.state.FN === "-") {
+            var3 = this.state.N - 90;
+        }
         
+        post_data(select, 'angles', var1, this.state.N, var3)
     }
 
     clickVariablesSave = () => {
@@ -599,7 +661,12 @@ class CalcInput extends React.Component {
     }
 
     clickAnglesDelete = () => {
-        
+        const select = document.querySelector('#angles');
+        delete_data(select, 'angles');
+        this.newState('angles');
+        this.setState({
+            angles_status: 0,
+        })
     }
 
     clickVariablesDelete = () => {
@@ -632,7 +699,26 @@ class CalcInput extends React.Component {
     }
 
     clickAnglesEdit = () => {
+
+        let var1 = null;
+        if (this.state.plungerFric === "0") {
+            var1 = 0;
+        } else if (this.state.plungerFric === "180") {
+            var1 = 180;
+        }
+
+        let var3 = null
+        if (this.state.FN === "+") {
+            var3 = this.state.N + 90;
+        } else if (this.state.FN === "-") {
+            var3 = this.state.N - 90;
+        }
         
+        change_data('angles', var1, this.state.N, var3);
+        this.activeState('angles');
+        this.setState({
+            angles_status: 1,
+        })
     }
 
     clickVariablesEdit = () => {

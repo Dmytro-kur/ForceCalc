@@ -13,15 +13,21 @@ function change_data(name, v1, v2, v3) {
         method: 'PUT',
         mode: 'same-origin',
         body: JSON.stringify({
-            var1: v1,
-            var2: v2,
-            var3: v3,
+            var1: parseFloat(v1),
+            var2: parseFloat(v2),
+            var3: parseFloat(v3),
         })
     })
     .then(response => response.json())
     .then(result => {
         if (result.error) {
-            alert(result.error)
+            let errors = [];
+
+            for (let i = 0; i < Object.keys(result.error).length; i++) {
+                errors.push(err)
+            }
+
+            alert(errors)
         } else {
             alert(result.message)
         }

@@ -46,30 +46,6 @@ function get_vars() {
 
 }
 
-
-// function check(event) {
-    
-//     if (event.target.value !== "0") {
-//         const val = event.target.value;
-//         const path = window.location.pathname.slice(13);
-    
-//         fetch(`/check/${path}/${val}`)
-//         .then(response => response.json())
-//         .then(result => {
-//             if (result.agree === true) {
-//                 console.log(result)
-//                 document.querySelector('#agree').style.display = 'block';
-//                 document.querySelector('#discard').style.display = 'none';
-        
-//             } else if (result.agree === false) {
-//                 console.log(result)
-//                 document.querySelector('#agree').style.display = 'none';
-//                 document.querySelector('#discard').style.display = 'block';
-//             }
-//         })
-//     }
-// }
-
 function calculate() {
     
     // select changes -------------------------------------------------------------------------------->

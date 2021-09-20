@@ -14,24 +14,77 @@ function post_data(select, name, v1, v2, v3) {
         mode: 'same-origin',
         body: JSON.stringify({
             key: key,
-            var1: v1,
-            var2: v2,
-            var3: v3,
+            var1: parseFloat(v1),
+            var2: parseFloat(v2),
+            var3: parseFloat(v3),
         })
     })
     .then(response => response.json())
     .then(result => {
+
+        const courses = {
+            java: 10,
+        
+            javascript: 55,
+        
+            nodejs: 5,
+        
+            php: 15
+        };
+        
+        // convert object to key's array
+        
+        const keys = Object.keys(courses);
+        
+        // print all keys
+        
+        console.log(keys);
+        
+        // [ 'java', 'javascript', 'nodejs', 'php' ]
+        
+        // iterate over object
+        
+        keys.forEach((key, index) => {
+            console.log(`${key}: ${courses[key]}`);
+        });
+        
+        // java: 10
+        
+        // javascript: 55
+        
+        // nodejs: 5
+        
+        // php: 15
         if (result.error) {
-            alert(result.error)
+            console.log('length of the errors obj: ', Object.keys(result.error).length, result.error[0])
+            let errors = [];
+
+            for (let i = 0; i < Object.keys(result.error).length; i++) {
+                errors.push(result.error[i])
+
+            }
+
+            alert(errors)
         } else {
-            alert(result.message)
-            const newOption = document.createElement('option');
-            newOption.value = result.id;
-            newOption.innerHTML = result.key;
-            newOption.selected = true;
-            select.append(newOption)
+        
+        alert(result.message)
+        const newOption = document.createElement('option');
+        newOption.value = result.id;
+        newOption.innerHTML = result.key;
+        newOption.selected = true;
+        select.append(newOption)
         }
     })
+    // .catch(errors => {
+    //     console.log(errors)
+    //     let err = [];
+
+    //     for (let i = 0; i < Object.keys(errors).length; i++) {
+    //         err.push(err)
+    //     }
+
+    //     alert(errors)
+    // })
 }
 
 function po(){

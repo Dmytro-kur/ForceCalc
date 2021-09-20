@@ -788,7 +788,7 @@ def parameter(request, name, project_num):
     if request.method == "POST":
 
         mydata = parse_from_js(request.body)
-        print('My Data results:', mydata)
+        # print('My Data results:', mydata)
 
         if name == "contact":
             mydata['mu'] = mydata['var1']
@@ -834,6 +834,7 @@ def parameter(request, name, project_num):
             return JsonResponse({"error": data.errors}, status=400)
 
     if request.method == "PUT":
+        print(request.body)
         mydata = parse_from_js(request.body)
 
         if name == "contact":
