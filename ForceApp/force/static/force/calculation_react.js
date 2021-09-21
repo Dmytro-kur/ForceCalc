@@ -104,7 +104,7 @@ class CalcInput extends React.Component {
                 <label htmlFor="angles_plungerFric180">180 deg</label>
 
                 <div>Direction of normal reaction force: </div>
-                <input id="angles_N" type="number" step="0.1" min="90" max="270" onChange={this.updateN} value={this.state.N}/>
+                <input id="angles_N" type="number" step="1" min="90" max="270" onChange={this.updateN} value={this.state.N}/>
                 
                 <div>Direction of normal reaction friction force: </div>
                 <input id="angles_FNplus" type="radio" name="FN" className="form-check-input"
@@ -621,9 +621,9 @@ class CalcInput extends React.Component {
 
         let var3 = null
         if (this.state.FN === "+") {
-            var3 = this.state.N + 90;
+            var3 = parseFloat(this.state.N) + 90;
         } else if (this.state.FN === "-") {
-            var3 = this.state.N - 90;
+            var3 = parseFloat(this.state.N) - 90;
         }
         
         post_data(select, 'angles', var1, this.state.N, var3)

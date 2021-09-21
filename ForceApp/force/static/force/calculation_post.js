@@ -22,39 +22,39 @@ function post_data(select, name, v1, v2, v3) {
     .then(response => response.json())
     .then(result => {
 
-        const courses = {
-            java: 10,
+        // const courses = {
+        //     java: 10,
         
-            javascript: 55,
+        //     javascript: 55,
         
-            nodejs: 5,
+        //     nodejs: 5,
         
-            php: 15
-        };
+        //     php: 15
+        // };
         
-        // convert object to key's array
+        // // convert object to key's array
         
-        const keys = Object.keys(courses);
+        // const keys = Object.keys(courses);
         
-        // print all keys
+        // // print all keys
         
-        console.log(keys);
+        // console.log(keys);
         
-        // [ 'java', 'javascript', 'nodejs', 'php' ]
+        // // [ 'java', 'javascript', 'nodejs', 'php' ]
         
-        // iterate over object
+        // // iterate over object
         
-        keys.forEach((key, index) => {
-            console.log(`${key}: ${courses[key]}`);
-        });
+        // keys.forEach((key, index) => {
+        //     console.log(`${key}: ${courses[key]}`);
+        // });
         
-        // java: 10
+        // // java: 10
         
-        // javascript: 55
+        // // javascript: 55
         
-        // nodejs: 5
+        // // nodejs: 5
         
-        // php: 15
+        // // php: 15
         if (result.error) {
             console.log('length of the errors obj: ', Object.keys(result.error).length, result.error[0])
             let errors = [];
