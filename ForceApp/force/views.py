@@ -52,7 +52,7 @@ class ContactForm(forms.ModelForm):
     #     })
     class Meta:
         model = Contact
-        fields = ['key', 'mu', 'contactCoord_X', 'contactCoord_Y']
+        fields = ['contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y']
         # labels = {
         #     'contact_key': _('Name of the Contact'),
         #     'mu': _('Friction in Contact μ'),
@@ -71,7 +71,7 @@ class PlungerForm(forms.ModelForm):
     #     })
     class Meta:
         model = Plunger
-        fields = ['key', 'a','b', 'f']
+        fields = ['plunger_key', 'a','b', 'f']
         # labels = {
         #     'key': _('Name of the Plunger'),
         #     'a': _('Distance between Contact Point and Point B (mm)'),
@@ -87,7 +87,7 @@ class SpringForm(forms.ModelForm):
     #     })
     class Meta:
         model = Spring
-        fields = ['key', 'springStiff','freeLen', 'springLen']
+        fields = ['spring_key', 'springStiff','freeLen', 'springLen']
         # labels = {
         #     'key': _('Name of the Spring'),
         #     'springStiff': _('Spring Stiffness (N/mm)'),
@@ -115,7 +115,7 @@ class AnglesForm(forms.ModelForm):
     #     })
     class Meta:
         model = Angles
-        fields = ['key', 'plungerFric','N', 'FN']
+        fields = ['angles_key', 'plungerFric','N', 'FN']
         # labels = {
         #     'key': '',
         #     'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
@@ -131,7 +131,7 @@ class VariablesForm(forms.ModelForm):
     #     })
     class Meta:
         model = Variables
-        fields = ['key', 'Na','Nb', 'NR']
+        fields = ['variables_key', 'Na','Nb', 'NR']
         # labels = {
         #     'key': _('Result name'),
         #     'Na': _('Force Reaction in Point A (N)'),
@@ -659,10 +659,10 @@ def result(request, project_num, value):
     if request.method == "DELETE":
         project_inst = Project.objects.get(pk=project_num)
         vars = project_inst.variables.get(pk=value)
-        key = vars.key
+        variables_key = vars.variables_key
         vars.delete()
         return JsonResponse({
-            "message": f"Variables {key} was successfully deleted",
+            "message": f"Variables {variables_key} was successfully deleted",
         }, status=200)
 
 @login_required
@@ -695,7 +695,7 @@ def calculation(request, project_num):
         
         project_inst = Project.objects.get(pk=int(project_num))
         vars = project_inst.variables.all()
-
+##################################
         if mydata['key'] == "" or mydata['contact'] == "0" or\
             mydata['plunger'] == "0" or mydata['spring'] == "0" or\
             mydata['angles'] == "0":
@@ -788,7 +788,7 @@ def parameter(request, name, project_num):
     if request.method == "POST":
 
         mydata = parse_from_js(request.body)
-        # print('My Data results:', mydata)
+        print('My Data results:', mydata)
 
         if name == "contact":
             mydata['mu'] = mydata['var1']
@@ -824,14 +824,14 @@ def parameter(request, name, project_num):
             param = data.save(commit=False)
             param.project = inst
             param.save()
-
+#############################################
             return JsonResponse({
                 "key": param.key,
                 "id": param.id,
                 "message": "Parameter was successfully added",
             }, status=201)
-        else: 
-            return JsonResponse({"error": data.errors}, status=400)
+        else:
+            return JsonResponse({"errors": data.errors}, status=400)
 
     if request.method == "PUT":
         print(request.body)

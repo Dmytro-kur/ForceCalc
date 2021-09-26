@@ -153,7 +153,7 @@ class Project(models.Model):
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255)
+    contact_key = models.CharField(max_length=255)#, unique=True)
 
     mu = models.FloatField(validators=[validate_fractional])
     contactCoord_X = models.FloatField()
@@ -167,7 +167,7 @@ class Contact(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "key": self.key,
+            "key": self.contact_key,
             "var1": self.mu,
             "var2": self.contactCoord_X,
             "var3": self.contactCoord_Y,
@@ -177,7 +177,7 @@ class Contact(models.Model):
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255)
+    plunger_key = models.CharField(max_length=255)#, unique=True)
 
     a = models.FloatField(validators=[validate_positive])
     b = models.FloatField(validators=[validate_positive])
@@ -191,7 +191,7 @@ class Plunger(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "key": self.key,
+            "key": self.plunger_key,
             "var1": self.a,
             "var2": self.b,
             "var3": self.f,
@@ -201,7 +201,7 @@ class Plunger(models.Model):
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255)
+    spring_key = models.CharField(max_length=255)#, unique=True)
 
     springStiff = models.FloatField(validators=[validate_positive])
     freeLen = models.FloatField(validators=[validate_positive])
@@ -209,7 +209,7 @@ class Spring(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="springs")
 
     def __str__(self):
-        return f"{self.key}"
+        return f"{self.spring_key}"
 
     def force(self):
         return self.springStiff*(self.freeLen - self.springLen)
@@ -218,7 +218,7 @@ class Spring(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "key": self.key,
+            "key": self.spring_key,
             "var1": self.springStiff,
             "var2": self.freeLen,
             "var3": self.springLen,
@@ -228,7 +228,7 @@ class Spring(models.Model):
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255)
+    angles_key = models.CharField(max_length=255)#, unique=True)
 
     plungerFric = models.FloatField()
     N = models.FloatField(validators=[validate_contact_angle])
@@ -236,7 +236,7 @@ class Angles(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="angles")
 
     def __str__(self):
-        return f"{self.key}"
+        return f"{self.angles_key}"
 
     # def is_valid_angle(self):
     #     return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
@@ -245,7 +245,7 @@ class Angles(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "key": self.key,
+            "key": self.angles_key,
             "var1": self.plungerFric,
             "var2": self.N,
             "var3": self.FN,
@@ -255,7 +255,7 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    key = models.CharField(max_length=255, blank=False)
+    variables_key = models.CharField(max_length=255)#, unique=True)
 
     Na = models.FloatField()
     Nb = models.FloatField()
@@ -279,7 +279,7 @@ class Variables(models.Model):
     # (by adding a buttons like zoom up zoom down, moving button)
     
     def __str__(self):
-        return f"{self.key}"
+        return f"{self.variables_key}"
 
     def calc_vars(self, Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
 
@@ -294,7 +294,7 @@ class Variables(models.Model):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
         return {
             "id": self.id,
-            "key": self.key,
+            "key": self.variables_key,
             "var1": self.Na,
             "var2": self.Nb,
             "var3": self.NR,
