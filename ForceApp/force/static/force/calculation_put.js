@@ -19,17 +19,24 @@ function change_data(name, v1, v2, v3) {
         })
     })
     .then(response => response.json())
-    .then(result => {
-        if (result.error) {
-            let errors = [];
+    .then(response => {
+        if (response['errors']) {
 
-            for (let i = 0; i < Object.keys(result.error).length; i++) {
-                errors.push(err)
-            }
+            //   throw new Error('Something went wrong');
+            const source = response['errors']
+            const errors = Object.keys(response['errors']);
+            let error_list= []
 
-            alert(errors)
+            errors.forEach((field, index) => {
+                error_list.push(`${field} error: ${source[field]}\n`);
+            });
+            alert(error_list.join(""))
+
         } else {
-            alert(result.message)
+            alert(response['message'])  
         }
+    })
+    .catch(error => {
+        console.log(error)
     })
 }

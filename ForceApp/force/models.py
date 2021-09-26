@@ -4,31 +4,20 @@ from django.core.exceptions import ValidationError
 
 import math
 import numpy as np
+import unicodedata as ud
 
+latin_letters= {}
+
+def is_latin(chr):
+    return 'LATIN' in ud.name(chr)
+
+""" Math trigonometric functions """
 def cos(deg):
-    """take as input deg convert it to rad and return cos(rad)"""
+    """ take as input deg convert it to rad and return cos(rad) """
     return math.cos(deg*math.pi/180)
-
 def sin(deg):
-    """take as input deg convert it to rad and return sin(rad)"""
+    """ take as input deg convert it to rad and return sin(rad) """
     return math.sin(deg*math.pi/180)
-
-
-
-def validate_positive(value):
-    if value <= 0:
-        raise ValidationError('This value should be posotive.')
-
-def validate_fractional(value):
-    if value < 0 or value > 1:
-        raise ValidationError('This value should be from 0 to 1.')
-
-def validate_contact_angle(value):
-    if value < 90 or value > 270:
-        raise ValidationError('This value should be from 90 to 270.')
-
-
-
 
 class User(AbstractUser):
     pass
@@ -113,15 +102,47 @@ class Flag(models.Model):
 
         return f"Mail \"{self.mail.subject}\" for ({self.user}) is {read} in {box}."
 
+""" Project fields validation """
+def validate_project_number(value):
+
+    if len(value) != 6:
+        raise ValidationError(
+            'The first value should be a capital latin letter and next five - digits'
+            )
+    else:
+        chr = value[0]
+        num = value[1:]
+
+        if not is_latin(chr) or \
+        not chr.isalpha() or \
+        'SMALL' in ud.name(chr):
+
+            raise ValidationError(
+                'The first value should be a capital latin letter'
+                )
+
+        if not num.isdigit():
+            raise ValidationError(
+                'All values after first letter should be digits'
+                )
+
+def validate_assembly_number(value):
+
+    if len(value) != 8 or \
+       not value.isdigit():
+        raise ValidationError(
+            'All values should be a digits with length 8'
+            )
+
 class Project(models.Model):
 
     timestamp = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_projects")
 
-    project_number = models.CharField(max_length=6, unique=True)
+    project_number = models.CharField(max_length=6, unique=True, validators=[validate_project_number])
     project_name = models.CharField(max_length=255)
-    assembly_number = models.CharField(max_length=8)
+    assembly_number = models.CharField(max_length=8, validators=[validate_assembly_number])
 
 
     def __str__(self):
@@ -149,19 +170,28 @@ class Project(models.Model):
 
             "timestamp": timestamp,
         }
+""" Contact and plunger fields validation"""
+
+def validate_fractional(value):
+    if value < 0 or value > 1:
+        raise ValidationError('This value should be from 0 to 1.')
+
+def validate_positive(value):
+    if value <= 0:
+        raise ValidationError('This value should be posotive.')
 
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    contact_key = models.CharField(max_length=255)#, unique=True)
+    contact_key = models.CharField(max_length=255, unique=True)
 
-    mu = models.FloatField(validators=[validate_fractional])
+    mu = models.FloatField(validators=[validate_fractional, validate_positive])
     contactCoord_X = models.FloatField()
     contactCoord_Y = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contacts")
 
     def __str__(self):
-        return f"{self.key}"
+        return f"{self.contact_key}"
 
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
@@ -177,15 +207,15 @@ class Contact(models.Model):
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    plunger_key = models.CharField(max_length=255)#, unique=True)
+    plunger_key = models.CharField(max_length=255, unique=True)
 
     a = models.FloatField(validators=[validate_positive])
     b = models.FloatField(validators=[validate_positive])
-    f = models.FloatField(validators=[validate_fractional])
+    f = models.FloatField(validators=[validate_fractional, validate_positive])
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="plungers")
 
     def __str__(self):
-        return f"{self.key}"
+        return f"{self.plunger_key}"
 
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
@@ -197,11 +227,11 @@ class Plunger(models.Model):
             "var3": self.f,
             "datetime": datetime,
         }
-
+    
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    spring_key = models.CharField(max_length=255)#, unique=True)
+    spring_key = models.CharField(max_length=255, unique=True)
 
     springStiff = models.FloatField(validators=[validate_positive])
     freeLen = models.FloatField(validators=[validate_positive])
@@ -225,21 +255,28 @@ class Spring(models.Model):
             "datetime": datetime,
         }
 
+""" Angles fields validation """
+
+def plungerFric_validation(value):
+    if value != 0 and value != 180:
+        raise ValidationError('This value should be 0 or 180 deg.')
+
+def validate_contact_angle(value):
+    if value < 90 or value > 270:
+        raise ValidationError('This value should be from 90 to 270 deg.')
+
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    angles_key = models.CharField(max_length=255)#, unique=True)
+    angles_key = models.CharField(max_length=255, unique=True)
 
-    plungerFric = models.FloatField()
+    plungerFric = models.FloatField(validators=[plungerFric_validation])
     N = models.FloatField(validators=[validate_contact_angle])
     FN = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="angles")
 
     def __str__(self):
         return f"{self.angles_key}"
-
-    # def is_valid_angle(self):
-    #     return round(self.N, 5) - 90 == round(self.FN, 5) or round(self.N, 5) + 90 == round(self.FN, 5)
 
     def serialize(self):
         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
@@ -255,7 +292,7 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    variables_key = models.CharField(max_length=255)#, unique=True)
+    variables_key = models.CharField(max_length=255, unique=True)
 
     Na = models.FloatField()
     Nb = models.FloatField()
@@ -267,17 +304,13 @@ class Variables(models.Model):
     plunger_input = models.ForeignKey(Plunger, on_delete=models.CASCADE, related_name="variables")
     spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
     angles_input = models.ForeignKey(Angles, on_delete=models.CASCADE, related_name="variables")
-    
+
     # agree = models.BooleanField()
 
     # Access policy also should be implemented: 
     # - Specialist user only can create project and make a calculations
     # - Designer can change the input but cannot add input
 
-    # Validators for some angles field that restricted values:
-    # for positive length for friction angles
-    # (by adding a buttons like zoom up zoom down, moving button)
-    
     def __str__(self):
         return f"{self.variables_key}"
 

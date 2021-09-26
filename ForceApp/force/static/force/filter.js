@@ -153,7 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#post_new_project')) {
         document.querySelector('#post_new_project').onclick = () => {
         
-            let project_number = document.querySelector('#id_project_number').value;
+            let project_number = document.querySelector('#id_project_number')
+                .value.toUpperCase();
             let project_name = document.querySelector('#id_project_name').value;
             let assembly_number = document.querySelector('#id_assembly_number').value;
 
@@ -173,11 +174,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             })
             .then(response => response.json())
-            .then(result => {
-                if (result.error) {
-                    alert(result.error)
+            .then(response => {
+                if (response['errors']) {
+
+                    //   throw new Error('Something went wrong');
+                    const source = response['errors']
+                    const errors = Object.keys(response['errors']);
+                    let error_list= []
+
+                    errors.forEach((field, index) => {
+                        error_list.push(`${field} error: ${source[field]}\n`);
+                    });
+                    alert(error_list.join(""))
                 } else {
-                    console.log(result)
+                    alert(response['message'])
                 }
                 remove_list();
                 document.querySelector('#id_project_number').value = '';
@@ -186,6 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(() => {
                 items_retrieve("", 1, 'project');
+            })
+            .catch(error => {
+                console.log(error)
             })
         }
     }

@@ -1,10 +1,10 @@
 function parameter(event, name){
 
-// val is a value of selected choice
+// val is a value of selected choice id number on server side
 // name is a string, i.e. "contacts", "plunger" etc.
 
-    const val = event.target.value
-    const project_num = window.location.pathname.slice(13)
+    const val = event.target.value;
+    const project_num = window.location.pathname.slice(13);
 
     return fetch(`/parameter/${name}/${project_num}?value=${val}`)
     .then(response => response.json())
@@ -12,8 +12,22 @@ function parameter(event, name){
         return result
     })
 }
+////////////////////////////
+function get_vars(event) {
+
+    const val = event.target.value;
+    const project_num = window.location.pathname.slice(13);
+    
+    return fetch(`/result/${project_num}/${val}`)
+    .then(response => response.json())
+    .then(result => {
+        return result
+    })
+
+}
 
 function get_vars() {
+
     const project_num = window.location.pathname.slice(13)
     const option_num = document.querySelector('#variables').value;
 

@@ -496,7 +496,6 @@ def new_project(request):
     if request.method == "POST":
         
         mydata = parse_from_js(request.body)
-
         project_data = ProjectForm(mydata)
 
         if project_data.is_valid():
@@ -508,7 +507,7 @@ def new_project(request):
             return JsonResponse({"message": "New project is created."}, status=201)
         else:
             # error about uniqueness of the value
-            return JsonResponse({"message": project_data.errors["project_number"][0]}, status=400)
+            return JsonResponse({"errors": project_data.errors}, status=400)
         
 
 def projects(request, query):
@@ -600,51 +599,8 @@ def projects(request, query):
 #####################################################################################
 # CALCULATION #
 ########
-# @login_required
-# def check(request, project_num, value):
 
-#     ''' Checking the correctness of the calculation '''
-#     if request.method == "GET":
-#         project_inst = Project.objects.get(pk=project_num)
-#         vars = project_inst.variables.all().get(pk=value)
 
-#         cont = vars.contact_input
-#         plng = vars.plunger_input
-#         sprg = vars.spring_input
-#         angl = vars.angles_input
-
-#         first_statement = round(vars.Na*plng.f*cos(angl.plungerFric) + \
-#                 vars.Nb*plng.f*cos(angl.plungerFric) + \
-#                 vars.NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5) == \
-#                 round(-sprg.force(), 5)
-
-#         second_statement = round(-vars.Na + vars.Nb + \
-#             vars.NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5) == 0
-
-#         third_statement = round(vars.Na*(plng.a + plng.b) - \
-#             vars.Nb*plng.a, 5) == 0
-
-#         project_inst = Project.objects.get(pk=project_num)
-#         vars = project_inst.variables.all().get(pk=value)
-
-#         if first_statement and second_statement and third_statement:
-#             vars.agree = True
-#             vars.save()
-#             return JsonResponse({
-#                 "agree": True,
-#                 "message": f"Variables {vars.key} are valid",
-#             }, status=200)
-
-#         else:
-#             vars.agree = False
-#             vars.save()
-#             return JsonResponse({
-#                 "agree": False,
-#                 "message": f"Variables {vars.key} aren't valid, please recalculate",
-#             }, status=200)
-
-def is_valid_spring(freeLen, springLen):
-    return round(freeLen, 5) > round(springLen, 5)
 
 @login_required
 def result(request, project_num, value):
@@ -683,11 +639,6 @@ def calculation(request, project_num):
             "Springs": springs,
             "Angles": angles,
             "Variables": variables,
-            # "ContactForm": ContactForm(),
-            # "PlungerForm": PlungerForm(),
-            # "SpringForm": SpringForm(),
-            # "AnglesForm": AnglesForm(),
-            # "VariablesForm": VariablesForm(),
         })
     
     if request.method == "POST":
@@ -788,7 +739,7 @@ def parameter(request, name, project_num):
     if request.method == "POST":
 
         mydata = parse_from_js(request.body)
-        print('My Data results:', mydata)
+        inst = Project.objects.get(pk=project_num)
 
         if name == "contact":
             mydata['mu'] = mydata['var1']
@@ -808,38 +759,41 @@ def parameter(request, name, project_num):
             mydata['springLen'] = mydata['var3']
             data = SpringForm(mydata)
 
-            if is_valid_spring(float(mydata['var2']), float(mydata['var3'])) != True:
-                return JsonResponse({"error": [
-                    {'spring': 'The spring must be compressed, now it is stretched.'}
-                ]}, status=400)
-
         if name == "angles":
+
             mydata['plungerFric'] = mydata['var1']
             mydata['N'] = mydata['var2']
             mydata['FN'] = mydata['var3']
+            Diff = round(mydata['N'] - mydata['FN'], 5)
+
+            if abs(Diff) != 90:
+                return JsonResponse({
+                    "errors": {
+                        "FN": f'The two directions must be orthogonal.\nDifference is {Diff}'
+                    }}, status=400)
+
             data = AnglesForm(mydata)
 
         if data.is_valid():
-            inst = Project.objects.get(pk=project_num)
             param = data.save(commit=False)
             param.project = inst
             param.save()
-#############################################
+            param = param.serialize()
+
             return JsonResponse({
-                "key": param.key,
-                "id": param.id,
+                "key": param['key'],
+                "id": param['id'],
                 "message": "Parameter was successfully added",
             }, status=201)
         else:
             return JsonResponse({"errors": data.errors}, status=400)
 
     if request.method == "PUT":
-        print(request.body)
         mydata = parse_from_js(request.body)
 
         if name == "contact":
             a = Contact.objects.get(pk=request.GET.get("value"))
-            mydata['key'] = a.key
+            mydata['contact_key'] = a.contact_key
             mydata['mu'] = mydata['var1']
             mydata['contactCoord_X'] = mydata['var2']
             mydata['contactCoord_Y'] = mydata['var3']
@@ -847,7 +801,7 @@ def parameter(request, name, project_num):
 
         if name == "plunger":
             a = Plunger.objects.get(pk=request.GET.get("value"))
-            mydata['key'] = a.key
+            mydata['plunger_key'] = a.plunger_key
             mydata['a'] = mydata['var1']
             mydata['b'] = mydata['var2']
             mydata['f'] = mydata['var3']
@@ -855,24 +809,26 @@ def parameter(request, name, project_num):
 
         if name == "spring":
             a = Spring.objects.get(pk=request.GET.get("value"))
-            mydata['key'] = a.key
+            mydata['spring_key'] = a.spring_key
             mydata['springStiff'] = mydata['var1']
             mydata['freeLen'] = mydata['var2']
             mydata['springLen'] = mydata['var3']
-
-            if is_valid_spring(float(mydata['var2']), float(mydata['var3'])) != True:
-                return JsonResponse({"error": [
-                    {'spring': 'The spring must be compressed, now it is stretched.'}
-                ]}, status=400)
-
             data = SpringForm(mydata, instance=a)
 
         if name == "angles":
             a = Angles.objects.get(pk=request.GET.get("value"))
-            mydata['key'] = a.key
+            mydata['angles_key'] = a.angles_key
             mydata['plungerFric'] = mydata['var1']
             mydata['N'] = mydata['var2']
             mydata['FN'] = mydata['var3']
+            Diff = round(mydata['N'] - mydata['FN'], 5)
+
+            if abs(Diff) != 90:
+                return JsonResponse({
+                    "errors": {
+                        "FN": f'The two directions must be orthogonal.\nDifference is {Diff}'
+                    }}, status=400)
+
             data = AnglesForm(mydata, instance=a)
 
         if data.is_valid():
@@ -880,41 +836,43 @@ def parameter(request, name, project_num):
             return JsonResponse({
                 "message": "Parameter was successfully edited",
             }, status=200)
+
         else: 
-            return JsonResponse({"error": data.errors}, status=400)
+            return JsonResponse({"errors": data.errors}, status=400)
 
     if request.method == "DELETE":
         inst = Project.objects.get(pk=project_num)
+
         if name == "contact":
             a = inst.contacts.get(pk=request.GET.get("value"))
-            key = a.key
+            serial_a = a.serialize()
             a.delete()
             return JsonResponse({
-                "message": f"{key} was successfully deleted",
+                "message": f"{serial_a['key']} was successfully deleted",
             }, status=200)
 
         if name == "plunger":
             a = inst.plungers.get(pk=request.GET.get("value"))
-            key = a.key
+            serial_a = a.serialize()
             a.delete()
             return JsonResponse({
-                "message": f"{key} was successfully deleted",
+                "message": f"{serial_a['key']} was successfully deleted",
             }, status=200)
 
         if name == "spring":
             a = inst.springs.get(pk=request.GET.get("value"))
-            key = a.key
+            serial_a = a.serialize()
             a.delete()
             return JsonResponse({
-                "message": f"{key} was successfully deleted",
+                "message": f"{serial_a['key']} was successfully deleted",
             }, status=200)
 
         if name == "angles":
             a = inst.angles.get(pk=request.GET.get("value"))
-            key = a.key
+            serial_a = a.serialize()
             a.delete()
             return JsonResponse({
-                "message": f"{key} was successfully deleted",
+                "message": f"{serial_a['key']} was successfully deleted",
             }, status=200)
 
 ########

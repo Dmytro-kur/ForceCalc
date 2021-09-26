@@ -22,23 +22,28 @@ function post_data(select, name, v1, v2, v3) {
     .then(response => response.json())
     .then((response) => {
 
-        //   throw new Error('Something went wrong');
-        const source = response['errors']
-        const errors = Object.keys(response['errors']);
+        if (response['errors']) {
 
-        errors.forEach((field, index) => {
-            console.log(`${field}: ${source[field]}`);
-        });
+            //   throw new Error('Something went wrong');
+            const source = response['errors']
+            const errors = Object.keys(response['errors']);
+            let error_list= []
 
-      })
-    // .then((responseJson) => {
-    //     alert(responseJson.message)
-    //     const newOption = document.createElement('option');
-    //     newOption.value = reresponseJsonsult.id;
-    //     newOption.innerHTML = responseJson.key;
-    //     newOption.selected = true;
-    //     select.append(newOption)
-    // })
+            errors.forEach((field, index) => {
+                error_list.push(`${field} error: ${source[field]}\n`);
+            });
+            alert(error_list.join(""))
+
+        } else {
+            alert(response['message'])
+            const newOption = document.createElement('option');
+            newOption.value = response.id;
+            newOption.innerHTML = response.key;
+            select.append(newOption)
+            newOption.selected = true;
+        }
+
+    })
     .catch(error => {
         console.log(error)
     })

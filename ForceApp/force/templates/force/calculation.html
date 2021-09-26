@@ -5,27 +5,27 @@
     <div id="calc_input"></div>
     <div id='contact_options' style='display: none;'>
         {% for cnt in Contacts %}
-            <option class="contact_options" value="{{ cnt.id }}">{{ cnt.key }}</option>
+            <option class="contact_options" value="{{ cnt.id }}">{{ cnt.contact_key }}</option>
         {% endfor %}
     </div>
     <div id='plunger_options' style='display: none;'>
         {% for plng in Plungers %}
-            <option class="plunger_options" value="{{ plng.id }}">{{ plng.key }}</option>
+            <option class="plunger_options" value="{{ plng.id }}">{{ plng.plunger_key }}</option>
         {% endfor %}
     </div>
     <div id='spring_options' style='display: none;'>
         {% for sprg in Springs %}
-            <option class="spring_options" value="{{ sprg.id }}">{{ sprg.key }}</option>
+            <option class="spring_options" value="{{ sprg.id }}">{{ sprg.spring_key }}</option>
         {% endfor %}
     </div>
     <div id='angles_options' style='display: none;'>
         {% for angl in Angles %}
-            <option class='angles_options' value="{{ angl.id }}">{{ angl.key }}</option>
+            <option class='angles_options' value="{{ angl.id }}">{{ angl.angles_key }}</option>
         {% endfor %}
     </div>
     <div id='variables_options' style='display: none;'>
         {% for vrbl in Variables %}
-            <option class='variables_options' value="{{ vrbl.id }}">{{ vrbl.key }}</option>
+            <option class='variables_options' value="{{ vrbl.id }}">{{ vrbl.variables_key }}</option>
         {% endfor %}
     </div>
 {% endblock %}

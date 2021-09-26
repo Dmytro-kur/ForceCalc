@@ -14,12 +14,11 @@ function delete_data(select, name) {
     })
     .then(response => response.json())
     .then(result => {
-        if (result.error) {
-            alert(result.error)
-        } else {
-            select.remove(select.selectedIndex)
-            alert(result.message)
-        }
+        select.remove(select.selectedIndex)
+        alert(result.message)
+    })
+    .catch(error => {
+        console.log(error)
     })
 
 }

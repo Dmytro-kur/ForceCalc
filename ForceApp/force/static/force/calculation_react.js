@@ -597,16 +597,28 @@ class CalcInput extends React.Component {
     clickContactSave = () => {
         const select = document.querySelector('#contact');
         post_data(select, 'contact', this.state.contact_friction, this.state.Xcoord, this.state.Ycoord)
+        this.activeState('contact');
+        this.setState({
+            contact_status: 1,
+        })  
     }
 
     clickPlungerSave = () => {
         const select = document.querySelector('#plunger');
         post_data(select, 'plunger', this.state.a, this.state.b, this.state.plunger_friction)
+        this.activeState('plunger');
+        this.setState({
+            plunger_status: 1,
+        })  
     }
 
     clickSpringSave = () => {
         const select = document.querySelector('#spring');
         post_data(select, 'spring', this.state.springStiff, this.state.freeLen, this.state.springLen)
+        this.activeState('spring');
+        this.setState({
+            spring_status: 1,
+        })  
     }
 
     clickAnglesSave = () => {
@@ -627,6 +639,10 @@ class CalcInput extends React.Component {
         }
         
         post_data(select, 'angles', var1, this.state.N, var3)
+        this.activeState('angles');
+        this.setState({
+            angles_status: 1,
+        })  
     }
 
     clickVariablesSave = () => {
@@ -709,9 +725,9 @@ class CalcInput extends React.Component {
 
         let var3 = null
         if (this.state.FN === "+") {
-            var3 = this.state.N + 90;
+            var3 = parseFloat(this.state.N) + 90;
         } else if (this.state.FN === "-") {
-            var3 = this.state.N - 90;
+            var3 = parseFloat(this.state.N) - 90;
         }
         
         change_data('angles', var1, this.state.N, var3);
