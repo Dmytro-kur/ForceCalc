@@ -33,10 +33,10 @@ class CalcInput extends React.Component {
                 <h2>Choose Contact:</h2>
                 <div id="relative_contact_key">
                 </div>
-                <input type="number" id="contact_key"/>
+                <input type="text" id="contact_key" placeholder="Contact group name:"/>
                 <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
                 <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
-                <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Save edited</button>
+                <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
                 <select id="contact" onChange={this.chooseContactOption}>
                     <option value="None" defaultValue>Create</option>
                 </select>
@@ -61,7 +61,7 @@ class CalcInput extends React.Component {
                 <input type="text" id="plunger_key"/>
                 <button id="save_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerSave}>Save</button>
                 <button id="delete_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerDelete}>Delete</button>
-                <button id="edit_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerEdit}>Save edited</button>
+                <button id="edit_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerEdit}>Edit</button>
 
                 <select id="plunger" onChange={this.choosePlungerOption}>
                     <option value="None" defaultValue>Create</option>
@@ -87,7 +87,7 @@ class CalcInput extends React.Component {
                 <input type="text" id="spring_key"/>
                 <button id="save_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringSave}>Save</button>
                 <button id="delete_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
-                <button id="edit_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Save edited</button>
+                <button id="edit_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Edit</button>
 
                 <select id="spring" onChange={this.chooseSpringOption}>
                     <option value="None" defaultValue>Create</option>
@@ -113,7 +113,7 @@ class CalcInput extends React.Component {
                 <input type="text" id="angles_key"/>
                 <button id="save_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesSave}>Save</button>
                 <button id="delete_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
-                <button id="edit_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Save edited</button>
+                <button id="edit_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Edit</button>
 
                 <select id="angles" onChange={this.chooseAnglesOption}>
                     <option value="None" defaultValue>Create</option>
@@ -158,7 +158,7 @@ class CalcInput extends React.Component {
                 </select>
                 <button id="delete_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesSave}>Delete</button>
                 <button id="save_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesDelete}>Save</button>
-                <button id="edit_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesEdit}>Save edited</button>
+                <button id="edit_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesEdit}>Edit</button>
 
 
             </div>

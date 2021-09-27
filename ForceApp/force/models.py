@@ -107,7 +107,7 @@ def validate_project_number(value):
 
     if len(value) != 6:
         raise ValidationError(
-            'The first value should be a capital latin letter and next five - digits'
+            'The first symbol should be a capital latin letter and next five - digits', code='invalid'
             )
     else:
         chr = value[0]
@@ -118,12 +118,12 @@ def validate_project_number(value):
         'SMALL' in ud.name(chr):
 
             raise ValidationError(
-                'The first value should be a capital latin letter'
+                'The first symbol should be a capital latin letter', code='invalid'
                 )
 
         if not num.isdigit():
             raise ValidationError(
-                'All values after first letter should be digits'
+                'All symbols after first letter should be digits', code='invalid'
                 )
 
 def validate_assembly_number(value):
@@ -131,7 +131,7 @@ def validate_assembly_number(value):
     if len(value) != 8 or \
        not value.isdigit():
         raise ValidationError(
-            'All values should be a digits with length 8'
+            'The number should comprise of 8 digits', code='invalid'
             )
 
 class Project(models.Model):
@@ -140,7 +140,9 @@ class Project(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_projects")
 
-    project_number = models.CharField(max_length=6, unique=True, validators=[validate_project_number])
+    project_number = models.CharField(max_length=6, unique=True, 
+                                    validators=[validate_project_number])
+                                    
     project_name = models.CharField(max_length=255)
     assembly_number = models.CharField(max_length=8, validators=[validate_assembly_number])
 
@@ -174,16 +176,20 @@ class Project(models.Model):
 
 def validate_fractional(value):
     if value < 0 or value > 1:
-        raise ValidationError('This value should be fraction.')
+        raise ValidationError(
+            'This value should be fraction.', code='invalid'
+            )
 
 def validate_positive(value):
     if value <= 0:
-        raise ValidationError('This value should be positive.')
+        raise ValidationError(
+            'This value should be positive.', code='invalid'
+            )
 
 class Contact(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    contact_key = models.CharField(max_length=255, unique=True)
+    contact_key = models.CharField(max_length=255)
 
     mu = models.FloatField(validators=[validate_fractional, validate_positive])
     contactCoord_X = models.FloatField()
@@ -207,7 +213,7 @@ class Contact(models.Model):
 class Plunger(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    plunger_key = models.CharField(max_length=255, unique=True)
+    plunger_key = models.CharField(max_length=255)
 
     a = models.FloatField(validators=[validate_positive])
     b = models.FloatField(validators=[validate_positive])
@@ -231,7 +237,7 @@ class Plunger(models.Model):
 class Spring(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    spring_key = models.CharField(max_length=255, unique=True)
+    spring_key = models.CharField(max_length=255)
 
     springStiff = models.FloatField(validators=[validate_positive])
     freeLen = models.FloatField(validators=[validate_positive])
@@ -259,16 +265,20 @@ class Spring(models.Model):
 
 def plungerFric_validation(value):
     if value != 0 and value != 180:
-        raise ValidationError('This value should be 0 or 180 deg.')
+        raise ValidationError(
+            'This value should be 0 or 180 deg.', code='invalid'
+            )
 
 def validate_contact_angle(value):
     if value < 90 or value > 270:
-        raise ValidationError('This value should be from 90 to 270 deg.')
+        raise ValidationError(
+            'This value should be from 90 to 270 deg.', code='invalid'
+            )
 
 class Angles(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    angles_key = models.CharField(max_length=255, unique=True)
+    angles_key = models.CharField(max_length=255)
 
     plungerFric = models.FloatField(validators=[plungerFric_validation])
     N = models.FloatField(validators=[validate_contact_angle])
@@ -292,7 +302,7 @@ class Angles(models.Model):
 class Variables(models.Model):
 
     datetime = models.DateTimeField(auto_now_add=True)
-    variables_key = models.CharField(max_length=255, unique=True)
+    variables_key = models.CharField(max_length=255)
 
     Na = models.FloatField()
     Nb = models.FloatField()

@@ -41,13 +41,16 @@ class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['project_number'].widget.attrs.update({
-            'id': 'project_number'
+            'id': 'project_number',
+            'placeholder': 'PXXXXX, where P - any letter, X - digit'
         })
         self.fields['project_name'].widget.attrs.update({
-            'id': 'project_name'
+            'id': 'project_name',
+            'placeholder': 'Text: ',
         })
         self.fields['assembly_number'].widget.attrs.update({
-            'id': 'assembly_number'
+            'id': 'assembly_number',
+            'placeholder': 'XXXXXXXX, where X - digit: ',
         })
     class Meta:
         model = Project
@@ -724,7 +727,7 @@ def parameter(request, name, project_num):
             return JsonResponse({
                 "key": param['key'],
                 "id": param['id'],
-                "message": "Parameter was successfully added",
+                "message": f"{name} group {param['key']} was successfully added",
             }, status=201)
         else:
             return JsonResponse({"errors": data.errors}, status=400)
