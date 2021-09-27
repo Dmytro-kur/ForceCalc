@@ -27,12 +27,25 @@ function post_data(select, name, v1, v2, v3) {
             //   throw new Error('Something went wrong');
             const source = response['errors']
             const errors = Object.keys(response['errors']);
-            let error_list= []
+
+            reactInputInstance.newState(`${name}`);
+            reactInputInstance.setState({
+                [`${name}_state`]: 0,
+            })
 
             errors.forEach((field, index) => {
-                error_list.push(`${field} error: ${source[field]}\n`);
+                let error_list = [];
+                for (let i = 0; i < source[field].length; i++) {
+                    error_list.push(`${source[field][i]}`)
+                }
+
+                document.querySelector(`#relative_${field}`).innerHTML = 
+                    `<div id="alert_${field}" class="alert alert-danger" role="alert"><div id="cross_${field}">&#x2717</div>${error_list.join("")}</div>`;
+                document.querySelector(`#relative_${field}`).style.color = 'rgb(255, 126, 126)';
+                document.querySelector(`#cross_${field}`).addEventListener('click', ()=> {
+                    document.querySelector(`#relative_${field}`).innerHTML = '';
+                })
             });
-            alert(error_list.join(""))
 
         } else {
             alert(response['message'])
@@ -41,9 +54,17 @@ function post_data(select, name, v1, v2, v3) {
             newOption.innerHTML = response.key;
             select.append(newOption)
             newOption.selected = true;
+
+            reactInputInstance.activeState(`${name}`);
+            reactInputInstance.setState({
+                [`${name}_state`]: 1,
+            })  
         }
 
     })
+    // .then((response) => {
+    //     return response
+    // })
     .catch(error => {
         console.log(error)
     })

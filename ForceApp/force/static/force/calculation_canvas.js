@@ -8,10 +8,10 @@ function enableScroll() {
 
 function draw_initialization() {
 
-    const parse_contactCoord_X = parseFloat(document.querySelector('#contact_Xcoord').value);
-    const parse_contactCoord_Y = parseFloat(document.querySelector('#contact_Ycoord').value);
-    const parse_a = parseFloat(document.querySelector('#plunger_a').value);
-    const parse_b = parseFloat(document.querySelector('#plunger_b').value);
+    const parse_contactCoord_X = parseFloat(document.querySelector('#contactCoord_X').value);
+    const parse_contactCoord_Y = parseFloat(document.querySelector('#contactCoord_Y').value);
+    const parse_a = parseFloat(document.querySelector('#a').value);
+    const parse_b = parseFloat(document.querySelector('#b').value);
 
     el = document.querySelector('#body').offsetWidth
     canvas.width = el * 0.9;
@@ -43,8 +43,8 @@ function draw_initialization() {
         pos.X   = 0;
         pos.Y   = 0;
 
-        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
-            reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
+        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a, reactInputInstance.state.b);
         })
 
 // canvas scrolling ---------------------------------------------->
@@ -56,8 +56,8 @@ function draw_initialization() {
         }
         // console.log(scale)
 
-        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
-            reactInputInstance.state.Ycoord, reactInputInstance.state.a,
+        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a,
             reactInputInstance.state.b);
     })
 
@@ -74,8 +74,8 @@ function draw_initialization() {
                 pos.X = mouse.X - coord.X;
                 pos.Y = mouse.Y - coord.Y;
 
-                drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
-            reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
+                drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a, reactInputInstance.state.b);
             }
         })
 
@@ -120,8 +120,8 @@ function draw_initialization() {
 
 
 
-        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.Xcoord,
-            reactInputInstance.state.Ycoord, reactInputInstance.state.a, reactInputInstance.state.b);
+        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a, reactInputInstance.state.b);
     })
     
 }
@@ -230,10 +230,10 @@ function drawRect(ctx, scale, posX, posY,
 
 
 // Build first part of beam
-    let koef = 0.4
+    let coef = 0.4
 
     ctx.strokeStyle = 'green';
-    ctx.lineWidth = koef * parse_scale;
+    ctx.lineWidth = coef * parse_scale;
     ctx.beginPath();
     ctx.moveTo(_A.x, _A.y);
     ctx.lineTo(_B.x, _B.y);
@@ -242,7 +242,7 @@ function drawRect(ctx, scale, posX, posY,
 
 // Build second part of beam
     ctx.strokeStyle = 'coral';
-    ctx.lineWidth = koef * parse_scale;
+    ctx.lineWidth = coef * parse_scale;
     ctx.beginPath();
     ctx.moveTo(_B.x, _B.y);
     ctx.lineTo(_C.x, _C.y);

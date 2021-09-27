@@ -13,7 +13,21 @@
         </div>
 
         <div id="expanded_box__newProject" class="expanded_box" data-state="closed">
-            {{ projectForm }}
+
+            {{ projectForm.project_number.label_tag }}
+            <div id="relative_project_number">
+            </div>
+            {{ projectForm.project_number }}
+
+            {{ projectForm.project_name.label_tag }}
+            <div id="relative_project_name">
+            </div>
+            {{ projectForm.project_name }}
+
+            {{ projectForm.assembly_number.label_tag }}
+            <div id="relative_assembly_number">
+            </div>
+            {{ projectForm.assembly_number }}
             <button style="font-size: 12px;" id="post_new_project" class="btn btn-sm btn-outline-primary">Create</button>
         </div>
     {% endif %}

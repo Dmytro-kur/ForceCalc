@@ -153,10 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#post_new_project')) {
         document.querySelector('#post_new_project').onclick = () => {
         
-            let project_number = document.querySelector('#id_project_number')
+            let project_number = document.querySelector('#project_number')
                 .value.toUpperCase();
-            let project_name = document.querySelector('#id_project_name').value;
-            let assembly_number = document.querySelector('#id_assembly_number').value;
+            let project_name = document.querySelector('#project_name').value;
+            let assembly_number = document.querySelector('#assembly_number').value;
 
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             const request = new Request(
@@ -180,19 +180,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     //   throw new Error('Something went wrong');
                     const source = response['errors']
                     const errors = Object.keys(response['errors']);
-                    let error_list= []
 
                     errors.forEach((field, index) => {
-                        error_list.push(`${field} error: ${source[field]}\n`);
+                        let error_list = [];
+                        for (let i = 0; i < source[field].length; i++) {
+                            error_list.push(`${source[field][i]}`)
+                        }
+
+                        document.querySelector(`#relative_${field}`).innerHTML = 
+                            `<div id="alert_${field}" class="alert alert-danger" role="alert"><div id="cross_${field}">&#x2717</div>${error_list.join("")}</div>`;
+                        document.querySelector(`#relative_${field}`).style.color = 'rgb(255, 126, 126)';
+                        document.querySelector(`#cross_${field}`).addEventListener('click', ()=> {
+                            document.querySelector(`#relative_${field}`).innerHTML = '';
+                        })
                     });
-                    alert(error_list.join(""))
+
                 } else {
                     alert(response['message'])
+                    document.querySelector('#project_number').value = '';
+                    document.querySelector('#project_name').value = '';
+                    document.querySelector('#assembly_number').value = '';
                 }
+
                 remove_list();
-                document.querySelector('#id_project_number').value = '';
-                document.querySelector('#id_project_name').value = '';
-                document.querySelector('#id_assembly_number').value = '';
+
             })
             .then(() => {
                 items_retrieve("", 1, 'project');
@@ -205,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#wave-btn__newProject')) {
         document.querySelector('#wave-btn__newProject')
         .addEventListener('click', (e) => {
-            waves('#wave-btn__newProject', '#wave__newProject', 250, e, 'sidebar');
+            waves('#wave-btn__newProject', '#wave__newProject', 300, e, 'sidebar');
     
             let box = document.querySelector('#expanded_box__newProject');
     
@@ -216,6 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('#wave-btn__newProject')
                 .querySelector('.expand__sidebar')
                 .style.animation = '70ms ease forwards running arrow-rotate-downwards';
+
+                document.querySelector('#expanded_box__newProject').style.overflow = 'visible';
             }
             else if (box.dataset.state === 'expanded') {
                 box.style.animation = '70ms ease forwards running closed';
@@ -224,6 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('#wave-btn__newProject')
                 .querySelector('.expand__sidebar')
                 .style.animation = '70ms ease forwards running arrow-rotate-upwards';
+
+                document.querySelector('#expanded_box__newProject').style.overflow = 'hidden';
             }
         })
     }

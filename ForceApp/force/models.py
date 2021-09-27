@@ -174,11 +174,11 @@ class Project(models.Model):
 
 def validate_fractional(value):
     if value < 0 or value > 1:
-        raise ValidationError('This value should be from 0 to 1.')
+        raise ValidationError('This value should be fraction.')
 
 def validate_positive(value):
     if value <= 0:
-        raise ValidationError('This value should be posotive.')
+        raise ValidationError('This value should be positive.')
 
 class Contact(models.Model):
 

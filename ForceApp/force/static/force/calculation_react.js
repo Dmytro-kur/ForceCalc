@@ -2,13 +2,13 @@ class CalcInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            contact_friction: 0.15,
-            Xcoord: 1,
-            Ycoord: 1,
+            mu: 0.15,
+            contactCoord_X: 1,
+            contactCoord_Y: 1,
 
             a: 1,
             b: 1,
-            plunger_friction: 0.15,
+            f: 0.15,
 
             springStiff: 4.1,
             freeLen: 10.7,
@@ -18,21 +18,22 @@ class CalcInput extends React.Component {
             N: 120,
             FN: '+',
 
-            contact_status: 0,
-            plunger_status: 0,
-            spring_status: 0,
-            angles_status: 0,
-            variables_status: 0,
+            contact_state: 0,
+            plunger_state: 0,
+            spring_state: 0,
+            angles_state: 0,
+            variables_state: 0,
         };
     }
     render() {
         return (
-
-
+            
             <div className="root">
 
                 <h2>Choose Contact:</h2>
-                <input type="text" id="contact_key"/>
+                <div id="relative_contact_key">
+                </div>
+                <input type="number" id="contact_key"/>
                 <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
                 <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
                 <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Save edited</button>
@@ -40,15 +41,23 @@ class CalcInput extends React.Component {
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Friction in contact: </div>
-                <input id="contact_friction" type="number" step="0.01" min="0" onChange={this.updateContactFriction} value={this.state.contact_friction}/>
+                <div id="relative_mu">
+                </div>
+                <input id="mu" type="number" step="0.01" min="0" onChange={this.update_mu} value={this.state.mu}/>
                 <div>X coordinate: </div>
-                <input id="contact_Xcoord" type="number" step="0.1" onChange={this.updateXcoord} value={this.state.Xcoord}/>
+                <div id="relative_contactCoord_X">
+                </div>
+                <input id="contactCoord_X" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
                 <div>Y coordinate: </div>
-                <input id="contact_Ycoord" type="number" step="0.1" onChange={this.updateYcoord} value={this.state.Ycoord}/>
+                <div id="relative_contactCoord_Y">
+                </div>
+                <input id="contactCoord_Y" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
             
 
 
                 <h2>Choose Plunger:</h2>
+                <div id="relative_plunger_key">
+                </div>
                 <input type="text" id="plunger_key"/>
                 <button id="save_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerSave}>Save</button>
                 <button id="delete_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerDelete}>Delete</button>
@@ -58,15 +67,23 @@ class CalcInput extends React.Component {
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Distance A: </div>
-                <input id="plunger_a" type="number" step="0.1" min="0" onChange={this.updateA} value={this.state.a}/>
+                <div id="relative_a">
+                </div>
+                <input id="a" type="number" step="0.1" min="0" onChange={this.update_a} value={this.state.a}/>
                 <div>Distance B: </div>
-                <input id="plunger_b" type="number" step="0.1" min="0" onChange={this.updateB} value={this.state.b}/>
+                <div id="relative_b">
+                </div>
+                <input id="b" type="number" step="0.1" min="0" onChange={this.update_b} value={this.state.b}/>
                 <div>Friction in plunger: </div>
-                <input id="plunger_friction" type="number" step="0.01" min="0" onChange={this.updatePlungerFriction} value={this.state.plunger_friction}/>
+                <div id="relative_f">
+                </div>
+                <input id="f" type="number" step="0.01" min="0" onChange={this.update_f} value={this.state.f}/>
             
 
 
                 <h2>Choose Spring:</h2>
+                <div id="relative_spring_key">
+                </div>
                 <input type="text" id="spring_key"/>
                 <button id="save_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringSave}>Save</button>
                 <button id="delete_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
@@ -76,15 +93,23 @@ class CalcInput extends React.Component {
                     <option value="None" defaultValue>Create</option>
                 </select>
                 <div>Spring Stiffness: </div>
-                <input id="spring_springStiff" type="number" step="0.1" min="0" onChange={this.updateSpringStiff} value={this.state.springStiff}/>
+                <div id="relative_springStiff">
+                </div>
+                <input id="springStiff" type="number" step="0.1" min="0" onChange={this.update_springStiff} value={this.state.springStiff}/>
                 <div>Free length: </div>
-                <input id="spring_freeLen" type="number" step="0.1" min="0" onChange={this.updateFreeLen} value={this.state.freeLen}/>
+                <div id="relative_freeLen">
+                </div>
+                <input id="freeLen" type="number" step="0.1" min="0" onChange={this.update_freeLen} value={this.state.freeLen}/>
                 <div>Spring length: </div>
-                <input id="spring_springLen" type="number" step="0.1" min="0" onChange={this.updateSpringLen} value={this.state.springLen}/>
+                <div id="relative_springLen">
+                </div>
+                <input id="springLen" type="number" step="0.1" min="0" onChange={this.update_springLen} value={this.state.springLen}/>
             
 
 
                 <h2>Choose Angles:</h2>
+                <div id="relative_angles_key">
+                </div>
                 <input type="text" id="angles_key"/>
                 <button id="save_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesSave}>Save</button>
                 <button id="delete_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
@@ -95,29 +120,38 @@ class CalcInput extends React.Component {
                 </select>
 
                 <div>Direction of plunger friction forces: </div>
-                <input id="angles_plungerFric0" type="radio" name="PlungerFric" className="form-check-input"
-                    value="0" checked={this.state.plungerFric === "0"} onChange={this.updatePlungerFric}/>
-                <label htmlFor="angles_plungerFric0">0 deg</label>
+                <div id="relative_plungerFric">
+                </div>
 
-                <input id="angles_plungerFric180" type="radio" name="PlungerFric" className="form-check-input"
-                    value="180" checked={this.state.plungerFric === "180"} onChange={this.updatePlungerFric}/>
-                <label htmlFor="angles_plungerFric180">180 deg</label>
+                <input id="plungerFric0" type="radio" name="plungerFric" className="form-check-input"
+                    value="0" checked={this.state.plungerFric === "0"} onChange={this.update_plungerFric}/>
+                <label htmlFor="plungerFric0">0 deg</label>
+
+                <input id="plungerFric180" type="radio" name="plungerFric" className="form-check-input"
+                    value="180" checked={this.state.plungerFric === "180"} onChange={this.update_plungerFric}/>
+                <label htmlFor="plungerFric180">180 deg</label>
 
                 <div>Direction of normal reaction force: </div>
-                <input id="angles_N" type="number" step="1" min="90" max="270" onChange={this.updateN} value={this.state.N}/>
+                <div id="relative_N">
+                </div>
+                <input id="N" type="number" step="1" min="90" max="270" onChange={this.update_N} value={this.state.N}/>
                 
                 <div>Direction of normal reaction friction force: </div>
-                <input id="angles_FNplus" type="radio" name="FN" className="form-check-input"
-                    value="+" checked={this.state.FN === "+"} onChange={this.updateFN}/>
-                <label htmlFor="angles_FNplus"> + 90 deg</label>
+                <div id="relative_FN">
+                </div>
+                <input id="FNplus" type="radio" name="FN" className="form-check-input"
+                    value="+" checked={this.state.FN === "+"} onChange={this.update_FN}/>
+                <label htmlFor="FNplus"> + 90 deg</label>
 
-                <input id="angles_FNminus" type="radio" name="FN"className="form-check-input"
-                    value="-" checked={this.state.FN === "-"} onChange={this.updateFN}/>
-                <label htmlFor="angles_FNminus"> - 90 deg</label>
+                <input id="FNminus" type="radio" name="FN"className="form-check-input"
+                    value="-" checked={this.state.FN === "-"} onChange={this.update_FN}/>
+                <label htmlFor="FNminus"> - 90 deg</label>
 
 
 
                 <h2>Choose Variables:</h2>
+                <div id="relative_variables_key">
+                </div>
                 <input type="text" required id="variables_key"/>
                 <select id="variables" onChange={this.chooseVariablesOption}>
                     <option value="None" defaultValue>Create</option>
@@ -139,11 +173,11 @@ class CalcInput extends React.Component {
         document.querySelector('#delete_variables_btn').style.display = 'none';
     }
     showAlldelete() {
-        document.querySelector('#delete_contact_btn').style.display = 'flex';
-        document.querySelector('#delete_plunger_btn').style.display = 'flex';
-        document.querySelector('#delete_spring_btn').style.display = 'flex';
-        document.querySelector('#delete_angles_btn').style.display = 'flex';
-        document.querySelector('#delete_variables_btn').style.display = 'flex';
+        document.querySelector('#delete_contact_btn').style.display = 'block';
+        document.querySelector('#delete_plunger_btn').style.display = 'block';
+        document.querySelector('#delete_spring_btn').style.display = 'block';
+        document.querySelector('#delete_angles_btn').style.display = 'block';
+        document.querySelector('#delete_variables_btn').style.display = 'block';
     }
 //
     hideAllsave() {
@@ -154,11 +188,11 @@ class CalcInput extends React.Component {
         document.querySelector('#save_variables_btn').style.display = 'none';
     }
     showAllsave() {
-        document.querySelector('#save_contact_btn').style.display = 'flex';
-        document.querySelector('#save_plunger_btn').style.display = 'flex';
-        document.querySelector('#save_spring_btn').style.display = 'flex';
-        document.querySelector('#save_angles_btn').style.display = 'flex';
-        document.querySelector('#save_variables_btn').style.display = 'flex';
+        document.querySelector('#save_contact_btn').style.display = 'block';
+        document.querySelector('#save_plunger_btn').style.display = 'block';
+        document.querySelector('#save_spring_btn').style.display = 'block';
+        document.querySelector('#save_angles_btn').style.display = 'block';
+        document.querySelector('#save_variables_btn').style.display = 'block';
     }
 //
     hideAlledit() {
@@ -169,11 +203,11 @@ class CalcInput extends React.Component {
         document.querySelector('#edit_variables_btn').style.display = 'none';
     }
     showAlledit() {
-        document.querySelector('#edit_contact_btn').style.display = 'flex';
-        document.querySelector('#edit_plunger_btn').style.display = 'flex';
-        document.querySelector('#edit_spring_btn').style.display = 'flex';
-        document.querySelector('#edit_angles_btn').style.display = 'flex';
-        document.querySelector('#edit_variables_btn').style.display = 'flex';
+        document.querySelector('#edit_contact_btn').style.display = 'block';
+        document.querySelector('#edit_plunger_btn').style.display = 'block';
+        document.querySelector('#edit_spring_btn').style.display = 'block';
+        document.querySelector('#edit_angles_btn').style.display = 'block';
+        document.querySelector('#edit_variables_btn').style.display = 'block';
     }
 //
     hideAllkey() {
@@ -184,38 +218,34 @@ class CalcInput extends React.Component {
         document.querySelector('#variables_key').style.display = 'none';
     }
     showAllkey() {
-        document.querySelector('#contact_key').style.display = 'flex';
-        document.querySelector('#plunger_key').style.display = 'flex';
-        document.querySelector('#spring_key').style.display = 'flex';
-        document.querySelector('#angles_key').style.display = 'flex';
-        document.querySelector('#variables_key').style.display = 'flex';
+        document.querySelector('#contact_key').style.display = 'block';
+        document.querySelector('#plunger_key').style.display = 'block';
+        document.querySelector('#spring_key').style.display = 'block';
+        document.querySelector('#angles_key').style.display = 'block';
+        document.querySelector('#variables_key').style.display = 'block';
     }
 //
     newState(name) {
         document.querySelector(`#delete_${name}_btn`).style.display = 'none';
-        document.querySelector(`#save_${name}_btn`).style.display = 'flex';
-        document.querySelector(`#${name}_key`).style.display = 'flex';
+        document.querySelector(`#save_${name}_btn`).style.display = 'block';
+        document.querySelector(`#${name}_key`).style.display = 'block';
         document.querySelector(`#edit_${name}_btn`).style.display = 'none';
     }
     activeState(name) {
-        document.querySelector(`#delete_${name}_btn`).style.display = 'flex';
+        document.querySelector(`#delete_${name}_btn`).style.display = 'block';
         document.querySelector(`#save_${name}_btn`).style.display = 'none';
         document.querySelector(`#${name}_key`).style.display = 'none';
         document.querySelector(`#edit_${name}_btn`).style.display = 'none';
     }
     editState(name) {
-        document.querySelector(`#delete_${name}_btn`).style.display = 'flex';
+        document.querySelector(`#delete_${name}_btn`).style.display = 'block';
         document.querySelector(`#save_${name}_btn`).style.display = 'none';
         document.querySelector(`#${name}_key`).style.display = 'none';
-        document.querySelector(`#edit_${name}_btn`).style.display = 'flex';
+        document.querySelector(`#edit_${name}_btn`).style.display = 'block';
     }
 
     componentDidMount() {
 
-        // document.querySelector('#contact_Xcoord').value = this.state.Xcoord;
-        // document.querySelector('#contact_Ycoord').value = this.state.Ycoord;
-        // document.querySelector('#plunger_b').value = this.state.b;
-        // document.querySelector('#plunger_a').value = this.state.a;
         this.hideAlldelete();
         this.hideAlledit();
 
@@ -261,10 +291,10 @@ class CalcInput extends React.Component {
                 result.var2 === 'unknown' &&
                 result.var3 === 'unknown') {
                 this.setState({
-                    contact_friction: 0.15,
-                    Xcoord: 1,
-                    Ycoord: 1,
-                    contact_status: 0,
+                    mu: 0.15,
+                    contactCoord_X: 1,
+                    contactCoord_Y: 1,
+                    contact_state: 0,
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, 1, 1,
                     this.state.a, this.state.b);
@@ -272,10 +302,10 @@ class CalcInput extends React.Component {
 
             } else {
                 this.setState({
-                    contact_friction: result.var1,
-                    Xcoord: result.var2,
-                    Ycoord: result.var3,
-                    contact_status: 1,
+                    mu: result.var1,
+                    contactCoord_X: result.var2,
+                    contactCoord_Y: result.var3,
+                    contact_state: 1,
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, result.var2, result.var3,
                     this.state.a, this.state.b);
@@ -295,20 +325,20 @@ class CalcInput extends React.Component {
                 this.setState({
                     a: 1,
                     b: 1,
-                    plunger_friction: 0.15,
-                    plunger_status: 0,
+                    f: 0.15,
+                    plunger_state: 0,
                 })
-                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     1, 1);
                 this.newState('plunger');
             } else {
                 this.setState({
                     a: result.var1,
                     b: result.var2,
-                    plunger_friction: result.var3,
-                    plunger_status: 1,
+                    f: result.var3,
+                    plunger_state: 1,
                 })
-                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     result.var1, result.var2);
                 this.activeState('plunger');
             }
@@ -326,9 +356,9 @@ class CalcInput extends React.Component {
                     springStiff: 4.1,
                     freeLen: 10.7,
                     springLen: 8.9,
-                    spring_status: 0,
+                    spring_state: 0,
                 })
-                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
                 this.newState('spring');
             } else {
@@ -336,9 +366,9 @@ class CalcInput extends React.Component {
                     springStiff: result.var1,
                     freeLen: result.var2,
                     springLen: result.var3,
-                    spring_status: 1,
+                    spring_state: 1,
                 })
-                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
                 this.activeState('spring');
             }
@@ -356,9 +386,9 @@ class CalcInput extends React.Component {
                     plungerFric: '0',
                     N: 120,
                     FN: '+',
-                    angles_status: 0,
+                    angles_state: 0,
                 })
-                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
                 this.newState('angles');
 
@@ -366,7 +396,7 @@ class CalcInput extends React.Component {
                 this.setState({
                     plungerFric: String(result.var1),
                     N: result.var2,
-                    angles_status: 1,
+                    angles_state: 1,
                 })
                 if (result.var3 > result.var2) {
                     this.setState({
@@ -378,7 +408,7 @@ class CalcInput extends React.Component {
                     })
                 }
 
-                drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+                drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
                 this.activeState('angles');
             }
@@ -390,205 +420,205 @@ class CalcInput extends React.Component {
     }
 
         /////////////////////////////////////
-    updateContactFriction = (event) => {unread_emails(); 
+    update_mu = (event) => {unread_emails(); 
         this.setState({
-            contact_friction: event.target.value,
+            mu: event.target.value,
         })        
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
         this.state.a, this.state.b);
         
-        if (this.state.contact_status === 0) {
+        if (this.state.contact_state === 0) {
             this.newState('contact');
         } else {
             this.editState('contact');
             this.setState({
-                contact_status: 2,
+                contact_state: 2,
             })   
         }
         
     }
 
-    updateXcoord = (event) => {unread_emails(); 
+    update_contactCoord_X = (event) => {unread_emails(); 
         this.setState({
-            Xcoord: event.target.value,
+            contactCoord_X: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, event.target.value, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, event.target.value, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.contact_status === 0) {
+        if (this.state.contact_state === 0) {
             this.newState('contact');
         } else {
             this.editState('contact');
             this.setState({
-                contact_status: 2,
+                contact_state: 2,
             })  
         }
     }
 
-    updateYcoord = (event) => {unread_emails(); 
+    update_contactCoord_Y = (event) => {unread_emails(); 
         this.setState({
-            Ycoord: event.target.value,
+            contactCoord_Y: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, event.target.value,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, event.target.value,
             this.state.a, this.state.b);
 
-        if (this.state.contact_status === 0) {
+        if (this.state.contact_state === 0) {
             this.newState('contact');
         } else {
             this.editState('contact');
             this.setState({
-                contact_status: 2,
+                contact_state: 2,
             })  
         }
     }
         /////////////////////////////////////
-    updateA = (event) => {unread_emails(); 
+    update_a = (event) => {unread_emails(); 
         this.setState({
             a: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             event.target.value, this.state.b);
 
-        if (this.state.plunger_status === 0) {
+        if (this.state.plunger_state === 0) {
             this.newState('plunger');
         } else {
             this.editState('plunger');
             this.setState({
-                plunger_status: 2,
+                plunger_state: 2,
             })  
         }
     }
 
-    updateB = (event) => {unread_emails(); 
+    update_b = (event) => {unread_emails(); 
         this.setState({
             b: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, event.target.value);
-        if (this.state.plunger_status === 0) {
+        if (this.state.plunger_state === 0) {
             this.newState('plunger');
         } else {
             this.editState('plunger');
             this.setState({
-                plunger_status: 2,
+                plunger_state: 2,
             })  
         }
     }
 
-    updatePlungerFriction = (event) => {unread_emails(); 
+    update_f = (event) => {unread_emails(); 
         this.setState({
-            plunger_friction: event.target.value,
+            f: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.plunger_status === 0) {
+        if (this.state.plunger_state === 0) {
             this.newState('plunger');
         } else {
             this.editState('plunger');
             this.setState({
-                plunger_status: 2,
+                plunger_state: 2,
             })  
         }
     }
         /////////////////////////////////////
-    updateSpringStiff = (event) => {unread_emails(); 
+    update_springStiff = (event) => {unread_emails(); 
         this.setState({
             springStiff: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.spring_status === 0) {
+        if (this.state.spring_state === 0) {
             this.newState('spring');
         } else {
             this.editState('spring');
             this.setState({
-                spring_status: 2,
+                spring_state: 2,
             })  
         }           
     }
-    updateFreeLen = (event) => {unread_emails(); 
+    update_freeLen = (event) => {unread_emails(); 
         this.setState({
             freeLen: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.spring_status === 0) {
+        if (this.state.spring_state === 0) {
             this.newState('spring');
         } else {
             this.editState('spring');
             this.setState({
-                spring_status: 2,
+                spring_state: 2,
             })  
         }            
     }
-    updateSpringLen = (event) => {unread_emails(); 
+    update_springLen = (event) => {unread_emails(); 
         this.setState({
             springLen: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.spring_status === 0) {
+        if (this.state.spring_state === 0) {
             this.newState('spring');
         } else {
             this.editState('spring');
             this.setState({
-                spring_status: 2,
+                spring_state: 2,
             })  
         }
     }
         /////////////////////////////////////
-    updatePlungerFric = (event) => {unread_emails(); 
+    update_plungerFric = (event) => {unread_emails(); 
 
         this.setState({
             plungerFric: event.target.value,
         })
 
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.angles_status === 0) {
+        if (this.state.angles_state === 0) {
             this.newState('angles');
         } else {
             this.editState('angles');
             this.setState({
-                angles_status: 2,
+                angles_state: 2,
             })  
         }
     }
-    updateN = (event) => {unread_emails(); 
+    update_N = (event) => {unread_emails(); 
         this.setState({
             N: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.angles_status === 0) {
+        if (this.state.angles_state === 0) {
             this.newState('angles');
         } else {
             this.editState('angles');
             this.setState({
-                angles_status: 2,
+                angles_state: 2,
             })  
         }
     }
-    updateFN = (event) => {unread_emails(); 
+    update_FN = (event) => {unread_emails(); 
         
         this.setState({
             FN: event.target.value,
         })
-        drawRect(ctx, scale, pos.X, pos.Y, this.state.Xcoord, this.state.Ycoord,
+        drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
             this.state.a, this.state.b);
 
-        if (this.state.angles_status === 0) {
+        if (this.state.angles_state === 0) {
             this.newState('angles');
         } else {
             this.editState('angles');
             this.setState({
-                angles_status: 2,
+                angles_state: 2,
             })  
         }
     }
@@ -596,29 +626,27 @@ class CalcInput extends React.Component {
 
     clickContactSave = () => {
         const select = document.querySelector('#contact');
-        post_data(select, 'contact', this.state.contact_friction, this.state.Xcoord, this.state.Ycoord)
-        this.activeState('contact');
-        this.setState({
-            contact_status: 1,
-        })  
+        post_data(select, 'contact', 
+            this.state.mu, this.state.contactCoord_X, this.state.contactCoord_Y)
+        
     }
 
     clickPlungerSave = () => {
         const select = document.querySelector('#plunger');
-        post_data(select, 'plunger', this.state.a, this.state.b, this.state.plunger_friction)
-        this.activeState('plunger');
-        this.setState({
-            plunger_status: 1,
-        })  
+        post_data(select, 'plunger', this.state.a, this.state.b, this.state.f)
+        // this.activeState('plunger');
+        // this.setState({
+        //     plunger_state: 1,
+        // })  
     }
 
     clickSpringSave = () => {
         const select = document.querySelector('#spring');
         post_data(select, 'spring', this.state.springStiff, this.state.freeLen, this.state.springLen)
-        this.activeState('spring');
-        this.setState({
-            spring_status: 1,
-        })  
+        // this.activeState('spring');
+        // this.setState({
+        //     spring_state: 1,
+        // })  
     }
 
     clickAnglesSave = () => {
@@ -639,10 +667,10 @@ class CalcInput extends React.Component {
         }
         
         post_data(select, 'angles', var1, this.state.N, var3)
-        this.activeState('angles');
-        this.setState({
-            angles_status: 1,
-        })  
+        // this.activeState('angles');
+        // this.setState({
+        //     angles_state: 1,
+        // })  
     }
 
     clickVariablesSave = () => {
@@ -654,7 +682,7 @@ class CalcInput extends React.Component {
         delete_data(select, 'contact');
         this.newState('contact');
         this.setState({
-            contact_status: 0,
+            contact_state: 0,
         })
     }
 
@@ -663,7 +691,7 @@ class CalcInput extends React.Component {
         delete_data(select, 'plunger');
         this.newState('plunger');
         this.setState({
-            plunger_status: 0,
+            plunger_state: 0,
         })
     }
 
@@ -672,7 +700,7 @@ class CalcInput extends React.Component {
         delete_data(select, 'spring');
         this.newState('spring');
         this.setState({
-            spring_status: 0,
+            spring_state: 0,
         })
     }
 
@@ -681,7 +709,7 @@ class CalcInput extends React.Component {
         delete_data(select, 'angles');
         this.newState('angles');
         this.setState({
-            angles_status: 0,
+            angles_state: 0,
         })
     }
 
@@ -690,19 +718,19 @@ class CalcInput extends React.Component {
     }
 //
     clickContactEdit = () => {
-        change_data('contact', this.state.contact_friction, this.state.Xcoord, this.state.Ycoord);
+        change_data('contact', this.state.mu, this.state.contactCoord_X, this.state.contactCoord_Y);
         this.activeState('contact');
         this.setState({
-            contact_status: 1,
+            contact_state: 1,
         })
 
     }
 
     clickPlungerEdit = () => {
-        change_data('plunger', this.state.a, this.state.b, this.state.plunger_friction);
+        change_data('plunger', this.state.a, this.state.b, this.state.f);
         this.activeState('plunger');
         this.setState({
-            plunger_status: 1,
+            plunger_state: 1,
         })
     }
 
@@ -710,7 +738,7 @@ class CalcInput extends React.Component {
         change_data('spring', this.state.springStiff, this.state.freeLen, this.state.springLen);
         this.activeState('spring');
         this.setState({
-            spring_status: 1,
+            spring_state: 1,
         })
     }
 
@@ -733,7 +761,7 @@ class CalcInput extends React.Component {
         change_data('angles', var1, this.state.N, var3);
         this.activeState('angles');
         this.setState({
-            angles_status: 1,
+            angles_state: 1,
         })
     }
 

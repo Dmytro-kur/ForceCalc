@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-# from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -22,9 +21,8 @@ def parse_from_js(request_body):
 
     byte_str = request_body
     dict_str = byte_str.decode("UTF-8")
-    mydata = ast.literal_eval(dict_str)
+    mydata = ast.literal_eval(dict_str.replace('null', 'None'))
 
-    # print("My DATA:", type(mydata),":", mydata)
     ''' ast.literal_eval(node_or_string)
     Safely evaluate an expression node or a string containing a Python literal or container display. 
     The string or node provided may only consist of the following Python literal structures: 
@@ -40,104 +38,45 @@ def parse_from_js(request_body):
     return mydata
         
 class ProjectForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project_number'].widget.attrs.update({
+            'id': 'project_number'
+        })
+        self.fields['project_name'].widget.attrs.update({
+            'id': 'project_name'
+        })
+        self.fields['assembly_number'].widget.attrs.update({
+            'id': 'assembly_number'
+        })
     class Meta:
         model = Project
         fields = ['project_number','project_name','assembly_number']
 
 class ContactForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['key'].widget.attrs.update({
-    #         'id': 'id_contact_key'
-    #     })
     class Meta:
         model = Contact
         fields = ['contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y']
-        # labels = {
-        #     'contact_key': _('Name of the Contact'),
-        #     'mu': _('Friction in Contact μ'),
-        #     'contactCoord_X': _('Contact Point X Coordinate (mm)'),
-        #     'contactCoord_Y': _('Contact Point Y Coordinate (mm)'),
-        # }
-        # help_texts = {
-        #     'name': _('Some useful help text.'),
-        # }
 
 class PlungerForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['key'].widget.attrs.update({
-    #         'id': 'id_plunger_key'
-    #     })
     class Meta:
         model = Plunger
         fields = ['plunger_key', 'a','b', 'f']
-        # labels = {
-        #     'key': _('Name of the Plunger'),
-        #     'a': _('Distance between Contact Point and Point B (mm)'),
-        #     'b': _('Distance between Point A and Point (mm)'),
-        #     'f': _('Friction in Plunger Joints'),
-        # }
 
 class SpringForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['key'].widget.attrs.update({
-    #         'id': 'id_spring_key'
-    #     })
     class Meta:
         model = Spring
         fields = ['spring_key', 'springStiff','freeLen', 'springLen']
-        # labels = {
-        #     'key': _('Name of the Spring'),
-        #     'springStiff': _('Spring Stiffness (N/mm)'),
-        #     'freeLen': _('Free Spring Length (mm)'),
-        #     'springLen': _('Spring Length (mm)'),
-        # }
 
 class AnglesForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['key'].widget.attrs.update({
-    #         'id': 'angles_key',
-    #         'style': 'display:none;'
-    #     })
-    #     self.fields['plungerFric'].widget.attrs.update({
-    #         'id': 'plungerFric',
-    #         'readonly': ''
-    #     })
-    #     self.fields['N'].widget.attrs.update({
-    #         'id': 'N'
-    #     })
-    #     self.fields['FN'].widget.attrs.update({
-    #         'id': 'FN',
-    #         'readonly': ''
-    #     })
     class Meta:
         model = Angles
         fields = ['angles_key', 'plungerFric','N', 'FN']
-        # labels = {
-        #     'key': '',
-        #     'plungerFric': _('Direction of Plunger Friction Forces (deg)'),
-        #     'N': _('Direction of Normal Reaction (deg)'),
-        #     'FN': _('Direction of Friction Force in Contact (deg)'),
-        # }
 
 class VariablesForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['key'].widget.attrs.update({
-    #         'id': 'id_variables_key'
-    #     })
     class Meta:
         model = Variables
         fields = ['variables_key', 'Na','Nb', 'NR']
-        # labels = {
-        #     'key': _('Result name'),
-        #     'Na': _('Force Reaction in Point A (N)'),
-        #     'Nb': _('Force Reaction in Point B (N)'),
-        #     'NR': _('Force Reaction in Contact Point (N)'),
-        # }
         
 class PasswordChangeForm2(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
@@ -738,8 +677,10 @@ def parameter(request, name, project_num):
 
     if request.method == "POST":
 
+        print(request.body)
         mydata = parse_from_js(request.body)
         inst = Project.objects.get(pk=project_num)
+        
 
         if name == "contact":
             mydata['mu'] = mydata['var1']
