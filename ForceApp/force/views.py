@@ -42,16 +42,20 @@ class ProjectForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['project_number'].widget.attrs.update({
             'id': 'project_number',
-            'placeholder': 'PXXXXX, where P - any letter, X - digit'
+            'class': "form-control form-control-sm",
+            'placeholder': 'PXXXXX, P-letter, X-digit:'
         })
         self.fields['project_name'].widget.attrs.update({
             'id': 'project_name',
+            'class': "form-control form-control-sm",
             'placeholder': 'Text: ',
         })
         self.fields['assembly_number'].widget.attrs.update({
             'id': 'assembly_number',
-            'placeholder': 'XXXXXXXX, where X - digit: ',
+            'class': "form-control form-control-sm",
+            'placeholder': 'XXXXXXXX, where X-digit:',
         })
+
     class Meta:
         model = Project
         fields = ['project_number','project_name','assembly_number']
@@ -85,13 +89,13 @@ class PasswordChangeForm2(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['old_password'].widget.attrs.update({
-            'class': 'form-control'
+            'class': 'form-control form-control-sm'
         })
         self.fields['new_password1'].widget.attrs.update({
-            'class': 'form-control'
+            'class': 'form-control form-control-sm'
         })
         self.fields['new_password2'].widget.attrs.update({
-            'class': 'form-control'
+            'class': 'form-control form-control-sm'
         })
 
 def index(request):

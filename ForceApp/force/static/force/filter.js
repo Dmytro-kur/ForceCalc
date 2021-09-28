@@ -144,7 +144,7 @@ function link_calc() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    
     history.pushState({page: 'project'}, "", "/");
 
     unread_emails();

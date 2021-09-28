@@ -1,7 +1,6 @@
 {% extends "force/layout.html" %}
 {% load static %}
 
-
 {% block sidebar %}
     {% if user.is_authenticated %}
         <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__newProject" class="wave-btn__sidebar">
@@ -13,22 +12,36 @@
         </div>
 
         <div id="expanded_box__newProject" class="expanded_box" data-state="closed">
+            
+            <form class="column g-1 needs-validation" novalidate>
 
-            {{ projectForm.project_number.label_tag }}
-            <div id="relative_project_number">
-            </div>
-            {{ projectForm.project_number }}
+                <div class="col-md-12 position-relative">
+                    <label for="project_number" class="form-label">Project number</label>
+                    {{ projectForm.project_number }}
+                    <div class="valid-tooltip">
+                        Looks good!
+                    </div>
+                </div>
 
-            {{ projectForm.project_name.label_tag }}
-            <div id="relative_project_name">
-            </div>
-            {{ projectForm.project_name }}
+                <div class="col-md-12 position-relative">
+                    <label for="project_name" class="form-label">Project name</label>
+                    {{ projectForm.project_name }}
+                    <div class="valid-tooltip">
+                        Looks good!
+                    </div>
+                </div>
 
-            {{ projectForm.assembly_number.label_tag }}
-            <div id="relative_assembly_number">
-            </div>
-            {{ projectForm.assembly_number }}
-            <button style="font-size: 12px;" id="post_new_project" class="btn btn-sm btn-outline-primary">Create</button>
+                <div class="col-md-12 position-relative">
+                    <label for="assembly_number" class="form-label">Assembly number</label>
+                    {{ projectForm.assembly_number }}
+                    <div class="valid-tooltip">
+                        Looks good!
+                    </div>
+                </div>
+
+                <button type="submit" style="width: 100%; font-size: 12px;" id="post_new_project" class="btn btn-sm btn-outline-primary">Create</button>
+            
+            </form>
         </div>
     {% endif %}
 {% endblock %}
@@ -44,4 +57,30 @@
 {% block script %}
     <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
     <script src="{% static 'force/filter.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        // if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        // }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            })()
+        }
+
+    </script>
+
 {% endblock %}
