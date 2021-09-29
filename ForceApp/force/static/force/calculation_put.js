@@ -33,7 +33,7 @@ function change_data(name, v1, v2, v3) {
             alert(error_list.join(""))
 
         } else {
-            alert(response['message'])  
+            console.log(response['message'])
         }
     })
     .catch(error => {

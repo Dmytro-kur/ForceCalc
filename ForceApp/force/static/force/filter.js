@@ -150,6 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
     unread_emails();
     
     link_calc();
+
+    // Example starter JavaScript for disabling form submissions
+
+    let form = document.querySelector('#newProject_form')
+    form.addEventListener('submit', function (event) {
+        // if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+        // }
+        // form.classList.add('was-validated')
+    }, false)
+
     if (document.querySelector('#post_new_project')) {
         document.querySelector('#post_new_project').onclick = () => {
         
@@ -176,30 +188,61 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(response => {
                 if (response['errors']) {
+                    
+                    let fields = ['project_number', 'project_name', 'assembly_number']
 
-                    //   throw new Error('Something went wrong');
+                    // throw new Error('Something went wrong');
                     const source = response['errors']
                     const errors = Object.keys(response['errors']);
 
                     errors.forEach((field, index) => {
+                        for (let i = 0; i < fields.length; i++) { 
+                            if (fields[i] === field) { 
+                                fields.splice(i, 1);
+                            }
+                        }
                         let error_list = [];
                         for (let i = 0; i < source[field].length; i++) {
                             error_list.push(`${source[field][i]}`)
                         }
-
-                        document.querySelector(`#relative_${field}`).innerHTML = 
-                            `<div id="alert_${field}" class="alert alert-danger" role="alert"><div id="cross_${field}">&#x2717</div>${error_list.join("")}</div>`;
-                        document.querySelector(`#relative_${field}`).style.color = 'rgb(255, 126, 126)';
-                        document.querySelector(`#cross_${field}`).addEventListener('click', ()=> {
-                            document.querySelector(`#relative_${field}`).innerHTML = '';
-                        })
+                        document.querySelector(`#${field}`).classList.remove('is-valid')
+                        document.querySelector(`#${field}`).classList.add('is-invalid')
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${error_list.join("")}`
                     });
+                    fields.forEach((field) => {
+                        document.querySelector(`#${field}`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}`).classList.add('is-valid')
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                    })
+
+                    // let FIELDS = ['project_number', 'project_name', 'assembly_number']
+                    // setTimeout(() => {
+                    //     FIELDS.forEach((field) => {
+                    //         document.querySelector(`#${field}`).classList.remove('is-invalid')
+                    //         document.querySelector(`#${field}`).classList.remove('is-valid')
+                    //         document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                    //     })
+                    // }, 3000)
 
                 } else {
-                    alert(response['message'])
+                    
+                    let FIELDS = ['project_number', 'project_name', 'assembly_number']
+                    FIELDS.forEach((field) => {
+                        document.querySelector(`#${field}`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}`).classList.add('is-valid')
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                    })
                     document.querySelector('#project_number').value = '';
                     document.querySelector('#project_name').value = '';
                     document.querySelector('#assembly_number').value = '';
+
+                    setTimeout(() => {
+                        FIELDS.forEach((field) => {
+                            document.querySelector(`#${field}`).classList.remove('is-invalid')
+                            document.querySelector(`#${field}`).classList.remove('is-valid')
+                            document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                        })
+                    }, 3000)
                 }
 
                 remove_list();

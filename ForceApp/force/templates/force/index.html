@@ -13,30 +13,30 @@
 
         <div id="expanded_box__newProject" class="expanded_box" data-state="closed">
             
-            <form class="column g-1 needs-validation" novalidate>
+            <form id="newProject_form" class="column g-1 needs-validation" novalidate>
 
                 <div class="col-md-12 position-relative">
-                    <label for="project_number" class="form-label">Project number</label>
+                    <label for="project_number" class="form-label">* Project number</label>
                     {{ projectForm.project_number }}
-                    <div class="valid-tooltip">
-                        Looks good!
+                    <div id="project_number_invalid-tooltip" class="invalid-tooltip">
                     </div>
+                    <h7 style="color: grey;">PXXXXX, where P - is a latin letter, X - is a digit, maximum is 6 characters</h7>
                 </div>
 
                 <div class="col-md-12 position-relative">
-                    <label for="project_name" class="form-label">Project name</label>
+                    <label for="project_name" class="form-label">* Project name</label>
                     {{ projectForm.project_name }}
-                    <div class="valid-tooltip">
-                        Looks good!
+                    <div id="project_name_invalid-tooltip" class="invalid-tooltip">
                     </div>
+                    <h7 style="color: grey;">Text with maximum 255 characters</h7>
                 </div>
 
                 <div class="col-md-12 position-relative">
-                    <label for="assembly_number" class="form-label">Assembly number</label>
+                    <label for="assembly_number" class="form-label">* Assembly number</label>
                     {{ projectForm.assembly_number }}
-                    <div class="valid-tooltip">
-                        Looks good!
+                    <div id="assembly_number_invalid-tooltip" class="invalid-tooltip">
                     </div>
+                    <h7 style="color: grey;">XXXXXXXX, where X - digit, maximum is 8 characters</h7>
                 </div>
 
                 <button type="submit" style="width: 100%; font-size: 12px;" id="post_new_project" class="btn btn-sm btn-outline-primary">Create</button>
@@ -57,30 +57,4 @@
 {% block script %}
     <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
     <script src="{% static 'force/filter.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (function () {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        // if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                        // }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-            })()
-        }
-
-    </script>
-
 {% endblock %}

@@ -26,36 +26,66 @@ class CalcInput extends React.Component {
         };
     }
     render() {
+        const label_style = {
+            fontSize: "12px",
+        };
+        const group_name_style = {
+            backgroundColor: "rgb(211 237 255 / 60%)",
+            textAlign: "center",
+            border: "1px solid grey",
+            borderRadius: "5px",
+            fontSize: "18px",
+            fontStyle: "bold",
+        };
         return (
             
             <div className="root">
 
-                <h2>Choose Contact:</h2>
-                <div id="relative_contact_key">
-                </div>
-                <input type="text" id="contact_key" placeholder="Contact group name:"/>
-                <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
-                <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
-                <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
-                <select id="contact" onChange={this.chooseContactOption}>
-                    <option value="None" defaultValue>Create</option>
-                </select>
-                <div>Friction in contact: </div>
-                <div id="relative_mu">
-                </div>
-                <input id="mu" type="number" step="0.01" min="0" onChange={this.update_mu} value={this.state.mu}/>
-                <div>X coordinate: </div>
-                <div id="relative_contactCoord_X">
-                </div>
-                <input id="contactCoord_X" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
-                <div>Y coordinate: </div>
-                <div id="relative_contactCoord_Y">
-                </div>
-                <input id="contactCoord_Y" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
-            
+                <form id="contact_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
+                    
+                    <div style={group_name_style} className="col-sm-12 position-relative">Contact group</div>
+                    
+                    <div className="col-sm-12 position-relative">
+                        <input type="text" id="contact_key" className="form-control form-control-sm" placeholder="Contact group name:"/>
+                    </div>
+
+                    <div className="col-sm-12 position-relative">
+                        <select id="contact" className="form-select form-select-sm" onChange={this.chooseContactOption}>
+                            <option value="None" defaultValue>Create new</option>
+                        </select>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <label style={label_style} htmlFor="mu" className="form-label">Friction:</label>
+                        <input id="mu" className="form-control form-control-sm" type="number" step="0.01" min="0" onChange={this.update_mu} value={this.state.mu}/>
+                    </div>
+                    
+                    <div className="col-sm-4 position-relative">
+                        <label style={label_style} htmlFor="contactCoord_X" className="form-label">X coordinate:</label>
+                        <input id="contactCoord_X" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
+                    </div>
+                    
+                    <div className="col-sm-4 position-relative">
+                        <label style={label_style} htmlFor="contactCoord_Y" className="form-label">Y coordinate:</label>
+                        <input id="contactCoord_Y" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <button id="save_contact_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <button id="delete_contact_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <button id="edit_contact_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
+                    </div>
+                </form>
 
 
-                <h2>Choose Plunger:</h2>
+                <h2>Plunger group</h2>
+
                 <div id="relative_plunger_key">
                 </div>
                 <input type="text" id="plunger_key"/>
@@ -166,82 +196,82 @@ class CalcInput extends React.Component {
     }
 
     hideAlldelete() {
-        document.querySelector('#delete_contact_btn').style.display = 'none';
-        document.querySelector('#delete_plunger_btn').style.display = 'none';
-        document.querySelector('#delete_spring_btn').style.display = 'none';
-        document.querySelector('#delete_angles_btn').style.display = 'none';
-        document.querySelector('#delete_variables_btn').style.display = 'none';
+        document.querySelector('#delete_contact_btn').disabled = true;
+        document.querySelector('#delete_plunger_btn').disabled = true;
+        document.querySelector('#delete_spring_btn').disabled = true;
+        document.querySelector('#delete_angles_btn').disabled = true;
+        document.querySelector('#delete_variables_btn').disabled = true;
     }
     showAlldelete() {
-        document.querySelector('#delete_contact_btn').style.display = 'block';
-        document.querySelector('#delete_plunger_btn').style.display = 'block';
-        document.querySelector('#delete_spring_btn').style.display = 'block';
-        document.querySelector('#delete_angles_btn').style.display = 'block';
-        document.querySelector('#delete_variables_btn').style.display = 'block';
+        document.querySelector('#delete_contact_btn').disabled = false;
+        document.querySelector('#delete_plunger_btn').disabled = false;
+        document.querySelector('#delete_spring_btn').disabled = false;
+        document.querySelector('#delete_angles_btn').disabled = false;
+        document.querySelector('#delete_variables_btn').disabled = false;
     }
 //
     hideAllsave() {
-        document.querySelector('#save_contact_btn').style.display = 'none';
-        document.querySelector('#save_plunger_btn').style.display = 'none';
-        document.querySelector('#save_spring_btn').style.display = 'none';
-        document.querySelector('#save_angles_btn').style.display = 'none';
-        document.querySelector('#save_variables_btn').style.display = 'none';
+        document.querySelector('#save_contact_btn').disabled = true;
+        document.querySelector('#save_plunger_btn').disabled = true;
+        document.querySelector('#save_spring_btn').disabled = true;
+        document.querySelector('#save_angles_btn').disabled = true;
+        document.querySelector('#save_variables_btn').disabled = true;
     }
     showAllsave() {
-        document.querySelector('#save_contact_btn').style.display = 'block';
-        document.querySelector('#save_plunger_btn').style.display = 'block';
-        document.querySelector('#save_spring_btn').style.display = 'block';
-        document.querySelector('#save_angles_btn').style.display = 'block';
-        document.querySelector('#save_variables_btn').style.display = 'block';
+        document.querySelector('#save_contact_btn').disabled = false;
+        document.querySelector('#save_plunger_btn').disabled = false;
+        document.querySelector('#save_spring_btn').disabled = false;
+        document.querySelector('#save_angles_btn').disabled = false;
+        document.querySelector('#save_variables_btn').disabled = false;
     }
 //
     hideAlledit() {
-        document.querySelector('#edit_contact_btn').style.display = 'none';
-        document.querySelector('#edit_plunger_btn').style.display = 'none';
-        document.querySelector('#edit_spring_btn').style.display = 'none';
-        document.querySelector('#edit_angles_btn').style.display = 'none';
-        document.querySelector('#edit_variables_btn').style.display = 'none';
+        document.querySelector('#edit_contact_btn').disabled = true;
+        document.querySelector('#edit_plunger_btn').disabled = true;
+        document.querySelector('#edit_spring_btn').disabled = true;
+        document.querySelector('#edit_angles_btn').disabled = true;
+        document.querySelector('#edit_variables_btn').disabled = true;
     }
     showAlledit() {
-        document.querySelector('#edit_contact_btn').style.display = 'block';
-        document.querySelector('#edit_plunger_btn').style.display = 'block';
-        document.querySelector('#edit_spring_btn').style.display = 'block';
-        document.querySelector('#edit_angles_btn').style.display = 'block';
-        document.querySelector('#edit_variables_btn').style.display = 'block';
+        document.querySelector('#edit_contact_btn').disabled = false;
+        document.querySelector('#edit_plunger_btn').disabled = false;
+        document.querySelector('#edit_spring_btn').disabled = false;
+        document.querySelector('#edit_angles_btn').disabled = false;
+        document.querySelector('#edit_variables_btn').disabled = false;
     }
 //
     hideAllkey() {
-        document.querySelector('#contact_key').style.display = 'none';
-        document.querySelector('#plunger_key').style.display = 'none';
-        document.querySelector('#spring_key').style.display = 'none';
-        document.querySelector('#angles_key').style.display = 'none';
-        document.querySelector('#variables_key').style.display = 'none';
+        document.querySelector('#contact_key').disabled = true;
+        document.querySelector('#plunger_key').disabled = true;
+        document.querySelector('#spring_key').disabled = true;
+        document.querySelector('#angles_key').disabled = true;
+        document.querySelector('#variables_key').disabled = true;
     }
     showAllkey() {
-        document.querySelector('#contact_key').style.display = 'block';
-        document.querySelector('#plunger_key').style.display = 'block';
-        document.querySelector('#spring_key').style.display = 'block';
-        document.querySelector('#angles_key').style.display = 'block';
-        document.querySelector('#variables_key').style.display = 'block';
+        document.querySelector('#contact_key').disabled = false;
+        document.querySelector('#plunger_key').disabled = false;
+        document.querySelector('#spring_key').disabled = false;
+        document.querySelector('#angles_key').disabled = false;
+        document.querySelector('#variables_key').disabled = false;
     }
 //
     newState(name) {
-        document.querySelector(`#delete_${name}_btn`).style.display = 'none';
-        document.querySelector(`#save_${name}_btn`).style.display = 'block';
-        document.querySelector(`#${name}_key`).style.display = 'block';
-        document.querySelector(`#edit_${name}_btn`).style.display = 'none';
+        document.querySelector(`#delete_${name}_btn`).disabled = true;
+        document.querySelector(`#save_${name}_btn`).disabled = false;
+        document.querySelector(`#${name}_key`).disabled = false;
+        document.querySelector(`#edit_${name}_btn`).disabled = true;
     }
     activeState(name) {
-        document.querySelector(`#delete_${name}_btn`).style.display = 'block';
-        document.querySelector(`#save_${name}_btn`).style.display = 'none';
-        document.querySelector(`#${name}_key`).style.display = 'none';
-        document.querySelector(`#edit_${name}_btn`).style.display = 'none';
+        document.querySelector(`#delete_${name}_btn`).disabled = false;
+        document.querySelector(`#save_${name}_btn`).disabled = true;
+        document.querySelector(`#${name}_key`).disabled = true;
+        document.querySelector(`#edit_${name}_btn`).disabled = true;
     }
     editState(name) {
-        document.querySelector(`#delete_${name}_btn`).style.display = 'block';
-        document.querySelector(`#save_${name}_btn`).style.display = 'none';
-        document.querySelector(`#${name}_key`).style.display = 'none';
-        document.querySelector(`#edit_${name}_btn`).style.display = 'block';
+        document.querySelector(`#delete_${name}_btn`).disabled = false;
+        document.querySelector(`#save_${name}_btn`).disabled = true;
+        document.querySelector(`#${name}_key`).disabled = true;
+        document.querySelector(`#edit_${name}_btn`).disabled = false;
     }
 
     componentDidMount() {
@@ -281,8 +311,12 @@ class CalcInput extends React.Component {
         vrbl_options.forEach(option => {
             vrbl_select.appendChild(option)
         })
-
     }
+
+    preventSubmit = (event) => {
+        event.preventDefault()
+    }
+
     chooseContactOption = (event) => {
         parameter(event, "contact")
         .then(result => {
@@ -634,19 +668,11 @@ class CalcInput extends React.Component {
     clickPlungerSave = () => {
         const select = document.querySelector('#plunger');
         post_data(select, 'plunger', this.state.a, this.state.b, this.state.f)
-        // this.activeState('plunger');
-        // this.setState({
-        //     plunger_state: 1,
-        // })  
     }
 
     clickSpringSave = () => {
         const select = document.querySelector('#spring');
         post_data(select, 'spring', this.state.springStiff, this.state.freeLen, this.state.springLen)
-        // this.activeState('spring');
-        // this.setState({
-        //     spring_state: 1,
-        // })  
     }
 
     clickAnglesSave = () => {
@@ -667,10 +693,6 @@ class CalcInput extends React.Component {
         }
         
         post_data(select, 'angles', var1, this.state.N, var3)
-        // this.activeState('angles');
-        // this.setState({
-        //     angles_state: 1,
-        // })  
     }
 
     clickVariablesSave = () => {
@@ -786,21 +808,6 @@ let mm = 1;
 
 draw_initialization();
 
-// function checked() {
-//     if (document.querySelector(`#new_angles`).style.display === 'none') {
-//         document.querySelector(`#new_angles`).style.display = 'block';
-//         document.querySelector(`#save_angles_btn`).style.display = 'block';
-
-//         document.querySelector(`input#id_angles_key`).value = '';
-//         if (document.querySelector(`input#id_plungerFric:checked`)) {
-//             document.querySelector(`input#id_plungerFric:checked`).checked = false;
-//         }
-//         if (document.querySelector(`input#id_FN:checked`)) {
-//             document.querySelector(`input#id_FN:checked`).checked = false;
-//         }
-//         document.querySelector(`input#id_N`).value = '';
-
-// }
 
 
     

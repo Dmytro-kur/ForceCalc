@@ -43,17 +43,14 @@ class ProjectForm(forms.ModelForm):
         self.fields['project_number'].widget.attrs.update({
             'id': 'project_number',
             'class': "form-control form-control-sm",
-            'placeholder': 'PXXXXX, P-letter, X-digit:'
         })
         self.fields['project_name'].widget.attrs.update({
             'id': 'project_name',
             'class': "form-control form-control-sm",
-            'placeholder': 'Text: ',
         })
         self.fields['assembly_number'].widget.attrs.update({
             'id': 'assembly_number',
             'class': "form-control form-control-sm",
-            'placeholder': 'XXXXXXXX, where X-digit:',
         })
 
     class Meta:

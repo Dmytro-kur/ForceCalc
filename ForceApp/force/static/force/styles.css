@@ -420,7 +420,7 @@ p.wave-btn__sidebar {
     padding: 0px;
   }
   100% {
-    height: 280px;
+    height: fit-content;
     border-width: 1px;
     margin: 10px;
     padding: 10px;
@@ -428,7 +428,7 @@ p.wave-btn__sidebar {
 }
 @keyframes closed {
   0% {
-    height: 280px;
+    height: fit-content;
     border-width: 1px;
     margin: 10px;
     padding: 10px;
@@ -871,99 +871,19 @@ margin-right: auto;
 }
 .root {
   flex-direction: column;
-  flex-wrap: wrap;
 }
 
-#relative_project_number,
-#relative_project_name,
-#relative_assembly_number,
-#relative_contact_key, 
-#relative_mu,
-#relative_contactCoord_X,
-#relative_contactCoord_Y,
-#relative_plunger_key, 
-#relative_a, #relative_b, 
-#relative_f, #relative_spring_key, 
-#relative_springStiff, 
-#relative_freeLen, #relative_springLen, 
-#relative_angles_key, #relative_plungerFric,
-#relative_N, #relative_FN, 
-#relative_variables_key, #relative_Na, 
-#relative_Nb, #relative_NR {
-  position: relative;
-  display: block;
-  width: 0px;
-  height: 0px;
-  margin: 0;
-  padding: 0;
-  
+.invalid-tooltip {
+  top: -5px;
+  left: 110px;
+  font-size: 10px;
 }
 
-#alert_project_number,
-#alert_project_name,
-#alert_assembly_number,
-#alert_contact_key, 
-#alert_mu,
-#alert_contactCoord_X,
-#alert_contactCoord_Y,
-#alert_plunger_key, 
-#alert_a, #alert_b, 
-#alert_f, #alert_spring_key, 
-#alert_springStiff, 
-#alert_freeLen, #alert_springLen, 
-#alert_angles_key, #alert_plungerFric,
-#alert_N, #alert_FN, 
-#alert_variables_key, #alert_Na, 
-#alert_Nb, #alert_NR {
-  position: relative;
-  flex-direction: row;
-  left: 300px;
-  top: 0px;
-  height: fit-content;
-  width: fit-content;
-  white-space: nowrap;
-}
-
-#cross_project_number,
-#cross_project_name,
-#cross_assembly_number,
-#cross_contact_key, 
-#cross_mu,
-#cross_contactCoord_X,
-#cross_contactCoord_Y,
-#cross_plunger_key, 
-#cross_a, #cross_b, 
-#cross_f, #cross_spring_key, 
-#cross_springStiff, 
-#cross_freeLen, #cross_springLen, 
-#cross_angles_key, #cross_plungerFric,
-#cross_N, #cross_FN, 
-#cross_variables_key, #cross_Na, 
-#cross_Nb, #cross_NR {
-  margin-right: 15px;
-}
-
-#cross_project_number:hover,
-#cross_project_name:hover,
-#cross_assembly_number:hover,
-#cross_contact_key:hover, 
-#cross_mu:hover,
-#cross_contactCoord_X:hover,
-#cross_contactCoord_Y:hover,
-#cross_plunger_key:hover, 
-#cross_a:hover, #cross_b:hover, 
-#cross_f:hover, #cross_spring_key:hover, 
-#cross_springStiff:hover, 
-#cross_freeLen:hover, #cross_springLen:hover, 
-#cross_angles_key:hover, #cross_plungerFric:hover,
-#cross_N:hover, #cross_FN:hover, 
-#cross_variables_key:hover, #cross_Na:hover, 
-#cross_Nb:hover, #cross_NR:hover {
-  cursor: pointer;
-}
-
-#validationTooltip01:valid {
-
+#contact_form {
+  margin: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px #868686;
 }
 
 /* ---------------------------- end CALCULATION -------------------- */
