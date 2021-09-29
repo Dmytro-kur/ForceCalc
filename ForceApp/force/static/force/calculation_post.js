@@ -24,31 +24,57 @@ function post_data(select, name, v1, v2, v3) {
 
         if (response['errors']) {
 
-            //   throw new Error('Something went wrong');
-            const source = response['errors']
-            const errors = Object.keys(response['errors']);
-
             reactInputInstance.newState(`${name}`);
             reactInputInstance.setState({
                 [`${name}_state`]: 0,
             })
 
+            let fields = {
+                'contact': [
+                    'contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y'
+                ],
+                'plunger': [
+                    'plunger_key', 'a', 'b', 'f'
+                ],
+                'spring': [
+                    'spring_key', 'springStiff', 'freeLen', 'springLen'
+                ],
+                'angles': [
+                    'angles_key', 'plungerFric', 'N', 'FN'
+                ],
+                'variables': [
+                    'variables_key', 'Na', 'Nb', 'NR'
+                ],
+            }
+
+            // throw new Error('Something went wrong');
+            const source = response['errors']
+            const errors = Object.keys(response['errors']);
+
             errors.forEach((field, index) => {
-                let error_list = [];
-                for (let i = 0; i < source[field].length; i++) {
-                    error_list.push(`${source[field][i]}`)
+                for (let i = 0; i < fields[`${name}`].length; i++) { 
+                    if (fields[`${name}`][i] === field) { 
+                        fields[`${name}`].splice(i, 1);
+                    }
                 }
-
-                document.querySelector(`#relative_${field}`).innerHTML = 
-                    `<div id="alert_${field}" class="alert alert-danger" role="alert"><div id="cross_${field}">&#x2717</div>${error_list.join("")}</div>`;
-                document.querySelector(`#relative_${field}`).style.color = 'rgb(255, 126, 126)';
-                document.querySelector(`#cross_${field}`).addEventListener('click', ()=> {
-                    document.querySelector(`#relative_${field}`).innerHTML = '';
-                })
+                let field_errors = [];
+                for (let i = 0; i < source[field].length; i++) {
+                    field_errors.push(`${source[field][i]}`)
+                }
+                console.log(`${field}: ${field_errors.join("")}`)
+                document.querySelector(`#${field}`).classList.remove('is-valid')
+                document.querySelector(`#${field}`).classList.add('is-invalid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`
             });
+            fields[`${name}`].forEach((field) => {
+                document.querySelector(`#${field}`).classList.remove('is-invalid')
+                document.querySelector(`#${field}`).classList.add('is-valid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+            })
 
-        } else {
-            alert(response['message'])
+        } else if (response['message']) {
+            console.log(`message: ${response['message']}`)
+
             const newOption = document.createElement('option');
             newOption.value = response.id;
             newOption.innerHTML = response.key;
@@ -58,13 +84,44 @@ function post_data(select, name, v1, v2, v3) {
             reactInputInstance.activeState(`${name}`);
             reactInputInstance.setState({
                 [`${name}_state`]: 1,
-            })  
-        }
+            });
 
+            let FIELDS = {
+                'contact': [
+                    'contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y'
+                ],
+                'plunger': [
+                    'plunger_key', 'a', 'b', 'f'
+                ],
+                'spring': [
+                    'spring_key', 'springStiff', 'freeLen', 'springLen'
+                ],
+                'angles': [
+                    'angles_key', 'plungerFric', 'N', 'FN'
+                ],
+                'variables': [
+                    'variables_key', 'Na', 'Nb', 'NR'
+                ],
+            }
+
+            FIELDS[`${name}`].forEach((field) => {
+                document.querySelector(`#${field}`).classList.remove('is-invalid')
+                document.querySelector(`#${field}`).classList.add('is-valid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+            })
+
+            setTimeout(() => {
+                FIELDS[`${name}`].forEach((field) => {
+                    document.querySelector(`#${field}`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}`).classList.remove('is-valid')
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                })
+            }, 3000)
+            
+        } else if (response['disclaimer']) {
+            alert(response['disclaimer'])
+        }
     })
-    // .then((response) => {
-    //     return response
-    // })
     .catch(error => {
         console.log(error)
     })

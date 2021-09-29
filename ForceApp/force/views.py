@@ -22,7 +22,7 @@ def parse_from_js(request_body):
     byte_str = request_body
     dict_str = byte_str.decode("UTF-8")
     mydata = ast.literal_eval(dict_str.replace('null', 'None'))
-
+    print(mydata)
     ''' ast.literal_eval(node_or_string)
     Safely evaluate an expression node or a string containing a Python literal or container display. 
     The string or node provided may only consist of the following Python literal structures: 
@@ -447,7 +447,8 @@ def new_project(request):
             project_creator.user = request.user
             project_creator.save()
         
-            return JsonResponse({"message": "New project is created."}, status=201)
+            return JsonResponse({"message": "New project is created."}, 
+            status=201)
         else:
             # error about uniqueness of the value
             return JsonResponse({"errors": project_data.errors}, status=400)
@@ -680,10 +681,14 @@ def parameter(request, name, project_num):
             })
 
     if request.method == "POST":
+        try:
+            inst = Project.objects.get(pk=project_num, user=request.user)
+        except Project.DoesNotExist:
+            return JsonResponse({
+                "disclaimer": 'you do not have the right to change other people\'s data'
+                }, status=400)
 
-        print(request.body)
         mydata = parse_from_js(request.body)
-        inst = Project.objects.get(pk=project_num)
         
 
         if name == "contact":
@@ -734,6 +739,13 @@ def parameter(request, name, project_num):
             return JsonResponse({"errors": data.errors}, status=400)
 
     if request.method == "PUT":
+        try:
+            inst = Project.objects.get(pk=project_num, user=request.user)
+        except Project.DoesNotExist:
+            return JsonResponse({
+                "disclaimer": 'you do not have the right to change other people\'s data'
+                }, status=400)
+
         mydata = parse_from_js(request.body)
 
         if name == "contact":
@@ -786,7 +798,13 @@ def parameter(request, name, project_num):
             return JsonResponse({"errors": data.errors}, status=400)
 
     if request.method == "DELETE":
-        inst = Project.objects.get(pk=project_num)
+        
+        try:
+            inst = Project.objects.get(pk=project_num, user=request.user)
+        except Project.DoesNotExist:
+            return JsonResponse({
+                "disclaimer": 'you do not have the right to change other people\'s data'
+                }, status=400)
 
         if name == "contact":
             a = inst.contacts.get(pk=request.GET.get("value"))

@@ -714,8 +714,8 @@ td {
 .waves__sidebar {
   cursor: pointer;
   position: fixed;
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   border-radius: 300px;
   align-items: center;
   justify-content: center;
@@ -875,11 +875,13 @@ margin-right: auto;
 
 .invalid-tooltip {
   top: -5px;
-  left: 110px;
+  left: 50%;
   font-size: 10px;
 }
 
-#contact_form {
+#contact_form,
+#plunger_form,
+#spring_form {
   margin: 15px;
   padding: 15px;
   border-radius: 5px;

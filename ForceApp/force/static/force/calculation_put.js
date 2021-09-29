@@ -22,18 +22,91 @@ function change_data(name, v1, v2, v3) {
     .then(response => {
         if (response['errors']) {
 
+            let fields = {
+                'contact': [
+                    'contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y'
+                ],
+                'plunger': [
+                    'plunger_key', 'a', 'b', 'f'
+                ],
+                'spring': [
+                    'spring_key', 'springStiff', 'freeLen', 'springLen'
+                ],
+                'angles': [
+                    'angles_key', 'plungerFric', 'N', 'FN'
+                ],
+                'variables': [
+                    'variables_key', 'Na', 'Nb', 'NR'
+                ],
+            }
+
+
             //   throw new Error('Something went wrong');
             const source = response['errors']
             const errors = Object.keys(response['errors']);
-            let error_list= []
 
             errors.forEach((field, index) => {
-                error_list.push(`${field} error: ${source[field]}\n`);
+                for (let i = 0; i < fields[`${name}`].length; i++) { 
+                    if (fields[`${name}`][i] === field) { 
+                        fields[`${name}`].splice(i, 1);
+                    }
+                }
+                let field_errors = [];
+                for (let i = 0; i < source[field].length; i++) {
+                    field_errors.push(`${source[field][i]}`)
+                }
+                console.log(`${field}: ${field_errors.join("")}`)
+                document.querySelector(`#${field}`).classList.remove('is-valid')
+                document.querySelector(`#${field}`).classList.add('is-invalid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`
             });
-            alert(error_list.join(""))
+            fields[`${name}`].forEach((field) => {
+                document.querySelector(`#${field}`).classList.remove('is-invalid')
+                document.querySelector(`#${field}`).classList.add('is-valid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+            })
 
-        } else {
-            console.log(response['message'])
+        } else if (response.message) {
+            console.log(`message: ${response['message']}`)
+
+            reactInputInstance.activeState(`${name}`);
+            reactInputInstance.setState({
+                [`${name}_state`]: 1,
+            });
+
+            let FIELDS = {
+                'contact': [
+                    'contact_key', 'mu', 'contactCoord_X', 'contactCoord_Y'
+                ],
+                'plunger': [
+                    'plunger_key', 'a', 'b', 'f'
+                ],
+                'spring': [
+                    'spring_key', 'springStiff', 'freeLen', 'springLen'
+                ],
+                'angles': [
+                    'angles_key', 'plungerFric', 'N', 'FN'
+                ],
+                'variables': [
+                    'variables_key', 'Na', 'Nb', 'NR'
+                ],
+            }
+            FIELDS[`${name}`].forEach((field) => {
+                document.querySelector(`#${field}`).classList.remove('is-invalid')
+                document.querySelector(`#${field}`).classList.add('is-valid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+            })
+
+            setTimeout(() => {
+                FIELDS[`${name}`].forEach((field) => {
+                    document.querySelector(`#${field}`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}`).classList.remove('is-valid')
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                })
+            }, 3000)
+
+        } else if (response.disclaimer) {
+            alert(response.disclaimer)
         }
     })
     .catch(error => {

@@ -201,13 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 fields.splice(i, 1);
                             }
                         }
-                        let error_list = [];
+                        let field_errors = [];
                         for (let i = 0; i < source[field].length; i++) {
-                            error_list.push(`${source[field][i]}`)
+                            field_errors.push(`${source[field][i]}`)
                         }
+                        console.log(`${field}: ${field_errors.join("")}`)
                         document.querySelector(`#${field}`).classList.remove('is-valid')
                         document.querySelector(`#${field}`).classList.add('is-invalid')
-                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${error_list.join("")}`
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`
                     });
                     fields.forEach((field) => {
                         document.querySelector(`#${field}`).classList.remove('is-invalid')
@@ -215,17 +216,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
                     })
 
-                    // let FIELDS = ['project_number', 'project_name', 'assembly_number']
-                    // setTimeout(() => {
-                    //     FIELDS.forEach((field) => {
-                    //         document.querySelector(`#${field}`).classList.remove('is-invalid')
-                    //         document.querySelector(`#${field}`).classList.remove('is-valid')
-                    //         document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
-                    //     })
-                    // }, 3000)
-
                 } else {
-                    
+                    console.log(`message: ${response['message']}`)
+
                     let FIELDS = ['project_number', 'project_name', 'assembly_number']
                     FIELDS.forEach((field) => {
                         document.querySelector(`#${field}`).classList.remove('is-invalid')

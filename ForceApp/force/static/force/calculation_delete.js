@@ -13,45 +13,49 @@ function delete_data(select, name) {
         mode: 'same-origin',
     })
     .then(response => response.json())
-    .then(result => {
-        select.remove(select.selectedIndex)
-        alert(result.message)
+    .then(response => {
+        if (response.message) {
+
+            select.remove(select.selectedIndex)
+            console.log(response.message)
+
+        } else if (response.disclaimer) {
+            alert(response.disclaimer)
+        }
     })
     .catch(error => {
         console.log(error)
     })
-
 }
 
-function del() {
-    const project_num = window.location.pathname.slice(13)
-    const option_num = document.querySelector('#variables').value;
+// function del() {
+//     const project_num = window.location.pathname.slice(13)
+//     const option_num = document.querySelector('#variables').value;
 
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    const request = new Request(
-        `/result/${project_num}/${option_num}`,
-        {headers: {'X-CSRFToken': csrftoken}}
-    );
-    fetch(request, {
-        method: 'DELETE',
-        mode: 'same-origin',
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.error) {
-            console.log(result.error)
-        } else {
-            const x = document.querySelector('#variables')
-            x.remove(x.selectedIndex)
-            console.log(result.message)
+//     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+//     const request = new Request(
+//         `/result/${project_num}/${option_num}`,
+//         {headers: {'X-CSRFToken': csrftoken}}
+//     );
+//     fetch(request, {
+//         method: 'DELETE',
+//         mode: 'same-origin',
+//     })
+//     .then(response => response.json())
+//     .then(result => {
+//         if (result.error) {
+//             console.log(result.error)
+//         } else {
+//             const x = document.querySelector('#variables')
+//             x.remove(x.selectedIndex)
+//             console.log(result.message)
 
-            x.value = 0;
-            document.querySelector(`#delete_variables_btn`).style.display = 'none';
-            document.querySelector('input#id_Na').value = '';
-            document.querySelector('input#id_Nb').value = '';
-            document.querySelector('input#id_NR').value = '';
+//             x.value = 0;
+//             document.querySelector(`#delete_variables_btn`).style.display = 'none';
+//             document.querySelector('input#id_Na').value = '';
+//             document.querySelector('input#id_Nb').value = '';
+//             document.querySelector('input#id_NR').value = '';
             
-        }
-    })
-
-}
+//         }
+//     })
+// }

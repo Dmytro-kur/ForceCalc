@@ -177,13 +177,13 @@ class Project(models.Model):
 def validate_fractional(value):
     if value < 0 or value > 1:
         raise ValidationError(
-            'This value should be fraction.', code='invalid'
+            'This value should be positive fraction.'
             )
 
 def validate_positive(value):
     if value <= 0:
         raise ValidationError(
-            'This value should be positive.', code='invalid'
+            'This value should be positive.'
             )
 
 class Contact(models.Model):
@@ -191,7 +191,7 @@ class Contact(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     contact_key = models.CharField(max_length=255)
 
-    mu = models.FloatField(validators=[validate_fractional, validate_positive])
+    mu = models.FloatField(validators=[validate_fractional])
     contactCoord_X = models.FloatField()
     contactCoord_Y = models.FloatField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contacts")
@@ -217,7 +217,7 @@ class Plunger(models.Model):
 
     a = models.FloatField(validators=[validate_positive])
     b = models.FloatField(validators=[validate_positive])
-    f = models.FloatField(validators=[validate_fractional, validate_positive])
+    f = models.FloatField(validators=[validate_fractional])
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="plungers")
 
     def __str__(self):
