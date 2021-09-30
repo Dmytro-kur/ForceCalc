@@ -67,15 +67,25 @@ class VariablesTestCase(TestCase):
         plng = Plunger.objects.get(plunger_key="Test Plunger 1")
         sprg = Spring.objects.get(spring_key="Test Spring 1")
         angl = Angles.objects.get(angles_key="Test Angles 1")
-        calc_forces()
+
+        Na, Nb, NR = calc_forces(
+            angl.plungerFric,
+            sprg.load(), 
+            plng.a, 
+            plng.b, 
+            plng.f, 
+            cont.mu, 
+            angl.N, 
+            angl.FN
+            )
         # vars = Variables.objects.get(variables_key="Test Variables 1")
 
-        self.assertEqual(round(vars.Na*plng.f*cos(angl.plungerFric) + \
-                vars.Nb*plng.f*cos(angl.plungerFric) + \
-                vars.NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5), \
-                round(-sprg.force(), 5))
+        self.assertEqual(round(Na*plng.f*cos(angl.plungerFric) + \
+                Nb*plng.f*cos(angl.plungerFric) + \
+                NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5), \
+                round(-sprg.load(), 5))
 
-        self.assertEqual(round(-vars.Na + vars.Nb + \
-            vars.NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5), 0)
+        self.assertEqual(round(-Na + Nb + \
+            NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5), 0)
 
-        self.assertEqual(round(vars.Na*(plng.a + plng.b) - vars.Nb*plng.a, 5), 0)
+        self.assertEqual(round(Na*(plng.a + plng.b) - Nb*plng.a, 5), 0)

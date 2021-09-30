@@ -416,10 +416,57 @@ class CalcInput extends React.Component {
         // vrbl_options.forEach(option => {
         //     vrbl_select.appendChild(option)
         // })
+        this.forces();
     }
 
     preventSubmit = (event) => {
         event.preventDefault()
+    }
+
+    forces = () => {
+        const mu = document.querySelector("#mu").value
+        const contactCoord_X = document.querySelector("#contactCoord_X").value
+        const contactCoord_Y = document.querySelector("#contactCoord_Y").value
+        const a = document.querySelector("#a").value
+        const b = document.querySelector("#b").value
+        const f = document.querySelector("#f").value
+        const springStiff = document.querySelector("#springStiff").value
+        const freeLen = document.querySelector("#freeLen").value
+        const springLen = document.querySelector("#springLen").value
+        const N = document.querySelector("#N").value
+
+        let plungerFric = ""
+        if (document.querySelector("#plungerFric0").checked) {
+            plungerFric = document.querySelector("#plungerFric0").value
+        } else if (document.querySelector("#plungerFric180").checked) {
+            plungerFric = document.querySelector("#plungerFric180").value
+        }
+
+        let FN = ""
+        if (document.querySelector("#FNplus").checked) {
+            FN = String(parseFloat(N) + 90);
+        } else if (document.querySelector("#FNminus").checked) {
+            FN = String(parseFloat(N) - 90);
+        }
+        
+        get_forces(
+            mu, 
+            contactCoord_X, 
+            contactCoord_Y, 
+            a,
+            b,
+            f,
+            springStiff,
+            freeLen,
+            springLen,
+            plungerFric,
+            N,
+            FN
+            )
+        .then(result => {
+            console.log(result)
+        })
+        
     }
 
     clearContactValidation = (start, end) => {
@@ -504,6 +551,8 @@ class CalcInput extends React.Component {
                     contactCoord_X: 1,
                     contactCoord_Y: 1,
                     contact_state: 0,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, 1, 1,
                     this.state.a, this.state.b);
@@ -515,6 +564,8 @@ class CalcInput extends React.Component {
                     contactCoord_X: result.var2,
                     contactCoord_Y: result.var3,
                     contact_state: 1,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, result.var2, result.var3,
                     this.state.a, this.state.b);
@@ -537,6 +588,8 @@ class CalcInput extends React.Component {
                     b: 1,
                     f: 0.15,
                     plunger_state: 0,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     1, 1);
@@ -547,6 +600,8 @@ class CalcInput extends React.Component {
                     b: result.var2,
                     f: result.var3,
                     plunger_state: 1,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     result.var1, result.var2);
@@ -568,6 +623,8 @@ class CalcInput extends React.Component {
                     freeLen: 10.7,
                     springLen: 8.9,
                     spring_state: 0,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
@@ -578,6 +635,8 @@ class CalcInput extends React.Component {
                     freeLen: result.var2,
                     springLen: result.var3,
                     spring_state: 1,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
@@ -599,6 +658,8 @@ class CalcInput extends React.Component {
                     N: 120,
                     FN: '+',
                     angles_state: 0,
+                }, () => {
+                    this.forces();
                 })
                 drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
                     this.state.a, this.state.b);
@@ -609,14 +670,20 @@ class CalcInput extends React.Component {
                     plungerFric: String(result.var1),
                     N: result.var2,
                     angles_state: 1,
+                }, () => {
+                    this.forces();
                 })
                 if (result.var3 > result.var2) {
                     this.setState({
                         FN: '+',
+                    }, () => {
+                        this.forces();
                     })
                 } else if (result.var3 < result.var2) {
                     this.setState({
                         FN: '-',
+                    }, () => {
+                        this.forces();
                     })
                 }
 
@@ -636,13 +703,16 @@ class CalcInput extends React.Component {
         this.clearContactValidation(0, 1);
         this.setState({
             contact_key: event.target.value,
-        }) 
+        })
+        
     }
 
     update_mu = (event) => {unread_emails();
         this.clearContactValidation(1, 2);
         this.setState({
             mu: event.target.value,
+        }, () => {
+            this.forces();
         }) 
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -660,13 +730,14 @@ class CalcInput extends React.Component {
                 contact_state: 2,
             })   
         }
-        
     }
 
     update_contactCoord_X = (event) => {unread_emails();
         this.clearContactValidation(2, 3);
         this.setState({
             contactCoord_X: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, event.target.value, this.state.contactCoord_Y,
@@ -689,6 +760,8 @@ class CalcInput extends React.Component {
         this.clearContactValidation(3, 4);
         this.setState({
             contactCoord_Y: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, event.target.value,
@@ -718,6 +791,8 @@ class CalcInput extends React.Component {
         this.clearPlungerValidation(1, 2);
         this.setState({
             a: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -740,6 +815,8 @@ class CalcInput extends React.Component {
         this.clearPlungerValidation(2, 3);
         this.setState({
             b: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -762,6 +839,8 @@ class CalcInput extends React.Component {
         this.clearPlungerValidation(3, 4);
         this.setState({
             f: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -790,6 +869,8 @@ class CalcInput extends React.Component {
         this.clearSpringValidation(1, 2);
         this.setState({
             springStiff: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -805,12 +886,14 @@ class CalcInput extends React.Component {
             this.setState({
                 spring_state: 2,
             })  
-        }           
+        }
     }
     update_freeLen = (event) => {unread_emails();
         this.clearSpringValidation(2, 3);
         this.setState({
             freeLen: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -826,12 +909,14 @@ class CalcInput extends React.Component {
             this.setState({
                 spring_state: 2,
             })  
-        }            
+        }
     }
     update_springLen = (event) => {unread_emails();
         this.clearSpringValidation(3, 4);
         this.setState({
             springLen: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -860,6 +945,8 @@ class CalcInput extends React.Component {
         this.clearAnglesValidation(1, 2);
         this.setState({
             plungerFric: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -881,6 +968,8 @@ class CalcInput extends React.Component {
         this.clearAnglesValidation(2, 3);
         this.setState({
             N: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -902,6 +991,8 @@ class CalcInput extends React.Component {
         this.clearAnglesValidation(3, 4);
         this.setState({
             FN: event.target.value,
+        }, () => {
+            this.forces();
         })
         if (event.target.value) {
             drawRect(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
@@ -925,16 +1016,19 @@ class CalcInput extends React.Component {
         const select = document.querySelector('#contact');
         post_data(select, 'contact', 
             this.state.mu, this.state.contactCoord_X, this.state.contactCoord_Y)
+        this.forces();
     }
 
     clickPlungerSave = () => {
         const select = document.querySelector('#plunger');
         post_data(select, 'plunger', this.state.a, this.state.b, this.state.f)
+        this.forces();
     }
 
     clickSpringSave = () => {
         const select = document.querySelector('#spring');
         post_data(select, 'spring', this.state.springStiff, this.state.freeLen, this.state.springLen)
+        this.forces();
     }
 
     clickAnglesSave = () => {
@@ -954,6 +1048,7 @@ class CalcInput extends React.Component {
             var3 = parseFloat(this.state.N) - 90;
         }
         post_data(select, 'angles', var1, this.state.N, var3)
+        this.forces();
     }
 
     // clickVariablesSave = () => {
@@ -967,6 +1062,7 @@ class CalcInput extends React.Component {
         this.setState({
             contact_state: 0,
         })
+        this.forces();
     }
 
     clickPlungerDelete = () => {
@@ -976,6 +1072,7 @@ class CalcInput extends React.Component {
         this.setState({
             plunger_state: 0,
         })
+        this.forces();
     }
 
     clickSpringDelete = () => {
@@ -985,6 +1082,7 @@ class CalcInput extends React.Component {
         this.setState({
             spring_state: 0,
         })
+        this.forces();
     }
 
     clickAnglesDelete = () => {
@@ -994,6 +1092,7 @@ class CalcInput extends React.Component {
         this.setState({
             angles_state: 0,
         })
+        this.forces();
     }
 
     // clickVariablesDelete = () => {
@@ -1006,7 +1105,7 @@ class CalcInput extends React.Component {
         this.setState({
             contact_state: 1,
         })
-
+        this.forces();
     }
 
     clickPlungerEdit = () => {
@@ -1015,6 +1114,7 @@ class CalcInput extends React.Component {
         this.setState({
             plunger_state: 1,
         })
+        this.forces();
     }
 
     clickSpringEdit = () => {
@@ -1023,6 +1123,7 @@ class CalcInput extends React.Component {
         this.setState({
             spring_state: 1,
         })
+        this.forces();
     }
 
     clickAnglesEdit = () => {
@@ -1046,6 +1147,7 @@ class CalcInput extends React.Component {
         this.setState({
             angles_state: 1,
         })
+        this.forces();
     }
 
     // clickVariablesEdit = () => {

@@ -299,14 +299,14 @@ class Angles(models.Model):
             "datetime": datetime,
         }
 
-def calc_forces(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
+def calc_forces(plungerFric, load, a, b, f, mu, N, FN):
 
-    M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
-                        [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
+    M1 = np.array([[f*cos(plungerFric), f*cos(plungerFric), cos(N)+mu*cos(FN)],
+                        [-1,              1,              sin(N)+mu*sin(FN)],
                         [a+b,           -a,               0]])
-    v1 = np.array([-F, 0, 0])
+    v1 = np.array([-load, 0, 0])
     c1 = np.linalg.solve(M1, v1)
-    return c1
+    return c1[0], c1[1], c1[2]
 
 # class Variables(models.Model):
 
