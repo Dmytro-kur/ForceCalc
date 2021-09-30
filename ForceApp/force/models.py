@@ -247,7 +247,7 @@ class Spring(models.Model):
     def __str__(self):
         return f"{self.spring_key}"
 
-    def force(self):
+    def load(self):
         return self.springStiff*(self.freeLen - self.springLen)
 
     def serialize(self):
@@ -266,13 +266,13 @@ class Spring(models.Model):
 def plungerFric_validation(value):
     if value != 0 and value != 180:
         raise ValidationError(
-            'This value should be 0 or 180 deg.', code='invalid'
+            'This value should be 0 or 180 deg.'
             )
 
 def validate_contact_angle(value):
     if value < 90 or value > 270:
         raise ValidationError(
-            'This value should be from 90 to 270 deg.', code='invalid'
+            'This value should be from 90 to 270 deg.'
             )
 
 class Angles(models.Model):
@@ -299,51 +299,60 @@ class Angles(models.Model):
             "datetime": datetime,
         }
 
-class Variables(models.Model):
+def calc_forces(Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
 
-    datetime = models.DateTimeField(auto_now_add=True)
-    variables_key = models.CharField(max_length=255)
+    M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
+                        [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
+                        [a+b,           -a,               0]])
+    v1 = np.array([-F, 0, 0])
+    c1 = np.linalg.solve(M1, v1)
+    return c1
 
-    Na = models.FloatField()
-    Nb = models.FloatField()
-    NR = models.FloatField()
+# class Variables(models.Model):
+
+#     datetime = models.DateTimeField(auto_now_add=True)
+#     variables_key = models.CharField(max_length=255)
+
+#     Na = models.FloatField()
+#     Nb = models.FloatField()
+#     NR = models.FloatField()
     
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
+#     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
     
-    contact_input = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="variables")
-    plunger_input = models.ForeignKey(Plunger, on_delete=models.CASCADE, related_name="variables")
-    spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
-    angles_input = models.ForeignKey(Angles, on_delete=models.CASCADE, related_name="variables")
+#     contact_input = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="variables")
+#     plunger_input = models.ForeignKey(Plunger, on_delete=models.CASCADE, related_name="variables")
+#     spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
+#     angles_input = models.ForeignKey(Angles, on_delete=models.CASCADE, related_name="variables")
 
-    # agree = models.BooleanField()
+#     # agree = models.BooleanField()
 
-    # Access policy also should be implemented: 
-    # - Specialist user only can create project and make a calculations
-    # - Designer can change the input but cannot add input
+#     # Access policy also should be implemented: 
+#     # - Specialist user only can create project and make a calculations
+#     # - Designer can change the input but cannot add input
 
-    def __str__(self):
-        return f"{self.variables_key}"
+#     def __str__(self):
+#         return f"{self.variables_key}"
 
-    def calc_vars(self, Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
+#     # def calc_vars(self, Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
 
-        M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
-                            [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
-                            [a+b,           -a,               0]])
-        v1 = np.array([-F, 0, 0])
-        c1 = np.linalg.solve(M1, v1)
-        return c1
+#     #     M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
+#     #                         [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
+#     #                         [a+b,           -a,               0]])
+#     #     v1 = np.array([-F, 0, 0])
+#     #     c1 = np.linalg.solve(M1, v1)
+#     #     return c1
 
-    def serialize(self):
-        datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
-        return {
-            "id": self.id,
-            "key": self.variables_key,
-            "var1": self.Na,
-            "var2": self.Nb,
-            "var3": self.NR,
-            "datetime": datetime,
-            "contact": self.contact_input.serialize(),
-            "plunger": self.plunger_input.serialize(),
-            "spring": self.spring_input.serialize(),
-            "angles": self.angles_input.serialize(),
-        }
+#     def serialize(self):
+#         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
+#         return {
+#             "id": self.id,
+#             "key": self.variables_key,
+#             "var1": self.Na,
+#             "var2": self.Nb,
+#             "var3": self.NR,
+#             "datetime": datetime,
+#             "contact": self.contact_input.serialize(),
+#             "plunger": self.plunger_input.serialize(),
+#             "spring": self.spring_input.serialize(),
+#             "angles": self.angles_input.serialize(),
+#         }

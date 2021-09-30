@@ -56,14 +56,46 @@ function change_data(name, v1, v2, v3) {
                     field_errors.push(`${source[field][i]}`)
                 }
                 console.log(`${field}: ${field_errors.join("")}`)
-                document.querySelector(`#${field}`).classList.remove('is-valid')
-                document.querySelector(`#${field}`).classList.add('is-invalid')
-                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`
+                if (field === 'plungerFric') {
+                    document.querySelector(`#${field}0`).classList.remove('is-valid');
+                    document.querySelector(`#${field}0`).classList.add('is-invalid');
+                    document.querySelector(`#${field}180`).classList.remove('is-valid');
+                    document.querySelector(`#${field}180`).classList.add('is-invalid');
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`;
+                
+                } else if (field === 'FN') {
+                    document.querySelector(`#${field}plus`).classList.remove('is-valid');
+                    document.querySelector(`#${field}plus`).classList.add('is-invalid');
+                    document.querySelector(`#${field}minus`).classList.remove('is-valid');
+                    document.querySelector(`#${field}minus`).classList.add('is-invalid');
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`;
+
+                } else {
+                    document.querySelector(`#${field}`).classList.remove('is-valid');
+                    document.querySelector(`#${field}`).classList.add('is-invalid');
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = `${field_errors.join("")}`;
+                }
             });
             fields[`${name}`].forEach((field) => {
-                document.querySelector(`#${field}`).classList.remove('is-invalid')
-                document.querySelector(`#${field}`).classList.add('is-valid')
-                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                if (field === 'plungerFric') {
+                    document.querySelector(`#${field}0`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}0`).classList.add('is-valid')
+                    document.querySelector(`#${field}180`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}180`).classList.add('is-valid')
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+
+                } else if (field === 'FN') {
+                    document.querySelector(`#${field}plus`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}plus`).classList.add('is-valid')
+                    document.querySelector(`#${field}minus`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}minus`).classList.add('is-valid')
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+
+                } else {
+                    document.querySelector(`#${field}`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}`).classList.add('is-valid')
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                }
             })
 
         } else if (response.message) {
@@ -92,17 +124,51 @@ function change_data(name, v1, v2, v3) {
                 ],
             }
             FIELDS[`${name}`].forEach((field) => {
-                document.querySelector(`#${field}`).classList.remove('is-invalid')
-                document.querySelector(`#${field}`).classList.add('is-valid')
-                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
-            })
+                if (field === 'plungerFric') {
+                    document.querySelector(`#${field}0`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}0`).classList.add('is-valid')
+                    document.querySelector(`#${field}180`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}180`).classList.add('is-valid')
+
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+
+                } else if (field === 'FN') {
+                    document.querySelector(`#${field}plus`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}plus`).classList.add('is-valid')
+                    document.querySelector(`#${field}minus`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}minus`).classList.add('is-valid')
+                    
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                    
+                } else {
+                    document.querySelector(`#${field}`).classList.remove('is-invalid')
+                    document.querySelector(`#${field}`).classList.add('is-valid')
+                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                }            })
 
             setTimeout(() => {
                 FIELDS[`${name}`].forEach((field) => {
-                    document.querySelector(`#${field}`).classList.remove('is-invalid')
-                    document.querySelector(`#${field}`).classList.remove('is-valid')
-                    document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
-                })
+                    if (field === 'plungerFric') {
+                        document.querySelector(`#${field}0`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}0`).classList.remove('is-valid')
+                        document.querySelector(`#${field}180`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}180`).classList.remove('is-valid')
+
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+    
+                    } else if (field === 'FN') {
+                        document.querySelector(`#${field}plus`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}plus`).classList.remove('is-valid')
+                        document.querySelector(`#${field}minus`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}minus`).classList.remove('is-valid')
+
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                        
+                    } else {
+                        document.querySelector(`#${field}`).classList.remove('is-invalid')
+                        document.querySelector(`#${field}`).classList.remove('is-valid')
+                        document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                    }                })
             }, 3000)
 
         } else if (response.disclaimer) {

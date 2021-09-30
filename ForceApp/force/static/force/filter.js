@@ -153,15 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Example starter JavaScript for disabling form submissions
 
-    let form = document.querySelector('#newProject_form')
-    form.addEventListener('submit', function (event) {
-        // if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-        // }
-        // form.classList.add('was-validated')
-    }, false)
-
+    if (document.querySelector('#newProject_form')) {
+        let form = document.querySelector('#newProject_form')
+        form.addEventListener('submit', function (event) {
+            // if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            // }
+            // form.classList.add('was-validated')
+        }, false)
+    }
     if (document.querySelector('#post_new_project')) {
         document.querySelector('#post_new_project').onclick = () => {
         
@@ -225,15 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.querySelector(`#${field}`).classList.add('is-valid')
                         document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
                     })
-                    document.querySelector('#project_number').value = '';
-                    document.querySelector('#project_name').value = '';
-                    document.querySelector('#assembly_number').value = '';
 
                     setTimeout(() => {
                         FIELDS.forEach((field) => {
                             document.querySelector(`#${field}`).classList.remove('is-invalid')
                             document.querySelector(`#${field}`).classList.remove('is-valid')
                             document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                            
+                            document.querySelector('#project_number').value = '';
+                            document.querySelector('#project_name').value = '';
+                            document.querySelector('#assembly_number').value = '';
                         })
                     }, 3000)
                 }

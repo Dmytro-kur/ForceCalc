@@ -1,6 +1,6 @@
 from django.test import TestCase
-
 from .models import *
+
 
 class VariablesTestCase(TestCase):
 
@@ -18,44 +18,44 @@ class VariablesTestCase(TestCase):
             user=testUser)
 
         # create Contact
-        testContact = Contact.objects.create(contact_key="Test Contact 1",
+        Contact.objects.create(contact_key="Test Contact 1",
             mu=0.15,
             contactCoord_X=0,
             contactCoord_Y=0,
             project=testProject)
 
         # create Plunger
-        testPlunger = Plunger.objects.create(plunger_key="Test Plunger 1",
+        Plunger.objects.create(plunger_key="Test Plunger 1",
             a=0.197,
             b=3.56,
             f=0.15,
             project=testProject)
 
         # create Spring
-        testSpring = Spring.objects.create(spring_key="Test Spring 1",
+        Spring.objects.create(spring_key="Test Spring 1",
             springStiff=4.1,
             freeLen=10.7,
             springLen=8.232,
             project=testProject)
 
         # create Angles
-        testAngle = Angles.objects.create(angles_key="Test Angles 1",
+        Angles.objects.create(angles_key="Test Angles 1",
             plungerFric=0,
             N=215.01,
             FN=305.01,
             project=testProject)
             
-        # create Unknown_variables
-        res = Variables.calc_vars(testAngle.plungerFric, testSpring.force(), 
-            testPlunger.a, testPlunger.b, testPlunger.f,
-            testContact.mu, testAngle.N, testAngle.FN)
-        print(res)
+        # # create Unknown_variables
+        # res = Variables.calc_vars(testAngle.plungerFric, testSpring.force(), 
+        #     testPlunger.a, testPlunger.b, testPlunger.f,
+        #     testContact.mu, testAngle.N, testAngle.FN)
+        # print(res)
 
-        Variables.objects.create(variables_key="Test Variables 1",
-            Na=res[0],
-            Nb=res[1],
-            NR=res[2],
-            project=testProject)
+        # Variables.objects.create(variables_key="Test Variables 1",
+        #     Na=res[0],
+        #     Nb=res[1],
+        #     NR=res[2],
+        #     project=testProject)
 
     def test_math_model(self):
         """Put all variables and solve equations
@@ -67,7 +67,8 @@ class VariablesTestCase(TestCase):
         plng = Plunger.objects.get(plunger_key="Test Plunger 1")
         sprg = Spring.objects.get(spring_key="Test Spring 1")
         angl = Angles.objects.get(angles_key="Test Angles 1")
-        vars = Variables.objects.get(variables_key="Test Variables 1")
+        calc_forces()
+        # vars = Variables.objects.get(variables_key="Test Variables 1")
 
         self.assertEqual(round(vars.Na*plng.f*cos(angl.plungerFric) + \
                 vars.Nb*plng.f*cos(angl.plungerFric) + \

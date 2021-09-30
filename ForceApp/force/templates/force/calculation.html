@@ -38,8 +38,11 @@
     </p>
     
 
-    <canvas id="canvas" aria-label="Force calculation" role="img"></canvas>    
-    <button id="home_btn"><img id="source" src="{% static 'force/home.png' %}" alt="icon"></button>
+    <canvas id="canvas" aria-label="Force calculation" role="img"></canvas>
+    
+    <div style="margin: 15px; display: flex; justify-content: space-evenly;">
+        <button style="width: 250px;" id="home_btn" class="btn btn-outline-primary"><img id="source" src="{% static 'force/home.png' %}" alt="icon"></button>
+    </div>
 
 {% endblock %}
 

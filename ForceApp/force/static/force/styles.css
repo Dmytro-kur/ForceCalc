@@ -881,7 +881,8 @@ margin-right: auto;
 
 #contact_form,
 #plunger_form,
-#spring_form {
+#spring_form,
+#angles_form {
   margin: 15px;
   padding: 15px;
   border-radius: 5px;

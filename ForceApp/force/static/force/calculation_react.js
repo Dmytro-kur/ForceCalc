@@ -22,13 +22,13 @@ class CalcInput extends React.Component {
             N: 120,
             FN: '+',
 
-            variables_key: "",
+            // variables_key: "",
 
             contact_state: 0,
             plunger_state: 0,
             spring_state: 0,
             angles_state: 0,
-            variables_state: 0,
+            // variables_state: 0,
         };
     }
     render() {
@@ -37,7 +37,6 @@ class CalcInput extends React.Component {
         };
         const group_name_style = {
             backgroundImage: "linear-gradient(to bottom right, rgb(211 237 255 / 100%), rgb(211 237 255 / 5%))",
-            // backgroundColor: "rgb(211 237 255 / 60%)",
             textAlign: "center",
             border: "1px solid grey",
             borderRadius: "5px",
@@ -50,7 +49,7 @@ class CalcInput extends React.Component {
 
                 <form id="contact_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
                     
-                    <div style={group_name_style} className="col-sm-12 position-relative">Contact group</div>
+                    <div style={group_name_style} className="col-sm-12 position-relative">Contact</div>
                     
                     <div className="col-sm-12 position-relative">
                         <input type="text" id="contact_key" className="form-control form-control-sm" placeholder="Contact group name:" onChange={this.update_contact_key} value={this.state.contact_key}/>
@@ -99,9 +98,10 @@ class CalcInput extends React.Component {
                 </form>
 
 
+
                 <form id="plunger_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
                     
-                    <div style={group_name_style} className="col-sm-12 position-relative">Plunger group</div>
+                    <div style={group_name_style} className="col-sm-12 position-relative">Plunger</div>
                     
                     <div className="col-sm-12 position-relative">
                         <input type="text" id="plunger_key" className="form-control form-control-sm" placeholder="Plunger group name:" onChange={this.update_plunger_key} value={this.state.plunger_key}/>
@@ -149,8 +149,10 @@ class CalcInput extends React.Component {
                     </div>
                 </form>
 
+
+
                 <form id="spring_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
-                    <div style={group_name_style} className="col-sm-12 position-relative">Spring group</div>
+                    <div style={group_name_style} className="col-sm-12 position-relative">Spring</div>
                     
                     <div className="col-sm-12 position-relative">
                         <input type="text" id="spring_key" className="form-control form-control-sm" placeholder="Spring group name:" onChange={this.update_spring_key} value={this.state.spring_key}/>
@@ -200,59 +202,99 @@ class CalcInput extends React.Component {
                 </form>
 
 
-                <h2>Choose Angles:</h2>
-                <div id="relative_angles_key">
-                </div>
-                <input type="text" id="angles_key"/>
-                <button id="save_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesSave}>Save</button>
-                <button id="delete_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
-                <button id="edit_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Edit</button>
 
-                <select id="angles" onChange={this.chooseAnglesOption}>
-                    <option value="None" defaultValue>Create</option>
-                </select>
+                <form id="angles_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
 
-                <div>Direction of plunger friction forces: </div>
-                <div id="relative_plungerFric">
-                </div>
+                    <div style={group_name_style} className="col-sm-12 position-relative">Angles</div>
+                    
+                    <div className="col-sm-12 position-relative">
+                        <input type="text" id="angles_key" className="form-control form-control-sm" placeholder="Angles group name:" onChange={this.update_angles_key} value={this.state.angles_key}/>
+                        <div id="angles_key_invalid-tooltip" className="invalid-tooltip">
+                        </div>
+                    </div>
 
-                <input id="plungerFric0" type="radio" name="plungerFric" className="form-check-input"
-                    value="0" checked={this.state.plungerFric === "0"} onChange={this.update_plungerFric}/>
-                <label htmlFor="plungerFric0">0 deg</label>
+                    <div className="col-sm-12 position-relative">
+                        <select id="angles" className="form-select form-select-sm" onChange={this.chooseAnglesOption}>
+                            <option value="None" defaultValue>Create new</option>
+                        </select>
+                    </div>
 
-                <input id="plungerFric180" type="radio" name="plungerFric" className="form-check-input"
-                    value="180" checked={this.state.plungerFric === "180"} onChange={this.update_plungerFric}/>
-                <label htmlFor="plungerFric180">180 deg</label>
 
-                <div>Direction of normal reaction force: </div>
-                <div id="relative_N">
-                </div>
-                <input id="N" type="number" step="1" min="90" max="270" onChange={this.update_N} value={this.state.N}/>
+
+                    <div style={label_style} className="col-sm-12 position-relative">
+                        Direction of plunger friction forces:
+                    </div>
+
+                    <div className="col-sm-12 position-relative">
+                        <input id="plungerFric0" type="radio" name="plungerFric" className="form-check-input"
+                            value="0" checked={this.state.plungerFric === "0"} onChange={this.update_plungerFric}/>
+                        <label style={label_style} className="form-check-label" htmlFor="plungerFric0">0 deg</label>
+                        
+                        <input id="plungerFric180" type="radio" name="plungerFric" className="form-check-input"
+                            value="180" checked={this.state.plungerFric === "180"} onChange={this.update_plungerFric}/>
+                        <label style={label_style} className="form-check-label" htmlFor="plungerFric180">180 deg</label>
+                        
+                        <div id="plungerFric_invalid-tooltip" className="invalid-tooltip">
+                        </div>
+                    </div>
+
+
+
+                    <div className="col-sm-12 position-relative">
+                        <label style={label_style} htmlFor="N" className="form-label">Direction of normal reaction force:</label>
+                        <input id="N" className="form-control form-control-sm" type="number" step="1" min="90" max="270" onChange={this.update_N} value={this.state.N}/>
+                        <div id="N_invalid-tooltip" className="invalid-tooltip">
+                        </div>
+                    </div>
+                    
+
+
+                    <div style={label_style} className="col-sm-12 position-relative">
+                        Direction of normal reaction friction force: 
+                    </div>
+
+                    <div className="col-sm-12 position-relative">
+                        <input id="FNplus" type="radio" name="FN" className="form-check-input"
+                            value="+" checked={this.state.FN === "+"} onChange={this.update_FN}/>
+                        <label style={label_style} className="form-check-label" htmlFor="FNplus"> + 90 deg</label>
+
+                        <input id="FNminus" type="radio" name="FN" className="form-check-input"
+                            value="-" checked={this.state.FN === "-"} onChange={this.update_FN}/>
+                        <label style={label_style} className="form-check-label" htmlFor="FNminus"> - 90 deg</label>
+                        
+                        <div id="FN_invalid-tooltip" className="invalid-tooltip">
+                        </div>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <button id="save_angles_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickAnglesSave}>Save</button>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <button id="delete_angles_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
+                    </div>
+
+                    <div className="col-sm-4 position-relative">
+                        <button id="edit_angles_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Edit</button>
+                    </div>
+
+                </form>
+
+                {/* <form id="variables_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
+
+                    <div style={group_name_style} className="col-sm-12 position-relative">Forces</div>
+
+                    <input type="text" required id="variables_key"/>
+
+                    <select id="variables" onChange={this.chooseVariablesOption}>
+                        <option value="None" defaultValue>Create</option>
+                    </select>
+
+                    <button id="delete_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesSave}>Delete</button>
+                    <button id="save_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesDelete}>Save</button>
+                    <button id="edit_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesEdit}>Edit</button>
                 
-                <div>Direction of normal reaction friction force: </div>
-                <div id="relative_FN">
-                </div>
-                <input id="FNplus" type="radio" name="FN" className="form-check-input"
-                    value="+" checked={this.state.FN === "+"} onChange={this.update_FN}/>
-                <label htmlFor="FNplus"> + 90 deg</label>
-
-                <input id="FNminus" type="radio" name="FN"className="form-check-input"
-                    value="-" checked={this.state.FN === "-"} onChange={this.update_FN}/>
-                <label htmlFor="FNminus"> - 90 deg</label>
-
-
-
-                <h2>Choose Variables:</h2>
-                <div id="relative_variables_key">
-                </div>
-                <input type="text" required id="variables_key"/>
-                <select id="variables" onChange={this.chooseVariablesOption}>
-                    <option value="None" defaultValue>Create</option>
-                </select>
-                <button id="delete_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesSave}>Delete</button>
-                <button id="save_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesDelete}>Save</button>
-                <button id="edit_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesEdit}>Edit</button>
-
+                </form> */}
 
             </div>
         );
@@ -263,14 +305,14 @@ class CalcInput extends React.Component {
         document.querySelector('#delete_plunger_btn').disabled = true;
         document.querySelector('#delete_spring_btn').disabled = true;
         document.querySelector('#delete_angles_btn').disabled = true;
-        document.querySelector('#delete_variables_btn').disabled = true;
+        // document.querySelector('#delete_variables_btn').disabled = true;
     }
     showAlldelete() {
         document.querySelector('#delete_contact_btn').disabled = false;
         document.querySelector('#delete_plunger_btn').disabled = false;
         document.querySelector('#delete_spring_btn').disabled = false;
         document.querySelector('#delete_angles_btn').disabled = false;
-        document.querySelector('#delete_variables_btn').disabled = false;
+        // document.querySelector('#delete_variables_btn').disabled = false;
     }
 //
     hideAllsave() {
@@ -278,14 +320,14 @@ class CalcInput extends React.Component {
         document.querySelector('#save_plunger_btn').disabled = true;
         document.querySelector('#save_spring_btn').disabled = true;
         document.querySelector('#save_angles_btn').disabled = true;
-        document.querySelector('#save_variables_btn').disabled = true;
+        // document.querySelector('#save_variables_btn').disabled = true;
     }
     showAllsave() {
         document.querySelector('#save_contact_btn').disabled = false;
         document.querySelector('#save_plunger_btn').disabled = false;
         document.querySelector('#save_spring_btn').disabled = false;
         document.querySelector('#save_angles_btn').disabled = false;
-        document.querySelector('#save_variables_btn').disabled = false;
+        // document.querySelector('#save_variables_btn').disabled = false;
     }
 //
     hideAlledit() {
@@ -293,14 +335,14 @@ class CalcInput extends React.Component {
         document.querySelector('#edit_plunger_btn').disabled = true;
         document.querySelector('#edit_spring_btn').disabled = true;
         document.querySelector('#edit_angles_btn').disabled = true;
-        document.querySelector('#edit_variables_btn').disabled = true;
+        // document.querySelector('#edit_variables_btn').disabled = true;
     }
     showAlledit() {
         document.querySelector('#edit_contact_btn').disabled = false;
         document.querySelector('#edit_plunger_btn').disabled = false;
         document.querySelector('#edit_spring_btn').disabled = false;
         document.querySelector('#edit_angles_btn').disabled = false;
-        document.querySelector('#edit_variables_btn').disabled = false;
+        // document.querySelector('#edit_variables_btn').disabled = false;
     }
 //
     hideAllkey() {
@@ -308,14 +350,14 @@ class CalcInput extends React.Component {
         document.querySelector('#plunger_key').disabled = true;
         document.querySelector('#spring_key').disabled = true;
         document.querySelector('#angles_key').disabled = true;
-        document.querySelector('#variables_key').disabled = true;
+        // document.querySelector('#variables_key').disabled = true;
     }
     showAllkey() {
         document.querySelector('#contact_key').disabled = false;
         document.querySelector('#plunger_key').disabled = false;
         document.querySelector('#spring_key').disabled = false;
         document.querySelector('#angles_key').disabled = false;
-        document.querySelector('#variables_key').disabled = false;
+        // document.querySelector('#variables_key').disabled = false;
     }
 //
     newState(name) {
@@ -347,13 +389,13 @@ class CalcInput extends React.Component {
         let plng_select = document.querySelector('#plunger');
         let sprg_select = document.querySelector('#spring');
         let angl_select = document.querySelector('#angles');
-        let vrbl_select = document.querySelector('#variables');
+        // let vrbl_select = document.querySelector('#variables');
 
         let cnt_options = document.querySelectorAll('.contact_options');
         let plng_options = document.querySelectorAll('.plunger_options');
         let sprg_options = document.querySelectorAll('.spring_options');
         let angl_options = document.querySelectorAll('.angles_options');
-        let vrbl_options = document.querySelectorAll('.variables_options');
+        // let vrbl_options = document.querySelectorAll('.variables_options');
 
         cnt_options.forEach(option => {
             cnt_select.appendChild(option);
@@ -371,9 +413,9 @@ class CalcInput extends React.Component {
             angl_select.appendChild(option);
         })
 
-        vrbl_options.forEach(option => {
-            vrbl_select.appendChild(option)
-        })
+        // vrbl_options.forEach(option => {
+        //     vrbl_select.appendChild(option)
+        // })
     }
 
     preventSubmit = (event) => {
@@ -415,21 +457,39 @@ class CalcInput extends React.Component {
             'angles_key', 'plungerFric', 'N', 'FN',
         ]
         FIELDS.slice(start, end).forEach((field) => {
-            document.querySelector(`#${field}`).classList.remove('is-invalid')
-            document.querySelector(`#${field}`).classList.remove('is-valid')
-            document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+            if (field === 'plungerFric') {
+                document.querySelector(`#${field}0`).classList.remove('is-invalid')
+                document.querySelector(`#${field}0`).classList.remove('is-valid')
+                document.querySelector(`#${field}180`).classList.remove('is-invalid')
+                document.querySelector(`#${field}180`).classList.remove('is-valid')
+
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+
+            } else if (field === 'FN') {
+                document.querySelector(`#${field}plus`).classList.remove('is-invalid')
+                document.querySelector(`#${field}plus`).classList.remove('is-valid')
+                document.querySelector(`#${field}minus`).classList.remove('is-invalid')
+                document.querySelector(`#${field}minus`).classList.remove('is-valid')
+
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+                
+            } else {
+                document.querySelector(`#${field}`).classList.remove('is-invalid')
+                document.querySelector(`#${field}`).classList.remove('is-valid')
+                document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+            }
         })
     }
-    clearVariablesValidation = (start, end) => {
-        let FIELDS = [
-            'variables_key', 'Na', 'Nb', 'NR',
-        ]
-        FIELDS.slice(start, end).forEach((field) => {
-            document.querySelector(`#${field}`).classList.remove('is-invalid')
-            document.querySelector(`#${field}`).classList.remove('is-valid')
-            document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
-        })
-    }
+    // clearVariablesValidation = (start, end) => {
+    //     let FIELDS = [
+    //         'variables_key', 'Na', 'Nb', 'NR',
+    //     ]
+    //     FIELDS.slice(start, end).forEach((field) => {
+    //         document.querySelector(`#${field}`).classList.remove('is-invalid')
+    //         document.querySelector(`#${field}`).classList.remove('is-valid')
+    //         document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
+    //     })
+    // }
 
     chooseContactOption = (event) => {
         this.clearContactValidation(0, 4);
@@ -567,10 +627,9 @@ class CalcInput extends React.Component {
         })
     }
 
-    chooseVariablesOption = (event) => {
-        this.clearVariablesValidation(0, 4);
-        
-    }
+    // chooseVariablesOption = (event) => {
+    //     this.clearVariablesValidation(0, 4);
+    // }
 
         /////////////////////////////////////
     update_contact_key =(event) => {
@@ -791,7 +850,14 @@ class CalcInput extends React.Component {
         }
     }
         /////////////////////////////////////
-    update_plungerFric = (event) => {unread_emails(); 
+    update_angles_key =(event) => {
+        this.clearAnglesValidation(0, 1);
+        this.setState({
+            angles_key: event.target.value,
+        }) 
+    }
+    update_plungerFric = (event) => {unread_emails();
+        this.clearAnglesValidation(1, 2);
         this.setState({
             plungerFric: event.target.value,
         })
@@ -811,7 +877,8 @@ class CalcInput extends React.Component {
             })  
         }
     }
-    update_N = (event) => {unread_emails(); 
+    update_N = (event) => {unread_emails();
+        this.clearAnglesValidation(2, 3);
         this.setState({
             N: event.target.value,
         })
@@ -831,7 +898,8 @@ class CalcInput extends React.Component {
             })  
         }
     }
-    update_FN = (event) => {unread_emails(); 
+    update_FN = (event) => {unread_emails();
+        this.clearAnglesValidation(3, 4);
         this.setState({
             FN: event.target.value,
         })
@@ -857,7 +925,6 @@ class CalcInput extends React.Component {
         const select = document.querySelector('#contact');
         post_data(select, 'contact', 
             this.state.mu, this.state.contactCoord_X, this.state.contactCoord_Y)
-        
     }
 
     clickPlungerSave = () => {
@@ -886,13 +953,12 @@ class CalcInput extends React.Component {
         } else if (this.state.FN === "-") {
             var3 = parseFloat(this.state.N) - 90;
         }
-        
         post_data(select, 'angles', var1, this.state.N, var3)
     }
 
-    clickVariablesSave = () => {
+    // clickVariablesSave = () => {
         
-    }
+    // }
 //
     clickContactDelete = () => {
         const select = document.querySelector('#contact');
@@ -930,9 +996,9 @@ class CalcInput extends React.Component {
         })
     }
 
-    clickVariablesDelete = () => {
+    // clickVariablesDelete = () => {
         
-    }
+    // }
 //
     clickContactEdit = () => {
         change_data('contact', this.state.mu, this.state.contactCoord_X, this.state.contactCoord_Y);
@@ -982,9 +1048,9 @@ class CalcInput extends React.Component {
         })
     }
 
-    clickVariablesEdit = () => {
+    // clickVariablesEdit = () => {
         
-    }
+    // }
 }
 
 let reactInputInstance = ReactDOM.render(<CalcInput />, document.querySelector('#calc_input'));
