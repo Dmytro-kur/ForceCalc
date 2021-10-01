@@ -19,24 +19,6 @@ function draw_initialization() {
 
     let mouseState = 'mouseup';
 
-    draw(ctx, scale, pos.X, pos.Y, 
-        reactInputInstance.state.mu, 
-        reactInputInstance.state.contactCoord_X,
-        reactInputInstance.state.contactCoord_Y, 
-        reactInputInstance.state.a, 
-        reactInputInstance.state.b,
-        reactInputInstance.state.f,
-        reactInputInstance.state.springStiff,
-        reactInputInstance.state.freeLen,
-        reactInputInstance.state.springLen,
-        reactInputInstance.state.plungerFric,
-        reactInputInstance.state.N,
-        reactInputInstance.state.FN,
-        reactInputInstance.state.Na,
-        reactInputInstance.state.Nb,
-        reactInputInstance.state.NR,
-    );
-
     document.querySelector('#home_btn').addEventListener('click', () => {
         scale   =   0.8;
 
@@ -52,6 +34,13 @@ function draw_initialization() {
         pos.X   = 0;
         pos.Y   = 0;
 
+        let FN = ""
+        if (reactInputInstance.state.FN === "+") {
+            FN = String(parseFloat(reactInputInstance.state.N) + 90);
+        } else if (this.state.FN === "-") {
+            FN = String(parseFloat(reactInputInstance.state.N) - 90);
+        }
+        
         draw(ctx, scale, pos.X, pos.Y, 
             reactInputInstance.state.mu, 
             reactInputInstance.state.contactCoord_X,
@@ -64,12 +53,12 @@ function draw_initialization() {
             reactInputInstance.state.springLen,
             reactInputInstance.state.plungerFric,
             reactInputInstance.state.N,
-            reactInputInstance.state.FN,
+            FN,
             reactInputInstance.state.Na,
             reactInputInstance.state.Nb,
             reactInputInstance.state.NR,
         );
-        })
+    })
 
 // canvas scrolling ---------------------------------------------->
     canvas.addEventListener('wheel', function(event) {
@@ -80,6 +69,12 @@ function draw_initialization() {
         }
         // console.log(scale)
 
+        let FN = ""
+        if (reactInputInstance.state.FN === "+") {
+            FN = String(parseFloat(reactInputInstance.state.N) + 90);
+        } else if (this.state.FN === "-") {
+            FN = String(parseFloat(reactInputInstance.state.N) - 90);
+        }
         draw(ctx, scale, pos.X, pos.Y, 
             reactInputInstance.state.mu, 
             reactInputInstance.state.contactCoord_X,
@@ -92,7 +87,7 @@ function draw_initialization() {
             reactInputInstance.state.springLen,
             reactInputInstance.state.plungerFric,
             reactInputInstance.state.N,
-            reactInputInstance.state.FN,
+            FN,
             reactInputInstance.state.Na,
             reactInputInstance.state.Nb,
             reactInputInstance.state.NR,
@@ -112,6 +107,12 @@ function draw_initialization() {
                 pos.X = mouse.X - coord.X;
                 pos.Y = mouse.Y - coord.Y;
 
+                let FN = ""
+                if (reactInputInstance.state.FN === "+") {
+                    FN = String(parseFloat(reactInputInstance.state.N) + 90);
+                } else if (this.state.FN === "-") {
+                    FN = String(parseFloat(reactInputInstance.state.N) - 90);
+                }
                 draw(ctx, scale, pos.X, pos.Y, 
                     reactInputInstance.state.mu, 
                     reactInputInstance.state.contactCoord_X,
@@ -124,7 +125,7 @@ function draw_initialization() {
                     reactInputInstance.state.springLen,
                     reactInputInstance.state.plungerFric,
                     reactInputInstance.state.N,
-                    reactInputInstance.state.FN,
+                    FN,
                     reactInputInstance.state.Na,
                     reactInputInstance.state.Nb,
                     reactInputInstance.state.NR,
@@ -171,6 +172,12 @@ function draw_initialization() {
             canvas.height = 600;
         }
 
+        let FN = ""
+        if (reactInputInstance.state.FN === "+") {
+            FN = String(parseFloat(reactInputInstance.state.N) + 90);
+        } else if (this.state.FN === "-") {
+            FN = String(parseFloat(reactInputInstance.state.N) - 90);
+        }
         draw(ctx, scale, pos.X, pos.Y, 
             reactInputInstance.state.mu, 
             reactInputInstance.state.contactCoord_X,
@@ -183,7 +190,7 @@ function draw_initialization() {
             reactInputInstance.state.springLen,
             reactInputInstance.state.plungerFric,
             reactInputInstance.state.N,
-            reactInputInstance.state.FN,
+            FN,
             reactInputInstance.state.Na,
             reactInputInstance.state.Nb,
             reactInputInstance.state.NR,
@@ -210,6 +217,22 @@ function draw(ctx, scale, posX, posY,
     raw_NR,
     ) {
 
+    const mu = parseFloat(raw_mu)
+    const contactCoord_X = parseFloat(raw_contactCoord_X)
+    const contactCoord_Y = parseFloat(raw_contactCoord_Y)
+    const a = parseFloat(raw_a)
+    const b = parseFloat(raw_b)
+    const f = parseFloat(raw_f)
+    const springStiff = parseFloat(raw_springStiff)
+    const freeLen = parseFloat(raw_freeLen)
+    const springLen = parseFloat(raw_springLen)
+    const plungerFric = parseFloat(raw_plungerFric)
+    const N = parseFloat(raw_N)
+    const FN = parseFloat(raw_FN)
+    const Na = parseFloat(raw_Na)
+    const Nb = parseFloat(raw_Nb)
+    const NR = parseFloat(raw_NR)
+
 // dimensions of a reference rectangle
     const rect = {
         startX: ( canvas.width * (1 - scale) ) / 2 + posX,
@@ -225,18 +248,18 @@ function draw(ctx, scale, posX, posY,
     }
 // Absolute coordinates of a beam
     const C = {
-        x: raw_contactCoord_X,
-        y: raw_contactCoord_Y,
+        x: contactCoord_X,
+        y: contactCoord_Y,
     }
 
     const B = {
-        x: C.x - raw_a,
-        y: raw_contactCoord_Y,
+        x: C.x -a,
+        y: contactCoord_Y,
     }
 
     const A = {
-        x: B.x - raw_b,
-        y: raw_contactCoord_Y,
+        x: B.x - b,
+        y: contactCoord_Y,
     }
 
 // Find maximum possible scale factor for fitting rectangle
@@ -364,26 +387,6 @@ function draw(ctx, scale, posX, posY,
     build_rigid_fix(_A, W, 6);
     build_rigid_fix(_B, W, 6);
 
-// Build reaction forces
-    // function rea(P, R, s) {
-    //     // P - point where force was applied
-    //     // R - reaction force value
-    //     // s - scale for force value
-    //     const S = s * parse_scale
-
-    //     ctx.strokeStyle = 'blue';
-    //     ctx.lineWidth = W/2;
-    //     ctx.beginPath();
-    
-    //     ctx.moveTo(P.x, P.y);
-    //     ctx.lineTo(P.x, P.y + R * S);
-    
-    //     ctx.stroke();
-    // }
-
-    // rea(_A, raw_Na, 0.1);
-    // rea(_B, raw_Nb, 0.1);
-
     function normal(P, R, A, s, color) {
         // P - point where force was applied
         // R - reaction force value
@@ -401,15 +404,27 @@ function draw(ctx, scale, posX, posY,
                    P.y + (R * Math.sin(A*Math.PI/180)) * S);
     
         ctx.stroke();
+
+        const text_X = (P.x + (R * Math.cos(A*Math.PI/180)) * S).toFixed(2);
+        const text_Y = (P.y + (R * Math.sin(A*Math.PI/180)) * S).toFixed(2);
+        
+        ctx.lineWidth = 1;   
+        ctx.fillStyle = 'black';
+        ctx.font = "15px Arial";
+
+
+        ctx.fillText(`(${(R).toFixed(2)} N; ${(A).toFixed(0)} deg)`, text_X, text_Y);
+    
     }
-    normal(_C, raw_NR, raw_N, 0.5, 'blue');
-    normal(_C, raw_NR*raw_mu, raw_FN, 0.5, 'blue');
 
-    normal(_A, raw_Na, 90, 0.5, 'blue');
-    normal(_A, raw_Na*raw_f, raw_plungerFric, 0.5, 'blue');
+    normal(_C, NR, N, 0.5, '#659DBD');
+    normal(_C, NR*mu, FN, 0.5, '#659DBD');
 
-    normal(_B, raw_Nb, 90, 0.5, 'blue');
-    normal(_B, raw_Nb*raw_f, raw_plungerFric, 0.5, 'blue');
+    normal(_A, Na, 90, 0.5, '#659DBD');
+    normal(_A, Na*f, plungerFric, 0.5, '#659DBD');
+
+    normal(_B, Nb, 90, 0.5, '#659DBD');
+    normal(_B, Nb*f, plungerFric, 0.5, '#659DBD');
 
 // Grid
 
