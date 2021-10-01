@@ -8,11 +8,6 @@ function enableScroll() {
 
 function draw_initialization() {
 
-    const parse_contactCoord_X = parseFloat(document.querySelector('#contactCoord_X').value);
-    const parse_contactCoord_Y = parseFloat(document.querySelector('#contactCoord_Y').value);
-    const parse_a = parseFloat(document.querySelector('#a').value);
-    const parse_b = parseFloat(document.querySelector('#b').value);
-
     el = document.querySelector('#body').offsetWidth
     canvas.width = el * 0.9;
     
@@ -24,9 +19,23 @@ function draw_initialization() {
 
     let mouseState = 'mouseup';
 
-    drawRect(ctx, scale, pos.X, pos.Y,
-        parse_contactCoord_X, parse_contactCoord_Y, 
-        parse_a, parse_b);
+    draw(ctx, scale, pos.X, pos.Y, 
+        reactInputInstance.state.mu, 
+        reactInputInstance.state.contactCoord_X,
+        reactInputInstance.state.contactCoord_Y, 
+        reactInputInstance.state.a, 
+        reactInputInstance.state.b,
+        reactInputInstance.state.f,
+        reactInputInstance.state.springStiff,
+        reactInputInstance.state.freeLen,
+        reactInputInstance.state.springLen,
+        reactInputInstance.state.plungerFric,
+        reactInputInstance.state.N,
+        reactInputInstance.state.FN,
+        reactInputInstance.state.Na,
+        reactInputInstance.state.Nb,
+        reactInputInstance.state.NR,
+    );
 
     document.querySelector('#home_btn').addEventListener('click', () => {
         scale   =   0.8;
@@ -43,8 +52,23 @@ function draw_initialization() {
         pos.X   = 0;
         pos.Y   = 0;
 
-        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
-            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a, reactInputInstance.state.b);
+        draw(ctx, scale, pos.X, pos.Y, 
+            reactInputInstance.state.mu, 
+            reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, 
+            reactInputInstance.state.a, 
+            reactInputInstance.state.b,
+            reactInputInstance.state.f,
+            reactInputInstance.state.springStiff,
+            reactInputInstance.state.freeLen,
+            reactInputInstance.state.springLen,
+            reactInputInstance.state.plungerFric,
+            reactInputInstance.state.N,
+            reactInputInstance.state.FN,
+            reactInputInstance.state.Na,
+            reactInputInstance.state.Nb,
+            reactInputInstance.state.NR,
+        );
         })
 
 // canvas scrolling ---------------------------------------------->
@@ -56,9 +80,23 @@ function draw_initialization() {
         }
         // console.log(scale)
 
-        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
-            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a,
-            reactInputInstance.state.b);
+        draw(ctx, scale, pos.X, pos.Y, 
+            reactInputInstance.state.mu, 
+            reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, 
+            reactInputInstance.state.a, 
+            reactInputInstance.state.b,
+            reactInputInstance.state.f,
+            reactInputInstance.state.springStiff,
+            reactInputInstance.state.freeLen,
+            reactInputInstance.state.springLen,
+            reactInputInstance.state.plungerFric,
+            reactInputInstance.state.N,
+            reactInputInstance.state.FN,
+            reactInputInstance.state.Na,
+            reactInputInstance.state.Nb,
+            reactInputInstance.state.NR,
+        );
     })
 
 // detecting cursor
@@ -74,8 +112,23 @@ function draw_initialization() {
                 pos.X = mouse.X - coord.X;
                 pos.Y = mouse.Y - coord.Y;
 
-                drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
-            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a, reactInputInstance.state.b);
+                draw(ctx, scale, pos.X, pos.Y, 
+                    reactInputInstance.state.mu, 
+                    reactInputInstance.state.contactCoord_X,
+                    reactInputInstance.state.contactCoord_Y, 
+                    reactInputInstance.state.a, 
+                    reactInputInstance.state.b,
+                    reactInputInstance.state.f,
+                    reactInputInstance.state.springStiff,
+                    reactInputInstance.state.freeLen,
+                    reactInputInstance.state.springLen,
+                    reactInputInstance.state.plungerFric,
+                    reactInputInstance.state.N,
+                    reactInputInstance.state.FN,
+                    reactInputInstance.state.Na,
+                    reactInputInstance.state.Nb,
+                    reactInputInstance.state.NR,
+                );
             }
         })
 
@@ -118,17 +171,44 @@ function draw_initialization() {
             canvas.height = 600;
         }
 
-
-
-        drawRect(ctx, scale, pos.X, pos.Y, reactInputInstance.state.contactCoord_X,
-            reactInputInstance.state.contactCoord_Y, reactInputInstance.state.a, reactInputInstance.state.b);
+        draw(ctx, scale, pos.X, pos.Y, 
+            reactInputInstance.state.mu, 
+            reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, 
+            reactInputInstance.state.a, 
+            reactInputInstance.state.b,
+            reactInputInstance.state.f,
+            reactInputInstance.state.springStiff,
+            reactInputInstance.state.freeLen,
+            reactInputInstance.state.springLen,
+            reactInputInstance.state.plungerFric,
+            reactInputInstance.state.N,
+            reactInputInstance.state.FN,
+            reactInputInstance.state.Na,
+            reactInputInstance.state.Nb,
+            reactInputInstance.state.NR,
+        );
     })
     
 }
 
-function drawRect(ctx, scale, posX, posY,
-    parse_contactCoord_X, parse_contactCoord_Y, 
-    parse_a, parse_b) {
+function draw(ctx, scale, posX, posY,
+    raw_mu, 
+    raw_contactCoord_X, 
+    raw_contactCoord_Y, 
+    raw_a,
+    raw_b,
+    raw_f,
+    raw_springStiff,
+    raw_freeLen,
+    raw_springLen,
+    raw_plungerFric,
+    raw_N,
+    raw_FN,
+    raw_Na,
+    raw_Nb,
+    raw_NR,
+    ) {
 
 // dimensions of a reference rectangle
     const rect = {
@@ -145,18 +225,18 @@ function drawRect(ctx, scale, posX, posY,
     }
 // Absolute coordinates of a beam
     const C = {
-        x: parse_contactCoord_X,
-        y: parse_contactCoord_Y,
+        x: raw_contactCoord_X,
+        y: raw_contactCoord_Y,
     }
 
     const B = {
-        x: C.x - parse_a,
-        y: parse_contactCoord_Y,
+        x: C.x - raw_a,
+        y: raw_contactCoord_Y,
     }
 
     const A = {
-        x: B.x - parse_b,
-        y: parse_contactCoord_Y,
+        x: B.x - raw_b,
+        y: raw_contactCoord_Y,
     }
 
 // Find maximum possible scale factor for fitting rectangle
@@ -230,33 +310,106 @@ function drawRect(ctx, scale, posX, posY,
 
 
 // Build first part of beam
-    let coef = 0.4
+    let W = 0.4 * parse_scale
 
     ctx.strokeStyle = 'green';
-    ctx.lineWidth = coef * parse_scale;
-    ctx.beginPath();
-    ctx.moveTo(_A.x, _A.y);
-    ctx.lineTo(_B.x, _B.y);
-    ctx.closePath();
-    ctx.stroke();
+    ctx.lineWidth = W/5;
+    ctx.strokeRect(_A.x, (_A.y - W/2), Math.abs(_B.x - _A.x), W)
 
 // Build second part of beam
     ctx.strokeStyle = 'coral';
-    ctx.lineWidth = coef * parse_scale;
+    ctx.lineWidth = W/5;
+    ctx.strokeRect(_B.x, (_B.y - W/2), Math.abs(_B.x - _C.x), W)
+
+    // Build floating origin
+
+    let R = 0.4 * parse_scale
     ctx.beginPath();
-    ctx.moveTo(_B.x, _B.y);
-    ctx.lineTo(_C.x, _C.y);
-    ctx.closePath();
+    ctx.arc(_O.x, _O.y, R, 0, Math.PI*2);
+    ctx.strokeStyle = 'purple';
     ctx.stroke();
 
-// Build floating origin
+// Build rigid fixation
+    function build_rigid_fix(P, W, n) {
+        // P - point, where fixation was added,
+        // W - width of the beam
+        // n - number of lines for ground
 
-    let circle_radius = 0.3
+        ctx.strokeStyle = 'brown';
+        ctx.lineWidth = W/3;
+        ctx.beginPath();
+    
+        ctx.moveTo(P.x - 2*W, P.y + W);
+        ctx.lineTo(P.x + 2*W, P.y + W);
+    
+        ctx.moveTo(P.x - 2*W, P.y - W);
+        ctx.lineTo(P.x + 2*W, P.y - W);
+        ctx.stroke();
 
-    ctx.beginPath();
-    ctx.arc(_O.x, _O.y, circle_radius * parse_scale, 0, Math.PI*2);
-    ctx.fillStyle = 'purple';
-    ctx.fill();
+        ctx.lineWidth = W/6;
+        ctx.beginPath();
+
+        for (let i = 0; i < n; i++) {
+
+            ctx.moveTo(P.x - 2*W + i*4*W/n, P.y + W);
+            ctx.lineTo(P.x - 2*W + i*4*W/n + 4*W/n, P.y + W + 4*W/n);
+
+            ctx.moveTo(P.x + 2*W - i*4*W/n, P.y - W);
+            ctx.lineTo(P.x + 2*W - i*4*W/n - 4*W/n, P.y - W - 4*W/n);
+        }
+
+        ctx.stroke();
+    }
+
+    build_rigid_fix(_A, W, 6);
+    build_rigid_fix(_B, W, 6);
+
+// Build reaction forces
+    // function rea(P, R, s) {
+    //     // P - point where force was applied
+    //     // R - reaction force value
+    //     // s - scale for force value
+    //     const S = s * parse_scale
+
+    //     ctx.strokeStyle = 'blue';
+    //     ctx.lineWidth = W/2;
+    //     ctx.beginPath();
+    
+    //     ctx.moveTo(P.x, P.y);
+    //     ctx.lineTo(P.x, P.y + R * S);
+    
+    //     ctx.stroke();
+    // }
+
+    // rea(_A, raw_Na, 0.1);
+    // rea(_B, raw_Nb, 0.1);
+
+    function normal(P, R, A, s, color) {
+        // P - point where force was applied
+        // R - reaction force value
+        // A - direction of force
+        // s - scale for force value
+
+        const S = s * parse_scale
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = W/2;
+        ctx.beginPath();
+    
+        ctx.moveTo(P.x, P.y);
+        ctx.lineTo(P.x + (R * Math.cos(A*Math.PI/180)) * S, 
+                   P.y + (R * Math.sin(A*Math.PI/180)) * S);
+    
+        ctx.stroke();
+    }
+    normal(_C, raw_NR, raw_N, 0.5, 'blue');
+    normal(_C, raw_NR*raw_mu, raw_FN, 0.5, 'blue');
+
+    normal(_A, raw_Na, 90, 0.5, 'blue');
+    normal(_A, raw_Na*raw_f, raw_plungerFric, 0.5, 'blue');
+
+    normal(_B, raw_Nb, 90, 0.5, 'blue');
+    normal(_B, raw_Nb*raw_f, raw_plungerFric, 0.5, 'blue');
 
 // Grid
 
@@ -288,11 +441,6 @@ function drawRect(ctx, scale, posX, posY,
         mm *= 2;
         box = mm * parse_scale;
     }
-    // console.log('mm: ', mm)
-    // console.log('parse_scale: ', parse_scale)
-    // console.log('scale: ', scale)
-
-    // console.log('size of element: ', box)
     
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial";
