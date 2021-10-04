@@ -593,3 +593,6 @@ function draw(ctx, scale, posX, posY,
 }
 
 // https://www.youtube.com/watch?v=vxljFhP2krI&list=PLpPnRKq7eNW3We9VdCfx9fprhqXHwTPXL&index=4
+// https://www.canva.com/colors/color-palettes/
+// https://css-tricks.com/clipping-masking-css/
+// https://www.photopea.com/
