@@ -411,13 +411,12 @@ function draw(ctx, scale, posX, posY,
 
     let colors = [
         '#98D7C2',
-        '#167D7F',
-        '#29A0B1',
-        
-        '#145DA0',
-        '#2E8BC0',
-        '#B1D4E0',
-        '#659DBD'
+        // '#167D7F',
+        // '#29A0B1',
+        // '#145DA0',
+        // '#2E8BC0',
+        // '#B1D4E0',
+        // '#659DBD'
     ]
 
     const color1 = Math.floor(Math.random() * colors.length);

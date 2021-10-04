@@ -42,6 +42,15 @@ class CalcInput extends React.Component {
         const label_style = {
             fontSize: "12px",
         };
+        const label_style_plungerFric0 = {
+            fontSize: "12px",
+            width: "50px",
+        };
+        const label_style_FNplus = {
+            fontSize: "12px",
+            width: "50px",
+        };
+
         const group_name_style = {
             backgroundImage: "linear-gradient(to bottom right, rgb(211 237 255 / 100%), rgb(211 237 255 / 5%))",
             textAlign: "center",
@@ -232,10 +241,10 @@ class CalcInput extends React.Component {
                         Direction of plunger friction forces:
                     </div>
 
-                    <div className="col-sm-12 position-relative">
+                    <div className="col-sm-12 position-relative radio-button">
                         <input id="plungerFric0" type="radio" name="plungerFric" className="form-check-input"
                             value="0" checked={this.state.plungerFric === "0"} onChange={this.update_plungerFric}/>
-                        <label style={label_style} className="form-check-label" htmlFor="plungerFric0">0 deg</label>
+                        <label style={label_style_plungerFric0} className="form-check-label" htmlFor="plungerFric0">0 deg</label>
                         
                         <input id="plungerFric180" type="radio" name="plungerFric" className="form-check-input"
                             value="180" checked={this.state.plungerFric === "180"} onChange={this.update_plungerFric}/>
@@ -260,10 +269,10 @@ class CalcInput extends React.Component {
                         Direction of normal reaction friction force: 
                     </div>
 
-                    <div className="col-sm-12 position-relative">
+                    <div className="col-sm-12 position-relative radio-button">
                         <input id="FNplus" type="radio" name="FN" className="form-check-input"
                             value="+" checked={this.state.FN === "+"} onChange={this.update_FN}/>
-                        <label style={label_style} className="form-check-label" htmlFor="FNplus"> + 90 deg</label>
+                        <label style={label_style_FNplus} className="form-check-label" htmlFor="FNplus"> + 90 deg</label>
 
                         <input id="FNminus" type="radio" name="FN" className="form-check-input"
                             value="-" checked={this.state.FN === "-"} onChange={this.update_FN}/>

@@ -76,11 +76,6 @@ class AnglesForm(forms.ModelForm):
     class Meta:
         model = Angles
         fields = ['angles_key', 'plungerFric','N', 'FN']
-
-# class VariablesForm(forms.ModelForm):
-#     class Meta:
-#         model = Variables
-#         fields = ['variables_key', 'Na','Nb', 'NR']
         
 class PasswordChangeForm2(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
@@ -605,7 +600,7 @@ def result(request):
         RES = calc_forces(plungerFric, load, a, b, f, mu, N, FN)
         RES.solver()
         result = RES.corrected_forces()
-        print(RES)
+        # print(RES)
 
         return JsonResponse({
             "REACTION": {
@@ -634,7 +629,6 @@ def calculation(request, project_num):
         plungers = project_inst.plungers.all()
         springs = project_inst.springs.all()
         angles = project_inst.angles.all()
-        # variables = project_inst.variables.all()
 
         return render(request, 'force/calculation.html', {
             "project": project_inst,
@@ -642,78 +636,7 @@ def calculation(request, project_num):
             "Plungers": plungers,
             "Springs": springs,
             "Angles": angles,
-            # "Variables": variables,
         })
-    
-    # if request.method == "POST":
-    #     mydata = parse_from_js(request.body)
-        
-    #     project_inst = Project.objects.get(pk=int(project_num))
-    #     vars = project_inst.variables.all()
-
-    #     if mydata['key'] == "" or mydata['contact'] == "0" or\
-    #         mydata['plunger'] == "0" or mydata['spring'] == "0" or\
-    #         mydata['angles'] == "0":
-
-    #         error_key = ""
-    #         error_contact = ""
-    #         error_plunger = ""
-    #         error_spring = ""
-    #         error_angles = ""
-
-    #         if mydata['key'] == "":
-    #             error_key = 'Please enter result name'
-
-    #         if mydata['contact'] == "0":
-    #             error_contact = 'Please choose contact input'
-
-    #         if mydata['plunger'] == "0":
-    #             error_plunger = 'Please choose plunger input'
-
-    #         if mydata['spring'] == "0":
-    #             error_spring = 'Please choose spring input'
-                
-    #         if mydata['angles'] == "0":
-    #             error_angles = 'Please choose angles input'
-
-    #         return JsonResponse({"error": [
-    #             {"error_key": error_key,
-    #             "error_contact": error_contact,
-    #             "error_plunger": error_plunger,
-    #             "error_spring": error_spring,
-    #             "error_angles": error_angles,}
-    #         ]}, status=400)
-
-    #     if vars.filter(key=mydata['key']).exists():
-    #         return JsonResponse({"error": [
-    #             {'result name': 'This name already exist, please use another!'}
-    #         ]}, status=400)
-    #     else:
-    #         project = Project.objects.get(pk=int(project_num))
-    #         contact = Contact.objects.get(pk=mydata['contact'])
-    #         plunger = Plunger.objects.get(pk=mydata['plunger'])
-    #         spring = Spring.objects.get(pk=mydata['spring'])
-    #         angles = Angles.objects.get(pk=mydata['angles'])
-
-    #         Pl_F_tr_angle = angles.plungerFric
-    #         Force = spring.force()
-    #         a = plunger.a
-    #         b = plunger.b
-    #         f = plunger.f
-    #         mu = contact.mu
-    #         N_angle = angles.N
-    #         F_tr_angle = angles.FN
-
-    #         c1 = Variables.calc_vars(Pl_F_tr_angle, Force, a, b, f, mu, N_angle, F_tr_angle)
-            
-    #         var = Variables(key=mydata['key'], Na=c1[0], Nb=c1[1], NR=c1[2], 
-    #         project=project, contact_input=contact, plunger_input=plunger,
-    #         spring_input=spring, angles_input=angles)
-    #         var.save()
-                    
-    #         return JsonResponse(var.serialize())
-
-
 
 @login_required
 def parameter(request, name, project_num):

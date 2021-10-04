@@ -41,7 +41,8 @@ body, #user_container, #logo_container,
 #alert_angles_key, #alert_plungerFric,
 #alert_N, #alert_FN, 
 #alert_variables_key, #alert_Na, 
-#alert_Nb, #alert_NR {
+#alert_Nb, #alert_NR,
+.radio-button {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -888,7 +889,11 @@ margin-right: auto;
   border-radius: 5px;
   box-shadow: 1px 1px 10px #868686;
 }
-
+.radio-button {
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+}
 /* ---------------------------- end CALCULATION -------------------- */
 /* #test-color {
   color:rgb(255, 126, 126);
