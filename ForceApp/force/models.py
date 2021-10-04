@@ -299,60 +299,105 @@ class Angles(models.Model):
             "datetime": datetime,
         }
 
-def calc_forces(plungerFric, load, a, b, f, mu, N, FN):
+class calc_forces:
 
-    M1 = np.array([[f*cos(plungerFric), f*cos(plungerFric), cos(N)+mu*cos(FN)],
-                        [-1,              1,              sin(N)+mu*sin(FN)],
-                        [a+b,           -a,               0]])
-    v1 = np.array([-load, 0, 0])
-    c1 = np.linalg.solve(M1, v1)
-    return c1[0], c1[1], c1[2]
+    # plungerFric - direction of friction forces in plunger,
+    # load - load of the spring, 
+    # a - beam for B-C, 
+    # b - beam for A-B, 
+    # f - friction coefficient in plunger, 
+    # mu - friction coefficient in contact, 
+    # N - normal reaction direction, 
+    # FN - normal friction force direction
 
-# class Variables(models.Model):
+    # Example:
+        # Solve the system of equations x0 + 2 * x1 = 1 and 3 * x0 + 5 * x1 = 2:
+        # a = np.array([[1, 2], [3, 5]])
+        # b = np.array([1, 2])
+        # x = np.linalg.solve(a, b)
+        # output: array([-1.,  1.])
+        # np.allclose(np.dot(a, x), b)
+        # output: True
 
-#     datetime = models.DateTimeField(auto_now_add=True)
-#     variables_key = models.CharField(max_length=255)
+    # All elements in 3-elem list ordered corresponding to joints. 0th - A, 1st - B, 2nd - C
 
-#     Na = models.FloatField()
-#     Nb = models.FloatField()
-#     NR = models.FloatField()
-    
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="variables")
-    
-#     contact_input = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="variables")
-#     plunger_input = models.ForeignKey(Plunger, on_delete=models.CASCADE, related_name="variables")
-#     spring_input = models.ForeignKey(Spring, on_delete=models.CASCADE, related_name="variables")
-#     angles_input = models.ForeignKey(Angles, on_delete=models.CASCADE, related_name="variables")
 
-#     # agree = models.BooleanField()
+    def __init__(self, plungerFric, load, a, b, f, mu, N, FN):
 
-#     # Access policy also should be implemented: 
-#     # - Specialist user only can create project and make a calculations
-#     # - Designer can change the input but cannot add input
+        self.load = load
+        self.a = a
+        self.b = b
+        self.f = f
+        self.mu = mu
 
-#     def __str__(self):
-#         return f"{self.variables_key}"
+        self.ALPHA_REACTION = [
+            90, 270, N
+        ]
 
-#     # def calc_vars(self, Pl_F_tr_angle, F, a, b, f, mu, N_angle, F_tr_angle):
+        self.ALPHA_FRICTION = [
+            plungerFric, plungerFric, FN
+        ]
 
-#     #     M1 = np.array([[f*cos(Pl_F_tr_angle), f*cos(Pl_F_tr_angle), cos(N_angle)+mu*cos(F_tr_angle)],
-#     #                         [-1,              1,              sin(N_angle)+mu*sin(F_tr_angle)],
-#     #                         [a+b,           -a,               0]])
-#     #     v1 = np.array([-F, 0, 0])
-#     #     c1 = np.linalg.solve(M1, v1)
-#     #     return c1
+    def __str__(self):
+        call = {
+            "Na_direction": self.ALPHA_REACTION[0],
+            "Nb_direction": self.ALPHA_REACTION[1],
+            "NR_direction": self.ALPHA_REACTION[2],
 
-#     def serialize(self):
-#         datetime = self.datetime.strftime("%b %d, %Y, %H:%M %p")
-#         return {
-#             "id": self.id,
-#             "key": self.variables_key,
-#             "var1": self.Na,
-#             "var2": self.Nb,
-#             "var3": self.NR,
-#             "datetime": datetime,
-#             "contact": self.contact_input.serialize(),
-#             "plunger": self.plunger_input.serialize(),
-#             "spring": self.spring_input.serialize(),
-#             "angles": self.angles_input.serialize(),
-#         }
+            "Na_friction_direction": self.ALPHA_FRICTION[0],
+            "Nb_friction_direction": self.ALPHA_FRICTION[1],
+            "NR_friction_direction": self.ALPHA_FRICTION[2],
+
+            "Na": self.X[0],
+            "Nb": self.X[1],
+            "NR": self.X[2],
+        }
+        return str(call)
+
+    def solver(self):
+
+        self.A = np.array([
+            [
+                self.f * cos( self.ALPHA_FRICTION[0] ),
+                self.f * cos( self.ALPHA_FRICTION[1] ),
+                cos( self.ALPHA_REACTION[2] ) + self.mu * cos( self.ALPHA_FRICTION[2] )
+            ],
+            [
+                sin( self.ALPHA_REACTION[0] ), 
+                sin( self.ALPHA_REACTION[1] ), 
+                sin( self.ALPHA_REACTION[2] ) + self.mu * sin( self.ALPHA_FRICTION[2] ) 
+            ],
+            [ 
+                -(self.a + self.b), 
+                -(self.a), 
+                0
+            ]
+        ])
+
+        self.B = np.array(
+            [ self.load, 0, 0 ]
+        )
+
+        self.X = np.linalg.solve(self.A, self.B)
+
+    def corrected_forces(self):
+
+        if np.sign(self.X[0]) == -1 and np.sign(self.X[1]) == 1:
+            self.ALPHA_REACTION[0] = 270
+            self.ALPHA_REACTION[1] = 90
+        
+        call = {
+            "Na_direction": self.ALPHA_REACTION[0],
+            "Nb_direction": self.ALPHA_REACTION[1],
+            "NR_direction": self.ALPHA_REACTION[2],
+
+            "Na_friction_direction": self.ALPHA_FRICTION[0],
+            "Nb_friction_direction": self.ALPHA_FRICTION[1],
+            "NR_friction_direction": self.ALPHA_FRICTION[2],
+
+            "Na": self.X[0],
+            "Nb": self.X[1],
+            "NR": self.X[2],
+        }
+
+        return call

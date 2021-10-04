@@ -25,6 +25,12 @@ class CalcInput extends React.Component {
             Na: 0,
             Nb: 0,
             NR: 0,
+            NaFD: 0,
+            NbFD: 0,
+            NRFD: 0,
+            NaD: 0,
+            NbD: 0,
+            NRD: 0,
 
             contact_state: 0,
             plunger_state: 0,
@@ -281,22 +287,6 @@ class CalcInput extends React.Component {
 
                 </form>
 
-                {/* <form id="variables_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
-
-                    <div style={group_name_style} className="col-sm-12 position-relative">Forces</div>
-
-                    <input type="text" required id="variables_key"/>
-
-                    <select id="variables" onChange={this.chooseVariablesOption}>
-                        <option value="None" defaultValue>Create</option>
-                    </select>
-
-                    <button id="delete_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesSave}>Delete</button>
-                    <button id="save_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesDelete}>Save</button>
-                    <button id="edit_variables_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickVariablesEdit}>Edit</button>
-                
-                </form> */}
-
             </div>
         );
     }
@@ -306,14 +296,12 @@ class CalcInput extends React.Component {
         document.querySelector('#delete_plunger_btn').disabled = true;
         document.querySelector('#delete_spring_btn').disabled = true;
         document.querySelector('#delete_angles_btn').disabled = true;
-        // document.querySelector('#delete_variables_btn').disabled = true;
     }
     showAlldelete() {
         document.querySelector('#delete_contact_btn').disabled = false;
         document.querySelector('#delete_plunger_btn').disabled = false;
         document.querySelector('#delete_spring_btn').disabled = false;
         document.querySelector('#delete_angles_btn').disabled = false;
-        // document.querySelector('#delete_variables_btn').disabled = false;
     }
 //
     hideAllsave() {
@@ -321,14 +309,12 @@ class CalcInput extends React.Component {
         document.querySelector('#save_plunger_btn').disabled = true;
         document.querySelector('#save_spring_btn').disabled = true;
         document.querySelector('#save_angles_btn').disabled = true;
-        // document.querySelector('#save_variables_btn').disabled = true;
     }
     showAllsave() {
         document.querySelector('#save_contact_btn').disabled = false;
         document.querySelector('#save_plunger_btn').disabled = false;
         document.querySelector('#save_spring_btn').disabled = false;
         document.querySelector('#save_angles_btn').disabled = false;
-        // document.querySelector('#save_variables_btn').disabled = false;
     }
 //
     hideAlledit() {
@@ -336,14 +322,12 @@ class CalcInput extends React.Component {
         document.querySelector('#edit_plunger_btn').disabled = true;
         document.querySelector('#edit_spring_btn').disabled = true;
         document.querySelector('#edit_angles_btn').disabled = true;
-        // document.querySelector('#edit_variables_btn').disabled = true;
     }
     showAlledit() {
         document.querySelector('#edit_contact_btn').disabled = false;
         document.querySelector('#edit_plunger_btn').disabled = false;
         document.querySelector('#edit_spring_btn').disabled = false;
         document.querySelector('#edit_angles_btn').disabled = false;
-        // document.querySelector('#edit_variables_btn').disabled = false;
     }
 //
     hideAllkey() {
@@ -351,14 +335,12 @@ class CalcInput extends React.Component {
         document.querySelector('#plunger_key').disabled = true;
         document.querySelector('#spring_key').disabled = true;
         document.querySelector('#angles_key').disabled = true;
-        // document.querySelector('#variables_key').disabled = true;
     }
     showAllkey() {
         document.querySelector('#contact_key').disabled = false;
         document.querySelector('#plunger_key').disabled = false;
         document.querySelector('#spring_key').disabled = false;
         document.querySelector('#angles_key').disabled = false;
-        // document.querySelector('#variables_key').disabled = false;
     }
 //
     newState(name) {
@@ -390,13 +372,11 @@ class CalcInput extends React.Component {
         let plng_select = document.querySelector('#plunger');
         let sprg_select = document.querySelector('#spring');
         let angl_select = document.querySelector('#angles');
-        // let vrbl_select = document.querySelector('#variables');
 
         let cnt_options = document.querySelectorAll('.contact_options');
         let plng_options = document.querySelectorAll('.plunger_options');
         let sprg_options = document.querySelectorAll('.spring_options');
         let angl_options = document.querySelectorAll('.angles_options');
-        // let vrbl_options = document.querySelectorAll('.variables_options');
 
         cnt_options.forEach(option => {
             cnt_select.appendChild(option);
@@ -414,9 +394,6 @@ class CalcInput extends React.Component {
             angl_select.appendChild(option);
         })
 
-        // vrbl_options.forEach(option => {
-        //     vrbl_select.appendChild(option)
-        // })
         this.forces();
     }
 
@@ -459,16 +436,29 @@ class CalcInput extends React.Component {
             FN
             )
         .then(result => {
-            // console.log(result)
 
-            const Na = String(result.Na)
-            const Nb = String(result.Nb)
-            const NR = String(result.NR)
+            const Na = String(result.REACTION.Na)
+            const Nb = String(result.REACTION.Nb)
+            const NR = String(result.REACTION.NR)
+
+            const NaFD = String(result.FRICTION_DIRECTION.Na)
+            const NbFD = String(result.FRICTION_DIRECTION.Nb)
+            const NRFD = String(result.FRICTION_DIRECTION.NR)
+
+            const NaD = String(result.DIRECTION.Na)
+            const NbD = String(result.DIRECTION.Nb)
+            const NRD = String(result.DIRECTION.NR)
 
             this.setState({
                 Na: Na,
                 Nb: Nb,
                 NR: NR,
+                NaFD: NaFD,
+                NbFD: NbFD,
+                NRFD: NRFD,
+                NaD: NaD,
+                NbD: NbD,
+                NRD: NRD,
             }, () => {
                 draw(ctx, scale, pos.X, pos.Y, 
                     mu, 
@@ -480,12 +470,15 @@ class CalcInput extends React.Component {
                     springStiff,
                     freeLen,
                     springLen,
-                    plungerFric,
-                    N,
-                    FN,
                     this.state.Na,
                     this.state.Nb,
                     this.state.NR,
+                    this.state.NaFD,
+                    this.state.NbFD,
+                    this.state.NRFD,
+                    this.state.NaD,
+                    this.state.NbD,
+                    this.state.NRD,
                     );    
             })
         })
@@ -550,16 +543,6 @@ class CalcInput extends React.Component {
             }
         })
     }
-    // clearVariablesValidation = (start, end) => {
-    //     let FIELDS = [
-    //         'variables_key', 'Na', 'Nb', 'NR',
-    //     ]
-    //     FIELDS.slice(start, end).forEach((field) => {
-    //         document.querySelector(`#${field}`).classList.remove('is-invalid')
-    //         document.querySelector(`#${field}`).classList.remove('is-valid')
-    //         document.querySelector(`#${field}_invalid-tooltip`).innerHTML = ''
-    //     })
-    // }
 
     chooseContactOption = (event) => {
         this.clearContactValidation(0, 4);
@@ -575,8 +558,6 @@ class CalcInput extends React.Component {
                     contactCoord_Y: 1,
                     contact_state: 0,
                 }, () => {this.forces();})
-                // draw(ctx, scale, pos.X, pos.Y, 1, 1,
-                //     this.state.a, this.state.b);
                 this.newState('contact');
 
             } else {
@@ -586,10 +567,6 @@ class CalcInput extends React.Component {
                     contactCoord_Y: result.var3,
                     contact_state: 1,
                 }, () => {this.forces();})
-
-                // draw(ctx, scale, pos.X, pos.Y, result.var2, result.var3,
-                //     this.state.a, this.state.b);
-                
                 this.activeState('contact');
 
             }
@@ -610,8 +587,6 @@ class CalcInput extends React.Component {
                     f: 0.15,
                     plunger_state: 0,
                 }, () => {this.forces();})
-                // draw(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
-                //     1, 1);
                 this.newState('plunger');
             } else {
                 this.setState({
@@ -620,8 +595,6 @@ class CalcInput extends React.Component {
                     f: result.var3,
                     plunger_state: 1,
                 }, () => {this.forces();})
-                // draw(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
-                //     result.var1, result.var2);
                 this.activeState('plunger');
             }
         })
@@ -641,8 +614,6 @@ class CalcInput extends React.Component {
                     springLen: 8.9,
                     spring_state: 0,
                 }, () => {this.forces();})
-                // draw(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
-                //     this.state.a, this.state.b);
                 this.newState('spring');
             } else {
                 this.setState({
@@ -651,8 +622,6 @@ class CalcInput extends React.Component {
                     springLen: result.var3,
                     spring_state: 1,
                 }, () => {this.forces();})
-                // draw(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
-                //     this.state.a, this.state.b);
                 this.activeState('spring');
             }
         })
@@ -672,8 +641,6 @@ class CalcInput extends React.Component {
                     FN: '+',
                     angles_state: 0,
                 }, () => {this.forces();})
-                // draw(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
-                //     this.state.a, this.state.b);
                 this.newState('angles');
 
             } else {
@@ -695,16 +662,10 @@ class CalcInput extends React.Component {
 
                 }
 
-                // draw(ctx, scale, pos.X, pos.Y, this.state.contactCoord_X, this.state.contactCoord_Y,
-                //     this.state.a, this.state.b);
                 this.activeState('angles');
             }
         })
     }
-
-    // chooseVariablesOption = (event) => {
-    //     this.clearVariablesValidation(0, 4);
-    // }
 
         /////////////////////////////////////
     update_contact_key =(event) => {
@@ -724,9 +685,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     mu: 0.15,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.contact_state === 0) {
@@ -748,9 +707,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     contactCoord_X: 1,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.contact_state === 0) {
@@ -773,9 +730,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     contactCoord_Y: 1,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.contact_state === 0) {
@@ -804,9 +759,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     a: 1,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.plunger_state === 0) {
@@ -828,9 +781,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     b: 1,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.plunger_state === 0) {
@@ -852,9 +803,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     f: 0.15,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.plunger_state === 0) {
@@ -882,9 +831,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     springStiff: 4.1,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.spring_state === 0) {
@@ -906,9 +853,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     freeLen: 10.7,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.spring_state === 0) {
@@ -929,9 +874,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})  
 
         } else {
-            // this.setState({
-            //     springLen: 8.9,
-            // }, () => {this.forces();})  
+            // pass
         }
 
         if (this.state.spring_state === 0) {
@@ -959,9 +902,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     plungerFric: "0",
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.angles_state === 0) {
@@ -982,9 +923,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     N: 120,
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.angles_state === 0) {
@@ -1005,9 +944,7 @@ class CalcInput extends React.Component {
             }, () => {this.forces();})
 
         } else {
-            // this.setState({
-            //     FN: "+",
-            // }, () => {this.forces();})
+            // pass
         }
 
         if (this.state.angles_state === 0) {
@@ -1059,10 +996,6 @@ class CalcInput extends React.Component {
         post_data(select, 'angles', var1, this.state.N, var3)
         this.forces();
     }
-
-    // clickVariablesSave = () => {
-        
-    // }
 //
     clickContactDelete = () => {
         const select = document.querySelector('#contact');
@@ -1104,9 +1037,6 @@ class CalcInput extends React.Component {
         this.forces();
     }
 
-    // clickVariablesDelete = () => {
-        
-    // }
 //
     clickContactEdit = () => {
         change_data('contact', this.state.mu, this.state.contactCoord_X, this.state.contactCoord_Y);
@@ -1158,10 +1088,6 @@ class CalcInput extends React.Component {
         })
         this.forces();
     }
-
-    // clickVariablesEdit = () => {
-        
-    // }
 }
 
 let reactInputInstance = ReactDOM.render(<CalcInput />, document.querySelector('#calc_input'));

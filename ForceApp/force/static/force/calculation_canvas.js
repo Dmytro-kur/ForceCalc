@@ -33,13 +33,6 @@ function draw_initialization() {
 // Value of the shifted position
         pos.X   = 0;
         pos.Y   = 0;
-
-        let FN = ""
-        if (reactInputInstance.state.FN === "+") {
-            FN = String(parseFloat(reactInputInstance.state.N) + 90);
-        } else if (this.state.FN === "-") {
-            FN = String(parseFloat(reactInputInstance.state.N) - 90);
-        }
         
         draw(ctx, scale, pos.X, pos.Y, 
             reactInputInstance.state.mu, 
@@ -51,12 +44,15 @@ function draw_initialization() {
             reactInputInstance.state.springStiff,
             reactInputInstance.state.freeLen,
             reactInputInstance.state.springLen,
-            reactInputInstance.state.plungerFric,
-            reactInputInstance.state.N,
-            FN,
             reactInputInstance.state.Na,
             reactInputInstance.state.Nb,
             reactInputInstance.state.NR,
+            reactInputInstance.state.NaFD,
+            reactInputInstance.state.NbFD,
+            reactInputInstance.state.NRFD,
+            reactInputInstance.state.NaD,
+            reactInputInstance.state.NbD,
+            reactInputInstance.state.NRD,
         );
     })
 
@@ -67,14 +63,7 @@ function draw_initialization() {
         if (scale < 0.01) {
             scale = 0.01;
         }
-        // console.log(scale)
 
-        let FN = ""
-        if (reactInputInstance.state.FN === "+") {
-            FN = String(parseFloat(reactInputInstance.state.N) + 90);
-        } else if (this.state.FN === "-") {
-            FN = String(parseFloat(reactInputInstance.state.N) - 90);
-        }
         draw(ctx, scale, pos.X, pos.Y, 
             reactInputInstance.state.mu, 
             reactInputInstance.state.contactCoord_X,
@@ -85,12 +74,15 @@ function draw_initialization() {
             reactInputInstance.state.springStiff,
             reactInputInstance.state.freeLen,
             reactInputInstance.state.springLen,
-            reactInputInstance.state.plungerFric,
-            reactInputInstance.state.N,
-            FN,
             reactInputInstance.state.Na,
             reactInputInstance.state.Nb,
             reactInputInstance.state.NR,
+            reactInputInstance.state.NaFD,
+            reactInputInstance.state.NbFD,
+            reactInputInstance.state.NRFD,
+            reactInputInstance.state.NaD,
+            reactInputInstance.state.NbD,
+            reactInputInstance.state.NRD,
         );
     })
 
@@ -107,12 +99,6 @@ function draw_initialization() {
                 pos.X = mouse.X - coord.X;
                 pos.Y = mouse.Y - coord.Y;
 
-                let FN = ""
-                if (reactInputInstance.state.FN === "+") {
-                    FN = String(parseFloat(reactInputInstance.state.N) + 90);
-                } else if (this.state.FN === "-") {
-                    FN = String(parseFloat(reactInputInstance.state.N) - 90);
-                }
                 draw(ctx, scale, pos.X, pos.Y, 
                     reactInputInstance.state.mu, 
                     reactInputInstance.state.contactCoord_X,
@@ -123,12 +109,15 @@ function draw_initialization() {
                     reactInputInstance.state.springStiff,
                     reactInputInstance.state.freeLen,
                     reactInputInstance.state.springLen,
-                    reactInputInstance.state.plungerFric,
-                    reactInputInstance.state.N,
-                    FN,
                     reactInputInstance.state.Na,
                     reactInputInstance.state.Nb,
                     reactInputInstance.state.NR,
+                    reactInputInstance.state.NaFD,
+                    reactInputInstance.state.NbFD,
+                    reactInputInstance.state.NRFD,
+                    reactInputInstance.state.NaD,
+                    reactInputInstance.state.NbD,
+                    reactInputInstance.state.NRD,
                 );
             }
         })
@@ -172,12 +161,6 @@ function draw_initialization() {
             canvas.height = 600;
         }
 
-        let FN = ""
-        if (reactInputInstance.state.FN === "+") {
-            FN = String(parseFloat(reactInputInstance.state.N) + 90);
-        } else if (this.state.FN === "-") {
-            FN = String(parseFloat(reactInputInstance.state.N) - 90);
-        }
         draw(ctx, scale, pos.X, pos.Y, 
             reactInputInstance.state.mu, 
             reactInputInstance.state.contactCoord_X,
@@ -188,12 +171,15 @@ function draw_initialization() {
             reactInputInstance.state.springStiff,
             reactInputInstance.state.freeLen,
             reactInputInstance.state.springLen,
-            reactInputInstance.state.plungerFric,
-            reactInputInstance.state.N,
-            FN,
             reactInputInstance.state.Na,
             reactInputInstance.state.Nb,
             reactInputInstance.state.NR,
+            reactInputInstance.state.NaFD,
+            reactInputInstance.state.NbFD,
+            reactInputInstance.state.NRFD,
+            reactInputInstance.state.NaD,
+            reactInputInstance.state.NbD,
+            reactInputInstance.state.NRD,
         );
     })
     
@@ -209,12 +195,15 @@ function draw(ctx, scale, posX, posY,
     raw_springStiff,
     raw_freeLen,
     raw_springLen,
-    raw_plungerFric,
-    raw_N,
-    raw_FN,
     raw_Na,
     raw_Nb,
     raw_NR,
+    raw_NaFD,
+    raw_NbFD,
+    raw_NRFD,
+    raw_NaD,
+    raw_NbD,
+    raw_NRD,
     ) {
 
     const mu = parseFloat(raw_mu)
@@ -226,12 +215,15 @@ function draw(ctx, scale, posX, posY,
     const springStiff = parseFloat(raw_springStiff)
     const freeLen = parseFloat(raw_freeLen)
     const springLen = parseFloat(raw_springLen)
-    const plungerFric = parseFloat(raw_plungerFric)
-    const N = parseFloat(raw_N)
-    const FN = parseFloat(raw_FN)
     const Na = parseFloat(raw_Na)
     const Nb = parseFloat(raw_Nb)
     const NR = parseFloat(raw_NR)
+    const NaFD = parseFloat(raw_NaFD)
+    const NbFD = parseFloat(raw_NbFD)
+    const NRFD = parseFloat(raw_NRFD)
+    const NaD = parseFloat(raw_NaD)
+    const NbD = parseFloat(raw_NbD)
+    const NRD = parseFloat(raw_NRD)
 
 // dimensions of a reference rectangle
     const rect = {
@@ -387,7 +379,7 @@ function draw(ctx, scale, posX, posY,
     build_rigid_fix(_A, W, 6);
     build_rigid_fix(_B, W, 6);
 
-    function normal(P, R, A, s, color) {
+    function reaction(P, R, A, s, color) {
         // P - point where force was applied
         // R - reaction force value
         // A - direction of force
@@ -400,31 +392,51 @@ function draw(ctx, scale, posX, posY,
         ctx.beginPath();
     
         ctx.moveTo(P.x, P.y);
-        ctx.lineTo(P.x + (R * Math.cos(A*Math.PI/180)) * S, 
-                   P.y + (R * Math.sin(A*Math.PI/180)) * S);
+        ctx.lineTo(P.x + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S, 
+                   P.y - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S);
     
         ctx.stroke();
 
-        const text_X = (P.x + (R * Math.cos(A*Math.PI/180)) * S).toFixed(2);
-        const text_Y = (P.y + (R * Math.sin(A*Math.PI/180)) * S).toFixed(2);
+        const text_X = (P.x + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S).toFixed(2);
+        const text_Y = (P.y - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S).toFixed(2);
         
         ctx.lineWidth = 1;   
         ctx.fillStyle = 'black';
         ctx.font = "15px Arial";
 
 
-        ctx.fillText(`(${(R).toFixed(2)} N; ${(A).toFixed(0)} deg)`, text_X, text_Y);
+        ctx.fillText(`(${Math.abs(R).toFixed(2)} N; ${(A).toFixed(0)} deg)`, text_X, text_Y);
     
     }
 
-    normal(_C, NR, N, 0.5, '#659DBD');
-    normal(_C, NR*mu, FN, 0.5, '#659DBD');
+    let colors = [
+        '#98D7C2',
+        '#167D7F',
+        '#29A0B1',
+        
+        '#145DA0',
+        '#2E8BC0',
+        '#B1D4E0',
+        '#659DBD'
+    ]
 
-    normal(_A, Na, 90, 0.5, '#659DBD');
-    normal(_A, Na*f, plungerFric, 0.5, '#659DBD');
-
-    normal(_B, Nb, 90, 0.5, '#659DBD');
-    normal(_B, Nb*f, plungerFric, 0.5, '#659DBD');
+    const color1 = Math.floor(Math.random() * colors.length);
+    reaction(_C, NR, NRD, 0.5, colors[color1]);
+    
+    const color2 = Math.floor(Math.random() * colors.length);
+    reaction(_C, NR*mu, NRFD, 0.5, colors[color2]);
+    
+    const color3 = Math.floor(Math.random() * colors.length);
+    reaction(_A, Na, NaD, 0.5, colors[color3]);
+    
+    const color4 = Math.floor(Math.random() * colors.length);
+    reaction(_A, Math.abs(Na*f), NaFD, 0.5, colors[color4]);
+    
+    const color5 = Math.floor(Math.random() * colors.length);
+    reaction(_B, Nb, NbD, 0.5, colors[color5]);
+    
+    const color6 = Math.floor(Math.random() * colors.length);
+    reaction(_B,  Math.abs(Nb*f), NbFD, 0.5, colors[color6]);
 
 // Grid
 

@@ -602,22 +602,28 @@ def result(request):
         except ValueError:
             FN = 210
         
-        Na, Nb, NR = calc_forces(plungerFric, load, a, b, f, mu, N, FN)
+        RES = calc_forces(plungerFric, load, a, b, f, mu, N, FN)
+        RES.solver()
+        result = RES.corrected_forces()
+        print(RES)
 
         return JsonResponse({
-            "Na": Na,
-            "Nb": Nb,
-            "NR": NR,
+            "REACTION": {
+                "Na": result["Na"],
+                "Nb": result["Nb"],
+                "NR": result["NR"],
+            },
+            "FRICTION_DIRECTION": {
+                "Na": result["Na_friction_direction"],
+                "Nb": result["Nb_friction_direction"],
+                "NR": result["NR_friction_direction"],
+            },
+            "DIRECTION": {
+                "Na": result["Na_direction"],
+                "Nb": result["Nb_direction"],
+                "NR": result["NR_direction"],
+            }
         })
-
-    # if request.method == "DELETE":
-    #     project_inst = Project.objects.get(pk=project_num)
-    #     vars = project_inst.variables.get(pk=value)
-    #     variables_key = vars.variables_key
-    #     vars.delete()
-    #     return JsonResponse({
-    #         "message": f"Variables {variables_key} was successfully deleted",
-    #     }, status=200)
 
 @login_required
 def calculation(request, project_num):
