@@ -185,6 +185,41 @@ function draw_initialization() {
     
 }
 
+function multiply(a, b) {
+    // input:
+    // let a = [[8, 3], [2, 4], [3, 6]],
+    //     b = [[1, 2, 3], [4, 6, 8]];
+
+    let aNumRows = a.length, aNumCols = a[0].length,
+        bNumRows = b.length, bNumCols = b[0].length,
+        m = new Array(aNumRows);  // initialize array of rows
+
+    for (let r = 0; r < aNumRows; ++r) {
+      m[r] = new Array(bNumCols); // initialize the current row
+      for (let c = 0; c < bNumCols; ++c) {
+        m[r][c] = 0;             // initialize the current cell
+        for (let i = 0; i < aNumCols; ++i) {
+          m[r][c] += a[r][i] * b[i][c];
+        }
+      }
+    }
+    return m;
+}
+
+function rotate(theta, x, y) {
+    R = [
+        [Math.cos(-theta*Math.PI/180), -Math.sin(-theta*Math.PI/180)],
+        [Math.sin(-theta*Math.PI/180),  Math.cos(-theta*Math.PI/180)]
+    ]
+
+    m = multiply( R, [[x], [y]] )
+    result = {
+        X: m[0][0],
+        Y: m[1][0],
+    }
+    return result
+}
+
 function draw(ctx, scale, posX, posY,
     raw_mu, 
     raw_contactCoord_X, 
@@ -234,7 +269,7 @@ function draw(ctx, scale, posX, posY,
     }
 
 // Center of the canvas
-    const origin ={
+    const origin = {
         x: canvas.width / 2,
         y: canvas.height / 2,
     }
@@ -245,7 +280,7 @@ function draw(ctx, scale, posX, posY,
     }
 
     const B = {
-        x: C.x -a,
+        x: C.x - a,
         y: contactCoord_Y,
     }
 
@@ -312,8 +347,6 @@ function draw(ctx, scale, posX, posY,
         y: _O.y - A.y * parse_scale,
     }
 
-
-
 // Clear all previous drawings
     ctx.clearRect(0, 0, canvas.clientWidth + 100, canvas.height);
 
@@ -326,6 +359,7 @@ function draw(ctx, scale, posX, posY,
 
 // Build first part of beam
     let W = 0.4 * parse_scale
+    // W - width of the beam
 
     ctx.strokeStyle = 'green';
     ctx.lineWidth = W/5;
@@ -379,7 +413,46 @@ function draw(ctx, scale, posX, posY,
     build_rigid_fix(_A, W, 6);
     build_rigid_fix(_B, W, 6);
 
-    function reaction(P, R, A, s, color) {
+    function build_spring(n, W, L, color) {
+        // n - number of turns
+        // W - width of the element
+        // L - spring length
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = W/10;
+        ctx.beginPath();
+    
+
+        for (let i = 1; i < n + 1; i++) {
+            ctx.moveTo(_A.x - i * (L/n) + (L/n)/2,   _A.y + (W/2));
+            ctx.lineTo(_A.x - i * (L/n),             _A.y - (W/2));
+            ctx.moveTo(_A.x - i * (L/n) + (L/n)/2,   _A.y + (W/2));
+            ctx.lineTo(_A.x - i * (L/n) + 2*(L/n)/2, _A.y - (W/2));
+        }
+        ctx.stroke();
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = W/5;
+        ctx.beginPath();
+        ctx.moveTo(_A.x - L, _A.y + (W/1.5));
+        ctx.lineTo(_A.x - L, _A.y - (W/1.5));
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(_A.x - L,     _A.y + (W/1.5));
+        ctx.lineTo(_A.x - L - W, _A.y + (W/1.5));
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(_A.x - L - W, _A.y - (W/1.5));
+        ctx.lineTo(_A.x - L,     _A.y - (W/1.5));
+        ctx.stroke();
+
+    }
+
+    build_spring(10, W, springLen * parse_scale, '#145DA0')
+
+    function reaction(P, R, A, s, color, Xshift=0, Yshift=0) {
         // P - point where force was applied
         // R - reaction force value
         // A - direction of force
@@ -387,55 +460,145 @@ function draw(ctx, scale, posX, posY,
 
         const S = s * parse_scale
 
-        ctx.strokeStyle = color;
-        ctx.lineWidth = W/2;
+        ctx.fillStyle = color;
+        ctx.lineWidth = W/10;
         ctx.beginPath();
-    
-        ctx.moveTo(P.x, P.y);
-        ctx.lineTo(P.x + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S, 
-                   P.y - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S);
-    
-        ctx.stroke();
 
-        const text_X = (P.x + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S).toFixed(2);
-        const text_Y = (P.y - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S).toFixed(2);
+        // ARROW
+        if (Math.sign( (Math.abs(R) - 1.2) ) == 1) {
+            const zero = {
+                X: P.x + Xshift,
+                Y: P.y + Yshift,
+            }
+            const one = {
+                X: P.x + Xshift + Math.abs(R) * S,
+                Y: P.y + Yshift,
+            }
+            const two = {
+                X: one.X - 1.449 * S,
+                Y: one.Y + 0.388 * S,
+            }
+            const three = {
+                X: one.X - 1.328 * S,
+                Y: one.Y + 0.2 * S,
+            }
+            const four = {
+                X: zero.X,
+                Y: zero.Y + 0.2 * S,
+            }
+            const five = {
+                X: zero.X,
+                Y: zero.Y - 0.2 * S,
+            }
+            const six = {
+                X: three.X,
+                Y: one.Y - 0.2 * S,
+            }
+            const seven = {
+                X: two.X,
+                Y: one.Y - 0.388 * S,
+            }
+    
+            transform1 = rotate(A, one.X - zero.X, one.Y - zero.Y)
+            transform2 = rotate(A, two.X - zero.X, two.Y - zero.Y)
+            transform3 = rotate(A, three.X - zero.X, three.Y - zero.Y)
+            transform4 = rotate(A, four.X - zero.X, four.Y - zero.Y)
+            transform5 = rotate(A, five.X - zero.X, five.Y - zero.Y)
+            transform6 = rotate(A, six.X - zero.X, six.Y - zero.Y)
+            transform7 = rotate(A, seven.X - zero.X, seven.Y - zero.Y)
+    
+            ctx.moveTo(zero.X + transform1.X, zero.Y + transform1.Y);
+            ctx.lineTo(zero.X + transform2.X, zero.Y + transform2.Y);
+            ctx.lineTo(zero.X + transform3.X, zero.Y + transform3.Y);
+            ctx.lineTo(zero.X + transform4.X, zero.Y + transform4.Y);
+            ctx.lineTo(zero.X + transform5.X, zero.Y + transform5.Y);
+            ctx.lineTo(zero.X + transform6.X, zero.Y + transform6.Y);
+            ctx.lineTo(zero.X + transform7.X, zero.Y + transform7.Y);
+            ctx.closePath();
+
+        } else if (Math.sign( (Math.abs(R) - 1.2) ) == -1) {
+            const zero = {
+                X: P.x + Xshift,
+                Y: P.y + Yshift,
+            }
+            const one = {
+                X: P.x + Xshift + (Math.abs(R)) * S,
+                Y: P.y + Yshift,
+            }
+            const two = {
+                X: one.X - 1.449 * S,
+                Y: one.Y + 0.388 * S,
+            }
+            const three = {
+                X: one.X - 1.2 * S,
+                Y: zero.Y,
+            }
+            const four = {
+                X: two.X,
+                Y: one.Y - 0.388 * S,
+            }
+    
+            transform1 = rotate(A, one.X - zero.X, one.Y - zero.Y)
+            transform2 = rotate(A, two.X - zero.X, two.Y - zero.Y)
+            transform3 = rotate(A, three.X - zero.X, three.Y - zero.Y)
+            transform4 = rotate(A, four.X - zero.X, four.Y - zero.Y)
+    
+            ctx.moveTo(zero.X + transform1.X, zero.Y + transform1.Y);
+            ctx.lineTo(zero.X + transform2.X, zero.Y + transform2.Y);
+            ctx.lineTo(zero.X + transform3.X, zero.Y + transform3.Y);
+            ctx.lineTo(zero.X + transform4.X, zero.Y + transform4.Y);
+            ctx.closePath();
+        }
+
+        ctx.fill();
+
+        const text_X = (P.x + Xshift + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S).toFixed(2);
+        const text_Y = (P.y + Yshift - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S).toFixed(2);
         
         ctx.lineWidth = 1;   
         ctx.fillStyle = 'black';
         ctx.font = "15px Arial";
-
-
         ctx.fillText(`(${Math.abs(R).toFixed(2)} N; ${(A).toFixed(0)} deg)`, text_X, text_Y);
-    
     }
 
     let colors = [
         '#98D7C2',
-        // '#167D7F',
-        // '#29A0B1',
-        // '#145DA0',
-        // '#2E8BC0',
-        // '#B1D4E0',
-        // '#659DBD'
+        '#167D7F',
+        '#29A0B1',
+        '#145DA0',
+        '#2E8BC0',
+        '#B1D4E0',
+        '#659DBD'
     ]
 
+    const gain = 0.5
+
     const color1 = Math.floor(Math.random() * colors.length);
-    reaction(_C, NR, NRD, 0.5, colors[color1]);
+    reaction(_C, NR, NRD, gain, colors[color1]);
     
     const color2 = Math.floor(Math.random() * colors.length);
-    reaction(_C, NR*mu, NRFD, 0.5, colors[color2]);
+    reaction(_C, NR*mu, NRFD, gain, colors[color2]);
     
     const color3 = Math.floor(Math.random() * colors.length);
-    reaction(_A, Na, NaD, 0.5, colors[color3]);
+    reaction(_A, Na, NaD, gain, colors[color3]);
     
     const color4 = Math.floor(Math.random() * colors.length);
-    reaction(_A, Math.abs(Na*f), NaFD, 0.5, colors[color4]);
+    reaction(_A, Math.abs(Na*f), NaFD, gain, colors[color4], 0, -W * gain);
     
     const color5 = Math.floor(Math.random() * colors.length);
-    reaction(_B, Nb, NbD, 0.5, colors[color5]);
+    reaction(_B, Nb, NbD, gain, colors[color5]);
     
     const color6 = Math.floor(Math.random() * colors.length);
-    reaction(_B,  Math.abs(Nb*f), NbFD, 0.5, colors[color6]);
+    reaction(_B,  Math.abs(Nb*f), NbFD, gain, colors[color6], 0, -W * gain);
+    
+    const _LOAD = {
+        A: 0,
+        F: springStiff * (freeLen - springLen),
+        x: _A.x - springStiff * (freeLen - springLen) * parse_scale * gain,
+        y: _A.y,
+    }
+
+    reaction(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, 0.5, 'red');
 
 // Grid
 

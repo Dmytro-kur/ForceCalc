@@ -42,7 +42,8 @@ body, #user_container, #logo_container,
 #alert_N, #alert_FN, 
 #alert_variables_key, #alert_Na, 
 #alert_Nb, #alert_NR,
-.radio-button {
+.radio-button, .parameter-buttons, .parameter-inputs,
+.parameter {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -894,6 +895,24 @@ margin-right: auto;
   justify-content: space-around;
   align-items: stretch;
 }
+.parameter-buttons, .parameter-inputs {
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+#save_contact_btn, #delete_contact_btn, #edit_contact_btn, 
+#save_plunger_btn, #delete_plunger_btn, #edit_plunger_btn, 
+#save_spring_btn, #delete_spring_btn, #edit_spring_btn, 
+#save_angles_btn, #delete_angles_btn, #edit_angles_btn {
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 100%;
+}
+.parameter {
+  flex-direction: column;
+  width: 30%;
+  justify-content: space-between;
+}
+
 /* ---------------------------- end CALCULATION -------------------- */
 /* #test-color {
   color:rgb(255, 126, 126);

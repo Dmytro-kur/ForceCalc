@@ -35,11 +35,7 @@ function change_data(name, v1, v2, v3) {
                 'angles': [
                     'angles_key', 'plungerFric', 'N', 'FN'
                 ],
-                // 'variables': [
-                //     'variables_key', 'Na', 'Nb', 'NR'
-                // ],
             }
-
 
             //   throw new Error('Something went wrong');
             const source = response['errors']
@@ -119,9 +115,6 @@ function change_data(name, v1, v2, v3) {
                 'angles': [
                     'angles_key', 'plungerFric', 'N', 'FN'
                 ],
-                // 'variables': [
-                //     'variables_key', 'Na', 'Nb', 'NR'
-                // ],
             }
             FIELDS[`${name}`].forEach((field) => {
                 if (field === 'plungerFric') {

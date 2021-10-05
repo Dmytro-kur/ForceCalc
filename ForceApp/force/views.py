@@ -16,6 +16,7 @@ from django import forms
 import ast
 import json
 import time
+import numpy as np
 
 def parse_from_js(request_body):
 
@@ -566,6 +567,10 @@ def result(request):
             springLen = 8.9
 
         load = springStiff*(freeLen-springLen)
+        if np.sign(load) == -1:
+            return JsonResponse({
+                "disclaimer": 'Free length should be higher than dumped spring.'
+                }, status=400)
 
         try:
             a = float(request.GET.get("a"))
@@ -600,7 +605,6 @@ def result(request):
         RES = calc_forces(plungerFric, load, a, b, f, mu, N, FN)
         RES.solver()
         result = RES.corrected_forces()
-        # print(RES)
 
         return JsonResponse({
             "REACTION": {

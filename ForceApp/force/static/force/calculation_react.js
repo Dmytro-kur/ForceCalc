@@ -41,6 +41,7 @@ class CalcInput extends React.Component {
     render() {
         const label_style = {
             fontSize: "12px",
+            // minHeight: "36px",
         };
         const label_style_plungerFric0 = {
             fontSize: "12px",
@@ -79,37 +80,33 @@ class CalcInput extends React.Component {
                         </select>
                     </div>
 
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="mu" className="form-label">Friction:</label>
-                        <input id="mu" className="form-control form-control-sm" type="number" step="0.01" min="0" onChange={this.update_mu} value={this.state.mu}/>
-                        <div id="mu_invalid-tooltip" className="invalid-tooltip">
+                    <div className="parameter-inputs">
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="mu" className="form-label">Friction:</label>
+                            <input id="mu" className="form-control form-control-sm" type="number" step="0.01" min="0" max="1" onChange={this.update_mu} value={this.state.mu}/>
+                            <div id="mu_invalid-tooltip" className="invalid-tooltip">
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="contactCoord_X" className="form-label">X coordinate:</label>
-                        <input id="contactCoord_X" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
-                        <div id="contactCoord_X_invalid-tooltip" className="invalid-tooltip">
+                        
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="contactCoord_X" className="form-label">X coordinate:</label>
+                            <input id="contactCoord_X" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
+                            <div id="contactCoord_X_invalid-tooltip" className="invalid-tooltip">
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="contactCoord_Y" className="form-label">Y coordinate:</label>
-                        <input id="contactCoord_Y" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
-                        <div id="contactCoord_Y_invalid-tooltip" className="invalid-tooltip">
+                        
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="contactCoord_Y" className="form-label">Y coordinate:</label>
+                            <input id="contactCoord_Y" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
+                            <div id="contactCoord_Y_invalid-tooltip" className="invalid-tooltip">
+                            </div>
                         </div>
                     </div>
 
-                    <div className="col-sm-4 position-relative">
-                        <button id="save_contact_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="delete_contact_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="edit_contact_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
+                    <div className="parameter-buttons">
+                        <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
+                        <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
+                        <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
                     </div>
                 </form>
 
@@ -130,38 +127,33 @@ class CalcInput extends React.Component {
                             <option value="None" defaultValue>Create new</option>
                         </select>
                     </div>
+                    <div className="parameter-inputs">
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="f" className="form-label">Friction:</label>
+                            <input id="f" className="form-control form-control-sm" type="number" step="0.01" min="0" max="1" onChange={this.update_f} value={this.state.f}/>
+                            <div id="f_invalid-tooltip" className="invalid-tooltip">
+                            </div>
+                        </div>
 
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="f" className="form-label">Friction:</label>
-                        <input id="f" className="form-control form-control-sm" type="number" step="0.01" min="0" onChange={this.update_f} value={this.state.f}/>
-                        <div id="f_invalid-tooltip" className="invalid-tooltip">
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="a" className="form-label">Distance A:</label>
+                            <input id="a" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_a} value={this.state.a}/>
+                            <div id="a_invalid-tooltip" className="invalid-tooltip">
+                            </div>
+                        </div>
+
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="b" className="form-label">Distance B:</label>
+                            <input id="b" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_b} value={this.state.b}/>
+                            <div id="b_invalid-tooltip" className="invalid-tooltip">
+                            </div>
                         </div>
                     </div>
 
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="a" className="form-label">Distance A:</label>
-                        <input id="a" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_a} value={this.state.a}/>
-                        <div id="a_invalid-tooltip" className="invalid-tooltip">
-                        </div>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="a" className="form-label">Distance B:</label>
-                        <input id="b" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_b} value={this.state.b}/>
-                        <div id="b_invalid-tooltip" className="invalid-tooltip">
-                        </div>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="save_plunger_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickPlungerSave}>Save</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="delete_plunger_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickPlungerDelete}>Delete</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="edit_plunger_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickPlungerEdit}>Edit</button>
+                    <div className="parameter-buttons">
+                        <button id="save_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerSave}>Save</button>
+                        <button id="delete_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerDelete}>Delete</button>
+                        <button id="edit_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerEdit}>Edit</button>
                     </div>
                 </form>
 
@@ -181,38 +173,32 @@ class CalcInput extends React.Component {
                             <option value="None" defaultValue>Create new</option>
                         </select>
                     </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="springStiff" className="form-label">Stiffness:</label>
-                        <input id="springStiff" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springStiff} value={this.state.springStiff}/>
-                        <div id="springStiff_invalid-tooltip" className="invalid-tooltip">
+                    <div className="parameter-inputs">
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="springStiff" className="form-label">Stiffness:</label>
+                            <input id="springStiff" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springStiff} value={this.state.springStiff}/>
+                            <div id="springStiff_invalid-tooltip" className="invalid-tooltip">
+                            </div>
+                        </div>
+                        
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="freeLen" className="form-label">Free length:</label>
+                            <input id="freeLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_freeLen} value={this.state.freeLen}/>
+                            <div id="freeLen_invalid-tooltip" className="invalid-tooltip">
+                            </div>
+                        </div>
+                        
+                        <div className="position-relative parameter">
+                            <label style={label_style} htmlFor="springLen" className="form-label">Length:</label>
+                            <input id="springLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springLen} value={this.state.springLen}/>
+                            <div id="springLen_invalid-tooltip" className="invalid-tooltip">
+                            </div>
                         </div>
                     </div>
-                    
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="freeLen" className="form-label">Free length:</label>
-                        <input id="freeLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_freeLen} value={this.state.freeLen}/>
-                        <div id="freeLen_invalid-tooltip" className="invalid-tooltip">
-                        </div>
-                    </div>
-                    
-                    <div className="col-sm-4 position-relative">
-                        <label style={label_style} htmlFor="springLen" className="form-label">Length:</label>
-                        <input id="springLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springLen} value={this.state.springLen}/>
-                        <div id="springLen_invalid-tooltip" className="invalid-tooltip">
-                        </div>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="save_spring_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickSpringSave}>Save</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="delete_spring_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="edit_spring_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Edit</button>
+                    <div className="parameter-buttons">
+                        <button id="save_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringSave}>Save</button>
+                        <button id="delete_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
+                        <button id="edit_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Edit</button>
                     </div>
                 
                 </form>
@@ -282,16 +268,10 @@ class CalcInput extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col-sm-4 position-relative">
-                        <button id="save_angles_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickAnglesSave}>Save</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="delete_angles_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
-                    </div>
-
-                    <div className="col-sm-4 position-relative">
-                        <button id="edit_angles_btn" className="col-sm-12 btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Edit</button>
+                    <div className="parameter-buttons">
+                        <button id="save_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesSave}>Save</button>
+                        <button id="delete_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesDelete}>Delete</button>
+                        <button id="edit_angles_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickAnglesEdit}>Edit</button>
                     </div>
 
                 </form>

@@ -8,9 +8,16 @@ function parameter(event, name){
 
     return fetch(`/parameter/${name}/${project_num}?value=${val}`)
     .then(response => response.json())
-    .then(result => {
-        return result
+    .then(response => {
+        if (response['disclaimer']) {
+            alert(response['disclaimer'])
+        }
+        return response
     })
+    .catch(error => {
+        alert(error)
+    })
+
 }
 ////////////////////////////
 function get_forces(
@@ -32,9 +39,16 @@ function get_forces(
         `/result?mu=${mu}&contactCoord_X=${contactCoord_X}&contactCoord_Y=${contactCoord_Y}&a=${a}&b=${b}&f=${f}&springStiff=${springStiff}&freeLen=${freeLen}&springLen=${springLen}&plungerFric=${plungerFric}&N=${N}&FN=${FN}`
         )
     .then(response => response.json())
-    .then(result => {
-        return result
+    .then(response => {
+        if (response['disclaimer']) {
+            alert(response['disclaimer'])
+        }
+        return response
     })
+    .catch(error => {
+        alert(error)
+    })
+
 }
 
 // function get_vars() {
