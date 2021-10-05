@@ -551,6 +551,15 @@ function draw(ctx, scale, posX, posY,
         }
 
         ctx.fill();
+    }
+
+    function reaction_text(P, R, A, s, Xshift=0, Yshift=0) {
+        // P - point where force was applied
+        // R - reaction force value
+        // A - direction of force
+        // s - scale for force value
+
+        const S = s * parse_scale
 
         const text_X = (P.x + Xshift + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S).toFixed(2);
         const text_Y = (P.y + Yshift - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S).toFixed(2);
@@ -575,7 +584,7 @@ function draw(ctx, scale, posX, posY,
 
     const color1 = Math.floor(Math.random() * colors.length);
     reaction(_C, NR, NRD, gain, colors[color1]);
-    
+
     const color2 = Math.floor(Math.random() * colors.length);
     reaction(_C, NR*mu, NRFD, gain, colors[color2]);
     
@@ -599,6 +608,14 @@ function draw(ctx, scale, posX, posY,
     }
 
     reaction(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, 0.5, 'red');
+    
+    reaction_text(_C, NR, NRD, gain);
+    reaction_text(_C, NR*mu, NRFD, gain);
+    reaction_text(_A, Na, NaD, gain);
+    reaction_text(_A, Math.abs(Na*f), NaFD, gain, 0, -W * gain);
+    reaction_text(_B, Nb, NbD, gain);
+    reaction_text(_B,  Math.abs(Nb*f), NbFD, gain, 0, -W * gain);
+    reaction_text(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, gain);
 
 // Grid
 
