@@ -31,6 +31,10 @@ class CalcInput extends React.Component {
             NaD: 0,
             NbD: 0,
             NRD: 0,
+            NRT: 0,
+            NRFT: 0,
+            NRTD: 0,
+            NRFTD: 0,
 
             contact_state: 0,
             plunger_state: 0,
@@ -41,7 +45,6 @@ class CalcInput extends React.Component {
     render() {
         const label_style = {
             fontSize: "12px",
-            // minHeight: "36px",
         };
         const label_style_plungerFric0 = {
             fontSize: "12px",
@@ -438,6 +441,9 @@ class CalcInput extends React.Component {
             const NbD = String(result.DIRECTION.Nb)
             const NRD = String(result.DIRECTION.NR)
 
+            const NRT = String(result.TORQUE.NRT)
+            const NRFT = String(result.TORQUE.NRFT)
+
             this.setState({
                 Na: Na,
                 Nb: Nb,
@@ -448,6 +454,8 @@ class CalcInput extends React.Component {
                 NaD: NaD,
                 NbD: NbD,
                 NRD: NRD,
+                NRT: NRT,
+                NRFT: NRFT,
             }, () => {
                 draw(ctx, scale, pos.X, pos.Y, 
                     mu, 
@@ -468,6 +476,8 @@ class CalcInput extends React.Component {
                     this.state.NaD,
                     this.state.NbD,
                     this.state.NRD,
+                    this.state.NRT,
+                    this.state.NRFT,
                     );    
             })
         })

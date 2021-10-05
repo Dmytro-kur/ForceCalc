@@ -601,26 +601,56 @@ def result(request):
             FN = float(request.GET.get("FN"))
         except ValueError:
             FN = 210
-        
+
+        try:
+            contactCoord_X = float(request.GET.get("contactCoord_X"))
+        except ValueError:
+            contactCoord_X = 0
+
+        try:
+            contactCoord_Y = float(request.GET.get("contactCoord_Y"))
+        except ValueError:
+            contactCoord_Y = 0
+
         RES = calc_forces(plungerFric, load, a, b, f, mu, N, FN)
         RES.solver()
-        result = RES.corrected_forces()
+        forces = RES.corrected_forces()
+
+        # NRT - normal reaction torque
+        # NRFT - normal reaction friction torque
+        # NRTD - normal reaction torque distance
+        # NRFTD - normal reaction friction torque distance
+
+        torque = calc_torque(contactCoord_X, contactCoord_Y, forces["NR"], N)
+        friction_torque = calc_torque(contactCoord_X, contactCoord_Y, forces["NR"] * mu, FN)
+        NRT = torque.solver()
+        NRFT = friction_torque.solver()
+        NRTD = torque.distance()
+        NRFTD = friction_torque.distance()
 
         return JsonResponse({
             "REACTION": {
-                "Na": result["Na"],
-                "Nb": result["Nb"],
-                "NR": result["NR"],
+                "Na": forces["Na"],
+                "Nb": forces["Nb"],
+                "NR": forces["NR"],
             },
             "FRICTION_DIRECTION": {
-                "Na": result["Na_friction_direction"],
-                "Nb": result["Nb_friction_direction"],
-                "NR": result["NR_friction_direction"],
+                "Na": forces["Na_friction_direction"],
+                "Nb": forces["Nb_friction_direction"],
+                "NR": forces["NR_friction_direction"],
             },
             "DIRECTION": {
-                "Na": result["Na_direction"],
-                "Nb": result["Nb_direction"],
-                "NR": result["NR_direction"],
+                "Na": forces["Na_direction"],
+                "Nb": forces["Nb_direction"],
+                "NR": forces["NR_direction"],
+            },
+            "TORQUE": {
+                "NRT": NRT,
+                "NRFT": NRFT,
+            },
+            "DISTANCE": {
+                "NRTD": NRTD,
+                "NRFTD": NRFTD,
             }
         })
 

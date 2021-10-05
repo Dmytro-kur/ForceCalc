@@ -53,6 +53,8 @@ function draw_initialization() {
             reactInputInstance.state.NaD,
             reactInputInstance.state.NbD,
             reactInputInstance.state.NRD,
+            reactInputInstance.state.NRT,
+            reactInputInstance.state.NRFT,
         );
     })
 
@@ -83,6 +85,8 @@ function draw_initialization() {
             reactInputInstance.state.NaD,
             reactInputInstance.state.NbD,
             reactInputInstance.state.NRD,
+            reactInputInstance.state.NRT,
+            reactInputInstance.state.NRFT,
         );
     })
 
@@ -118,6 +122,8 @@ function draw_initialization() {
                     reactInputInstance.state.NaD,
                     reactInputInstance.state.NbD,
                     reactInputInstance.state.NRD,
+                    reactInputInstance.state.NRT,
+                    reactInputInstance.state.NRFT,
                 );
             }
         })
@@ -180,6 +186,8 @@ function draw_initialization() {
             reactInputInstance.state.NaD,
             reactInputInstance.state.NbD,
             reactInputInstance.state.NRD,
+            reactInputInstance.state.NRT,
+            reactInputInstance.state.NRFT,
         );
     })
     
@@ -239,6 +247,8 @@ function draw(ctx, scale, posX, posY,
     raw_NaD,
     raw_NbD,
     raw_NRD,
+    raw_NRT,
+    raw_NRFT,
     ) {
 
     const mu = parseFloat(raw_mu)
@@ -259,7 +269,10 @@ function draw(ctx, scale, posX, posY,
     const NaD = parseFloat(raw_NaD)
     const NbD = parseFloat(raw_NbD)
     const NRD = parseFloat(raw_NRD)
-
+    const NRT = parseFloat(raw_NRT)
+    const NRFT = parseFloat(raw_NRFT)
+    
+    
 // dimensions of a reference rectangle
     const rect = {
         startX: ( canvas.width * (1 - scale) ) / 2 + posX,
@@ -616,6 +629,14 @@ function draw(ctx, scale, posX, posY,
     reaction_text(_B, Nb, NbD, gain);
     reaction_text(_B,  Math.abs(Nb*f), NbFD, gain, 0, -W * gain);
     reaction_text(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, gain);
+    // Torque text
+    
+    ctx.lineWidth = 1;   
+    ctx.fillStyle = 'black';
+    ctx.font = "15px Arial";
+
+    const torque = NRT + NRFT;
+    ctx.fillText(`${(torque).toFixed(2)} N*mm`, _O.x, _O.y);
 
 // Grid
 

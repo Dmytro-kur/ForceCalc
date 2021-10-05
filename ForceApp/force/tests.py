@@ -45,18 +45,6 @@ class VariablesTestCase(TestCase):
             FN=305.01,
             project=testProject)
             
-        # # create Unknown_variables
-        # res = Variables.calc_vars(testAngle.plungerFric, testSpring.force(), 
-        #     testPlunger.a, testPlunger.b, testPlunger.f,
-        #     testContact.mu, testAngle.N, testAngle.FN)
-        # print(res)
-
-        # Variables.objects.create(variables_key="Test Variables 1",
-        #     Na=res[0],
-        #     Nb=res[1],
-        #     NR=res[2],
-        #     project=testProject)
-
     def test_math_model(self):
         """Put all variables and solve equations
             [ Na*f       Nb*f     N*(mu*cos(alpha) + cos(beta))]

@@ -401,3 +401,25 @@ class calc_forces:
         }
 
         return call
+
+class calc_torque:
+
+    def __init__(self, x, y, F, alpha):
+        self.x = x
+        self.y = y
+        self.F = F
+        self.alpha = alpha
+
+    def __str__(self):
+        return f"{round(self.torque, 3)} N*mm"
+
+    def solver(self):
+        self.torque = np.cross(
+            [self.x,                   self.y                  , 0],
+            [self.F * cos(self.alpha), self.F * sin(self.alpha), 0]
+        )
+
+        return self.torque[2]
+    
+    def distance(self):
+        return np.linalg.norm(self.torque)/np.linalg.norm([self.x, self.y, 0])
