@@ -18,6 +18,9 @@ def cos(deg):
 def sin(deg):
     """ take as input deg convert it to rad and return sin(rad) """
     return math.sin(deg*math.pi/180)
+def tan(deg):
+    """ take as input deg convert it to rad and return tan(rad) """
+    return math.tan(deg*math.pi/180)
 
 class User(AbstractUser):
     pass
@@ -421,5 +424,13 @@ class calc_torque:
 
         return self.torque[2]
     
-    def distance(self):
-        return np.linalg.norm(self.torque)/np.linalg.norm([self.x, self.y, 0])
+    def intersection(self):
+
+        self.delta = self.alpha + 90
+        k_ = tan(self.delta)
+        k__ = tan(self.alpha)
+
+        x_intersect = (self.y - k__ * self.x)/(k_ - k__)
+        y_intersect = k_ * x_intersect
+        
+        return {"X": x_intersect, "Y": y_intersect}

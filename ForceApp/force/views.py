@@ -618,15 +618,15 @@ def result(request):
 
         # NRT - normal reaction torque
         # NRFT - normal reaction friction torque
-        # NRTD - normal reaction torque distance
-        # NRFTD - normal reaction friction torque distance
+        # TI - torque
+        # FTI - friction torque intersection
 
         torque = calc_torque(contactCoord_X, contactCoord_Y, forces["NR"], N)
         friction_torque = calc_torque(contactCoord_X, contactCoord_Y, forces["NR"] * mu, FN)
         NRT = torque.solver()
         NRFT = friction_torque.solver()
-        NRTD = torque.distance()
-        NRFTD = friction_torque.distance()
+        TI = torque.intersection()
+        FTI = friction_torque.intersection()
 
         return JsonResponse({
             "REACTION": {
@@ -648,10 +648,16 @@ def result(request):
                 "NRT": NRT,
                 "NRFT": NRFT,
             },
-            "DISTANCE": {
-                "NRTD": NRTD,
-                "NRFTD": NRFTD,
-            }
+            "INTERSECTION": {
+                "TI": {
+                    "X": TI["X"],
+                    "Y": TI["Y"],
+                },
+                "FTI": {
+                    "X": FTI["X"],
+                    "Y": FTI["Y"],
+                }
+            },
         })
 
 @login_required

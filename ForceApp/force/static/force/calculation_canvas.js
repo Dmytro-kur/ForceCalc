@@ -55,6 +55,10 @@ function draw_initialization() {
             reactInputInstance.state.NRD,
             reactInputInstance.state.NRT,
             reactInputInstance.state.NRFT,
+            reactInputInstance.state.TIX,
+            reactInputInstance.state.FTIX,
+            reactInputInstance.state.TIY,
+            reactInputInstance.state.FTIY,
         );
     })
 
@@ -87,6 +91,10 @@ function draw_initialization() {
             reactInputInstance.state.NRD,
             reactInputInstance.state.NRT,
             reactInputInstance.state.NRFT,
+            reactInputInstance.state.TIX,
+            reactInputInstance.state.FTIX,
+            reactInputInstance.state.TIY,
+            reactInputInstance.state.FTIY,
         );
     })
 
@@ -124,6 +132,10 @@ function draw_initialization() {
                     reactInputInstance.state.NRD,
                     reactInputInstance.state.NRT,
                     reactInputInstance.state.NRFT,
+                    reactInputInstance.state.TIX,
+                    reactInputInstance.state.FTIX,
+                    reactInputInstance.state.TIY,
+                    reactInputInstance.state.FTIY,
                 );
             }
         })
@@ -188,6 +200,10 @@ function draw_initialization() {
             reactInputInstance.state.NRD,
             reactInputInstance.state.NRT,
             reactInputInstance.state.NRFT,
+            reactInputInstance.state.TIX,
+            reactInputInstance.state.FTIX,
+            reactInputInstance.state.TIY,
+            reactInputInstance.state.FTIY,
         );
     })
     
@@ -249,6 +265,10 @@ function draw(ctx, scale, posX, posY,
     raw_NRD,
     raw_NRT,
     raw_NRFT,
+    raw_TIX,
+    raw_FTIX,
+    raw_TIY,
+    raw_FTIY,
     ) {
 
     const mu = parseFloat(raw_mu)
@@ -271,7 +291,10 @@ function draw(ctx, scale, posX, posY,
     const NRD = parseFloat(raw_NRD)
     const NRT = parseFloat(raw_NRT)
     const NRFT = parseFloat(raw_NRFT)
-    
+    const TIX = parseFloat(raw_TIX)
+    const FTIX = parseFloat(raw_FTIX)
+    const TIY = parseFloat(raw_TIY)
+    const FTIY = parseFloat(raw_FTIY)
     
 // dimensions of a reference rectangle
     const rect = {
@@ -629,14 +652,28 @@ function draw(ctx, scale, posX, posY,
     reaction_text(_B, Nb, NbD, gain);
     reaction_text(_B,  Math.abs(Nb*f), NbFD, gain, 0, -W * gain);
     reaction_text(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, gain);
+
     // Torque text
-    
+
     ctx.lineWidth = 1;   
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial";
 
     const torque = NRT + NRFT;
     ctx.fillText(`${(torque).toFixed(2)} N*mm`, _O.x, _O.y);
+
+    // INTERSECTIONS
+
+    let RR = 0.4 * parse_scale
+    ctx.beginPath();
+    ctx.arc(_O.x + TIX * parse_scale, _O.y - TIY * parse_scale, RR, 0, Math.PI*2);
+    ctx.strokeStyle = 'purple';
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.arc(_O.x + FTIX * parse_scale, _O.y - FTIY * parse_scale, RR, 0, Math.PI*2);
+    ctx.strokeStyle = 'purple';
+    ctx.stroke();
 
 // Grid
 

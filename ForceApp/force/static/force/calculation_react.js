@@ -33,8 +33,10 @@ class CalcInput extends React.Component {
             NRD: 0,
             NRT: 0,
             NRFT: 0,
-            NRTD: 0,
-            NRFTD: 0,
+            TIX: 0,
+            FTIX: 0,
+            TIY: 0,
+            FTIY: 0,
 
             contact_state: 0,
             plunger_state: 0,
@@ -444,6 +446,11 @@ class CalcInput extends React.Component {
             const NRT = String(result.TORQUE.NRT)
             const NRFT = String(result.TORQUE.NRFT)
 
+            const TIX = String(result.INTERSECTION.TI.X)
+            const FTIX = String(result.INTERSECTION.FTI.X)
+            const TIY = String(result.INTERSECTION.TI.Y)
+            const FTIY = String(result.INTERSECTION.FTI.Y)
+
             this.setState({
                 Na: Na,
                 Nb: Nb,
@@ -456,6 +463,11 @@ class CalcInput extends React.Component {
                 NRD: NRD,
                 NRT: NRT,
                 NRFT: NRFT,
+                TIX: TIX,
+                FTIX: FTIX,
+                TIY: TIY,
+                FTIY: FTIY
+
             }, () => {
                 draw(ctx, scale, pos.X, pos.Y, 
                     mu, 
@@ -478,6 +490,10 @@ class CalcInput extends React.Component {
                     this.state.NRD,
                     this.state.NRT,
                     this.state.NRFT,
+                    this.state.TIX,
+                    this.state.FTIX,
+                    this.state.TIY,
+                    this.state.FTIY,
                     );    
             })
         })
