@@ -664,16 +664,79 @@ function draw(ctx, scale, posX, posY,
 
     // INTERSECTIONS
 
-    let RR = 0.4 * parse_scale
-    ctx.beginPath();
-    ctx.arc(_O.x + TIX * parse_scale, _O.y - TIY * parse_scale, RR, 0, Math.PI*2);
-    ctx.strokeStyle = 'purple';
-    ctx.stroke();
+    // let RR = 0.4 * parse_scale
+    // ctx.beginPath();
+    // ctx.arc(_O.x + TIX * parse_scale, _O.y - TIY * parse_scale, RR, 0, Math.PI*2);
+    // ctx.strokeStyle = 'purple';
+    // ctx.stroke();
     
+    // ctx.beginPath();
+    // ctx.arc(_O.x + FTIX * parse_scale, _O.y - FTIY * parse_scale, RR, 0, Math.PI*2);
+    // ctx.strokeStyle = 'purple';
+    // ctx.stroke();
+
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'black';
+
+    // TIX - torque intersection X
+    // TIY - torque intersection Y
+    // FTIX - friction torque intersection X
+    // FTIY - friction torque intersection Y
+
+    const new_TIX = _O.x + TIX * parse_scale
+    const new_TIY = _O.y - TIY * parse_scale
+    const new_FTIX = _O.x + FTIX * parse_scale
+    const new_FTIY = _O.y - FTIY * parse_scale
+
     ctx.beginPath();
-    ctx.arc(_O.x + FTIX * parse_scale, _O.y - FTIY * parse_scale, RR, 0, Math.PI*2);
-    ctx.strokeStyle = 'purple';
+    ctx.moveTo(new_TIX + (origin.y * 0.03), new_TIY - (origin.y * 0.03));
+    ctx.lineTo(new_TIX - (origin.y * 0.03), new_TIY + (origin.y * 0.03));
+    ctx.moveTo(new_TIX - (origin.y * 0.03), new_TIY - (origin.y * 0.03));
+    ctx.lineTo(new_TIX + (origin.y * 0.03), new_TIY + (origin.y * 0.03));
     ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(new_FTIX - (origin.y * 0.03), new_FTIY + (origin.y * 0.03));
+    ctx.lineTo(new_FTIX + (origin.y * 0.03), new_FTIY - (origin.y * 0.03));
+    ctx.moveTo(new_FTIX - (origin.y * 0.03), new_FTIY - (origin.y * 0.03));
+    ctx.lineTo(new_FTIX + (origin.y * 0.03), new_FTIY + (origin.y * 0.03));
+    ctx.stroke();
+
+    // Dashed line
+
+    ctx.beginPath();
+    ctx.setLineDash([5, 15]);
+    ctx.moveTo(_O.x, _O.y);
+    ctx.lineTo(new_TIX, new_TIY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.setLineDash([5, 15]);
+    ctx.moveTo(_O.x, _O.y);
+    ctx.lineTo(new_FTIX, new_FTIY);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    // distance text
+
+    const dis_text_X = _O.x + (new_TIX - _O.x)/2;
+    const dis_text_Y = _O.y - (_O.y - new_TIY)/2;
+    
+    ctx.lineWidth = 1;   
+    ctx.fillStyle = 'black';
+    ctx.font = "15px Arial";
+    const Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) ).toFixed(2);
+    ctx.fillText(`${Val_TI} mm`, dis_text_X, dis_text_Y);
+
+    const dis_text_FX = _O.x + (new_FTIX - _O.x)/2;
+    const dis_text_FY = _O.y - (_O.y - new_FTIY)/2;
+    
+    ctx.lineWidth = 1;   
+    ctx.fillStyle = 'black';
+    ctx.font = "15px Arial";
+    const Val_FTI = Math.sqrt( Math.pow(FTIX, 2) + Math.pow(FTIY, 2) ).toFixed(2);
+    ctx.fillText(`${Val_FTI} mm`, dis_text_FX, dis_text_FY);
 
 // Grid
 
