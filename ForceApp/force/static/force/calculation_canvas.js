@@ -210,7 +210,7 @@ function draw_initialization() {
 }
 
 function multiply(a, b) {
-    // input:
+    // i.e. input:
     // let a = [[8, 3], [2, 4], [3, 6]],
     //     b = [[1, 2, 3], [4, 6, 8]];
 
