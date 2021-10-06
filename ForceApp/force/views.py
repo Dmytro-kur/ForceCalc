@@ -621,8 +621,8 @@ def result(request):
         # TI - torque
         # FTI - friction torque intersection
 
-        torque = calc_torque(contactCoord_X, contactCoord_Y, forces["NR"], N)
-        friction_torque = calc_torque(contactCoord_X, contactCoord_Y, forces["NR"] * mu, FN)
+        torque = calc_torque(contactCoord_X, contactCoord_Y, -forces["NR"], N)
+        friction_torque = calc_torque(contactCoord_X, contactCoord_Y, -forces["NR"] * mu, FN)
         NRT = torque.solver()
         NRFT = friction_torque.solver()
         TI = torque.intersection()
