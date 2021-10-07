@@ -657,22 +657,7 @@ function draw(ctx, scale, posX, posY,
         ctx.fill();
     }
 
-    function reaction_text(P, R, A, s, Xshift=0, Yshift=0) {
-        // P - point where force was applied
-        // R - reaction force value
-        // A - direction of force
-        // s - scale for force value
 
-        const S = s * parse_scale
-
-        const text_X = (P.x + Xshift + (Math.abs(R) * Math.cos(A*Math.PI/180)) * S).toFixed(2);
-        const text_Y = (P.y + Yshift - (Math.abs(R) * Math.sin(A*Math.PI/180)) * S).toFixed(2);
-        
-        ctx.lineWidth = 1;   
-        ctx.fillStyle = 'black';
-        ctx.font = "15px Arial";
-        ctx.fillText(`(${Math.abs(R).toFixed(2)} N; ${(A).toFixed(0)} deg)`, text_X, text_Y);
-    }
 
     let colors = [
         '#98D7C2',
@@ -704,28 +689,70 @@ function draw(ctx, scale, posX, posY,
     
     const _LOAD = {
         A: 0,
-        F: springStiff * (freeLen - springLen),
+        R: springStiff * (freeLen - springLen),
         x: _A.x - springStiff * (freeLen - springLen) * parse_scale * vector_scaling,
         y: _A.y,
     }
-    reaction(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, vector_scaling, 'red');
+    reaction(_LOAD,  Math.abs(_LOAD.R), _LOAD.A, vector_scaling, 'red');
     
-    reaction_text(_C, NR, NRD, vector_scaling);
-    reaction_text(_C, NR*mu, NRFD, vector_scaling);
-    reaction_text(_A, Na, NaD, vector_scaling);
-    reaction_text(_A, Math.abs(Na*f), NaFD, vector_scaling, 0, -W * vector_scaling);
-    reaction_text(_B, Nb, NbD, vector_scaling);
-    reaction_text(_B,  Math.abs(Nb*f), NbFD, vector_scaling, 0, -W * vector_scaling);
-    reaction_text(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, vector_scaling);
+    function text(P, R, A, Xshift, Yshift, mode) {
+        // P - point where text will be raised;
+        // R - displayed value;
+        // A - direction of force (force case);
+        // mode - 0 - force (default);
+               // 1 - torque; 
+               // 2 - distance.
 
+        ctx.lineWidth = 1;   
+        ctx.fillStyle = 'black';
+        ctx.font = "15px Arial";
+
+        if (mode === 0) {
+            ctx.fillText(`(${Math.abs(R).toFixed(2)} N; ${(A).toFixed(0)} deg)`, P.x + Xshift, P.y + Yshift);
+        } else if (mode === 1) {
+            ctx.fillText(`${(R).toFixed(2)} N*mm`, P.x + Xshift, P.y + Yshift);
+        } else if (mode === 2) {
+            ctx.fillText(`${(R).toFixed(2)} mm`, P.x + Xshift, P.y + Yshift);
+        }
+    }
+
+
+    const text_NR = {
+        x: ( _C.x + (Math.abs(NR) * Math.cos(NRD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _C.y - (Math.abs(NR) * Math.sin(NRD*Math.PI/180)) * vector_scaling * parse_scale),
+    }
+    const text_NR_mu = {
+        x: ( _C.x + (Math.abs(NR*mu) * Math.cos(NRFD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _C.y - (Math.abs(NR*mu) * Math.sin(NRFD*Math.PI/180)) * vector_scaling * parse_scale),
+    }
+    const text_Na = {
+        x: ( _A.x + (Math.abs(Na) * Math.cos(NaD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _A.y - (Math.abs(Na) * Math.sin(NaD*Math.PI/180)) * vector_scaling * parse_scale),
+    }
+    const text_Na_f = {
+        x: ( _A.x + (Math.abs(Na*f) * Math.cos(NaFD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _A.y - (Math.abs(Na*f) * Math.sin(NaFD*Math.PI/180)) * vector_scaling * parse_scale),
+    } 
+    const text_Nb = {
+        x: ( _B.x + (Math.abs(Nb) * Math.cos(NbD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _B.y - (Math.abs(Nb) * Math.sin(NbD*Math.PI/180)) * vector_scaling * parse_scale),
+    }
+    const text_Nb_f = {
+        x: ( _B.x + (Math.abs(Nb*f) * Math.cos(NbFD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _B.y - (Math.abs(Nb*f) * Math.sin(NbFD*Math.PI/180)) * vector_scaling * parse_scale),
+    } 
+
+
+    text(text_NR, NR, NRD, 0, 0, 0);
+    text(text_NR_mu, NR*mu, NRFD, 0, 0, 0);
+    text(text_Na, Na, NaD, 0, 0, 0);
+    text(text_Na_f, Math.abs(Na*f), NaFD, 0, -W * vector_scaling, 0);
+    text(text_Nb, Nb, NbD, 0, 0, 0);
+    text(text_Nb_f,  Math.abs(Nb*f), NbFD, 0, -W * vector_scaling, 0);
+    text(_LOAD, Math.abs(_LOAD.R), _LOAD.A, 0, 0, 0);
+    
     // Torque text
-
-    ctx.lineWidth = 1;   
-    ctx.fillStyle = 'black';
-    ctx.font = "15px Arial";
-
-    const torque = NRT + NRFT;
-    ctx.fillText(`${(torque).toFixed(2)} N*mm`, _O.x, _O.y);
+    text(_O, (NRT + NRFT), 0, 0, 0, 1)
 
     // INTERSECTIONS
 
@@ -774,24 +801,21 @@ function draw(ctx, scale, posX, posY,
 
     // distance text
 
-    const dis_text_X = _O.x + (new_TIX - _O.x)/2;
-    const dis_text_Y = _O.y - (_O.y - new_TIY)/2;
-    
-    ctx.lineWidth = 1;   
-    ctx.fillStyle = 'black';
-    ctx.font = "15px Arial";
-    
-    const Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) ).toFixed(2);
-    ctx.fillText(`${Val_TI} mm`, dis_text_X, dis_text_Y);
+    const text_D = {
+        x: _O.x + (new_TIX - _O.x)/2,
+        y: _O.y - (_O.y - new_TIY)/2,
+    };
+    const Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) );
+    text(text_D, Val_TI, 0, 0, 0, 2);
 
-    const dis_text_FX = _O.x + (new_FTIX - _O.x)/2;
-    const dis_text_FY = _O.y - (_O.y - new_FTIY)/2;
-    
-    ctx.lineWidth = 1;   
-    ctx.fillStyle = 'black';
-    ctx.font = "15px Arial";
-    const Val_FTI = Math.sqrt( Math.pow(FTIX, 2) + Math.pow(FTIY, 2) ).toFixed(2);
-    ctx.fillText(`${Val_FTI} mm`, dis_text_FX, dis_text_FY);
+
+
+    const text_FD = {
+        x: _O.x + (new_FTIX - _O.x)/2,
+        y: _O.y - (_O.y - new_FTIY)/2,
+    } 
+    const Val_FTI = Math.sqrt( Math.pow(FTIX, 2) + Math.pow(FTIY, 2) );
+    text(text_FD, Val_FTI, 0, 0, 0, 2);
 
 // Grid
 
