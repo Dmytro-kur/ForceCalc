@@ -60,66 +60,82 @@ class CalcInput extends React.Component {
         const group_name_style = {
             backgroundImage: "linear-gradient(to bottom right, rgb(211 237 255 / 100%), rgb(211 237 255 / 5%))",
             textAlign: "center",
-            border: "1px solid grey",
-            borderRadius: "5px",
+            borderBottom: "1px solid lightgrey",
             fontSize: "18px",
             fontStyle: "bold",
+            zIndex: '1',
+            width: '100%',
         };
+
+        const for_wave_btn__sidebar = {
+            zIndex: '0',
+        }
         return (
             
             <div className="root">
 
-                <form id="contact_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
-                    
-                    <div style={group_name_style} className="col-sm-12 position-relative">Contact</div>
-                    
-                    <div className="col-sm-12 position-relative">
-                        <input type="text" id="contact_key" className="form-control form-control-sm" placeholder="Contact group name:" onChange={this.update_contact_key} value={this.state.contact_key}/>
-                        <div id="contact_key_invalid-tooltip" className="invalid-tooltip">
-                        </div>
+                <div id="wave-btn__contactForm" className="wave-btn__sidebar">
+                    <div className="wave-btn__sidebar text__sidebar">
+                        <div style={group_name_style} className="position-relative">Contact</div>
                     </div>
-
-                    <div className="col-sm-12 position-relative">
-                        <select id="contact" className="form-select form-select-sm" onChange={this.chooseContactOption}>
-                            <option value="None" defaultValue>Create new</option>
-                        </select>
-                    </div>
-
-                    <div className="parameter-inputs">
-                        <div className="position-relative parameter">
-                            <label style={label_style} htmlFor="mu" className="form-label">Friction:</label>
-                            <input id="mu" className="form-control form-control-sm" type="number" step="0.01" min="0" max="1" onChange={this.update_mu} value={this.state.mu}/>
-                            <div id="mu_invalid-tooltip" className="invalid-tooltip">
+                    <div style={for_wave_btn__sidebar} id="wave__contactForm" className="wave-btn__sidebar"></div>
+                </div>
+                <div id="expanded_box__contactForm" className="expanded_box" data-state={"closed"}>
+                    <form id="contact_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
+                    
+                        <div className="col-sm-12 position-relative">
+                            <input type="text" id="contact_key" className="form-control form-control-sm" placeholder="Contact group name:" onChange={this.update_contact_key} value={this.state.contact_key}/>
+                            <div id="contact_key_invalid-tooltip" className="invalid-tooltip">
                             </div>
                         </div>
-                        
-                        <div className="position-relative parameter">
-                            <label style={label_style} htmlFor="contactCoord_X" className="form-label">X coordinate:</label>
-                            <input id="contactCoord_X" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
-                            <div id="contactCoord_X_invalid-tooltip" className="invalid-tooltip">
+
+                        <div className="col-sm-12 position-relative">
+                            <select id="contact" className="form-select form-select-sm" onChange={this.chooseContactOption}>
+                                <option value="None" defaultValue>Create new</option>
+                            </select>
+                        </div>
+
+                        <div className="parameter-inputs">
+                            <div className="position-relative parameter">
+                                <label style={label_style} htmlFor="mu" className="form-label">Friction:</label>
+                                <input id="mu" className="form-control form-control-sm" type="number" step="0.01" min="0" max="1" onChange={this.update_mu} value={this.state.mu}/>
+                                <div id="mu_invalid-tooltip" className="invalid-tooltip">
+                                </div>
+                            </div>
+                            
+                            <div className="position-relative parameter">
+                                <label style={label_style} htmlFor="contactCoord_X" className="form-label">X coordinate:</label>
+                                <input id="contactCoord_X" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_X} value={this.state.contactCoord_X}/>
+                                <div id="contactCoord_X_invalid-tooltip" className="invalid-tooltip">
+                                </div>
+                            </div>
+                            
+                            <div className="position-relative parameter">
+                                <label style={label_style} htmlFor="contactCoord_Y" className="form-label">Y coordinate:</label>
+                                <input id="contactCoord_Y" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
+                                <div id="contactCoord_Y_invalid-tooltip" className="invalid-tooltip">
+                                </div>
                             </div>
                         </div>
-                        
-                        <div className="position-relative parameter">
-                            <label style={label_style} htmlFor="contactCoord_Y" className="form-label">Y coordinate:</label>
-                            <input id="contactCoord_Y" className="form-control form-control-sm" type="number" step="0.1" onChange={this.update_contactCoord_Y} value={this.state.contactCoord_Y}/>
-                            <div id="contactCoord_Y_invalid-tooltip" className="invalid-tooltip">
-                            </div>
+
+                        <div className="parameter-buttons">
+                            <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
+                            <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
+                            <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
                         </div>
+                    </form>
+                </div>
+
+                {/* ------------------------------------------------- */}
+
+                <div id="wave-btn__plungerForm" className="wave-btn__sidebar">
+                    <div className="wave-btn__sidebar text__sidebar">
+                        <div style={group_name_style} className="position-relative">Plunger</div>
                     </div>
-
-                    <div className="parameter-buttons">
-                        <button id="save_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactSave}>Save</button>
-                        <button id="delete_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactDelete}>Delete</button>
-                        <button id="edit_contact_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickContactEdit}>Edit</button>
-                    </div>
-                </form>
-
-
-
-                <form id="plunger_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
-                    
-                    <div style={group_name_style} className="col-sm-12 position-relative">Plunger</div>
+                    <div style={for_wave_btn__sidebar} id="wave__plungerForm" className="wave-btn__sidebar"></div>
+                </div>
+                <div id="expanded_box__plungerForm" className="expanded_box" data-state={"closed"}>
+                    <form id="plunger_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
                     
                     <div className="col-sm-12 position-relative">
                         <input type="text" id="plunger_key" className="form-control form-control-sm" placeholder="Plunger group name:" onChange={this.update_plunger_key} value={this.state.plunger_key}/>
@@ -161,58 +177,71 @@ class CalcInput extends React.Component {
                         <button id="edit_plunger_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickPlungerEdit}>Edit</button>
                     </div>
                 </form>
+                </div>
 
+                {/* ------------------------------------------------- */}
 
-
-                <form id="spring_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
-                    <div style={group_name_style} className="col-sm-12 position-relative">Spring</div>
+                <div id="wave-btn__springForm" className="wave-btn__sidebar">
+                    <div className="wave-btn__sidebar text__sidebar">
+                        <div style={group_name_style} className="position-relative">Spring</div>
+                    </div>
+                    <div style={for_wave_btn__sidebar} id="wave__springForm" className="wave-btn__sidebar"></div>
+                </div>
+                <div id="expanded_box__springForm" className="expanded_box" data-state={"closed"}>
+                    <form id="spring_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
                     
-                    <div className="col-sm-12 position-relative">
-                        <input type="text" id="spring_key" className="form-control form-control-sm" placeholder="Spring group name:" onChange={this.update_spring_key} value={this.state.spring_key}/>
-                        <div id="spring_key_invalid-tooltip" className="invalid-tooltip">
-                        </div>
-                    </div>
-
-                    <div className="col-sm-12 position-relative">
-                        <select id="spring" className="form-select form-select-sm" onChange={this.chooseSpringOption}>
-                            <option value="None" defaultValue>Create new</option>
-                        </select>
-                    </div>
-                    <div className="parameter-inputs">
-                        <div className="position-relative parameter">
-                            <label style={label_style} htmlFor="springStiff" className="form-label">Stiffness:</label>
-                            <input id="springStiff" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springStiff} value={this.state.springStiff}/>
-                            <div id="springStiff_invalid-tooltip" className="invalid-tooltip">
+                        <div className="col-sm-12 position-relative">
+                            <input type="text" id="spring_key" className="form-control form-control-sm" placeholder="Spring group name:" onChange={this.update_spring_key} value={this.state.spring_key}/>
+                            <div id="spring_key_invalid-tooltip" className="invalid-tooltip">
                             </div>
                         </div>
-                        
-                        <div className="position-relative parameter">
-                            <label style={label_style} htmlFor="freeLen" className="form-label">Free length:</label>
-                            <input id="freeLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_freeLen} value={this.state.freeLen}/>
-                            <div id="freeLen_invalid-tooltip" className="invalid-tooltip">
+
+                        <div className="col-sm-12 position-relative">
+                            <select id="spring" className="form-select form-select-sm" onChange={this.chooseSpringOption}>
+                                <option value="None" defaultValue>Create new</option>
+                            </select>
+                        </div>
+                        <div className="parameter-inputs">
+                            <div className="position-relative parameter">
+                                <label style={label_style} htmlFor="springStiff" className="form-label">Stiffness:</label>
+                                <input id="springStiff" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springStiff} value={this.state.springStiff}/>
+                                <div id="springStiff_invalid-tooltip" className="invalid-tooltip">
+                                </div>
+                            </div>
+                            
+                            <div className="position-relative parameter">
+                                <label style={label_style} htmlFor="freeLen" className="form-label">Free length:</label>
+                                <input id="freeLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_freeLen} value={this.state.freeLen}/>
+                                <div id="freeLen_invalid-tooltip" className="invalid-tooltip">
+                                </div>
+                            </div>
+                            
+                            <div className="position-relative parameter">
+                                <label style={label_style} htmlFor="springLen" className="form-label">Length:</label>
+                                <input id="springLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springLen} value={this.state.springLen}/>
+                                <div id="springLen_invalid-tooltip" className="invalid-tooltip">
+                                </div>
                             </div>
                         </div>
-                        
-                        <div className="position-relative parameter">
-                            <label style={label_style} htmlFor="springLen" className="form-label">Length:</label>
-                            <input id="springLen" className="form-control form-control-sm" type="number" step="0.1" min="0" onChange={this.update_springLen} value={this.state.springLen}/>
-                            <div id="springLen_invalid-tooltip" className="invalid-tooltip">
-                            </div>
+                        <div className="parameter-buttons">
+                            <button id="save_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringSave}>Save</button>
+                            <button id="delete_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
+                            <button id="edit_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Edit</button>
                         </div>
+                    
+                    </form>
+                </div>
+
+                {/* ------------------------------------------------- */}
+
+                <div id="wave-btn__anglesForm" className="wave-btn__sidebar">
+                    <div className="wave-btn__sidebar text__sidebar">
+                        <div style={group_name_style} className="position-relative">Angles</div>
                     </div>
-                    <div className="parameter-buttons">
-                        <button id="save_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringSave}>Save</button>
-                        <button id="delete_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringDelete}>Delete</button>
-                        <button id="edit_spring_btn" className="btn btn-outline-primary btn-sm" onClick={this.clickSpringEdit}>Edit</button>
-                    </div>
-                
-                </form>
-
-
-
-                <form id="angles_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
-
-                    <div style={group_name_style} className="col-sm-12 position-relative">Angles</div>
+                    <div style={for_wave_btn__sidebar} id="wave__anglesForm" className="wave-btn__sidebar"></div>
+                </div>
+                <div id="expanded_box__anglesForm" className="expanded_box" data-state={"closed"}>
+                    <form id="angles_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
                     
                     <div className="col-sm-12 position-relative">
                         <input type="text" id="angles_key" className="form-control form-control-sm" placeholder="Angles group name:" onChange={this.update_angles_key} value={this.state.angles_key}/>
@@ -280,6 +309,7 @@ class CalcInput extends React.Component {
                     </div>
 
                 </form>
+                </div>
 
             </div>
         );
@@ -389,6 +419,10 @@ class CalcInput extends React.Component {
         })
 
         this.forces();
+        expand('contactForm');
+        expand('plungerForm');
+        expand('springForm');
+        expand('anglesForm');
     }
 
     preventSubmit = (event) => {

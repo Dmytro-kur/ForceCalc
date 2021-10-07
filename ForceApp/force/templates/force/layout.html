@@ -28,6 +28,48 @@
                 }
             });
         }
+        function expand(title) {
+            if (document.querySelector(`#wave-btn__${title}`)) {
+                document.querySelector(`#wave-btn__${title}`)
+                .addEventListener('click', (e) => {
+                    waves(`#wave-btn__${title}`, `#wave__${title}`, 300, e, 'sidebar');
+
+                    let box = document.querySelector(`#expanded_box__${title}`);
+
+                    if (box.dataset.state === 'closed') {
+                        box.style.animation = '70ms ease forwards running expand';
+                        box.dataset.state = 'expanded';
+                        
+                        if ( document.querySelector(`#wave-btn__${title}`).querySelector('.expand__sidebar') ) {
+                            document.querySelector(`#wave-btn__${title}`)
+                            .querySelector('.expand__sidebar')
+                            .style.animation = '70ms ease forwards running arrow-rotate-downwards';
+                        } else {
+                            // console.log(`There is no .expand__sidebar in #wave-btn__${title}`)
+                        }
+
+                        document.querySelector(`#expanded_box__${title}`).style.overflow = 'visible';
+                    } else if (box.dataset.state === 'expanded') {
+                        box.style.animation = '70ms ease forwards running closed';
+                        box.dataset.state = 'closed';
+
+                        if ( document.querySelector(`#wave-btn__${title}`).querySelector('.expand__sidebar') ) {
+                            document.querySelector(`#wave-btn__${title}`)
+                            .querySelector('.expand__sidebar')
+                            .style.animation = '70ms ease forwards running arrow-rotate-upwards';
+                        } else {
+                            // console.log(`There is no .expand__sidebar in #wave-btn__${title}`)
+                        }
+
+                        document.querySelector(`#expanded_box__${title}`).style.overflow = 'hidden';
+                    } else {
+                        console.log('There is not any datasets', box.dataset.state)
+                        
+                    }
+                })
+            }
+        }
+
     </script>
     {% block script %}
     {% endblock %}

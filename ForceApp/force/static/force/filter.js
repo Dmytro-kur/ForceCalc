@@ -143,6 +143,7 @@ function link_calc() {
     })
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
     
     history.pushState({page: 'project'}, "", "/");
@@ -251,34 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
     }
-    if (document.querySelector('#wave-btn__newProject')) {
-        document.querySelector('#wave-btn__newProject')
-        .addEventListener('click', (e) => {
-            waves('#wave-btn__newProject', '#wave__newProject', 300, e, 'sidebar');
-    
-            let box = document.querySelector('#expanded_box__newProject');
-    
-            if (box.dataset.state === 'closed') {
-                box.style.animation = '70ms ease forwards running expand';
-                box.dataset.state = 'expanded';
-                
-                document.querySelector('#wave-btn__newProject')
-                .querySelector('.expand__sidebar')
-                .style.animation = '70ms ease forwards running arrow-rotate-downwards';
-
-                document.querySelector('#expanded_box__newProject').style.overflow = 'visible';
-            }
-            else if (box.dataset.state === 'expanded') {
-                box.style.animation = '70ms ease forwards running closed';
-                box.dataset.state = 'closed';
-    
-                document.querySelector('#wave-btn__newProject')
-                .querySelector('.expand__sidebar')
-                .style.animation = '70ms ease forwards running arrow-rotate-upwards';
-
-                document.querySelector('#expanded_box__newProject').style.overflow = 'hidden';
-            }
-        })
-    }
+    expand('newProject');
 
 })

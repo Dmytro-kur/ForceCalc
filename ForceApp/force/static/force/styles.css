@@ -14,6 +14,7 @@ body, #user_container, #logo_container,
 .change_pwd_logo_wave, .logout_logo_wave,
 #container, #body,
 #side_bar, .text__sidebar,
+#sidebar_mail_control,
 #inbox-view, #compose-view,
 #sent-view, #archived-view
 #inbox-email-list, #sent-email-list, 
@@ -309,6 +310,9 @@ body {
   min-width: 300px;
   flex-grow: 0;
 }
+#sidebar_mail_control {
+  flex-direction: column;
+}
 #body {
   flex-direction: column;
   background-color: white;
@@ -362,10 +366,18 @@ p.wave-btn__sidebar {
   height: 12px;
   margin: 15px;
 }
-#wave-btn__newProject {
+#wave-btn__newProject,
+#wave-btn__contactForm {
   user-select: none;
   -webkit-clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
   clip-path: inset(0px 0px 0px 0px round 0px 10px 0px 0px);
+}
+#wave-btn__plungerForm,
+#wave-btn__springForm,
+#wave-btn__anglesForm {
+  user-select: none;
+  -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+  clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
 }
 
 .expanded_box {
@@ -387,11 +399,16 @@ p.wave-btn__sidebar {
   margin: 0px;
   padding: 0px;
 }
-#expanded_box__newProject {
+#expanded_box__newProject,
+#expanded_box__contactForm,
+#expanded_box__plungerForm,
+#expanded_box__springForm,
+#expanded_box__anglesForm {
   z-index: 1;
 }
 #post_new_project {
   margin-top: 10px;
+  width: 100%;
 }
 
 #expand-arrow {
@@ -451,13 +468,24 @@ p.wave-btn__sidebar {
                                     flex-direction: column;
                                   }
                                   #side_bar {
-                                    flex-direction: row;
+                                    flex-direction: column;
                                     border-radius: 10px 10px 10px 10px;
                                     margin: 5px 10px 5px 10px;
                                     justify-content: flex-start;
-                                    max-height: 61px;
+                                    /* max-height: 61px; */
                                     width: auto;
                                     min-width: 520px;
+                                  }
+                                  p.wave-btn__sidebar,
+                                  .logo__sidebar,
+                                  .expand__sidebar {
+                                    flex-grow: 0;
+                                  }
+                                  .text__sidebar {
+                                    justify-content: center;
+                                  }
+                                  #sidebar_mail_control {
+                                    flex-direction: row;
                                   }
                                   #body {
                                     margin: 5px 10px 5px 10px;
@@ -472,14 +500,23 @@ p.wave-btn__sidebar {
                                     clip-path: inset(0px 0px 0px 0px round 0px 10px 10px 0px);
                                   }
                                   #wave-btn__newProject {
-                                    -webkit-clip-path: inset(0px 0px 0px 0px round 10px 0px 0px 10px);
-                                    clip-path: inset(0px 0px 0px 0px round 10px 0px 0px 10px);
+                                    -webkit-clip-path: inset(0px 0px 0px 0px round 10px 10px 10px 10px);
+                                    clip-path: inset(0px 0px 0px 0px round 10px 10px 10px 10px);
+                                  }
+                                  #wave-btn__contactForm {
+                                    -webkit-clip-path: inset(0px 0px 0px 0px round 10px 10px 0px 0px);
+                                    clip-path: inset(0px 0px 0px 0px round 10px 10px 0px 0px);
+                                  }
+                                  #wave-btn__plungerForm,
+                                  #wave-btn__springForm {
+                                    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+                                    clip-path: inset(0px 0px 0px 0px round 0px 0px 0px 0px);
+                                  }
+                                  #wave-btn__anglesForm {
+                                    -webkit-clip-path: inset(0px 0px 0px 0px round 0px 0px 10px 10px);
+                                    clip-path: inset(0px 0px 0px 0px round 0px 0px 10px 10px);
                                   }
                                 }
-
-
-
-
 
                                 @media (max-width: 540px) {
                                   #side_bar {
@@ -491,6 +528,9 @@ p.wave-btn__sidebar {
                                     height: auto;
                                     width: auto;
                                     min-width: 250px;
+                                  }
+                                  #sidebar_mail_control {
+                                    flex-direction: column;
                                   }
                                   #body {
                                     margin: 5px 10px 5px 10px;
@@ -517,27 +557,15 @@ p.wave-btn__sidebar {
                                   .text__sidebar {
                                     justify-content: center;
                                   }
-                                  p.wave-btn__sidebar {
-                                    flex-grow: 0;
-                                  }
-                                  .logo__sidebar {
-                                    flex-grow: 0;
-                                  }
+                                  p.wave-btn__sidebar,
+                                  .logo__sidebar,
                                   .expand__sidebar {
                                     flex-grow: 0;
-                                  }
-                                  #wave-btn__newProject {
-                                    -webkit-clip-path: inset(0px 0px 0px 0px round 10px 10px 10px 10px);
-                                    clip-path: inset(0px 0px 0px 0px round 10px 10px 10px 10px);
                                   }
                                   .paginator {
                                     font-size: 13.5px;
                                   }
                                 }
-
-
-
-
 
                                 @media (max-width: 285px) {
                                   .paginator {
@@ -708,7 +736,11 @@ td {
   flex-direction: column;
 }
 /*///////////////////////////*/
-#wave-btn__newProject:hover {
+#wave-btn__newProject:hover,
+#wave-btn__contactForm:hover,
+#wave-btn__plungerForm:hover,
+#wave-btn__springForm:hover,
+#wave-btn__anglesForm:hover {
   cursor: pointer;
   background-color:rgba(70, 130, 180, 0.5);
 }
@@ -885,10 +917,7 @@ margin-right: auto;
 #plunger_form,
 #spring_form,
 #angles_form {
-  margin: 15px;
-  padding: 15px;
   border-radius: 5px;
-  box-shadow: 1px 1px 10px #868686;
 }
 .radio-button {
   flex-direction: row;

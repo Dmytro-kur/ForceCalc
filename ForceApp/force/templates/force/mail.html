@@ -4,36 +4,39 @@
 
 
 {% block sidebar %}
-    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__inbox" class="wave-btn__sidebar">
-        <div class="wave-btn__sidebar text__sidebar">
-            <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/inbox.png' %}" alt="logo">
-            <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Inbox</p>
-        </div>
-        <div style="z-index: 0;" id="wave__inbox" class="wave-btn__sidebar"></div>
-    </div>
 
-    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__compose" class="wave-btn__sidebar">
-        <div class="wave-btn__sidebar text__sidebar">
-            <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/message.png' %}" alt="logo">
-            <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">New</p>
+    <div id="sidebar_mail_control">
+        <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__inbox" class="wave-btn__sidebar">
+            <div class="wave-btn__sidebar text__sidebar">
+                <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/inbox.png' %}" alt="logo">
+                <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Inbox</p>
+            </div>
+            <div style="z-index: 0;" id="wave__inbox" class="wave-btn__sidebar"></div>
         </div>
-        <div style="z-index: 0;" id="wave__compose" class="wave-btn__sidebar"></div>
-    </div>
 
-    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__sent" class="wave-btn__sidebar">
-        <div class="wave-btn__sidebar text__sidebar">
-            <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/sent.png' %}" alt="logo">
-            <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Sent</p>
+        <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__compose" class="wave-btn__sidebar">
+            <div class="wave-btn__sidebar text__sidebar">
+                <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/message.png' %}" alt="logo">
+                <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">New</p>
+            </div>
+            <div style="z-index: 0;" id="wave__compose" class="wave-btn__sidebar"></div>
         </div>
-        <div style="z-index: 0;" id="wave__sent" class="wave-btn__sidebar"></div>
-    </div>
 
-    <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__archived" class="wave-btn__sidebar">
-        <div class="wave-btn__sidebar text__sidebar">
-            <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/bag.png' %}" alt="logo">
-            <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Archived</p>
+        <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__sent" class="wave-btn__sidebar">
+            <div class="wave-btn__sidebar text__sidebar">
+                <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/sent.png' %}" alt="logo">
+                <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Sent</p>
+            </div>
+            <div style="z-index: 0;" id="wave__sent" class="wave-btn__sidebar"></div>
         </div>
-        <div style="z-index: 0;" id="wave__archived" class="wave-btn__sidebar"></div>
+
+        <div style="border-bottom: 0.5px solid lightgrey;" id="wave-btn__archived" class="wave-btn__sidebar">
+            <div class="wave-btn__sidebar text__sidebar">
+                <img style="z-index: 1;" class="wave-btn__sidebar logo__sidebar" src="{% static 'force/bag.png' %}" alt="logo">
+                <p style="margin: 0; z-index: 1;" class="wave-btn__sidebar">Archived</p>
+            </div>
+            <div style="z-index: 0;" id="wave__archived" class="wave-btn__sidebar"></div>
+        </div>
     </div>
 
 {% endblock %}
