@@ -742,18 +742,6 @@ function draw(ctx, scale, posX, posY,
         y: ( _B.y - (Math.abs(Nb*f) * Math.sin(NbFD*Math.PI/180)) * vector_scaling * parse_scale),
     } 
 
-
-    text(text_NR, NR, NRD, 0, 0, 0);
-    text(text_NR_mu, NR*mu, NRFD, 0, 0, 0);
-    text(text_Na, Na, NaD, 0, 0, 0);
-    text(text_Na_f, Math.abs(Na*f), NaFD, 0, -W * vector_scaling, 0);
-    text(text_Nb, Nb, NbD, 0, 0, 0);
-    text(text_Nb_f,  Math.abs(Nb*f), NbFD, 0, -W * vector_scaling, 0);
-    text(_LOAD, Math.abs(_LOAD.R), _LOAD.A, 0, 0, 0);
-    
-    // Torque text
-    text(_O, (NRT + NRFT), 0, 0, 0, 1)
-
     // INTERSECTIONS
 
     ctx.lineWidth = 1.5;
@@ -806,16 +794,33 @@ function draw(ctx, scale, posX, posY,
         y: _O.y - (_O.y - new_TIY)/2,
     };
     const Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) );
-    text(text_D, Val_TI, 0, 0, 0, 2);
-
-
 
     const text_FD = {
         x: _O.x + (new_FTIX - _O.x)/2,
         y: _O.y - (_O.y - new_FTIY)/2,
     } 
     const Val_FTI = Math.sqrt( Math.pow(FTIX, 2) + Math.pow(FTIY, 2) );
+
+
+
+    // Force text
+    text(text_NR, NR, NRD, 0, 0, 0);
+    text(text_NR_mu, NR*mu, NRFD, 0, 0, 0);
+    text(text_Na, Na, NaD, 0, 0, 0);
+    text(text_Na_f, Math.abs(Na*f), NaFD, 0, -W * vector_scaling, 0);
+    text(text_Nb, Nb, NbD, 0, 0, 0);
+    text(text_Nb_f,  Math.abs(Nb*f), NbFD, 0, -W * vector_scaling, 0);
+    text(_LOAD, Math.abs(_LOAD.R), _LOAD.A, 0, 0, 0);
+    
+    // Torque text
+    text(_O, (NRT + NRFT), 0, 0, 0, 1)
+    
+    // Distance text
+    text(text_D, Val_TI, 0, 0, 0, 2);
     text(text_FD, Val_FTI, 0, 0, 0, 2);
+
+    let text_list = [text_NR, text_NR_mu, text_Na, text_Na_f, text_Nb, text_Nb_f, _O, text_D, text_FD]
+    
 
 // Grid
 
