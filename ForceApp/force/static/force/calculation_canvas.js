@@ -206,7 +206,75 @@ function draw_initialization() {
             reactInputInstance.state.FTIY,
         );
     })
-    
+
+    // Vectors scaling
+
+    document.querySelector('#scale_up_btn').addEventListener('click', () => {
+        vector_scaling += 0.1;
+        document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2);
+        draw(ctx, scale, pos.X, pos.Y, 
+            reactInputInstance.state.mu, 
+            reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, 
+            reactInputInstance.state.a, 
+            reactInputInstance.state.b,
+            reactInputInstance.state.f,
+            reactInputInstance.state.springStiff,
+            reactInputInstance.state.freeLen,
+            reactInputInstance.state.springLen,
+            reactInputInstance.state.Na,
+            reactInputInstance.state.Nb,
+            reactInputInstance.state.NR,
+            reactInputInstance.state.NaFD,
+            reactInputInstance.state.NbFD,
+            reactInputInstance.state.NRFD,
+            reactInputInstance.state.NaD,
+            reactInputInstance.state.NbD,
+            reactInputInstance.state.NRD,
+            reactInputInstance.state.NRT,
+            reactInputInstance.state.NRFT,
+            reactInputInstance.state.TIX,
+            reactInputInstance.state.FTIX,
+            reactInputInstance.state.TIY,
+            reactInputInstance.state.FTIY,
+        );
+    });
+
+    document.querySelector('#scale_down_btn').addEventListener('click', () => {
+        
+        if (Math.sign(vector_scaling - 0.1) === 1) {
+            vector_scaling -= 0.1;
+        } else {
+            // pass
+        }
+        document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2);
+        draw(ctx, scale, pos.X, pos.Y, 
+            reactInputInstance.state.mu, 
+            reactInputInstance.state.contactCoord_X,
+            reactInputInstance.state.contactCoord_Y, 
+            reactInputInstance.state.a, 
+            reactInputInstance.state.b,
+            reactInputInstance.state.f,
+            reactInputInstance.state.springStiff,
+            reactInputInstance.state.freeLen,
+            reactInputInstance.state.springLen,
+            reactInputInstance.state.Na,
+            reactInputInstance.state.Nb,
+            reactInputInstance.state.NR,
+            reactInputInstance.state.NaFD,
+            reactInputInstance.state.NbFD,
+            reactInputInstance.state.NRFD,
+            reactInputInstance.state.NaD,
+            reactInputInstance.state.NbD,
+            reactInputInstance.state.NRD,
+            reactInputInstance.state.NRT,
+            reactInputInstance.state.NRFT,
+            reactInputInstance.state.TIX,
+            reactInputInstance.state.FTIX,
+            reactInputInstance.state.TIY,
+            reactInputInstance.state.FTIY,
+        );
+    })
 }
 
 function multiply(a, b) {
@@ -501,7 +569,7 @@ function draw(ctx, scale, posX, posY,
         ctx.beginPath();
 
         // ARROW
-        if (Math.sign( (Math.abs(R) - 1.2) ) == 1) {
+        if (Math.sign( (Math.abs(R) - 1.328) ) == 1) {
             const zero = {
                 X: P.x + Xshift,
                 Y: P.y + Yshift,
@@ -552,7 +620,7 @@ function draw(ctx, scale, posX, posY,
             ctx.lineTo(zero.X + transform7.X, zero.Y + transform7.Y);
             ctx.closePath();
 
-        } else if (Math.sign( (Math.abs(R) - 1.2) ) == -1) {
+        } else if (Math.sign( (Math.abs(R) - 1.328) ) == -1) {
             const zero = {
                 X: P.x + Xshift,
                 Y: P.y + Yshift,
@@ -616,42 +684,39 @@ function draw(ctx, scale, posX, posY,
         '#659DBD'
     ]
 
-    const gain = 0.5
-
     const color1 = Math.floor(Math.random() * colors.length);
-    reaction(_C, NR, NRD, gain, colors[color1]);
+    reaction(_C, NR, NRD, vector_scaling, colors[color1]);
 
     const color2 = Math.floor(Math.random() * colors.length);
-    reaction(_C, NR*mu, NRFD, gain, colors[color2]);
+    reaction(_C, NR*mu, NRFD, vector_scaling, colors[color2]);
     
     const color3 = Math.floor(Math.random() * colors.length);
-    reaction(_A, Na, NaD, gain, colors[color3]);
+    reaction(_A, Na, NaD, vector_scaling, colors[color3]);
     
     const color4 = Math.floor(Math.random() * colors.length);
-    reaction(_A, Math.abs(Na*f), NaFD, gain, colors[color4], 0, -W * gain);
+    reaction(_A, Math.abs(Na*f), NaFD, vector_scaling, colors[color4], 0, -W * vector_scaling);
     
     const color5 = Math.floor(Math.random() * colors.length);
-    reaction(_B, Nb, NbD, gain, colors[color5]);
+    reaction(_B, Nb, NbD, vector_scaling, colors[color5]);
     
     const color6 = Math.floor(Math.random() * colors.length);
-    reaction(_B,  Math.abs(Nb*f), NbFD, gain, colors[color6], 0, -W * gain);
+    reaction(_B,  Math.abs(Nb*f), NbFD, vector_scaling, colors[color6], 0, -W * vector_scaling);
     
     const _LOAD = {
         A: 0,
         F: springStiff * (freeLen - springLen),
-        x: _A.x - springStiff * (freeLen - springLen) * parse_scale * gain,
+        x: _A.x - springStiff * (freeLen - springLen) * parse_scale * vector_scaling,
         y: _A.y,
     }
-
-    reaction(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, 0.5, 'red');
+    reaction(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, vector_scaling, 'red');
     
-    reaction_text(_C, NR, NRD, gain);
-    reaction_text(_C, NR*mu, NRFD, gain);
-    reaction_text(_A, Na, NaD, gain);
-    reaction_text(_A, Math.abs(Na*f), NaFD, gain, 0, -W * gain);
-    reaction_text(_B, Nb, NbD, gain);
-    reaction_text(_B,  Math.abs(Nb*f), NbFD, gain, 0, -W * gain);
-    reaction_text(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, gain);
+    reaction_text(_C, NR, NRD, vector_scaling);
+    reaction_text(_C, NR*mu, NRFD, vector_scaling);
+    reaction_text(_A, Na, NaD, vector_scaling);
+    reaction_text(_A, Math.abs(Na*f), NaFD, vector_scaling, 0, -W * vector_scaling);
+    reaction_text(_B, Nb, NbD, vector_scaling);
+    reaction_text(_B,  Math.abs(Nb*f), NbFD, vector_scaling, 0, -W * vector_scaling);
+    reaction_text(_LOAD,  Math.abs(_LOAD.F), _LOAD.A, vector_scaling);
 
     // Torque text
 
@@ -663,17 +728,6 @@ function draw(ctx, scale, posX, posY,
     ctx.fillText(`${(torque).toFixed(2)} N*mm`, _O.x, _O.y);
 
     // INTERSECTIONS
-
-    // let RR = 0.4 * parse_scale
-    // ctx.beginPath();
-    // ctx.arc(_O.x + TIX * parse_scale, _O.y - TIY * parse_scale, RR, 0, Math.PI*2);
-    // ctx.strokeStyle = 'purple';
-    // ctx.stroke();
-    
-    // ctx.beginPath();
-    // ctx.arc(_O.x + FTIX * parse_scale, _O.y - FTIY * parse_scale, RR, 0, Math.PI*2);
-    // ctx.strokeStyle = 'purple';
-    // ctx.stroke();
 
     ctx.lineWidth = 1.5;
     ctx.strokeStyle = 'black';
@@ -726,6 +780,7 @@ function draw(ctx, scale, posX, posY,
     ctx.lineWidth = 1;   
     ctx.fillStyle = 'black';
     ctx.font = "15px Arial";
+    
     const Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) ).toFixed(2);
     ctx.fillText(`${Val_TI} mm`, dis_text_X, dis_text_Y);
 

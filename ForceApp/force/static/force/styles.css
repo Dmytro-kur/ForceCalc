@@ -892,7 +892,7 @@ scrollbar-width: none;
 width: fit-content;
 height: fit-content;
 }
-#source {
+.source {
   width: 20px;
   height: 20px;
 }

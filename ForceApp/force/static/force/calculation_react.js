@@ -1152,6 +1152,8 @@ let pos   = {X: 0, Y: 0}
 
 // initial box size in mm
 let mm = 1;
+let vector_scaling = 0.5;
+document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2);
 
 draw_initialization();
 
