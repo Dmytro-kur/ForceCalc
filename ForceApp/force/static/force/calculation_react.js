@@ -1,3 +1,213 @@
+function classic(replace) {
+    return ClassicEditor
+                .create(document.querySelector(replace), {
+                    toolbar: {
+                        items: ['heading', '|', 'bold', 'italic', 'link',
+                                'bulletedList', 'numberedList', '|', 'outdent', 
+                                'indent', 'alignment', '|', 'insertImage', 'blockQuote', 
+                                'insertTable', 'undo', 'redo', '|', 'fontBackgroundColor', 
+                                'fontColor', 'fontSize', 'fontFamily', 'highlight',
+                                'horizontalLine', '|', 'strikethrough', 'subscript',
+                                'superscript', 'underline', '|', 'specialCharacters', 
+                                'code', 'codeBlock'
+                                ],
+                    },
+                    simpleUpload : {
+                        uploadUrl: '/post_picture',
+                        headers: {
+                            'X-CSRF-TOKEN': 'CSRF-Token',
+                            Authorization: 'Bearer <JSON Web Token>'
+                        }
+                    },
+                    table: {
+                        contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells',
+                        'tableProperties', 'tableCellProperties'
+                        ]
+                    },
+
+                    image: {
+                        toolbar: [
+                            'imageStyle:full',
+                            'imageStyle:side',
+                            '|',
+                            'imageTextAlternative',
+                            'linkImage'
+                        ],
+                        
+                        styles: [
+                            'full',
+                            'side'
+                        ]
+                    }
+                })
+                .then(newEditor => {
+                    emoji(newEditor);
+                    return newEditor;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+}
+
+function emoji(editor) {
+    editor.plugins.get('SpecialCharacters').addItems('Emoji', [
+        {title: 'Grinning Face', character: '😀'},
+        {title: 'Grinning Face with Big Eyes', character: '😃'},
+        {title: 'Grinning Face with Smiling Eyes', character: '😄'},
+        {title: 'Beaming Face with Smiling Eyes', character: '😁'},
+        {title: 'Grinning Squinting Face', character: '😆'},
+        {title: 'Grinning Face with Sweat', character: '😅'},
+        {title: 'Rolling on the Floor Laughing', character: '🤣'},
+        {title: 'Face with Tears of Joy', character: '😂'},
+        {title: 'Slightly Smiling Face', character: '🙂'},
+        {title: 'Upside-Down Face', character: '🙃'},
+        {title: 'Winking Face', character: '😉'},
+        {title: 'Smiling Face with Smiling Eyes', character: '😊'},
+        {title: 'Smiling Face with Halo', character: '😇'},
+        {title: 'Smiling Face with Hearts', character: '🥰'},
+        {title: 'Smiling Face with Heart-Eyes', character: '😍'},
+        {title: 'Star-Struck', character: '🤩'},
+        {title: 'Face Blowing a Kiss', character: '😘'},
+        {title: 'Kissing Face', character: '😗'},
+        {title: 'Kissing Face with Closed Eyes', character: '😚'},
+        {title: 'Kissing Face with Smiling Eyes', character: '😙'},
+        {title: 'Face Savoring Food', character: '😋'},
+        {title: 'Face with Tongue', character: '😛'},
+        {title: 'Winking Face with Tongue', character: '😜'},
+        {title: 'Zany Face', character: '🤪'},
+        {title: 'Squinting Face with Tongue', character: '😝'},
+        {title: 'Money-Mouth Face', character: '🤑'},
+        {title: 'Hugging Face', character: '🤗'},
+        {title: 'Face with Hand Over Mouth', character: '🤭'},
+        {title: 'Shushing Face', character: '🤫'},
+        {title: 'Thinking Face', character: '🤔'},
+        {title: 'Zipper-Mouth Face', character: '🤐'},
+        {title: 'Face with Raised Eyebrow', character: '🤨'},
+        {title: 'Neutral Face', character: '😐'},
+        {title: 'Expressionless Face', character: '😑'},
+        {title: 'Face Without Mouth', character: '😶'},
+        {title: 'Smirking Face', character: '😏'},
+        {title: 'Unamused Face', character: '😒'},
+        {title: 'Face with Rolling Eyes', character: '🙄'},
+        {title: 'Grimacing Face', character: '😬'},
+        {title: 'Lying Face', character: '🤥'},
+        {title: 'Relieved Face', character: '😌'},
+        {title: 'Pensive Face', character: '😔'},
+        {title: 'Sleepy Face', character: '😪'},
+        {title: 'Drooling Face', character: '🤤'},
+        {title: 'Sleeping Face', character: '😴'},
+        {title: 'Face with Medical Mask', character: '😷'},
+        {title: 'Face with Thermometer', character: '🤒'},
+        {title: 'Face with Head-Bandage', character: '🤕'},
+        {title: 'Nauseated Face', character: '🤢'},
+        {title: 'Face Vomiting', character: '🤮'},
+        {title: 'Sneezing Face', character: '🤧'},
+        {title: 'Hot Face', character: '🥵'},
+        {title: 'Cold Face', character: '🥶'},
+        {title: 'Woozy Face', character: '🥴'},
+        {title: 'Dizzy Face', character: '😵'},
+        {title: 'Exploding Head', character: '🤯'},
+        {title: 'Cowboy Hat Face', character: '🤠'},
+        {title: 'Partying Face', character: '🥳'},
+        {title: 'Smiling Face with Sunglasses', character: '😎'},
+        {title: 'Nerd Face', character: '🤓'},
+        {title: 'Face with Monocle', character: '🧐'},
+        {title: 'Confused Face', character: '😕'},
+        {title: 'Worried Face', character: '😟'},
+        {title: 'Slightly Frowning Face', character: '🙁'},
+        {title: 'Frowning Face', character: '☹️'},
+        {title: 'Face with Open Mouth', character: '😮'},
+        {title: 'Hushed Face', character: '😯'},
+        {title: 'Astonished Face', character: '😲'},
+        {title: 'Flushed Face', character: '😳'},
+        {title: 'Pleading Face', character: '🥺'},
+        {title: 'Frowning Face with Open Mouth', character: '😦'},
+        {title: 'Anguished Face', character: '😧'},
+        {title: 'Fearful Face', character: '😨'},
+        {title: 'Anxious Face with Sweat', character: '😰'},
+        {title: 'Sad but Relieved Face', character: '😥'},
+        {title: 'Crying Face', character: '😢'},
+        {title: 'Loudly Crying Face', character: '😭'},
+        {title: 'Face Screaming in Fear', character: '😱'},
+        {title: 'Confounded Face', character: '😖'},
+        {title: 'Persevering Face', character: '😣'},
+        {title: 'Disappointed Face', character: '😞'},
+        {title: 'Downcast Face with Sweat', character: '😓'},
+        {title: 'Weary Face', character: '😩'},
+        {title: 'Tired Face', character: '😫'},
+        {title: 'Face with Steam From Nose', character: '😤'},
+        {title: 'Pouting Face', character: '😡'},
+        {title: 'Angry Face', character: '😠'},
+        {title: 'Face with Symbols on Mouth', character: '🤬'},
+        {title: 'Smiling Face with Horns', character: '😈'},
+        {title: 'Angry Face with Horns', character: '👿'},
+        {title: 'Skull', character: '💀'},
+        {title: 'Skull and Crossbones', character: '☠️'},
+        {title: 'Pile of Poo', character: '💩'},
+        {title: 'Clown Face', character: '🤡'},
+        {title: 'Ogre', character: '👹'},
+        {title: 'Goblin', character: '👺'},
+        {title: 'Ghost', character: '👻'},
+        {title: 'Alien', character: '👽'},
+        {title: 'Alien Monster', character: '👾'},
+        {title: 'Robot', character: '🤖'},
+        {title: 'Grinning Cat', character: '😺'},
+        {title: 'Grinning Cat with Smiling Eyes', character: '😸'},
+        {title: 'Cat with Tears of Joy', character: '😹'},
+        {title: 'Smiling Cat with Heart-Eyes', character: '😻'},
+        {title: 'Cat with Wry Smile', character: '😼'},
+        {title: 'Kissing Cat', character: '😽'},
+        {title: 'Weary Cat', character: '🙀'},
+        {title: 'Crying Cat', character: '😿'},
+        {title: 'Pouting Cat', character: '😾'},
+        {title: 'Kiss Mark', character: '💋'},
+        {title: 'Waving Hand', character: '👋'},
+        {title: 'Raised Back of Hand', character: '🤚'},
+        {title: 'Hand with Fingers Splayed', character: '🖐️'},
+        {title: 'Raised Hand', character: '✋'},
+        {title: 'Vulcan Salute', character: '🖖'},
+        {title: 'OK Hand', character: '👌'},
+        {title: 'Victory Hand', character: '✌️'},
+        {title: 'Crossed Fingers', character: '🤞'},
+        {title: 'Love-You Gesture', character: '🤟'},
+        {title: 'Sign of the Horns', character: '🤘'},
+        {title: 'Call Me Hand', character: '🤙'},
+        {title: 'Backhand Index Pointing Left', character: '👈'},
+        {title: 'Backhand Index Pointing Right', character: '👉'},
+        {title: 'Backhand Index Pointing Up', character: '👆'},
+        {title: 'Middle Finger', character: '🖕'},
+        {title: 'Backhand Index Pointing Down', character: '👇'},
+        {title: 'Index Pointing Up', character: '☝️'},
+        {title: 'Thumbs Up', character: '👍'},
+        {title: 'Thumbs Down', character: '👎'},
+        {title: 'Raised Fist', character: '✊'},
+        {title: 'Oncoming Fist', character: '👊'},
+        {title: 'Left-Facing Fist', character: '🤛'},
+        {title: 'Right-Facing Fist', character: '🤜'},
+        {title: 'Clapping Hands', character: '👏'},
+        {title: 'Raising Hands', character: '🙌'},
+        {title: 'Open Hands', character: '👐'},
+        {title: 'Palms Up Together', character: '🤲'},
+        {title: 'Handshake', character: '🤝'},
+        {title: 'Folded Hands', character: '🙏'},
+        {title: 'Writing Hand', character: '✍️'},
+        {title: 'Nail Polish', character: '💅'},
+        {title: 'Selfie', character: '🤳'},
+        {title: 'Flexed Biceps', character: '💪'},
+        {title: 'Leg', character: '🦵'},
+        {title: 'Foot', character: '🦶'},
+        {title: 'Ear', character: '👂'},
+        {title: 'Nose', character: '👃'},
+        {title: 'Brain', character: '🧠'},
+        {title: 'Tooth', character: '🦷'},
+        {title: 'Bone', character: '🦴'},
+        {title: 'Eyes', character: '👀'},
+        {title: 'Eye', character: '👁️'},
+        {title: 'Tongue', character: '👅'},
+        {title: 'Mouth', character: '👄'},
+    ] );
+}
+
 class CalcInput extends React.Component {
     constructor(props) {
         super(props);
@@ -1157,6 +1367,11 @@ document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2)
 
 draw_initialization();
 
-
-
+classic('#editor')
+.then(Editor => {
+    const editorData = Editor.getData();
+    console.log(editorData)
+    Editor.setData(
+        '<p>Write your p<strong>ost here</strong></p><figure class="image ck-widget ck-widget_with-resizer" contenteditable="false"><img src="/static/force/electric-handbrake.jpg"><div class="ck ck-reset_all ck-widget__type-around"><div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__fake-caret"></div></div><figcaption class="ck-editor__editable ck-editor__nested-editable ck-placeholder ck-hidden" data-placeholder="Enter image caption" contenteditable="true"><br data-cke-filler="true"></figcaption><div class="ck ck-reset_all ck-widget__resizer" style="height: 367px; left: 0px; top: 0px; width: 489px; display: none;"><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left"></div><div class="ck ck-size-view" style="display: none;"></div></div></figure><p><br data-cke-filler="true"></p><pre data-language="Plain text" spellcheck="false"><code class="language-plaintext">gferwfewf</code></pre>');
+});
     
