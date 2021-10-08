@@ -9,7 +9,7 @@ function enableScroll() {
 function draw_initialization() {
 
     el = document.querySelector('#body').offsetWidth
-    canvas.width = el * 0.9;
+    canvas.width = el * canvas_size;
     
     if (canvas.width < 600) {
         canvas.height = canvas.width;
@@ -171,7 +171,7 @@ function draw_initialization() {
         event.preventDefault();
 
         el = document.querySelector('#body').offsetWidth
-        canvas.width = el * 0.9;
+        canvas.width = el * canvas_size;
         
         if (canvas.width < 600) {
             canvas.height = canvas.width;
