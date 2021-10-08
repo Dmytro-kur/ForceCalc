@@ -1011,4 +1011,3 @@ function draw(ctx, scale, posX, posY,
 // https://www.canva.com/colors/color-palettes/
 // https://css-tricks.com/clipping-masking-css/
 // https://www.photopea.com/
-// https://www.photopea.com/
