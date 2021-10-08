@@ -1,4 +1,6 @@
 function classic(replace) {
+    // console.log(ClassicEditor.builtinPlugins.map( plugin => plugin.pluginName ))
+    
     return ClassicEditor
                 .create(document.querySelector(replace), {
                     toolbar: {
@@ -9,8 +11,67 @@ function classic(replace) {
                                 'fontColor', 'fontSize', 'fontFamily', 'highlight',
                                 'horizontalLine', '|', 'strikethrough', 'subscript',
                                 'superscript', 'underline', '|', 'specialCharacters', 
-                                'code', 'codeBlock'
-                                ],
+                                'code', 'codeBlock', 'findAndReplace', 'selectAll', 
+                                'mediaEmbed', 'pageBreak', 'removeFormat', 
+                                'sourceEditing', 'textPartLanguage', 'todoList'
+
+                                ], shouldNotGroupWhenFull: true
+                    },
+                    fontColor: {
+                        colors: [
+                            {
+                                color: 'hsl(0, 0%, 0%)',
+                                label: 'Black'
+                            },
+                            {
+                                color: 'hsl(0, 0%, 30%)',
+                                label: 'Dim grey'
+                            },
+                            {
+                                color: 'hsl(0, 0%, 60%)',
+                                label: 'Grey'
+                            },
+                            {
+                                color: 'hsl(0, 0%, 90%)',
+                                label: 'Light grey'
+                            },
+                            {
+                                color: 'hsl(0, 0%, 100%)',
+                                label: 'White',
+                                hasBorder: true
+                            },
+            
+                            // ...
+                        ]
+                    },
+                    fontBackgroundColor: {
+                        colors: [
+                            {
+                                color: 'hsl(0, 75%, 60%)',
+                                label: 'Red'
+                            },
+                            {
+                                color: 'hsl(30, 75%, 60%)',
+                                label: 'Orange'
+                            },
+                            {
+                                color: 'hsl(60, 75%, 60%)',
+                                label: 'Yellow'
+                            },
+                            {
+                                color: 'hsl(90, 75%, 60%)',
+                                label: 'Light green'
+                            },
+                            {
+                                color: 'hsl(120, 75%, 60%)',
+                                label: 'Green'
+                            },
+            
+                            // ...
+                        ]
+                    },
+                    fontFamily: {
+                        supportAllValues: true
                     },
                     simpleUpload : {
                         uploadUrl: '/post_picture',
@@ -21,23 +82,33 @@ function classic(replace) {
                     },
                     table: {
                         contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells',
-                        'tableProperties', 'tableCellProperties'
+                        'toggleTableCaption', 'tableProperties', 'tableCellProperties'
                         ]
                     },
 
                     image: {
                         toolbar: [
-                            'imageStyle:full',
+                            'imageStyle:inline',
+                            // 'imageStyle:alignLeft',
+                            // 'imageStyle:alignRight',
+                            // 'imageStyle:alignCenter',
+                            // 'imageStyle:alignBlockLeft',
+                            // 'imageStyle:alignBlockRight',
+                            // 'imageStyle:block',
                             'imageStyle:side',
+                            'imageStyle:wrapText',
+                            'imageStyle:breakText',
+                            'resizeImage:original',
+                            'resizeImage:25',
+                            'resizeImage:50',
+                            'resizeImage:75',
+
                             '|',
                             'imageTextAlternative',
-                            'linkImage'
+                            'toggleImageCaption',
+                            '|',
+                            'linkImage',
                         ],
-                        
-                        styles: [
-                            'full',
-                            'side'
-                        ]
                     }
                 })
                 .then(newEditor => {
@@ -1367,11 +1438,12 @@ document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2)
 
 draw_initialization();
 
-classic('#editor')
-.then(Editor => {
-    const editorData = Editor.getData();
-    console.log(editorData)
-    Editor.setData(
-        '<p>Write your p<strong>ost here</strong></p><figure class="image ck-widget ck-widget_with-resizer" contenteditable="false"><img src="/static/force/electric-handbrake.jpg"><div class="ck ck-reset_all ck-widget__type-around"><div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__fake-caret"></div></div><figcaption class="ck-editor__editable ck-editor__nested-editable ck-placeholder ck-hidden" data-placeholder="Enter image caption" contenteditable="true"><br data-cke-filler="true"></figcaption><div class="ck ck-reset_all ck-widget__resizer" style="height: 367px; left: 0px; top: 0px; width: 489px; display: none;"><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left"></div><div class="ck ck-size-view" style="display: none;"></div></div></figure><p><br data-cke-filler="true"></p><pre data-language="Plain text" spellcheck="false"><code class="language-plaintext">gferwfewf</code></pre>');
-});
+document.querySelector('#editor').innerHTML = 
+'<div class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false"><p>Write your p<strong>ost here</strong></p><figure class="image ck-widget ck-widget_with-resizer image_resized image-style-block-align-right" contenteditable="false" style="width:50%;"><img src="/static/force/electric-handbrake.jpg"><figcaption class="ck-editor__editable ck-editor__nested-editable ck-placeholder" data-placeholder="Enter image caption" contenteditable="false"><br data-cke-filler="true"></figcaption><div class="ck ck-reset_all ck-widget__type-around"><div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__fake-caret"></div></div><div class="ck ck-reset_all ck-widget__resizer" style="height: 281px; left: 0px; top: 0px; width: 380px; display: none;"><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left"></div><div class="ck ck-size-view" style="display: none;"></div></div></figure><p><br data-cke-filler="true"></p><pre data-language="Plain text" spellcheck="false"><code class="language-plaintext">gferwfewf</code></pre></div>'
+// classic('#editor')
+// .then(Editor => {
+//     Editor.setData(
+//         '<p>Write your p<strong>ost here</strong></p><figure class="image ck-widget ck-widget_with-resizer" contenteditable="true"><img src="/static/force/electric-handbrake.jpg"><div class="ck ck-reset_all ck-widget__type-around"><div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__fake-caret"></div></div><figcaption class="ck-editor__editable ck-editor__nested-editable ck-placeholder ck-hidden" data-placeholder="Enter image caption" contenteditable="true"><br data-cke-filler="true"></figcaption><div class="ck ck-reset_all ck-widget__resizer" style="height: 367px; left: 0px; top: 0px; width: 489px; display: none;"><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left"></div><div class="ck ck-size-view" style="display: none;"></div></div></figure><p><br data-cke-filler="true"></p><pre data-language="Plain text" spellcheck="false"><code class="language-plaintext">gferwfewf</code></pre>');
+//         // console.log( Array.from( Editor.ui.componentFactory.names() ) );
+// });
     
