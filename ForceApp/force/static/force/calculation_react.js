@@ -278,7 +278,7 @@ class CalcInput extends React.Component {
 
                     <div className="col-sm-12 position-relative">
                         <label style={label_style} htmlFor="N" className="form-label">Direction of normal reaction force:</label>
-                        <input id="N" className="form-control form-control-sm" type="number" step="1" min="90" max="270" onChange={this.update_N} value={this.state.N}/>
+                        <input id="N" className="form-control form-control-sm" type="number" step="0.1" min="90" max="270" onChange={this.update_N} value={this.state.N}/>
                         <div id="N_invalid-tooltip" className="invalid-tooltip">
                         </div>
                     </div>

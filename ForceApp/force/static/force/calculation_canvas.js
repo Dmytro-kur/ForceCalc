@@ -414,6 +414,8 @@ function draw(ctx, scale, posX, posY,
     let _O = {
         x: rect.startX + rect.width/2,
         y: rect.startY + rect.height/2,
+        Xshift: 0,
+        Yshift: 0,
     }
 // Correction of floating origin
 
@@ -687,11 +689,13 @@ function draw(ctx, scale, posX, posY,
     const color6 = Math.floor(Math.random() * colors.length);
     reaction(_B,  Math.abs(Nb*f), NbFD, vector_scaling, colors[color6], 0, -W * vector_scaling);
     
-    const _LOAD = {
+    let _LOAD = {
         A: 0,
         R: springStiff * (freeLen - springLen),
         x: _A.x - springStiff * (freeLen - springLen) * parse_scale * vector_scaling,
         y: _A.y,
+        Xshift: 0,
+        Yshift: 0,
     }
     reaction(_LOAD,  Math.abs(_LOAD.R), _LOAD.A, vector_scaling, 'red');
     
@@ -717,29 +721,41 @@ function draw(ctx, scale, posX, posY,
     }
 
 
-    const text_NR = {
+    let text_NR = {
         x: ( _C.x + (Math.abs(NR) * Math.cos(NRD*Math.PI/180)) * vector_scaling * parse_scale),
         y: ( _C.y - (Math.abs(NR) * Math.sin(NRD*Math.PI/180)) * vector_scaling * parse_scale),
+        Xshift: 0,
+        Yshift: 0,
     }
-    const text_NR_mu = {
+    let text_NR_mu = {
         x: ( _C.x + (Math.abs(NR*mu) * Math.cos(NRFD*Math.PI/180)) * vector_scaling * parse_scale),
         y: ( _C.y - (Math.abs(NR*mu) * Math.sin(NRFD*Math.PI/180)) * vector_scaling * parse_scale),
+        Xshift: 0,
+        Yshift: 0,
     }
-    const text_Na = {
+    let text_Na = {
         x: ( _A.x + (Math.abs(Na) * Math.cos(NaD*Math.PI/180)) * vector_scaling * parse_scale),
         y: ( _A.y - (Math.abs(Na) * Math.sin(NaD*Math.PI/180)) * vector_scaling * parse_scale),
+        Xshift: 0,
+        Yshift: 0,
     }
-    const text_Na_f = {
+    let text_Na_f = {
         x: ( _A.x + (Math.abs(Na*f) * Math.cos(NaFD*Math.PI/180)) * vector_scaling * parse_scale),
-        y: ( _A.y - (Math.abs(Na*f) * Math.sin(NaFD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _A.y - (Math.abs(Na*f) * Math.sin(NaFD*Math.PI/180)) * vector_scaling * parse_scale) - W * vector_scaling,
+        Xshift: 0,
+        Yshift: 0,
     } 
-    const text_Nb = {
+    let text_Nb = {
         x: ( _B.x + (Math.abs(Nb) * Math.cos(NbD*Math.PI/180)) * vector_scaling * parse_scale),
         y: ( _B.y - (Math.abs(Nb) * Math.sin(NbD*Math.PI/180)) * vector_scaling * parse_scale),
+        Xshift: 0,
+        Yshift: 0,
     }
-    const text_Nb_f = {
+    let text_Nb_f = {
         x: ( _B.x + (Math.abs(Nb*f) * Math.cos(NbFD*Math.PI/180)) * vector_scaling * parse_scale),
-        y: ( _B.y - (Math.abs(Nb*f) * Math.sin(NbFD*Math.PI/180)) * vector_scaling * parse_scale),
+        y: ( _B.y - (Math.abs(Nb*f) * Math.sin(NbFD*Math.PI/180)) * vector_scaling * parse_scale) - W * vector_scaling,
+        Xshift: 0,
+        Yshift: 0,
     } 
 
     // INTERSECTIONS
@@ -775,52 +791,67 @@ function draw(ctx, scale, posX, posY,
 
     ctx.beginPath();
     ctx.setLineDash([5, 15]);
-    ctx.moveTo(_O.x, _O.y);
-    ctx.lineTo(new_TIX, new_TIY);
+    ctx.moveTo(new_TIX, new_TIY);
+    ctx.lineTo(_O.x, _O.y);
     ctx.stroke();
 
     ctx.beginPath();
     ctx.setLineDash([5, 15]);
-    ctx.moveTo(_O.x, _O.y);
-    ctx.lineTo(new_FTIX, new_FTIY);
+    ctx.moveTo(new_FTIX, new_FTIY);
+    ctx.lineTo(_O.x, _O.y);
     ctx.stroke();
 
     ctx.setLineDash([]);
 
     // distance text
 
-    const text_D = {
+    let text_D = {
         x: _O.x + (new_TIX - _O.x)/2,
         y: _O.y - (_O.y - new_TIY)/2,
+        Xshift: 0,
+        Yshift: 0,
     };
-    const Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) );
+    let Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) );
 
-    const text_FD = {
+    let text_FD = {
         x: _O.x + (new_FTIX - _O.x)/2,
         y: _O.y - (_O.y - new_FTIY)/2,
+        Xshift: 0,
+        Yshift: 0,
     } 
     const Val_FTI = Math.sqrt( Math.pow(FTIX, 2) + Math.pow(FTIY, 2) );
 
+    let text_list = [text_NR, text_NR_mu, text_Na, text_Na_f, text_Nb, text_Nb_f, _LOAD, _O, text_D, text_FD];
+    const Xthreshold = 125;
+    const Ythreshold = 15;
 
+    for (let i = 0; i < text_list.length; i++) {
+        for (let j = 0; j < text_list.length; j++) {
+            if (i !== j) {
+                if (Math.abs(text_list[i].x - text_list[j].x) < Xthreshold &&
+                    Math.abs(text_list[i].y - text_list[j].y) < Ythreshold) {
+                        text_list[i].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(7.5)
+                        text_list[j].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(-7.5)
+                }
+            }
+        }
+    }
 
     // Force text
-    text(text_NR, NR, NRD, 0, 0, 0);
-    text(text_NR_mu, NR*mu, NRFD, 0, 0, 0);
-    text(text_Na, Na, NaD, 0, 0, 0);
-    text(text_Na_f, Math.abs(Na*f), NaFD, 0, -W * vector_scaling, 0);
-    text(text_Nb, Nb, NbD, 0, 0, 0);
-    text(text_Nb_f,  Math.abs(Nb*f), NbFD, 0, -W * vector_scaling, 0);
-    text(_LOAD, Math.abs(_LOAD.R), _LOAD.A, 0, 0, 0);
+    text(text_NR, NR, NRD, text_NR.Xshift, text_NR.Yshift, 0);
+    text(text_NR_mu, NR*mu, NRFD, text_NR_mu.Xshift, text_NR_mu.Yshift, 0);
+    text(text_Na, Na, NaD, text_Na.Xshift, text_Na.Yshift, 0);
+    text(text_Na_f, Math.abs(Na*f), NaFD, text_Na_f.Xshift, text_Na_f.Yshift, 0);
+    text(text_Nb, Nb, NbD, text_Nb.Xshift, text_Nb.Yshift, 0);
+    text(text_Nb_f,  Math.abs(Nb*f), NbFD, text_Nb_f.Xshift, text_Nb_f.Yshift, 0);
+    text(_LOAD, Math.abs(_LOAD.R), _LOAD.A, _LOAD.Xshift, _LOAD.Yshift, 0);
     
     // Torque text
-    text(_O, (NRT + NRFT), 0, 0, 0, 1)
+    text(_O, (NRT + NRFT), 0, _O.Xshift, _O.Yshift, 1)
     
     // Distance text
-    text(text_D, Val_TI, 0, 0, 0, 2);
-    text(text_FD, Val_FTI, 0, 0, 0, 2);
-
-    let text_list = [text_NR, text_NR_mu, text_Na, text_Na_f, text_Nb, text_Nb_f, _O, text_D, text_FD]
-    
+    text(text_D, Val_TI, 0, text_D.Xshift, text_D.Yshift, 2);
+    text(text_FD, Val_FTI, 0, text_FD.Xshift, text_FD.Yshift, 2);
 
 // Grid
 
