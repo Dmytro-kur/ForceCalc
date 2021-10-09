@@ -476,7 +476,7 @@ function draw(ctx, scale, posX, posY,
     ctx.lineWidth = W/5;
     ctx.strokeRect(_B.x, (_B.y - W/2), Math.abs(_B.x - _C.x), W)
 
-    // Build floating origin
+// Build floating origin
 
     let R = 0.4 * parse_scale
     ctx.beginPath();
@@ -485,39 +485,69 @@ function draw(ctx, scale, posX, posY,
     ctx.stroke();
 
 // Build rigid fixation
-    function build_rigid_fix(P, W, n) {
+    function build_rigid_fix(P, W) {
         // P - point, where fixation was added,
         // W - width of the beam
-        // n - number of lines for ground
 
-        ctx.strokeStyle = 'brown';
-        ctx.lineWidth = W/3;
+        // Create a linear gradient
+        var gradient1 = ctx.createLinearGradient(
+            P.x,
+            P.y + W - W/2,
+            P.x,
+            P.y + W + W/2,
+        )
+        // Create a linear gradient
+        var gradient2 = ctx.createLinearGradient(
+            P.x,
+            P.y - W + W/2,
+            P.x,
+            P.y - W - W/2,
+        )
+        // Add three color stops
+        gradient1.addColorStop(0, 'brown');
+        gradient1.addColorStop(1, 'white');
+        gradient2.addColorStop(0, 'brown');
+        gradient2.addColorStop(1, 'white');
+
+        ctx.strokeStyle = gradient1;
+        ctx.lineWidth = W;
         ctx.beginPath();
-    
         ctx.moveTo(P.x - 2*W, P.y + W);
         ctx.lineTo(P.x + 2*W, P.y + W);
-    
+        ctx.stroke();
+
+        ctx.strokeStyle = gradient2;
+        ctx.beginPath();
         ctx.moveTo(P.x - 2*W, P.y - W);
         ctx.lineTo(P.x + 2*W, P.y - W);
         ctx.stroke();
-
-        ctx.lineWidth = W/6;
-        ctx.beginPath();
-
-        for (let i = 0; i < n; i++) {
-
-            ctx.moveTo(P.x - 2*W + i*4*W/n, P.y + W);
-            ctx.lineTo(P.x - 2*W + i*4*W/n + 4*W/n, P.y + W + 4*W/n);
-
-            ctx.moveTo(P.x + 2*W - i*4*W/n, P.y - W);
-            ctx.lineTo(P.x + 2*W - i*4*W/n - 4*W/n, P.y - W - 4*W/n);
-        }
-
-        ctx.stroke();
     }
 
-    build_rigid_fix(_A, W, 6);
-    build_rigid_fix(_B, W, 6);
+    build_rigid_fix(_A, 1.5*W);
+    build_rigid_fix(_B, 1.5*W);
+
+    // Create a linear gradient
+    var gradient = ctx.createLinearGradient(
+        _C.x,
+        _C.y,
+        _C.x + 1.5*W * Math.cos((NRD+180)*Math.PI/180),
+        _C.y - 1.5*W * Math.sin((NRD+180)*Math.PI/180));
+
+    // Add three color stops
+    gradient.addColorStop(0, 'brown');
+    gradient.addColorStop(1, 'white');
+
+    ctx.beginPath();
+    ctx.arc(_C.x + 10 * parse_scale * Math.cos((NRD+180)*Math.PI/180),
+            _C.y - 10 * parse_scale * Math.sin((NRD+180)*Math.PI/180), 
+            9.7 * parse_scale, 
+            (-NRD + 15) * Math.PI/180, 
+            (-NRD - 15) * Math.PI/180, true);
+    ctx.lineWidth = 1.5*W;
+    ctx.strokeStyle = gradient;
+    ctx.stroke();
+
+
 
     function build_spring(n, W, L, color) {
         // n - number of turns
@@ -663,12 +693,12 @@ function draw(ctx, scale, posX, posY,
 
     let colors = [
         '#98D7C2',
-        '#167D7F',
-        '#29A0B1',
-        '#145DA0',
-        '#2E8BC0',
-        '#B1D4E0',
-        '#659DBD'
+        // '#167D7F',
+        // '#29A0B1',
+        // '#145DA0',
+        // '#2E8BC0',
+        // '#B1D4E0',
+        // '#659DBD'
     ]
 
     const color1 = Math.floor(Math.random() * colors.length);
