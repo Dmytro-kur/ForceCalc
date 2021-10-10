@@ -461,29 +461,6 @@ function draw(ctx, scale, posX, posY,
     // ctx.strokeStyle = 'black';
     // ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
 
-
-
-// Build first part of beam
-    let W = 0.4 * parse_scale
-    // W - width of the beam
-
-    ctx.strokeStyle = 'green';
-    ctx.lineWidth = W/5;
-    ctx.strokeRect(_A.x, (_A.y - W/2), Math.abs(_B.x - _A.x), W)
-
-// Build second part of beam
-    ctx.strokeStyle = 'coral';
-    ctx.lineWidth = W/5;
-    ctx.strokeRect(_B.x, (_B.y - W/2), Math.abs(_B.x - _C.x), W)
-
-// Build floating origin
-
-    let R = 0.4 * parse_scale
-    ctx.beginPath();
-    ctx.arc(_O.x, _O.y, R, 0, Math.PI*2);
-    ctx.strokeStyle = 'purple';
-    ctx.stroke();
-
 // Build rigid fixation
     function build_rigid_fix(P, W) {
         // P - point, where fixation was added,
@@ -546,6 +523,29 @@ function draw(ctx, scale, posX, posY,
     ctx.lineWidth = 1.5*W;
     ctx.strokeStyle = gradient;
     ctx.stroke();
+
+
+// Build first part of beam
+    let W = 0.4 * parse_scale
+    // W - width of the beam
+
+    ctx.strokeStyle = 'green';
+    ctx.lineWidth = W/5;
+    ctx.strokeRect(_A.x, (_A.y - W/2), Math.abs(_B.x - _A.x), W)
+
+// Build second part of beam
+    ctx.strokeStyle = 'coral';
+    ctx.lineWidth = W/5;
+    ctx.strokeRect(_B.x, (_B.y - W/2), Math.abs(_B.x - _C.x), W)
+
+// Build floating origin
+
+    let R = 0.4 * parse_scale
+    ctx.beginPath();
+    ctx.arc(_O.x, _O.y, R, 0, Math.PI*2);
+    ctx.strokeStyle = 'purple';
+    ctx.stroke();
+
 
 
 
@@ -692,10 +692,10 @@ function draw(ctx, scale, posX, posY,
 
 
     let colors = [
-        '#98D7C2',
+        // '#98D7C2',
         // '#167D7F',
         // '#29A0B1',
-        // '#145DA0',
+        '#145DA0',
         // '#2E8BC0',
         // '#B1D4E0',
         // '#659DBD'
