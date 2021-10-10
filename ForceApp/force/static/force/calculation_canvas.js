@@ -460,6 +460,9 @@ function draw(ctx, scale, posX, posY,
     // ctx.lineWidth = 0.5;
     // ctx.strokeStyle = 'black';
     // ctx.strokeRect(rect.startX, rect.startY, rect.width, rect.height)
+    
+    let W = 0.4 * parse_scale
+    // W - width of the beam
 
 // Build rigid fixation
     function build_rigid_fix(P, W) {
@@ -503,7 +506,7 @@ function draw(ctx, scale, posX, posY,
     build_rigid_fix(_A, 1.5*W);
     build_rigid_fix(_B, 1.5*W);
 
-    // Create a linear gradient
+// Create a linear gradient for curved support
     var gradient = ctx.createLinearGradient(
         _C.x,
         _C.y,
@@ -524,10 +527,26 @@ function draw(ctx, scale, posX, posY,
     ctx.strokeStyle = gradient;
     ctx.stroke();
 
+// Joints A, B, C
+    ctx.lineWidth = 2;   
+    ctx.fillStyle = '#B1D4E0';
+    ctx.font = `${1.5*parse_scale}px Arial`;
+    ctx.fillText('A', _A.x - 0.5 * parse_scale, _A.y + 2 * parse_scale);
+
+    ctx.lineWidth = 2;   
+    ctx.fillStyle = '#B1D4E0';
+    ctx.font = `${1.5*parse_scale}px Arial`;
+    ctx.fillText('B', _B.x - 0.5 * parse_scale, _B.y + 2 * parse_scale);
+
+    ctx.lineWidth = 2;   
+    ctx.fillStyle = '#B1D4E0';
+    ctx.font = `${1.5*parse_scale}px Arial`;
+    ctx.fillText('C', _C.x - 0.5 * parse_scale, _C.y + 2 * parse_scale);
+
+
+
 
 // Build first part of beam
-    let W = 0.4 * parse_scale
-    // W - width of the beam
 
     ctx.strokeStyle = 'green';
     ctx.lineWidth = W/5;
