@@ -359,7 +359,8 @@ class CalcInput extends React.Component {
                     <div className="wave-btn__sidebar text__sidebar">
                         <div style={group_name_style} className="position-relative">Contact</div>
                     </div>
-                    <div style={for_wave_btn__sidebar} id="wave__contactForm" className="wave-btn__sidebar"></div>
+                    <div style={for_wave_btn__sidebar} id="wave__contactForm" className="wave-btn__sidebar">
+                    </div>
                 </div>
                 <div id="expanded_box__contactForm" className="expanded_box" data-state={"closed"}>
                     <form id="contact_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
@@ -413,7 +414,8 @@ class CalcInput extends React.Component {
                     <div className="wave-btn__sidebar text__sidebar">
                         <div style={group_name_style} className="position-relative">Plunger</div>
                     </div>
-                    <div style={for_wave_btn__sidebar} id="wave__plungerForm" className="wave-btn__sidebar"></div>
+                    <div style={for_wave_btn__sidebar} id="wave__plungerForm" className="wave-btn__sidebar">
+                    </div>
                 </div>
                 <div id="expanded_box__plungerForm" className="expanded_box" data-state={"closed"}>
                     <form id="plunger_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
@@ -466,7 +468,8 @@ class CalcInput extends React.Component {
                     <div className="wave-btn__sidebar text__sidebar">
                         <div style={group_name_style} className="position-relative">Spring</div>
                     </div>
-                    <div style={for_wave_btn__sidebar} id="wave__springForm" className="wave-btn__sidebar"></div>
+                    <div style={for_wave_btn__sidebar} id="wave__springForm" className="wave-btn__sidebar">
+                    </div>
                 </div>
                 <div id="expanded_box__springForm" className="expanded_box" data-state={"closed"}>
                     <form id="spring_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
@@ -519,7 +522,8 @@ class CalcInput extends React.Component {
                     <div className="wave-btn__sidebar text__sidebar">
                         <div style={group_name_style} className="position-relative">Angles</div>
                     </div>
-                    <div style={for_wave_btn__sidebar} id="wave__anglesForm" className="wave-btn__sidebar"></div>
+                    <div style={for_wave_btn__sidebar} id="wave__anglesForm" className="wave-btn__sidebar">
+                    </div>
                 </div>
                 <div id="expanded_box__anglesForm" className="expanded_box" data-state={"closed"}>
                     <form id="angles_form" className="row g-1 needs-validation" noValidate onSubmit={this.preventSubmit}>
@@ -1440,13 +1444,401 @@ document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2)
 draw_initialization();
 
 document.querySelector('#editor').innerHTML = 
-'<div class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false"><figure class="image ck-widget image_resized image-style-side ck-widget_with-resizer" style="width:25%;" contenteditable="false"><img src="/static/force/electric-handbrake.jpg"><figcaption class="ck-editor__editable ck-editor__nested-editable" data-placeholder="Enter image caption" contenteditable="true"><span style="background-color:rgb(255,255,255);color:rgb(32,33,36);font-family:&quot;Google Sans&quot;, arial, sans-serif;">Parking brake Switch</span></figcaption><div class="ck ck-reset_all ck-widget__type-around"><div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__fake-caret"></div></div><div class="ck ck-reset_all ck-widget__resizer" style="height: 162px; left: 0px; top: 0px; width: 219px; display: none;"><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left"></div><div class="ck ck-size-view" style="display: none;"></div></div></figure><p>This scheme reflects a simplified model of regular switches used inside cars.</p><p>It is a mechanical scheme that consists of:</p><ul><li>two rigid joins (A &amp; B) with free movement along X axis;</li><li>beam placed between joints A &amp; C;&nbsp;</li><li>rigid curved contact surface at the right end of the beam;</li><li>spring that generate linear load on the beam\'s left side depending on its movement.</li></ul><p>On the sidebar there is a number of settings:&nbsp;</p><ul style="list-style-type:disc;"><li>Contact field describes friction between beam and joint C. First column is a friction coefficient (as an assumption we use <a href="https://en.wikipedia.org/wiki/Friction">dry friction</a> laws). "X coordinate" and “Y coordinate” columns define position (mm) of joint C compared to coordinate origin marked as purple circle.</li><li>Plunger field describes interaction between beam and joints A &amp; B. First column is a friction coefficient (dry friction laws assumption is also applied here). “Distance A” indicates distance between B &amp; C (mm), while “Distance B” - distance between A &amp; B (mm).</li><li>Spring field describes linear spring characteristics (based on <a href="https://en.wikipedia.org/wiki/Hooke%27s_law">Hooke\'s law</a>). “Stiffness” column contains spring <a href="https://en.wikipedia.org/wiki/Stiffness">stiffness</a> in (N/mm), “Free length” - the length of the spring when uncompressed, “Length” - the length of the compressed spring.</li><li>Angles field consists of the following: &nbsp;“<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of normal reaction force” is an </span>orientation of curved contact surface, “<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of plunger friction forces” and “Direction of normal reaction friction force” are directions where friction forces were applied. The relative motion of the beam occurs in the directions opposite to friction forces.</span></li></ul><p><span style="background-color:rgb(255,255,255);">The usage of this software allows us to&nbsp;</span></p><ol><li>Calculate normal reaction at the end of the beam (C joint) to avoid accumulating contact stress so that we could analyze robustness and reliability of a switch.</li><li>Find a flexible solution based on versatility of tactile feelings that would satisfy the customer needs.&nbsp;</li></ol><p>To solve the issues mentioned above our beam is constantly being pushed by spring from the left end, reflecting the force to rigid curved surface at the right end. This force creates haptic torque that could be felt while pushing or pulling the switch. External forces applied at each joint are depicted as arrows, with direction of force shown by arrowheads.</p><p>At the same time the beam doesn\'t move anywhere while we change it\'s position by hand being in a static balance that allows us to find unknown variables (forces):</p><ul><li>Ra - reaction on A joint;</li><li>Rb - reaction on B joint;</li><li>NR - normal reaction on C joint.</li></ul></div>'
+'<div class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false">'+
+    '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:25%;" contenteditable="false">'+
+    '<img src="/static/force/electric-handbrake.jpg" alt="Parking brake switch">'+
+    
+    // '<div class="ck ck-reset_all ck-widget__type-around">'+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__fake-caret">'+
+    //     '</div>'+
+    // '</div>'+
+
+    '<div class="ck ck-reset_all ck-widget__resizer" style="height: 273px; left: 0px; top: 0px; width: 369px; display: none;">'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+    '</div>'+
+    '<div class="ck ck-size-view" style="display: none;">'+
+    '</div>'+
+    '</div>'+
+    '</figure>'+
+    '<p>This scheme reflects a simplified model of regular switches used inside cars.</p>'+
+    '<p>It is a mechanical scheme that consists of:</p>'+
+    '<ul>'+
+    '<li>two journal bearings (A &amp; B) with free movement along X axis;</li>'+
+    '<li>smooth support C at the right end of the beam;</li>'+
+    '<li>beam placed between supports A &amp; C;&nbsp;</li>'+
+    '<li>spring that generate external linear load on the beam\'s left side.</li>'+
+    '</ul>'+
+    '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:50%;" contenteditable="false">'+
+    '<img src="/static/force/Switch2 (copy).jpg">'+
+
+    // '<div class="ck ck-reset_all ck-widget__type-around">'+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+    //     '<div class="ck ck-widget__type-around__fake-caret">'+
+    //     '</div>'+
+    // '</div>'+
+
+    '<div class="ck ck-reset_all ck-widget__resizer" style="height: 811px; left: 0px; top: 0px; width: 738px; display: none;">'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+    '</div>'+
+    '<div class="ck ck-size-view" style="display: none;">'+
+    '</div>'+
+    '</div>'+
+    '</figure>'+
+    '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:50%;" contenteditable="false">'+
+    '<img src="/static/force/Switch2_zoom.png">'+
+    
+    // '<div class="ck ck-reset_all ck-widget__type-around">'+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__fake-caret">'+
+    //     '</div>'+
+    // '</div>'+
+
+    '<div class="ck ck-reset_all ck-widget__resizer" style="height: 345px; left: 0px; top: 0px; width: 738px; display: none;">'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+    '</div>'+
+    '<div class="ck ck-size-view" style="display: none;">'+
+    '</div>'+
+    '</div>'+
+    '</figure>'+
+    '<p>On the sidebar there is a number of settings:&nbsp;</p>'+
+    '<ul style="list-style-type:disc;">'+
+    '<li>Contact field describes friction between beam and support C. First column is a friction coefficient (as an assumption we use <a href="https://en.wikipedia.org/wiki/Friction">dry friction</a> laws). "X coordinate" and “Y coordinate” columns define position (mm) of support C compared to coordinate origin marked as purple circle.</li>'+
+    '<li>Plunger field describes interaction between beam and supports A &amp; B. First column is a friction coefficient (dry friction laws assumption is also applied here). “Distance A” indicates distance between B &amp; C (mm), while “Distance B” - distance between A &amp; B (mm).</li>'+
+    '<li>Spring field describes linear spring characteristics (based on <a href="https://en.wikipedia.org/wiki/Hooke%27s_law">Hooke\'s law</a>). “Stiffness” column contains spring <a href="https://en.wikipedia.org/wiki/Stiffness">stiffness</a> in (N/mm), “Free length” - the length of the spring when uncompressed, “Length” - the length of the compressed spring.</li>'+
+    '<li>Angles field consists of the following: &nbsp;“<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of normal reaction force” is an </span>orientation of smooth support, “<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of plunger friction forces” and “Direction of normal reaction friction force” are directions where friction forces were applied. The relative motion of the beam occurs in the directions opposite to friction forces.</span>'+'</li>'+'</ul>'+'<p>'+'<span style="background-color:rgb(255,255,255);">The usage of this software allows us to&nbsp;</span>'+
+    '</p>'+
+    '<ol>'+
+    '<li>Calculate normal reaction at the end of the beam (smooth support C) to avoid accumulating contact stress so that we could analyze robustness and reliability of a switch.</li>'+
+    '<li>Find a flexible solution based on versatility of tactile feelings that would satisfy the customer needs.&nbsp;</li>'+
+    '</ol>'+
+    '<p>To solve the issues mentioned above our beam is constantly being pushed by spring from the left end, reflecting the force to smooth support at the right end. This force creates haptic torque that could be felt while pushing or pulling the switch. Reactions applied from each support are depicted as arrows, with direction of force shown by arrowheads.</p>'+
+    '<p>At the same time the beam doesn\'t move anywhere while we change it\'s position by hand being in a static balance that allows us to find unknown variables (forces):</p>'+
+    '<ul>'+
+    '<li>'+
+    '<i>R<sub>a</sub>'+
+    '</i> - reaction on support A;</li>'+
+    '<li>'+
+    '<i>R<sub>b</sub>'+
+    '</i> - reaction on support B;</li>'+
+    '<li>'+
+    '<i>NR</i> - normal reaction on support C.</li>'+
+    '</ul>'+
+    '<figure class="image ck-widget ck-widget_with-resizer image-style-block-align-left" contenteditable="false">'+
+    '<img src="/static/force/Linera equations.gif">'+
+
+    // '<div class="ck ck-reset_all ck-widget__type-around">'+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+    //             '</path>'+
+    //         '</svg>'+
+    //     '</div>'+
+
+    //     '<div class="ck ck-widget__type-around__fake-caret">'+
+    //     '</div>'+
+    // '</div>'+
+
+    '<div class="ck ck-reset_all ck-widget__resizer" style="height: 71px; left: 0px; top: 0px; width: 463px; display: none;">'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+    '</div>'+
+    '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+    '</div>'+
+    '<div class="ck ck-size-view ck-orientation-bottom-right" style="display: none;">44.82%</div>'+
+    '</div>'+
+    '</figure>'+
+    '<p>where <span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+    '<i>α<sub>0</sub>'+
+    '</i> - direction of <i>R<sub>a</sub>'+
+    '</i>, <i>α<sub>1</sub>'+
+    '</i> - direction of <i>R<sub>b</sub>'+
+    '</i>, <i>α<sub>2</sub>'+
+    '</i> - direction of <i>NR</i>, </span>'+
+    '<span style="background-color:rgb(237,250,252);color:rgb(0,0,0);font-family:Assistant;">'+
+    '<i>β</i>'+
+    '</span>'+
+    '<span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+    '<i>'+
+    '<sub>0</sub>'+
+    '</i> - direction of friction force in A support, </span>'+
+    '<span style="background-color:rgb(237,250,252);color:rgb(0,0,0);font-family:Assistant;">'+
+    '<i>β</i>'+
+    '</span>'+
+    '<span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+    '<i>'+
+    '<sub>1</sub>'+
+    '</i> - direction of friction force in B support, </span>'+
+    '<span style="background-color:rgb(237,250,252);color:rgb(0,0,0);font-family:Assistant;">'+
+    '<i>β</i>'+
+    '</span>'+
+    '<span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+    '<i>'+
+    '<sub>2</sub>'+
+    '</i> - direction of friction force in C support, <i>f</i> - friction coefficient in A &amp; B support, </span>'+
+    '<i>μ</i> - <span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">friction coefficient in C support, <i>a</i> - length between A &amp; B, <i>b</i> - length between B &amp; C, <i>LOAD </i>- external load generated from a spring.</span>'+
+    '</p>'+
+    '<p>'+
+    '<br data-cke-filler="true">'+
+    '</p>'+
+'</div>'
 
 // classic('#editor')
 // .then(Editor => {
 //     Editor.setData(
-//         '<figure class="image ck-widget image_resized image-style-side ck-widget_with-resizer" style="width:25%;" contenteditable="false"><img src="/static/force/electric-handbrake.jpg"><figcaption class="ck-editor__editable ck-editor__nested-editable" data-placeholder="Enter image caption" contenteditable="true"><span style="background-color:rgb(255,255,255);color:rgb(32,33,36);font-family:&quot;Google Sans&quot;, arial, sans-serif;">Parking brake Switch</span></figcaption><div class="ck ck-reset_all ck-widget__type-around"><div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"></path></svg></div><div class="ck ck-widget__type-around__fake-caret"></div></div><div class="ck ck-reset_all ck-widget__resizer" style="height: 162px; left: 0px; top: 0px; width: 219px; display: none;"><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right"></div><div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left"></div><div class="ck ck-size-view" style="display: none;"></div></div></figure><p>This scheme reflects a simplified model of regular switches used inside cars.</p><p>It is a mechanical scheme that consists of:</p><ul><li>two rigid joins (A &amp; B) with free movement along X axis;</li><li>beam placed between joints A &amp; C;&nbsp;</li><li>rigid curved contact surface at the right end of the beam;</li><li>spring that generate linear load on the beam\'s left side depending on its movement.</li></ul><p>On the sidebar there is a number of settings:&nbsp;</p><ul style="list-style-type:disc;"><li>Contact field describes friction between beam and joint C. First column is a friction coefficient (as an assumption we use <a href="https://en.wikipedia.org/wiki/Friction">dry friction</a> laws). "X coordinate" and “Y coordinate” columns define position (mm) of joint C compared to coordinate origin marked as purple circle.</li><li>Plunger field describes interaction between beam and joints A &amp; B. First column is a friction coefficient (dry friction laws assumption is also applied here). “Distance A” indicates distance between B &amp; C (mm), while “Distance B” - distance between A &amp; B (mm).</li><li>Spring field describes linear spring characteristics (based on <a href="https://en.wikipedia.org/wiki/Hooke%27s_law">Hooke\'s law</a>). “Stiffness” column contains spring <a href="https://en.wikipedia.org/wiki/Stiffness">stiffness</a> in (N/mm), “Free length” - the length of the spring when uncompressed, “Length” - the length of the compressed spring.</li><li>Angles field consists of the following: &nbsp;“<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of normal reaction force” is an </span>orientation of curved contact surface, “<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of plunger friction forces” and “Direction of normal reaction friction force” are directions where friction forces were applied. The relative motion of the beam occurs in the directions opposite to friction forces.</span></li></ul><p><span style="background-color:rgb(255,255,255);">The usage of this software allows us to&nbsp;</span></p><ol><li>Calculate normal reaction at the end of the beam (C joint) to avoid accumulating contact stress so that we could analyze robustness and reliability of a switch.</li><li>Find a flexible solution based on versatility of tactile feelings that would satisfy the customer needs.&nbsp;</li></ol><p>To solve the issues mentioned above our beam is constantly being pushed by spring from the left end, reflecting the force to rigid curved surface at the right end. This force creates haptic torque that could be felt while pushing or pulling the switch. External forces applied at each joint are depicted as arrows, with direction of force shown by arrowheads.</p><p>At the same time the beam doesn\'t move anywhere while we change it\'s position by hand being in a static balance that allows us to find unknown variables (forces):</p><ul><li>Ra - reaction on A joint;</li><li>Rb - reaction on B joint;</li><li>NR - normal reaction on C joint.</li></ul>'
-//         );
+//         '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:25%;" contenteditable="false">'+
+//         '<img src="/static/force/electric-handbrake.jpg" alt="Parking brake switch">'+
+//         '<div class="ck ck-reset_all ck-widget__type-around">'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__fake-caret">'+
+//         '</div>'+
+//         '</div>'+
+//         '<div class="ck ck-reset_all ck-widget__resizer" style="height: 273px; left: 0px; top: 0px; width: 369px; display: none;">'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+//         '</div>'+
+//         '<div class="ck ck-size-view" style="display: none;">'+
+//         '</div>'+
+//         '</div>'+
+//         '</figure>'+
+//         '<p>This scheme reflects a simplified model of regular switches used inside cars.</p>'+
+//         '<p>It is a mechanical scheme that consists of:</p>'+
+//         '<ul>'+
+//         '<li>two journal bearings (A &amp; B) with free movement along X axis;</li>'+
+//         '<li>smooth support C at the right end of the beam;</li>'+
+//         '<li>beam placed between supports A &amp; C;&nbsp;</li>'+
+//         '<li>spring that generate external linear load on the beam\'s left side.</li>'+
+//         '</ul>'+
+//         '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:50%;" contenteditable="false">'+
+//         '<img src="/static/force/Switch2 (copy).jpg">'+
+//         '<div class="ck ck-reset_all ck-widget__type-around">'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+'<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__fake-caret">'+
+//         '</div>'+
+//         '</div>'+
+//         '<div class="ck ck-reset_all ck-widget__resizer" style="height: 811px; left: 0px; top: 0px; width: 738px; display: none;">'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+//         '</div>'+
+//         '<div class="ck ck-size-view" style="display: none;">'+
+//         '</div>'+
+//         '</div>'+
+//         '</figure>'+
+//         '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:50%;" contenteditable="false">'+
+//         '<img src="/static/force/Switch2_zoom.png">'+
+//         '<div class="ck ck-reset_all ck-widget__type-around">'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__fake-caret">'+
+//         '</div>'+
+//         '</div>'+
+//         '<div class="ck ck-reset_all ck-widget__resizer" style="height: 345px; left: 0px; top: 0px; width: 738px; display: none;">'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+//         '</div>'+
+//         '<div class="ck ck-size-view" style="display: none;">'+
+//         '</div>'+
+//         '</div>'+
+//         '</figure>'+
+//         '<p>On the sidebar there is a number of settings:&nbsp;</p>'+
+//         '<ul style="list-style-type:disc;">'+
+//         '<li>Contact field describes friction between beam and support C. First column is a friction coefficient (as an assumption we use <a href="https://en.wikipedia.org/wiki/Friction">dry friction</a> laws). "X coordinate" and “Y coordinate” columns define position (mm) of support C compared to coordinate origin marked as purple circle.</li>'+
+//         '<li>Plunger field describes interaction between beam and supports A &amp; B. First column is a friction coefficient (dry friction laws assumption is also applied here). “Distance A” indicates distance between B &amp; C (mm), while “Distance B” - distance between A &amp; B (mm).</li>'+
+//         '<li>Spring field describes linear spring characteristics (based on <a href="https://en.wikipedia.org/wiki/Hooke%27s_law">Hooke\'s law</a>). “Stiffness” column contains spring <a href="https://en.wikipedia.org/wiki/Stiffness">stiffness</a> in (N/mm), “Free length” - the length of the spring when uncompressed, “Length” - the length of the compressed spring.</li>'+
+//         '<li>Angles field consists of the following: &nbsp;“<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of normal reaction force” is an </span>orientation of smooth support, “<span style="background-color:rgb(255,255,255);color:rgb(33,37,41);font-family:Arial, Helvetica, sans-serif;">Direction of plunger friction forces” and “Direction of normal reaction friction force” are directions where friction forces were applied. The relative motion of the beam occurs in the directions opposite to friction forces.</span>'+'</li>'+'</ul>'+'<p>'+'<span style="background-color:rgb(255,255,255);">The usage of this software allows us to&nbsp;</span>'+
+//         '</p>'+
+//         '<ol>'+
+//         '<li>Calculate normal reaction at the end of the beam (smooth support C) to avoid accumulating contact stress so that we could analyze robustness and reliability of a switch.</li>'+
+//         '<li>Find a flexible solution based on versatility of tactile feelings that would satisfy the customer needs.&nbsp;</li>'+
+//         '</ol>'+
+//         '<p>To solve the issues mentioned above our beam is constantly being pushed by spring from the left end, reflecting the force to smooth support at the right end. This force creates haptic torque that could be felt while pushing or pulling the switch. Reactions applied from each support are depicted as arrows, with direction of force shown by arrowheads.</p>'+
+//         '<p>At the same time the beam doesn\'t move anywhere while we change it\'s position by hand being in a static balance that allows us to find unknown variables (forces):</p>'+
+//         '<ul>'+
+//         '<li>'+
+//         '<i>R<sub>a</sub>'+
+//         '</i> - reaction on support A;</li>'+
+//         '<li>'+
+//         '<i>R<sub>b</sub>'+
+//         '</i> - reaction on support B;</li>'+
+//         '<li>'+
+//         '<i>NR</i> - normal reaction on support C.</li>'+
+//         '</ul>'+
+//         '<figure class="image ck-widget ck-widget_with-resizer image-style-block-align-left" contenteditable="false">'+
+//         '<img src="/static/force/Linera equations.gif">'+
+//         '<div class="ck ck-reset_all ck-widget__type-around">'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
+//         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
+//         '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
+//         '</path>'+
+//         '</svg>'+
+//         '</div>'+
+//         '<div class="ck ck-widget__type-around__fake-caret">'+
+//         '</div>'+
+//         '</div>'+
+//         '<div class="ck ck-reset_all ck-widget__resizer" style="height: 71px; left: 0px; top: 0px; width: 463px; display: none;">'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-right">'+
+//         '</div>'+
+//         '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-bottom-left">'+
+//         '</div>'+
+//         '<div class="ck ck-size-view ck-orientation-bottom-right" style="display: none;">44.82%</div>'+
+//         '</div>'+
+//         '</figure>'+
+//         '<p>where <span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+//         '<i>α<sub>0</sub>'+
+//         '</i> - direction of <i>R<sub>a</sub>'+
+//         '</i>, <i>α<sub>1</sub>'+
+//         '</i> - direction of <i>R<sub>b</sub>'+
+//         '</i>, <i>α<sub>2</sub>'+
+//         '</i> - direction of <i>NR</i>, </span>'+
+//         '<span style="background-color:rgb(237,250,252);color:rgb(0,0,0);font-family:Assistant;">'+
+//         '<i>β</i>'+
+//         '</span>'+
+//         '<span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+//         '<i>'+
+//         '<sub>0</sub>'+
+//         '</i> - direction of friction force in A support, </span>'+
+//         '<span style="background-color:rgb(237,250,252);color:rgb(0,0,0);font-family:Assistant;">'+
+//         '<i>β</i>'+
+//         '</span>'+
+//         '<span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+//         '<i>'+
+//         '<sub>1</sub>'+
+//         '</i> - direction of friction force in B support, </span>'+
+//         '<span style="background-color:rgb(237,250,252);color:rgb(0,0,0);font-family:Assistant;">'+
+//         '<i>β</i>'+
+//         '</span>'+
+//         '<span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">'+
+//         '<i>'+
+//         '<sub>2</sub>'+
+//         '</i> - direction of friction force in C support, <i>f</i> - friction coefficient in A &amp; B support, </span>'+
+//         '<i>μ</i> - <span style="background-color:rgb(255,255,255);color:rgb(0,0,0);">friction coefficient in C support, <i>a</i> - length between A &amp; B, <i>b</i> - length between B &amp; C, <i>LOAD </i>- external load generated from a spring.</span>'+
+//         '</p>'+
+//         '<p>'+
+//         '<br data-cke-filler="true">'+
+//         '</p>'
+//     );
 //         // console.log( Array.from( Editor.ui.componentFactory.names() ) );
 // });
     

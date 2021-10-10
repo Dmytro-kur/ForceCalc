@@ -371,8 +371,8 @@ class calc_forces:
                 sin( self.ALPHA_REACTION[2] ) + self.mu * sin( self.ALPHA_FRICTION[2] ) 
             ],
             [ 
-                -(self.a + self.b), 
-                -(self.a), 
+                (self.a + self.b),
+                (self.a),
                 0
             ]
         ])
