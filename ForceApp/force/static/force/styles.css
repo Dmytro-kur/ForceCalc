@@ -844,9 +844,10 @@ td {
 textarea, 
 #inbox-email-content,
 #sent-email-content,
-#archived-email-content {
+#archived-email-content,
+.form-control {
   /* height: 100%; */
-  font-size: 14px;
+  font-size: 16px;
   /* overflow-y: hidden; */
 }
 /* ---------------------------- end MAIL ------------------------ */

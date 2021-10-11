@@ -174,13 +174,7 @@ def password_change(request):
 @login_required
 def mail(request):
     if request.method == "GET":
-        # Authenticated users view their inbox
-        # if request.user.is_authenticated:
         return render(request, "force/mail.html")
-
-        # Everyone else is prompted to sign in
-        # else:
-        #     return HttpResponseRedirect(reverse("login"))
 
 @login_required
 def compose(request):

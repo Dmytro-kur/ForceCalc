@@ -271,8 +271,9 @@ function render_email(email, mailbox) {
       document.querySelector(`#${mailbox}-archived-button`).innerText = 'Unarchive';
     }
 
-    document.querySelector(`#${mailbox}-archived-button`).addEventListener('click', () => {
+    document.querySelector(`#${mailbox}-archived-button`).onclick = (event) => {
       
+      console.log(event.target.id, 'was clicked')
       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
       const request = new Request(
         `/email/${mailbox}/${email.id}`,
@@ -291,7 +292,7 @@ function render_email(email, mailbox) {
         alert(result.message)
 
       })
-    });
+    };
 
     document.querySelector(`#${mailbox}-reply-button`).onclick = () => {
       
