@@ -13,7 +13,7 @@ class Search extends React.Component {
             <div id="batch">
                 <div id="search_module">
                     <div id="myQueryDiv">
-                        <img id="myQueryImg" src={"/static/force/loupe.png"}/><input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
+                        <img id="myQueryImg" src={"/static/force/pictures/loupe.png"}/><input onChange={this.updateQuery} type="text" id="myQueryInput" placeholder="Search.."/>
                     </div>
                     <table id="homeTable">
                         <thead></thead>

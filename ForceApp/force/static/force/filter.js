@@ -152,16 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     link_calc();
 
-    // Example starter JavaScript for disabling form submissions
-
     if (document.querySelector('#newProject_form')) {
         let form = document.querySelector('#newProject_form')
         form.addEventListener('submit', function (event) {
-            // if (!form.checkValidity()) {
             event.preventDefault()
             event.stopPropagation()
-            // }
-            // form.classList.add('was-validated')
         }, false)
     }
     if (document.querySelector('#post_new_project')) {

@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link rel="shortcut icon" type="image/png" href="{% static 'force/favicon.ico' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'force/pictures/favicon.ico' %}">
     <script src="{% static 'force/header.js' %}"></script>
     <script src="{% static 'force/waves.js' %}"></script>
     <script>
@@ -77,18 +77,18 @@
     <div class="header">
 
         <div id="logo_container">
-            <a href="{% url 'index' %}"><img id="logo" src="{% static 'force/atom.png' %}" alt="logo"></a>
+            <a href="{% url 'index' %}"><img id="logo" src="{% static 'force/pictures/atom.png' %}" alt="logo"></a>
         </div>
         <div id="user_container">
             {% if user.is_authenticated %}
                 <a class="position-relative" href="{% url 'mail' %}">
-                    <img class="email_logo" src="{% static 'force/mail.png' %}" alt="logo">
+                    <img class="email_logo" src="{% static 'force/pictures/mail.png' %}" alt="logo">
                     <div id="alert-circle__top">
                         <div style="display: none;" id="alert-circle"></div>
                     </div>
                 </a>
                 <div id="wave-btn" class="wave-btn">
-                    <div style="z-index: 1;" class="wave-btn wave-btn__text">{{ user.username }}<img  class="wave-btn yield_logo" src="{% static 'force/arrow-point-to-down.png' %}" alt="logo"></div>
+                    <div style="z-index: 1;" class="wave-btn wave-btn__text">{{ user.username }}<img  class="wave-btn yield_logo" src="{% static 'force/pictures/arrow-point-to-down.png' %}" alt="logo"></div>
                     <div style="z-index: 0;" class="wave-btn wave-btn__waves"></div>
                 </div>
 
@@ -97,7 +97,7 @@
                     <div id="user-menu" style="display: none;" class="user-menu">
                         
                         <div style="border-bottom: 0.5px solid lightgrey;" class="user_logo_requisites user-menu">
-                            <img  class="user_logo user-menu" src="{% static 'force/user.png' %}" alt="logo">
+                            <img  class="user_logo user-menu" src="{% static 'force/pictures/user.png' %}" alt="logo">
                             <div class="user_requisites user-menu">
                                 <div style="margin: 0px;" id="first-last-name">{{ user.first_name }} {{ user.last_name }}</div>
                                 <div style="margin: 0px;" id="email-info"><b>Email:</b> {{ user.email }}</div>    
@@ -106,13 +106,13 @@
     
                         <div style="border-bottom: 0.5px solid lightgrey;" class="change_pwd_logo user-menu">
                             <a style="z-index: 1; width: 100%;" class="user-menu" href="{% url 'password_change' %}">
-                                <img class="user-menu" src="{% static 'force/lock.png' %}" alt="logo">Change password</a>
+                                <img class="user-menu" src="{% static 'force/pictures/lock.png' %}" alt="logo">Change password</a>
                             <div style="z-index: 0;" class="user-menu change_pwd_logo_wave"></div>
                         </div>
         
                         <div class="logout_logo user-menu">
                             <a  style="z-index: 1; width: 100%;" class="user-menu" href="{% url 'logout' %}">
-                                <img class="user-menu" src="{% static 'force/logout.png' %}" alt="logo">Log Out</a>
+                                <img class="user-menu" src="{% static 'force/pictures/logout.png' %}" alt="logo">Log Out</a>
                             <div style="z-index: 0;" class="user-menu logout_logo_wave"></div>
                         </div>
 
