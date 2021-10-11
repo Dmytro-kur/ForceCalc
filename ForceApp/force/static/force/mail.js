@@ -20,14 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
           unread_emails();
         } else if (page === 'compose') {
 
+          
           shutOff_views();
           shutOff_elements();
           document.querySelector('#compose-view').style.display = 'flex';
           document.querySelector('#compose-form').style.display = 'flex';
           
-          const textArea = document.querySelector('#compose-body');
-          localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
-      
+          refresh_textarea(document.querySelector('#compose-form'));
+          document.querySelector('#compose-body').addEventListener('input', function(event) {
+            refresh_textarea(event.target);
+          });
+
           unread_emails();
           submit_compose_form();
       
@@ -70,12 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#compose-view').style.display = 'flex';
     document.querySelector('#compose-form').style.display = 'flex';
 
-    const textArea = document.querySelector('#compose-body');
-    localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
-
     document.querySelector('#compose-recipients').value = '';
     document.querySelector('#compose-subject').value = '';
     document.querySelector('#compose-body').value = '';
+
+    refresh_textarea(document.querySelector('#compose-body'));
+    document.querySelector('#compose-body').addEventListener('input', function(event) {
+      refresh_textarea(event.target);
+    });
     
     unread_emails();
     submit_compose_form();
@@ -128,42 +133,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   unread_emails();
 });
-function refresh_textarea() {
-    
-  function adjustHeight(el, minHeight) {
-      // compute the height difference which is caused by border and outline
-      let outerHeight = parseInt(window.getComputedStyle(el).height, 10);
-      let diff = outerHeight - el.clientHeight;
 
-      // set the height 24 (height of row) less in case of it has to be shrinked
-      el.style.height = (el.scrollHeight - 24) + 'px';
-
-      // set the correct height
-      // el.scrollHeight is the full height of the content, not just the visible part
-
-      el.style.height = Math.max(parseInt(localStorage.getItem('textarea'), 10), minHeight, el.scrollHeight + diff) + 'px';
-  }
-
-  document.querySelectorAll('textarea')
-  .forEach(textArea => {
-    // the minimum height initiated through the "rows" attribute
-    let minHeight = textArea.scrollHeight;
-    adjustHeight(textArea, minHeight);
-    textArea.addEventListener('input', function() {
-        adjustHeight(textArea, minHeight);
-    });
-  })
-
-
-
-  // // we have to readjust when window size changes (e.g. orientation change)
-  // window.addEventListener('resize', function() {
-  //     adjustHeight(textAreas, minHeight);
-  // });
-
-  // we adjust height to the initial content
-  // adjustHeight(textAreas, minHeight);
-
+function refresh_textarea(textArea) {
+  let current_num_lines = textArea.value.split(/\r\n|\r|\n/).length;
+  textArea.style.height = (current_num_lines * 24 + 24) + 'px';
 };
 
 function shutOff_elements() {
@@ -211,6 +184,11 @@ function submit_compose_form() {
         document.querySelector('#compose-recipients').value = '';
         document.querySelector('#compose-subject').value = '';
         document.querySelector('#compose-body').value = '';
+
+        refresh_textarea(document.querySelector('#compose-body'));
+        document.querySelector('#compose-body').addEventListener('input', function(event) {
+          refresh_textarea(event.target);
+        });
     });
     return false;
   };
@@ -272,8 +250,6 @@ function render_email(email, mailbox) {
   shutOff_archived();
   shutOff_views();
 
-  document.querySelector(`#${mailbox}-email-content`).style.height = '0px';
-
   document.querySelector(`#${mailbox}-view`).style.display = 'flex';
   document.querySelector(`#${mailbox}-email-render`).style.display = 'flex';
   document.querySelector(`#${mailbox}-email-head`).innerHTML = 
@@ -283,11 +259,8 @@ function render_email(email, mailbox) {
     '<p style="margin: 0px;">Timestamp: '.bold() + `${email.timestamp}</p>`;
     
   document.querySelector(`#${mailbox}-email-content`).value = email.text.body;
+  refresh_textarea(document.querySelector(`#${mailbox}-email-content`));
 
-  const textArea = document.querySelector(`#${mailbox}-email-content`);
-  localStorage.setItem('textarea', `${window.getComputedStyle(textArea).height}`);
-
-  refresh_textarea();
   if (mailbox === 'inbox' || mailbox === 'archived') {
 
     document.querySelector(`#${mailbox}-archived-button`).style.display = 'inline-block';
@@ -326,7 +299,7 @@ function render_email(email, mailbox) {
       shutOff_elements();
       document.querySelector('#compose-view').style.display = 'flex';
       document.querySelector('#compose-form').style.display = 'flex';
-      
+
       unread_emails();
 
       document.querySelector('#compose-recipients').value = email.user_objs.sender.email;
@@ -338,19 +311,22 @@ function render_email(email, mailbox) {
       }
 
       document.querySelector('#compose-body').value = 
-  `  
+`  
 
-   -----------------------------------------------------------------------------
-  At ${email.timestamp} ${email.user_objs.sender.email} wrote: 
+  -----------------------------------------------------------------------------
+At ${email.timestamp} ${email.user_objs.sender.email} wrote: 
 
-  ${email.text.body}`;
+${email.text.body}`;
 
-      refresh_textarea();
+      refresh_textarea(document.querySelector('#compose-body'));
+
+      document.querySelector('#compose-body').addEventListener('input', function(event) {
+        refresh_textarea(event.target);
+      });
+
       submit_compose_form();
     }
   }
-
-
 }
 
 

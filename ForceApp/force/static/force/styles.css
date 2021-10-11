@@ -839,15 +839,15 @@ td {
 #archived-email-body,
 #inbox-email-body {
   flex-direction: column;
-  height: 100%;
+  /* height: 100%; */
 }
 textarea, 
 #inbox-email-content,
 #sent-email-content,
 #archived-email-content {
-  /* flex: 1; */
-  height: 100%;
-  overflow-y: hidden;
+  /* height: 100%; */
+  font-size: 14px;
+  /* overflow-y: hidden; */
 }
 /* ---------------------------- end MAIL ------------------------ */
 

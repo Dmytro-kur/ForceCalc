@@ -1447,25 +1447,6 @@ document.querySelector('#editor').innerHTML =
 '<div class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false">'+
     '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:25%;" contenteditable="false">'+
     '<img src="/static/force/electric-handbrake.jpg" alt="Parking brake switch">'+
-    
-    // '<div class="ck ck-reset_all ck-widget__type-around">'+
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__fake-caret">'+
-    //     '</div>'+
-    // '</div>'+
 
     '<div class="ck ck-reset_all ck-widget__resizer" style="height: 273px; left: 0px; top: 0px; width: 369px; display: none;">'+
     '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
@@ -1491,24 +1472,6 @@ document.querySelector('#editor').innerHTML =
     '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:50%;" contenteditable="false">'+
     '<img src="/static/force/Switch2 (copy).jpg">'+
 
-    // '<div class="ck ck-reset_all ck-widget__type-around">'+
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-    //     '<div class="ck ck-widget__type-around__fake-caret">'+
-    //     '</div>'+
-    // '</div>'+
-
     '<div class="ck ck-reset_all ck-widget__resizer" style="height: 811px; left: 0px; top: 0px; width: 738px; display: none;">'+
     '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
     '</div>'+
@@ -1525,25 +1488,6 @@ document.querySelector('#editor').innerHTML =
     '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:50%;" contenteditable="false">'+
     '<img src="/static/force/Switch2_zoom.png">'+
     
-    // '<div class="ck ck-reset_all ck-widget__type-around">'+
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__fake-caret">'+
-    //     '</div>'+
-    // '</div>'+
-
     '<div class="ck ck-reset_all ck-widget__resizer" style="height: 345px; left: 0px; top: 0px; width: 738px; display: none;">'+
     '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+
     '</div>'+
@@ -1582,25 +1526,6 @@ document.querySelector('#editor').innerHTML =
     '</ul>'+
     '<figure class="image ck-widget ck-widget_with-resizer image-style-block-align-left" contenteditable="false">'+
     '<img src="/static/force/Linera equations.gif">'+
-
-    // '<div class="ck ck-reset_all ck-widget__type-around">'+
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__button ck-widget__type-around__button_after" title="Insert paragraph after block">'+
-    //         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 8">'+
-    //             '<path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038">'+
-    //             '</path>'+
-    //         '</svg>'+
-    //     '</div>'+
-
-    //     '<div class="ck ck-widget__type-around__fake-caret">'+
-    //     '</div>'+
-    // '</div>'+
 
     '<div class="ck ck-reset_all ck-widget__resizer" style="height: 71px; left: 0px; top: 0px; width: 463px; display: none;">'+
     '<div class="ck-widget__resizer__handle ck-widget__resizer__handle-top-left">'+

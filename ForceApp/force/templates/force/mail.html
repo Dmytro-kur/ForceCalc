@@ -82,10 +82,8 @@
             <input type="text" required id="compose-subject" class="form-control" placeholder="Subject:">
 
             <textarea id="compose-body" class="form-control" placeholder="Text:"></textarea>
-
             <input style="margin-top: 15px;" id="compose-button" type="submit" value="Send" class="btn btn-sm btn-outline-primary"/>
         </form>
-        <!-- oninput='this.style.height = ""; this.style.height = (this.scrollHeight) + "px"' -->
     </div>
 
     <div id="sent-view">
@@ -133,8 +131,6 @@
 
 
 {% block script %}
-    <script>
-    </script>
     <script src="{% static 'force/paginatorsearch.js' %}" type="text/babel"></script>
     <script src="{% static 'force/filter.js' %}"></script>
     <script src="{% static 'force/mail.js' %}"></script>
