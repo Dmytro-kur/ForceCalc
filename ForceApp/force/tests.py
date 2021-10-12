@@ -50,7 +50,7 @@ class VariablesTestCase(TestCase):
         """Put all variables and solve equations by hand
             [ Ra *f*cos( ALPHA_FRICTION[0] ) Rb *f*cos( ALPHA_FRICTION[1] ) NR *( mu*cos(ALPHA_FRICTION[2]) + cos(ALPHA_REACTION[2]) ) ]
             [ Ra *sin( ALPHA_REACTION[0] )   Rb *sin( ALPHA_REACTION[1] )   NR *( mu*sin(ALPHA_FRICTION[2]) + sin(ALPHA_REACTION[2]) ) ]  =  [F;    0;     0]
-            [ Ra *( a+b )                    Rb *a                          NR *0                                                       ]"""
+            [ Ra *( a+b )                    Rb *a                          NR *0                                                      ]"""
 
         cont = Contact.objects.get(contact_key="Test Contact 1")
         plng = Plunger.objects.get(plunger_key="Test Plunger 1")
