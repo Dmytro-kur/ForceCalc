@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
           document.querySelector('#compose-view').style.display = 'flex';
           document.querySelector('#compose-form').style.display = 'flex';
           
-          refresh_textarea(document.querySelector('#compose-form'));
+          refresh_textarea(document.querySelector('#compose-body'));
           document.querySelector('#compose-body').addEventListener('input', function(event) {
             refresh_textarea(event.target);
           });

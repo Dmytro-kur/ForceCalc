@@ -46,34 +46,45 @@ class VariablesTestCase(TestCase):
             project=testProject)
             
     def test_math_model(self):
-        """Put all variables and solve equations
-            [ Na*f       Nb*f     N*(mu*cos(alpha) + cos(beta))]
-            [-Na         Nb       N*(mu*sin(alpha) + sin(beta))]  =  [-F    0     0]
-            [ Na*(a+b)  -Nb*a     N*0                          ]"""
+        
+        """Put all variables and solve equations by hand
+            [ Ra *f*cos( ALPHA_FRICTION[0] ) Rb *f*cos( ALPHA_FRICTION[1] ) NR *( mu*cos(ALPHA_FRICTION[2]) + cos(ALPHA_REACTION[2]) ) ]
+            [ Ra *sin( ALPHA_REACTION[0] )   Rb *sin( ALPHA_REACTION[1] )   NR *( mu*sin(ALPHA_FRICTION[2]) + sin(ALPHA_REACTION[2]) ) ]  =  [F;    0;     0]
+            [ Ra *( a+b )                    Rb *a                          NR *0                                                       ]"""
 
         cont = Contact.objects.get(contact_key="Test Contact 1")
         plng = Plunger.objects.get(plunger_key="Test Plunger 1")
         sprg = Spring.objects.get(spring_key="Test Spring 1")
         angl = Angles.objects.get(angles_key="Test Angles 1")
 
-        Na, Nb, NR = calc_forces(
-            angl.plungerFric,
-            sprg.load(), 
-            plng.a, 
-            plng.b, 
-            plng.f, 
-            cont.mu, 
-            angl.N, 
-            angl.FN
-            )
-        # vars = Variables.objects.get(variables_key="Test Variables 1")
+        ALPHA_REACTION = [
+            90, 270, angl.N
+        ]
 
-        self.assertEqual(round(Na*plng.f*cos(angl.plungerFric) + \
-                Nb*plng.f*cos(angl.plungerFric) + \
-                NR*(cont.mu*cos(angl.FN) + cos(angl.N)), 5), \
-                round(-sprg.load(), 5))
+        ALPHA_FRICTION = [
+            angl.plungerFric, angl.plungerFric, angl.FN
+        ]
 
-        self.assertEqual(round(-Na + Nb + \
-            NR*(cont.mu*sin(angl.FN) + sin(angl.N)), 5), 0)
+        LOAD = sprg.springStiff*(sprg.freeLen - sprg.springLen)
 
-        self.assertEqual(round(Na*(plng.a + plng.b) - Nb*plng.a, 5), 0)
+        RES = calc_forces(angl.plungerFric, LOAD, plng.a, plng.b, plng.f, cont.mu, angl.N, angl.FN)
+        RES.solver()
+
+        self.assertEqual(
+            round(
+                RES.X[0] *plng.f*cos( ALPHA_FRICTION[0] ) + \
+                RES.X[1] *plng.f*cos( ALPHA_FRICTION[1] ) + \
+                RES.X[2] *( cont.mu*cos(ALPHA_FRICTION[2]) + cos(ALPHA_REACTION[2]) ), 
+            5), round(LOAD, 5))
+
+        self.assertEqual(
+            round(
+                RES.X[0] *sin( ALPHA_REACTION[0] ) + \
+                RES.X[1] *sin( ALPHA_REACTION[1] ) + \
+                RES.X[2] *( cont.mu*sin(ALPHA_FRICTION[2]) + sin(ALPHA_REACTION[2]) ), 
+            5), 0)
+
+        self.assertEqual(
+            round(
+                RES.X[0] *( plng.a+plng.b ) + RES.X[1] *plng.a + RES.X[2] *0, 
+            5), 0)
