@@ -58,7 +58,7 @@ class VariablesTestCase(TestCase):
         angl = Angles.objects.get(angles_key="Test Angles 1")
 
         ALPHA_REACTION = [
-            270, 90, angl.N
+            90, 270, angl.N
         ]
 
         ALPHA_FRICTION = [
