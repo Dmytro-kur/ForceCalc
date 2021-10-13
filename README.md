@@ -1,15 +1,20 @@
 # ForceCalc
+
 Cam curve App
+
 This app allows to calculate `normal force` in one point
+
 ```
 contact
 plunger
 spring
 angles
 ```
+
 [Hooke's law](https://en.wikipedia.org/wiki/Hooke%27s_law)
 [Contribution guidelines for this project](requirements.txt)
 ![Linear equations.gif](force/static/force/pictures/Switch2_zoom.png)
+
 - contact
 - plunger
 - spring
@@ -22,5 +27,9 @@ angles
  - [ ] Task 1. Calculate force
  - [x] Task 2. Calculate Torque #512
  - [ ] \(Optional) Build distances
+Here is a simple footnote[^1].
+<!-- This content will not appear in the rendered Markdown -->
 
-@Dmytro-kur
+[^1]: My reference.
+
+@Dmytro-kur :+1: This PR looks great - it's ready to merge! :shipit:
