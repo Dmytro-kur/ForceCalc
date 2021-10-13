@@ -3,10 +3,16 @@
 This app allows to calculate unknown reactions of supports and resulting vector of moments of the beam that loaded from the left by spring and has a smooth support at the right.
 
 Software could be used by automotive designers that produce car's switches especially on the design stage. Switches like power window switches
+
 ![image](force/static/force/pictures/Power-Windows.jpg)
-or parking brake switch ets.
+
+or parking brake switch
 
 ![image](force/static/force/pictures/electric-handbrake.jpg)
+
+ets.
+
+
 
 In `ForceApp` you can find [settings.py](ForceApp/settings.py) where LOGIN_URL is specified for appropriate path
 
