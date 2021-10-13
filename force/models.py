@@ -6,8 +6,6 @@ import math
 import numpy as np
 import unicodedata as ud
 
-latin_letters= {}
-
 def is_latin(chr):
     return 'LATIN' in ud.name(chr)
 

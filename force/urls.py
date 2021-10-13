@@ -30,5 +30,4 @@ urlpatterns = [
     # CALCULATION API Routes
     path("parameter/<str:name>/<int:project_num>", views.parameter, name="parameter"),
     path("result", views.result, name="result"),
-    # path("check/<int:project_num>/<int:value>", views.check, name="check"),
 ]
