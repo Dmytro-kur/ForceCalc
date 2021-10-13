@@ -1437,12 +1437,15 @@ let pos   = {X: 0, Y: 0}
 
 // initial box size in mm
 let mm = 1;
+
+// initial vector size
 let vector_scaling = 0.5;
+
+// initial canvas size coef
 let canvas_size = 0.7;
 document.querySelector('#vectors_scaling').innerHTML = vector_scaling.toFixed(2);
 
 draw_initialization();
-
 document.querySelector('#editor').innerHTML = 
 '<div class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false">'+
     '<figure class="image ck-widget image_resized ck-widget_with-resizer" style="width:25%;" contenteditable="false">'+
