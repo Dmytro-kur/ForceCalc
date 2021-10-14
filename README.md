@@ -1,6 +1,6 @@
 # ForceCalc
 
-## Concept
+## Description
 
 This app allows to calculate unknown reactions of supports and moment vector of the beam that loaded from the left by spring and has a smooth support at the right.
 
