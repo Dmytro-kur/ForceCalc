@@ -18,16 +18,18 @@ urlpatterns = [
     path("calculation/<int:project_num>", views.calculation, name="calculation"),
 
     # API Routes
+
+        ## Project API Routes
     path("projects/<str:query>", views.projects, name="projects"),
     path("new_project", views.new_project, name="new_project"),
 
-    # MAIL API Routes
+        ## MAIL API Routes
     path("compose", views.compose, name="compose"),
     path("unread", views.unread, name="unread"),
     path("email/<str:mailbox>/<int:email_id>", views.email, name="email"),
     path("mailbox/<str:query>/<str:mailbox>", views.mailbox, name="mailbox"),
 
-    # CALCULATION API Routes
+        ## CALCULATION API Routes
     path("parameter/<str:name>/<int:project_num>", views.parameter, name="parameter"),
     path("result", views.result, name="result"),
 ]
