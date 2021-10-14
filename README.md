@@ -12,7 +12,16 @@ or parking brake switch
 
 ets.
 
+![image](force/static/force/pictures/mechanical_scheme.png)
 
+This scheme reflects a simplified model of regular switches used inside cars.
+
+It is a mechanical scheme that consists of:
+
+ - two journal bearings (A & B) with free movement along X axis;
+ - smooth support C at the right end of the beam;
+ - beam placed between supports A & C; 
+ - spring that generate external linear load on the beam's left side.
 
 In `ForceApp` you can find [settings.py](ForceApp/settings.py) where LOGIN_URL is specified for appropriate path
 
