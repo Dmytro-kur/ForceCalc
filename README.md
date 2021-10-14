@@ -60,12 +60,6 @@ where _α0_ - direction of _Ra_, _α1_ - direction of _Rb_, _α2_ - direction of
 
 ## Project Structure
 
-Project has folders:
- - `.github`
- - `force`
- - `ForceApp`
- - `SECRET_KEY`
-
 ### .github
 
 In `.github` folder you can find workflow [force.yml](.github/workflows/force.yml) that has an instructions for testing project after pushing the code to main branch. It runs [test.py](force/tests.py) test where we check calculated variable _Ra_, _Rb_ and _NR_ by putting it to equations \(1). For project we should additionally install _numpy_ package for python:
