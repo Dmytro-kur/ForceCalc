@@ -12,9 +12,9 @@ or parking brake switch
 
 ets.
 
-![image](force/static/force/pictures/mechanical_scheme.png)
-
 This scheme reflects a simplified model of regular switches used inside cars.
+
+![image](force/static/force/pictures/mechanical_scheme.png)
 
 It is a mechanical scheme that consists of:
 
