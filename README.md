@@ -87,7 +87,6 @@ In `ForceApp` you can find [settings.py](ForceApp/settings.py) where LOGIN_URL, 
 
 ### force
 
-Bigest folder that has:
  - [`static`](force/static)
  - [`templates`](force/templates)
  - [admin.py](force/admin.py)
@@ -99,4 +98,57 @@ Bigest folder that has:
 #### models
 
 In project models we define **User**, **Mail** (user creates subject, writes a body of a mail and send it to recipients), **Flag** (keeps track of what is a status of a mail or it was read or archived), **Project** (fields like project_number, project_name, assembly_number that describe a project are assigned here), **Contact** (defines a set of contact parameters inside a choosen project), **Plunger** (defines a set of plunger parameters), **Spring** (defines a set of spring parameters), **Angles** (defines a set of angles parameters).
+
+Also we define a set of validators that will attache to corresponding models, _validate_project_number_, _validate_assembly_number_, _validate_fractional_, _validate_positive_, _plungerFric_validation_, _validate_contact_angle_.
+
+There are two main classes in addition:
+ - _calc_forces_;
+ - _calc_torque_.
+
+**calc_forces.solver()** method does directly a calculation of reactions in system of equations (1) by using _np.array()_ and _np.linalg.solve()_ methods. 
+
+**calc_forces.corrected_forces()** method corrects a direction for reactions in A and B supports.
+
+**calc_torque** class is used for calculating a resulting torque in C support. A magnitude and a sign of the value is important. Torque depending of the lever of switch actuating gives us a tactile feedback.
+
+**calc_torque.solver()** - is a method that allows to find third component of torque vector. calc_torque.intersection() method of finding the minimal distances from origin to force vectors in support C.
+
+#### admin
+
+In the [admin.py](force/admin.py) we register our models and specify a view for User and Mail, for "user_permissions" and "recipients" fields we define a filter_horizontal attribute.
+
+#### tests
+
+In [tests.py](force/tests.py) we create a test user, project and parameters (contact, plunger, spring, angles). Then passing parameters through calc_forces.solver() we find unknowns _Ra_, _Rb_, _NR_ that will go directly to equations. Therefore we check correctness of calculation.
+
+#### [urls](force/urls.py) 
+
+Project has 10 pages:
+ 1. '' - start page.
+ 2. 'login' - login page.
+ 3. 'logout' - logout page.
+ 4. 'register' - register page.
+ 5. 'mail/inbox' - page with inbox mail.
+ 6. 'mail/compose' - page for writing an email.
+ 7. 'mail/sent' - page of sent mail.
+ 8. 'mail/archived' - page of archives mail.
+ 9. 'change_password' - page for changing a password.
+ 10. 'calculation/<int:project_num>' - calculation page.
+
+API Routes:
+ - project routes:
+   1. 'projects/<str:query>' - used for searching a project.
+   2. 'new_project' - used for creating a new project.
+ - mail routes:
+   1. 'compose' - route for creating a new message.
+   2. 'unread' - route for calculating a number of unread emails.
+   3. 'email/<str:mailbox>/<int:email_id>' - retrieving an email content and changing status read/unread, archived/unarchived.
+   4. 'mailbox/<str:query>/<str:mailbox>' - searching for email in corresponding mailbox inbox/sent/archived.
+ - calculation routes:
+   1. 'parameter/<str:name>/<int:project_num>' - get, save, change or delete parameter.
+   2. 'result' - getting a calculated results.
+
+#### templates
+
+[templates](force/templates) includes static html renders.
 
