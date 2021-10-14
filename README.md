@@ -41,16 +41,30 @@ Angles field consists of the following:  “Direction of normal reaction force�
 
 ![image](force/static/force/pictures/Angles.png)
 
+The usage of this software allows us to:
+ 1. Calculate normal reaction at the end of the beam (smooth support C) to avoid accumulating contact stress so that we could analyze robustness and reliability of a switch.
+ 2. Find a flexible solution based on versatility of tactile feelings that would satisfy the customer needs. 
+
+To solve the issues mentioned above our beam is constantly being pushed by spring from the left end, reflecting the force to smooth support at the right end. This force creates haptic torque that could be felt while pushing or pulling the switch. Reactions applied from each support are depicted as arrows, with direction of force shown by arrowheads.
+
+At the same time the beam doesn't move anywhere while we change it's position by hand being in a static balance that allows us to find unknown variables (forces):
+ - _Ra_ - reaction on support A;
+ - _Rb_ - reaction on support B;
+ - _NR_ - normal reaction on support C.
+
+![image](force/static/force/pictures/Linera_equations.gif)
+
+where _α0_ - direction of _Ra_, _α1_ - direction of _Rb_, _α2_ - direction of _NR_, _β0_ - direction of friction force in A support, _β1_ - direction of friction force in B support, _β2_ - direction of friction force in C support, _f_ - friction coefficient in A & B support, _μ_ - friction coefficient in C support, _a_ - length between A & B, _b_ - length between B & C, _LOAD_ - external load generated from a spring.
+
+
+
+
+
+
+
+
+
 In `ForceApp` you can find [settings.py](ForceApp/settings.py) where LOGIN_URL is specified for appropriate path
-
-
-```
-contact
-plunger
-spring
-angles
-```
-
 [Hooke's law](https://en.wikipedia.org/wiki/Hooke%27s_law)
 [Contribution guidelines for this project](requirements.txt)
 ![Linear equations.gif](force/static/force/pictures/Switch2_zoom.png)
