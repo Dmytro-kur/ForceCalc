@@ -52,7 +52,7 @@ At the same time the beam doesn't move anywhere while we change it's position by
  - _Rb_ - reaction on support B;
  - _NR_ - normal reaction on support C.
 
-![image](force/static/force/pictures/Linera_equations.gif)
+![image](force/static/force/pictures/equations.png)
 
 where _α0_ - direction of _Ra_, _α1_ - direction of _Rb_, _α2_ - direction of _NR_, _β0_ - direction of friction force in A support, _β1_ - direction of friction force in B support, _β2_ - direction of friction force in C support, _f_ - friction coefficient in A & B support, _μ_ - friction coefficient in C support, _a_ - length between A & B, _b_ - length between B & C, _LOAD_ - external load generated from a spring.
 
@@ -65,25 +65,7 @@ where _α0_ - direction of _Ra_, _α1_ - direction of _Rb_, _α2_ - direction of
 
 
 In `ForceApp` you can find [settings.py](ForceApp/settings.py) where LOGIN_URL is specified for appropriate path
-[Hooke's law](https://en.wikipedia.org/wiki/Hooke%27s_law)
+
 [Contribution guidelines for this project](requirements.txt)
-![Linear equations.gif](force/static/force/pictures/Switch2_zoom.png)
 
-- contact
-- plunger
-- spring
-1. contact
-   - first set
-     - second set
-3. plunger
-4. spring
-5. angles
- - [ ] Task 1. Calculate force
- - [x] Task 2. Calculate Torque #512
- - [ ] \(Optional) Build distances
-Here is a simple footnote[^1].
-<!-- This content will not appear in the rendered Markdown -->
 
-[^1]: My reference.
-
-@Dmytro-kur :+1: This PR looks great - it's ready to merge! :shipit:
