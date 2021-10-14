@@ -176,8 +176,25 @@ def mail(request):
     if request.method == "GET":
         return render(request, "force/mail.html")
 
+def test_set(request, recipients):
+
+    for i in range(1000):
+        # Create an email
+        email = Mail(
+            sender=request.user,
+            subject=f'Test {i}',
+            body=f'Test {i}',
+        )
+        email.save()
+        for recipient in recipients:
+            email.recipients.add(recipient)
+            Flag(user=recipient, mail=email,
+                read=False, archived=False).save()
+        email.save()
+
 @login_required
 def compose(request):
+        
 
     # Composing a new email must be via POST
     if request.method == "POST":
@@ -201,6 +218,9 @@ def compose(request):
                 return JsonResponse({
                     "error": f"User with email {email} does not exist."
                 }, status=400)
+
+        # test_set(request, recipients)
+        # return JsonResponse({"message": "Email sent successfully."}, status=201)
 
         # Get contents of email
         subject = data.get("subject", "")
@@ -421,6 +441,31 @@ def mailbox(request, query, mailbox):
 # PROJECT #
 ########
 
+def test_project(request):
+    for i in range(100):
+
+        if len(str(i)) == 1:
+            project_number = f'P0000{i}'
+        elif len(str(i)) == 2:
+            project_number = f'P000{i}'
+        elif len(str(i)) == 3:
+            project_number = f'P00{i}'
+
+        mydata = {
+            'project_number': project_number,
+            'project_name': f'Test {i}',
+            'assembly_number': '00000001',
+        }
+
+        project_data = ProjectForm(mydata)
+
+        if project_data.is_valid():
+
+            project_creator = project_data.save(commit=False)
+            project_creator.user = request.user
+            project_creator.save()
+
+
 @login_required
 def new_project(request):
 
@@ -437,8 +482,13 @@ def new_project(request):
             project_creator.user = request.user
             project_creator.save()
         
+        # test_project(request)
+        # return JsonResponse({"message": "New project is created."}, 
+        #     status=201)
+
             return JsonResponse({"message": "New project is created."}, 
             status=201)
+
         else:
             # error about uniqueness of the value
             return JsonResponse({"errors": project_data.errors}, status=400)
