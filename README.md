@@ -172,7 +172,7 @@ Table of functions that receive requests
 | request | [login_view](force/views.py#L102) | [login.html](force/templates/force/login.html) | [redirect to index](force/views.py#L115) \| [login.html](force/templates/force/login.html), errors: [1](force/views.py#L118) | none | none |
 | request | [logout_view](force/views.py#L123) | [redirect to index](force/views.py#L128) | none | none | none |
 | request | [register](force/views.py#L130) | [register.html](force/templates/force/register.html) | [redirect to index](force/views.py#L133) \| errors: [1](force/views.py#L146), [2](force/views.py#L157) | none | none |
-| request | [password_change](force/views.py#L163) | [password_change.html](force/templates/force/password_change.html), [password_change](force/views.py#L167) | [redirect to login](force/views.py#L178) \| [password_change.html](force/templates/force/password_change.html), errors: [password_change](force/views.py#L181) | none | none |
+| request | [password_change](force/views.py#L163) | [password_change.html](force/templates/force/password_change.html), [password_change](force/views.py#L167) | [redirect to login](force/views.py#L178) \| [password_change.html](force/templates/force/password_change.html), errors: [1](force/views.py#L181) | none | none |
 | request | [mail](force/views.py#L188) | [mail.html](force/templates/force/mail.html) | none | none | none |
 | request | compose | none | message \| (errors) error | none | none |
 | request | unread | count | none | none | none |
