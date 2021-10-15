@@ -165,9 +165,10 @@ Render views are:
 5. mail. Render a mail page.
 6. calculation. Render calculation page.
 
+Table of functions that receive requests
 | Input   | func            | GET Output                            | POST Output                                       | PUT Output | DELETE Output |
 | :---    | :---            | :---                                  | :---                                                               | :---       | :--- |
-| request | index           | index.html, ProjectForm               | none                                                               | none       | none |
+| request | [index](force/views.py#L95)           | index.html, ProjectForm               | none                                                               | none       | none |
 | request | login_view      | login.html                            | redirect to index \| login.html, (error) message                   | none       | none |
 | request | logout_view     | redirect to index                     | none                                                               | none       | none |
 | request | register        | register.html                         | redirect to index \| register.html, (error) message                | none       | none |
