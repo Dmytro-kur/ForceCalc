@@ -152,7 +152,7 @@ Here is all logic of the site, in particular html rendering, django forms settin
 
 One of the functions is _parse_from_js()_ that takes request.body as arguments and convert it to regular python dictionary. Used in three cases:
  - creating new project;
- - creating new parameter (contact/plunger/spring/angles);
+ - creating new parameter (contact | plunger | spring | angles);
  - change parameter.
 
 _ProjectForm_, _ContactForm_, _PlungerForm_, _SpringForm_, _AnglesForm_, _PasswordChangeForm2_ - are a forms inherited from model forms in some forms we define custom id and class for bootstrap.
