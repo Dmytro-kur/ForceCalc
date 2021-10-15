@@ -128,6 +128,7 @@ def logout_view(request):
         return HttpResponseRedirect(reverse("index"))
 
 def register(request):
+    
     if request.method == "GET":
         return render(request, "force/register.html")
 
