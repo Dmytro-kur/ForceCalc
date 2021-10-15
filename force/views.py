@@ -128,7 +128,7 @@ def logout_view(request):
         return HttpResponseRedirect(reverse("index"))
 
 def register(request):
-    
+
     if request.method == "GET":
         return render(request, "force/register.html")
 
@@ -293,20 +293,25 @@ def email(request, mailbox, email_id):
 
             flag.save()
             if data["read"]:
-                return JsonResponse({"message": "The message has been read."}, status=201)
+                return JsonResponse({"message": "The message has been read."}, 
+                status=201)
             if not data["read"]:
-                return JsonResponse({"message": "The message was not read."}, status=201)
+                return JsonResponse({"message": "The message was not read."}, 
+                status=201)
 
         if data.get("archived") is not None:
             flag.archived = data["archived"]
 
             flag.save()
             if data["archived"]:
-                return JsonResponse({"message": "Email was archived."}, status=201)
+                return JsonResponse({"message": "Email was archived."}, 
+                status=201)
             if not data["archived"]:
-                return JsonResponse({"message": "Email was unarchived."}, status=201)
+                return JsonResponse({"message": "Email was unarchived."}, 
+                status=201)
 
-        return JsonResponse({"message": "Email state wasn't change."}, status=201)
+        return JsonResponse({"message": "Email state wasn't change."}, 
+        status=201)
 
     # Email must be via GET or PUT
     else:
