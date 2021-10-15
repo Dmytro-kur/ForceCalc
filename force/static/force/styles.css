@@ -5,7 +5,6 @@
   -webkit-box-sizing: border-box;
 }
 
-/* VARIABLES */
 body, #user_container, #logo_container, 
 .header, #wave-btn, #login-btn, #register-btn,
 .wave-btn__waves, .wave-btn__text, 
@@ -274,17 +273,6 @@ body {
   width: 30px; 
 }
 
-
-
-/* .page-item:hover {
-  cursor: pointer;
-}
-
-.disabled:hover {
-  cursor: context-menu;
-} */
-
-
 /* ----------- end HEADER ------------- */
 /*
 /*
@@ -307,8 +295,6 @@ body {
   border-radius: 0px 10px 10px 0px;
   margin: 5px 10px 5px 0px;
   height: auto;
-  /* width: 250px;
-  min-width: 250px; */
   width: 300px;
   min-width: 300px;
   flex-grow: 0;
@@ -475,7 +461,6 @@ p.wave-btn__sidebar {
                                     border-radius: 10px 10px 10px 10px;
                                     margin: 5px 10px 5px 10px;
                                     justify-content: flex-start;
-                                    /* max-height: 61px; */
                                     width: auto;
                                     min-width: 520px;
                                   }
@@ -738,7 +723,7 @@ td {
 #archived-email-body {
   flex-direction: column;
 }
-/*///////////////////////////*/
+
 #wave-btn__newProject:hover,
 #wave-btn__contactForm:hover,
 #wave-btn__plungerForm:hover,
@@ -771,11 +756,6 @@ td {
   }
 }
 
-/*///////////////////////////*/
-
-/*/////////////EXPANDED BOX//////////////*/
-/*/////////////EXPANDED BOX//////////////*/
-
 /* ----------- end BODY ------------- */
 /*
 /*
@@ -791,12 +771,10 @@ td {
 /* ------------------------------ end FOOTER ----------------------------- */
 /* -------------------------------------- LAYOUT HOME PAGE ---------------------------------------- */
 table {
-  /* border: 1px solid black; */
   border-collapse: collapse;
 }
 
 td {
-  /* border: 1px solid black; */
   padding: 2px;
 }
 
@@ -839,16 +817,13 @@ td {
 #archived-email-body,
 #inbox-email-body {
   flex-direction: column;
-  /* height: 100%; */
 }
 textarea, 
 #inbox-email-content,
 #sent-email-content,
 #archived-email-content,
 .form-control {
-  /* height: 100%; */
   font-size: 16px;
-  /* overflow-y: hidden; */
 }
 /* ---------------------------- end MAIL ------------------------ */
 
@@ -947,6 +922,3 @@ margin-right: auto;
 }
 
 /* ---------------------------- end CALCULATION -------------------- */
-/* #test-color {
-  color:rgb(255, 126, 126);
-  } */

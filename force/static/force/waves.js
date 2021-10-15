@@ -11,7 +11,6 @@ function getCoords(elem) {
 
 function waves(button, wave, half_radius, event, part) {
     
-
     const coords = getCoords(document.querySelector(button));
     const center = {
         X: event.pageX - coords.left,
@@ -51,4 +50,3 @@ function is_clicked(class_name, event) {
         return true
     }
 }
-
