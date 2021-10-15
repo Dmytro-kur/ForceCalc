@@ -146,3 +146,39 @@ API Routes:
 
 [templates](force/templates) include static html renders.
 
+#### views
+
+Here is all logic of the site, in particular html rendering, django forms setting and so on.
+
+One of the functions is _parse_from_js()_ that takes request.body as arguments and convert it to regular python dictionary. Used in three cases:
+ - creating new project;
+ - creating new parameter (contact/plunger/spring/angles);
+ - change parameter.
+
+_ProjectForm_, _ContactForm_, _PlungerForm_, _SpringForm_, _AnglesForm_, _PasswordChangeForm2_ - are a forms inherited from model forms in some forms we define custom id and class for bootstrap.
+
+Render views are:
+1. index. Render starting page.
+2. login_view. Render logine page.
+3. register. Render registration page.
+4. password_change. Render page for changing a password.
+5. mail. Render a mail page.
+6. calculation. Render calculation page.
+
+| Input   | func            | GET Output                            | POST Output                                       | PUT Output | DELETE Output |
+| :---    | :---            | :---                                  | :---                                                               | :---       | :--- |
+| request | index           | index.html, ProjectForm               | none                                                               | none       | none |
+| request | login_view      | login.html                            | redirect to index \| login.html, (error) message                   | none       | none |
+| request | logout_view     | redirect to index                     | none                                                               | none       | none |
+| request | register        | register.html                         | redirect to index \| register.html, (error) message                | none       | none |
+| request | password_change | password_change.html, password_change | redirect to login \| password_change.html, (error) password_change | none       | none |
+| request | mail            | mail.html                             | none | none | none |
+| request | compose | none | message \| (errors) error | none | none |
+| request | unread | count | none | none | none |
+| request, mailbox, email_id | email | Flag.serialize() \| (errors) error | none | message | none |
+| request, query, mailbox | mailbox | count, Flag.read's \| (errors) error | none | none | none |
+| request | new_project | none | message \| (errors) errors | none | none |
+| request, query | projects | count, Project.serialize()'s | none | none | none |
+| request | result | REACTION, FRICTION_DIRECTION, DIRECTION, TORQUE, INTERSECTION \| (error) | none | none | none |
+| request, project_num | calculation | calculation.html, project, Contacts, Plungers, Springs, Angles | none | none | none |
+| request, name, project_num | parameter | (Contact \| Plunger \| Spring \| Angles).serialize() \| (errors) var1, var2, var3 | key, id \| (errors) disclaimer, errors | message \| (errors) disclaimer, errors | message \| (errors) disclaimer |
