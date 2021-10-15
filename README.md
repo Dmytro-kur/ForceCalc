@@ -174,9 +174,9 @@ Table of functions that receive requests
 | request | [register](force/views.py#L130) | [register.html](force/templates/force/register.html) | [redirect to index](force/views.py#L133) \| errors: [1](force/views.py#L146), [2](force/views.py#L157) | none | none |
 | request | [password_change](force/views.py#L163) | [password_change.html](force/templates/force/password_change.html), [password_change](force/views.py#L167) | [redirect to login](force/views.py#L178) \| [password_change.html](force/templates/force/password_change.html), errors: [1](force/views.py#L181) | none | none |
 | request | [mail](force/views.py#L188) | [mail.html](force/templates/force/mail.html) | none | none | none |
-| request | compose | none | message \| (errors) error | none | none |
-| request | unread | count | none | none | none |
-| request, mailbox, email_id | email | Flag.serialize() \| (errors) error | none | message | none |
+| request | [compose](force/views.py#L209) | none | [message](force/views.py#L253) \| errors: [1](force/views.py#L220), [2](force/views.py#L231) | none | none |
+| request | [unread](force/views.py#L257) | [count](force/views.py#L260) | none | none | none |
+| request, mailbox, email_id | [email](force/views.py#L263) | Flag.serialize() \| (errors) error | none | message | none |
 | request, query, mailbox | mailbox | count, Flag.read's \| (errors) error | none | none | none |
 | request | new_project | none | message \| (errors) errors | none | none |
 | request, query | projects | count, Project.serialize()'s | none | none | none |
