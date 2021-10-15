@@ -144,7 +144,7 @@ API Routes:
 
 #### templates
 
-[templates](force/templates) include static html renders.
+[templates](force/templates) include html pages.
 
 #### views
 
