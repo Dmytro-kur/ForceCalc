@@ -174,12 +174,15 @@ Table of functions that receive requests
 | request | [register](force/views.py#L130) | [register.html](force/templates/force/register.html) | [redirect to index](force/views.py#L133) \| errors: [1](force/views.py#L146), [2](force/views.py#L157) | none | none |
 | request | [password_change](force/views.py#L163) | [password_change.html](force/templates/force/password_change.html), [password_change](force/views.py#L167) | [redirect to login](force/views.py#L178) \| [password_change.html](force/templates/force/password_change.html), errors: [1](force/views.py#L181) | none | none |
 | request | [mail](force/views.py#L188) | [mail.html](force/templates/force/mail.html) | none | none | none |
-| request | compose | none | message \| (errors) error | none | none |
-| request | unread | count | none | none | none |
-| request, mailbox, email_id | email | Flag.serialize() \| (errors) error | none | message | none |
-| request, query, mailbox | mailbox | count, Flag.read's \| (errors) error | none | none | none |
-| request | new_project | none | message \| (errors) errors | none | none |
-| request, query | projects | count, Project.serialize()'s | none | none | none |
-| request | result | REACTION, FRICTION_DIRECTION, DIRECTION, TORQUE, INTERSECTION \| (error) | none | none | none |
-| request, project_num | calculation | calculation.html, project, Contacts, Plungers, Springs, Angles | none | none | none |
-| request, name, project_num | parameter | (Contact \| Plunger \| Spring \| Angles).serialize() \| (errors) var1, var2, var3 | key, id \| (errors) disclaimer, errors | message \| (errors) disclaimer, errors | message \| (errors) disclaimer |
+| request | [compose](force/views.py#L209) | none | [message](force/views.py#L253) \| errors: [1](force/views.py#L220), [2](force/views.py#L231) | none | none |
+| request | [unread](force/views.py#L257) | [count](force/views.py#L260) | none | none | none |
+| request, mailbox, email_id | [email](force/views.py#L263) | [Flag.serialize()](force/views.py#L285) \| errors: [1](force/views.py#L275), [2](force/views.py#L319) | none | messages: [1](force/views.py#L296), [2](force/views.py#L299), [3](force/views.py#L307), [4](force/views.py#L309), [5](force/views.py#L313) | none |
+| request, query, mailbox | [mailbox](force/views.py#L331) | [count](force/views.py#L376), [Flag.read's](force/views.py#L377) \| errors: [1](force/views.py#L358) | none | none | none |
+| request | [new_project](force/views.py#L487) | none | messages: [1](force/views.py#L506) \| errors: [1](force/views.py#L511) | none | none |
+| request, query | [projects](force/views.py#L514) | [count](force/views.py#L537), [Project.serialize()'s](force/views.py#L538) | none | none | none |
+| request | [result](force/views.py#L605) | [REACTION](force/views.py#L693), [FRICTION_DIRECTION](force/views.py#L698), [DIRECTION](force/views.py#L703), [TORQUE](force/views.py#L708), [INTERSECTION](force/views.py#L712) \| errors: [1](force/views.py#L633) | none | none | none |
+| request, project_num | [calculation](force/views.py#L725) | [calculation.html](force/templates/force/calculation.html), [project](force/views.py#L735), [Contacts](force/views.py#L736), [Plungers](force/views.py#L737), [Springs](force/views.py#L738), [Angles](force/views.py#L739) | none | none | none |
+| request, name, project_num | [parameter](force/views.py#L743) | [(Contact \| Plunger \| Spring \| Angles).serialize()](force/views.py#L758) \| output: [1](force/views.py#L762), [2](force/views.py#L763), [3](force/views.py#L764) | [key](force/views.py#L822), [id](force/views.py#L823) \| errors: [1](force/views.py#L772), [2](force/views.py#L810), [3](force/views.py#L827) | messages: [1](force/views.py#L882) \| errors: [1](force/views.py#L834), [2](force/views.py#L874), [3](force/views.py#L886) | messages: [1](force/views.py#L902), [2](force/views.py#L910), [3](force/views.py#L918), [4](force/views.py#L926) \| errors: [1](force/views.py#L894) |
+
+#### static/force
+
