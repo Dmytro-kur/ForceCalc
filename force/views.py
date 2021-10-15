@@ -34,7 +34,8 @@ def parse_from_js(request_body):
     Warning It is possible to crash the Python interpreter with a sufficiently large/complex 
     string due to stack depth limitations in Python’s AST compiler.
     Changed in version 3.2: Now allows bytes and set literals.
-    Changed in version 3.9: Now supports creating empty sets with 'set()'.'''
+    Changed in version 3.9: Now supports creating empty sets with 'set()'.
+    '''
 
     return mydata
         
@@ -92,13 +93,18 @@ class PasswordChangeForm2(PasswordChangeForm):
         })
 
 def index(request):
-    return render(request, 'force/index.html', {
-        "projectForm": ProjectForm()
-    })
+
+    if request.method == "GET":
+        return render(request, 'force/index.html', {
+            "projectForm": ProjectForm()
+        })
 
 def login_view(request):
-    if request.method == "POST":
 
+    if request.method == "GET":
+        return render(request, "force/login.html")
+
+    elif request.method == "POST":
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
@@ -111,18 +117,21 @@ def login_view(request):
             return render(request, "force/login.html", {
                 "message": "Invalid username and/or password."
             })
-    else:
-        return render(request, "force/login.html")
+        
 
 
 def logout_view(request):
-    logout(request)
-    # Artificially delay speed of response
-    time.sleep(0.3)
-    return HttpResponseRedirect(reverse("index"))
+    if request.method == "GET":
+        logout(request)
+        # Artificially delay speed of response
+        time.sleep(0.3)
+        return HttpResponseRedirect(reverse("index"))
 
 def register(request):
-    if request.method == "POST":
+    if request.method == "GET":
+        return render(request, "force/register.html")
+
+    elif request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
         first_name = request.POST["first_name"]
@@ -147,14 +156,17 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, "force/register.html")
+        return HttpResponseRedirect(reverse("index"))        
 
 @login_required
 def password_change(request):
 
-    if request.method == "POST":
+    if request.method == "GET":
+        return render(request, 'force/password_change.html', {
+            "password_change": PasswordChangeForm2(user=request.user),
+        })
+
+    elif request.method == "POST":
         form = PasswordChangeForm(user=request.user,
         data=request.POST)
 
@@ -163,10 +175,10 @@ def password_change(request):
             update_session_auth_hash(request, form.user)
             logout(request)
             return HttpResponseRedirect(reverse("login"))
-    else:
-        return render(request, 'force/password_change.html', {
-            "password_change": PasswordChangeForm2(user=request.user),
-        })
+        else: 
+            return render(request, 'force/password_change.html', {
+                "password_change": PasswordChangeForm2(user=request.user),
+            })
 
 #####################################################################################
 # MAIL #
@@ -195,7 +207,6 @@ def test_set(request, recipients):
 @login_required
 def compose(request):
         
-
     # Composing a new email must be via POST
     if request.method == "POST":
 
