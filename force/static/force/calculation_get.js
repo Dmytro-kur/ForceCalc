@@ -17,7 +17,6 @@ function parameter(event, name){
     .catch(error => {
         alert(error)
     })
-
 }
 
 function get_forces(
@@ -48,5 +47,4 @@ function get_forces(
     .catch(error => {
         alert(error)
     })
-
 }

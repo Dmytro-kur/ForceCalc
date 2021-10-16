@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let page = event.state.page
 
-        if (page === 'inbox' || page === 'sent') {
+        if (page === 'inbox' || page === 'sent' || page === 'archived') {
 
           shutOff_views();
           document.querySelector(`#${page}-view`).style.display = 'flex';
