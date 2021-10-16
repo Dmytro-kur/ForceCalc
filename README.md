@@ -186,3 +186,12 @@ Table of functions that receive requests
 
 #### static/force
 
+ - waves.js
+
+In waves.js file we define a functions that allow us control wave effect when buttons were pushed. Google pages also have this effect. 
+
+Button consists of two elements one is a visible button and second is a circle but we see this circle only while running an animation [wave](force/static/force/styles.css#L166-L176), [user-menu-wave](force/static/force/styles.css#L208-L218), [sidebar-wave](force/static/force/styles.css#L746-L756). The animation is aimed to continuosly increasing circle diameter starting from 0.
+
+By [getCoords](force/static/force/waves.js#L1-L10) function we find a current coordinates of button and using [waves](force/static/force/waves.js#L12-L35) function run a animation for second element that has diameter 0. Center of this radial distribution is where user click inside buttons boundary. But this won't work without last [dummy operations](force/static/force/waves.js#L26-L35) like refreshing css animation. Without this operations the animation will be playing only once and will stop until we reload a page.
+
+[is_clicked](force/static/force/waves.js#L37-L52) function is used for correct detection of the element where animation should play.
