@@ -163,10 +163,10 @@ def register(request):
 def password_change(request):
 
     if request.method == "GET":
+        time.sleep(0.3)
         return render(request, 'force/password_change.html', {
             "password_change": PasswordChangeForm2(user=request.user),
         })
-
     elif request.method == "POST":
         form = PasswordChangeForm(user=request.user,
         data=request.POST)
