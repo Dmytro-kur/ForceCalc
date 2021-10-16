@@ -186,7 +186,7 @@ Table of functions that receive requests
 
 #### static/force
 
- - waves.js
+ - [waves.js](force/static/force/waves.js)
 
 In waves.js file we define a functions that allow us control wave effect when buttons were pushed. Google pages also have this effect. 
 
