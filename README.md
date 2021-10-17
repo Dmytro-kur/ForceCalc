@@ -294,13 +294,13 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-1. textarea scaling.
-2. Building an gradient.
-3. csrf token from JavaScript.
-4. using react styling
-5. working with setState function async bihaviour
-6. Using a canvas
-7. Using bootstrap tooltips
+1. Building an gradient.
+2. csrf token from JavaScript.
+3. using react styling
+4. working with setState function async bihaviour
+5. Using a canvas
+6. Using bootstrap tooltips
+7. textarea scaling.
 8. Creating a text that can't be overlapped.
 9. Radio buttons in react
 10. Mobile responsiveness by changing a flex parameters
