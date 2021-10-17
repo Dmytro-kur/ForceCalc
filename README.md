@@ -240,11 +240,7 @@ In filter.js we also fetch a post request that is aimed to save new project as a
 
  - [mail.js](force/static/force/mail.js)
 
-mail.js controls all mail functions in the project, such as:
- - render an email's content by [render_email](force/static/force/mail.js#L247-L331) function that is also describes a bihavior with archiving and replaying events;
- - showing a list depending on topic (inbox, compose, archived or sent) [44-127](force/static/force/mail.js#L44-L127);
- - showing up or shutting down elements [142-160](force/static/force/mail.js#L142-L160);
- - control size of textarea [137-140](force/static/force/mail.js#L137-L140);
+mail.js controls all mail functions in the project, such as: render an email's content by [render_email](force/static/force/mail.js#L247-L331) function that is also describes a bihavior with archiving and replaying events; showing a list depending on topic (inbox, compose, archived or sent) [44-127](force/static/force/mail.js#L44-L127); showing up or shutting down elements [142-160](force/static/force/mail.js#L142-L160); control size of textarea [137-140](force/static/force/mail.js#L137-L140);
 
  - [calculation_react.js](force/static/force/calculation_react.js)
 
@@ -267,7 +263,7 @@ Next function is a [componentDidMount()](force/static/force/calculation_react.js
 
 All other functions is aimed to do regular work like retrieving parameter's data after choosing an option, clearing validator's tooltips, updating inputs on fields, elaboration of all button's click events.
 
-At the end of the calculation_react.js we define a 2d canvas [11481149](force/static/force/calculation_react.js#L1148-L1149), make initial scales for canvas and draw initial drawing [1152-1167](force/static/force/calculation_react.js#L1152-L1167)
+At the end of the calculation_react.js we define a 2d canvas [1148-1149](force/static/force/calculation_react.js#L1148-L1149), make initial scales for canvas and draw initial drawing [1152-1167](force/static/force/calculation_react.js#L1152-L1167)
 
  - [calculations_canvas.js](force/static/force/calculation_canvas.js)
 
