@@ -294,17 +294,15 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-1. Force, torque, distance calculation in models.py. Is used numpy.
-2. Also is a massivness of the variables in views.py.
-3. Style waves for buttons.
-4. csrf token from JavaScript.
-5. using react styling, working with setState function async bihaviour. Massivenes of rendered html content. Radio buttons in react.
-6. mathimetical functions multiply, and rotate in calculation_canvas.js.
-7. Using a canvas.
-8. Make a resizes rescaled rezoomed grid for canvas.
-9. Creating an interactive canvas with different coordinates for cursor.
-10. Building an arrows for force vectors.
-11. Building an gradient.
-12. Creating a text that can't be overlapped.
-13. Mobile responsiveness by changing a flex parameters
-14. textarea scaling
+1. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy.
+2. Style waves for buttons.
+3. csrf token from JavaScript.
+4. using react styling, working with setState function async bihaviour. Radio buttons in react.
+5. mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors.
+6. Using a canvas.
+7. Make a resizes rescaled rezoomed grid for canvas.
+8. Creating an interactive canvas with different coordinates for cursor.
+9. Building an gradient.
+10. Creating a text that can't be overlapped.
+11. Mobile responsiveness by changing a flex parameters
+12. textarea scaling
