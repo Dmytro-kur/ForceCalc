@@ -303,3 +303,4 @@ In styles.css we describe layout on the site, dimensioning (box-sizing: border-b
 11. Building an gradient.
 12. Creating a text that can't be overlapped.
 13. Mobile responsiveness by changing a flex parameters
+14. textarea scaling
