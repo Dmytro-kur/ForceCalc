@@ -246,4 +246,50 @@ mail.js controls all mail functions in the project, such as:
  - showing up or shutting down elements [142-160](force/static/force/mail.js#L142-L160);
  - control size of textarea [137-140](force/static/force/mail.js#L137-L140);
 
- - [react.js](force/static/force/react.js)
+ - [calculation_react.js](force/static/force/calculation_react.js)
+
+Probably the biggest one.
+
+This is a main file for controlling parameter fields and calculating each time when any field was changed.
+
+In addition for styles.css we define a [styles](force/static/force/calculation_react.js#L48-L72) in render function. 
+
+In constructer we define an [initial values](force/static/force/calculation_react.js#L5-L44) for mechanical scheme.
+
+First function is a functions where we hide or show buttons such as delete, save or edit also we have three state for fields:
+1. newState. All filds has initial values, parameter name is empty and option is 'new parameter'. Delete, Edit buttons are hidden;
+2. activeState. Parameter name is read only, options is a seleted current parameter and values are retrieved from server's database. Save, Edit buttons are hidden;
+3. editState. Triggered as we start to change some field's value. Only Save button is hidden.
+
+Next function is a [componentDidMount()](force/static/force/calculation_react.js#L393-L430) calls just after mounting all html's elements. Here we hide all delete, edit buttons, call unread_emails() that allow us to see if there any unread emails we have. Finally we create an options for select element [399-423](force/static/force/calculation_react.js#L399-L423), [calculate a forces](force/static/force/calculation_react.js#L436-L539) based on initial values and assign expand function for parameter fields.
+
+[forces()](force/static/force/calculation_react.js#L436-L539) takes all values from react states passes it to [get_forces()](force/static/force/calculation_get.js#L22-L50) and recieve a response of calculated forces after that passes this answer to [draw](force/static/force/calculation_canvas.js#L315-1058) function that visualizes that forces on canvas. 
+
+All other functions is aimed to do regular work like retrieving parameter's data after choosing an option, clearing validator's tooltips, updating inputs on fields, elaboration of all button's click events.
+
+At the end of the calculation_react.js we define a 2d canvas [11481149](force/static/force/calculation_react.js#L1148-L1149), make initial scales for canvas and draw initial drawing [1152-1167](force/static/force/calculation_react.js#L1152-L1167)
+
+ - [calculations_canvas.js](force/static/force/calculation_canvas.js)
+
+Is figuring out a canvas with mechanical scheme and forces showing on that scheme.
+
+When mouse is over the canvas scroll function should be disabled [1-7](force/static/force/calculation_canvas.js#L1-L7), because scroll defines a scaling on the canvas.
+
+First function draws scheme based on initial calculation_react states and defines a responsivness of canvas while resizing.
+
+After that we define a scrolling event [65-99](force/static/force/calculation_canvas.js#L65-L99), 'zoom' on wheel scroll event.
+
+Next is detecting the cursor while its over canvas [101-143](force/static/force/calculation_canvas.js#L101-L143) and translating a content of the canvas while mouse left button is pushing [148-167](force/static/force/calculation_canvas.js#L148-L167).
+
+Next functions [multiply](force/static/force/calculation_canvas.js#L280-L299) and [rotate](force/static/force/calculation_canvas.js#L301-L313) represent mathematical [Matrix Multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) and [Rotation_matrix](https://en.wikipedia.org/wiki/Rotation Matrix) that allow us to rotate our force vectors.
+
+[draw](force/static/force/calculation_canvas.js#L315-L1058) function draws all content on the canvas.
+
+ - [style.css](force/static/force/styles.css)
+
+In styles.css we describe layout on the site, dimensioning (box-sizing: border-box) and flex type of the elements [1-52](force/static/force/styles.css#L1-L52). Also we define a level of responsiveness:
+ - first level - is up to 970px of screen width [454-506](force/static/force/styles.css#L454-L506);
+ - second - is from 540px to 970px [508-555](force/static/force/styles.css#L508-L555);
+ - third - is from 285px to 540px [557-561](force/static/force/styles.css#L557-L561).
+
+
