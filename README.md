@@ -234,6 +234,16 @@ File describes paginator bar. And reactJS instance [searchComponentInstance](for
 
  - [filter.js](force/static/force/filter.js)
 
-General function is [items_retrieve](force/static/force/filter.js#L1-L127) that creates a list of the projects or emails based on page, query etc. Also we use popstates for project page, mail/inbox, mail/sent and mail/compose [filter line 149](force/static/force/filter.js#L149).
+General function is [items_retrieve](force/static/force/filter.js#L1-L127) that creates a list of the projects or emails based on page, query etc. Also we use popstates for project page, mail/inbox, mail/sent and mail/compose [filter line 149](force/static/force/filter.js#L149). Inside items_retrieve function we create a [table](force/static/force/filter.js#L27-L34) with a names of columns depending on what kind of lists we want to recieve, projects or emails. 
 
+In filter.js we also fetch a post request that is aimed to save new project as a response we will get good marks or error messages styling is from bootstrap validators for that we should mark field as 'is-valid' or 'is-invalid' [206-214](force/static/force/filter.js#L206-L214). At the end of the function we call [expand](force/templates/force/layout.html#L30-L70) function that is dinamically pop up our fields. During expand action we use a couple of css animations like [arrow-rotate-downwards](force/static/force/styles.css#L405-L412) and [arrow-rotate-upwards](force/static/force/styles.css#L413-L420) that rotates arrow on the new project button, and [expand](force/static/force/styles.css#L422-L435) / [closed](force/static/force/styles.css#L436-L449) animations that expand or close project's or parameter's fields changing their height from 0 to 100% and vice versa.
 
+ - [mail.js](force/static/force/mail.js)
+
+mail.js controls all mail functions in the project, such as:
+ - render an email's content by [render_email](force/static/force/mail.js#L247-L331) function that is also describes a bihavior with archiving and replaying events;
+ - showing a list depending on topic (inbox, compose, archived or sent) [44-127](force/static/force/mail.js#L44-L127);
+ - showing up or shutting down elements [142-160](force/static/force/mail.js#L142-L160);
+ - control size of textarea [137-140](force/static/force/mail.js#L137-L140);
+
+ - [react.js](force/static/force/react.js)
