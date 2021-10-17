@@ -294,15 +294,18 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-1. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy.
-2. Style waves for buttons.
+1. textarea scaling.
+2. Building an gradient.
 3. csrf token from JavaScript.
-4. using react styling, working with setState function async bihaviour. Radio buttons in react.
-5. mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors.
-6. Using a canvas.
-7. Make a resizes rescaled rezoomed grid for canvas.
-8. Creating an interactive canvas with different coordinates for cursor.
-9. Building an gradient.
-10. Creating a text that can't be overlapped.
-11. Mobile responsiveness by changing a flex parameters
-12. textarea scaling
+4. using react styling
+5. working with setState function async bihaviour
+6. Using a canvas
+7. Using bootstrap tooltips
+8. Creating a text that can't be overlapped.
+9. Radio buttons in react
+10. Mobile responsiveness by changing a flex parameters
+11. mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
+12. Style waves for buttons
+13. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
+14. Make a resizes rescaled rezoomed grid for canvas
+15. Creating an interactive canvas with different coordinates for cursor
