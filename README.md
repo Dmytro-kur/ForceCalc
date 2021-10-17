@@ -222,73 +222,75 @@ fetch(request, {
 
  - [calculation_post.js](force/static/force/calculation_post.js)
 
-We get our data from the parameters field and if all is ok, we recieve a good response end after 3 second all green marks will disappear [lines from 158 - 182](force/static/force/calculation_post.js#L158-L182), but if our models validation isn't passed we recieve as response error message. 
+We retrieve our data from parameter's fields and if everything is ok, we recieve positive response and after 3 seconds all green marks disappear [lines from 158 - 182](force/static/force/calculation_post.js#L158-L182), but in case our data validation fails we recieve error message as response. 
 
 [calculation_put.js](force/static/force/calculation_post.js) has the same structure as calculation_post.js.
 
  - [header.js](force/static/force/header.js)
 
-In header.js we control header's buttons and pop up user menu, also we connect animation to buttons and use 0.3 sec time for changing a page.
+This function controls header buttons and pop up user menu, we also apply animation to buttons and use 0.3 sec time delay for reloading the page.
 
  - [paginatorsearch.js](force/static/force/paginatorsearch.js)
 
-File describes paginator bar. And reactJS instance [searchComponentInstance](force/static/force/paginatorsearch.js#L166) was used here. Each time when search query was typed or another page was choosen we call [retrieve_items](force/static/force/filter.js#L1-L127) function from [filter.js](force/static/force/filter.js) and load appropriate numbers of items and with matching in context with query. 
+File describes paginator bar, where reactJS instance [searchComponentInstance](force/static/force/paginatorsearch.js#L166) is used. Each time when search query is typed or another page is chosen we call [retrieve_items](force/static/force/filter.js#L1-L127) function from [filter.js](force/static/force/filter.js) and load appropriate number of items matching them with query string and page number. 
 
  - [filter.js](force/static/force/filter.js)
 
-General function is [items_retrieve](force/static/force/filter.js#L1-L127) that creates a list of the projects or emails based on page, query etc. Also we use popstates for project page, mail/inbox, mail/sent and mail/compose [filter line 149](force/static/force/filter.js#L149). Inside items_retrieve function we create a [table](force/static/force/filter.js#L27-L34) with a names of columns depending on what kind of lists we want to recieve, projects or emails. 
+[items_retrieve](force/static/force/filter.js#L1-L127) is the main function that creates a list of projects or emails based on page, query etc. We also use popstates for project page, mail/inbox, mail/sent and mail/compose [filter line 149](force/static/force/filter.js#L149). Inside items_retrieve function we create a [table](force/static/force/filter.js#L27-L34) with the names of columns depending on what kind of lists we want to recieve: projects or emails. 
 
-In filter.js we also fetch a post request that is aimed to save new project as a response we will get good marks or error messages styling is from bootstrap validators for that we should mark field as 'is-valid' or 'is-invalid' [206-214](force/static/force/filter.js#L206-L214). At the end of the function we call [expand](force/templates/force/layout.html#L30-L70) function that is dinamically pop up our fields. During expand action we use a couple of css animations like [arrow-rotate-downwards](force/static/force/styles.css#L405-L412) and [arrow-rotate-upwards](force/static/force/styles.css#L413-L420) that rotates arrow on the new project button, and [expand](force/static/force/styles.css#L422-L435) / [closed](force/static/force/styles.css#L436-L449) animations that expand or close project's or parameter's fields changing their height from 0 to 100% and vice versa.
+In filter.js we also fetch post request that is aimed to save new project. As a response we get either green ticks or error messages styled as bootstrap validators (to use them class should be marked as 'is-valid' or 'is-invalid' in [206-214](force/static/force/filter.js#L206-L214)). 
+
+Afterwards we apply [expand](force/templates/force/layout.html#L30-L70) function that causes fields to pop up dynamically. While expanding we use a couple of css animations like [arrow-rotate-downwards](force/static/force/styles.css#L405-L412) and [arrow-rotate-upwards](force/static/force/styles.css#L413-L420) that rotate arrow on the new project button, and [expand](force/static/force/styles.css#L422-L435) / [closed](force/static/force/styles.css#L436-L449) animations that expand or close project's or parameter's fields changing their height from 0 to 100% and vice versa.
 
  - [mail.js](force/static/force/mail.js)
 
-mail.js controls all mail functions in the project, such as: render an email's content by [render_email](force/static/force/mail.js#L247-L331) function that is also describes a bihavior with archiving and replaying events; showing a list depending on topic (inbox, compose, archived or sent) [44-127](force/static/force/mail.js#L44-L127); showing up or shutting down elements [142-160](force/static/force/mail.js#L142-L160); control size of textarea [137-140](force/static/force/mail.js#L137-L140);
+mail.js controls all mail functions in the project, such as: rendering email's content by [render_email](force/static/force/mail.js#L247-L331) function that also describes archiving and replaying actions; showing a list depending on topic (inbox, compose, archived or sent) in lines [44-127](force/static/force/mail.js#L44-L127); hiding or unhiding elements in lines [142-160](force/static/force/mail.js#L142-L160); controlling the size of text area [137-140](force/static/force/mail.js#L137-L140);
 
  - [calculation_react.js](force/static/force/calculation_react.js)
 
-Probably the biggest one.
+This is the main file for controlling parameter fields and calculating unknown reactions each time any field is changed, that is simultaneously reflected at the canvas.
 
-This is a main file for controlling parameter fields and calculating each time when any field was changed.
+In addition for styles.css we define [styles](force/static/force/calculation_react.js#L48-L72) in render function. 
 
-In addition for styles.css we define a [styles](force/static/force/calculation_react.js#L48-L72) in render function. 
+In constructor we also define [initial values](force/static/force/calculation_react.js#L5-L44) for mechanical scheme.
 
-In constructer we define an [initial values](force/static/force/calculation_react.js#L5-L44) for mechanical scheme.
+First eight functions hide or show buttons such as "delete", "save" or "edit". 
 
-First function is a functions where we hide or show buttons such as delete, save or edit also we have three state for fields:
-1. newState. All filds has initial values, parameter name is empty and option is 'new parameter'. Delete, Edit buttons are hidden;
-2. activeState. Parameter name is read only, options is a seleted current parameter and values are retrieved from server's database. Save, Edit buttons are hidden;
-3. editState. Triggered as we start to change some field's value. Only Save button is hidden.
+There are also three states for parameter fields: 
+1. newState. All fields have initial values, parameter name is empty, selected option being 'new parameter', "delete" and "edit" buttons are hidden;
+2. activeState. Parameter name is "read only", selected option being parameter and values retrieved from server's database, "save" and "edit" buttons are hidden;
+3. editState. It is triggered as we start to change some field's value, only "save" button is hidden.
 
-Next function is a [componentDidMount()](force/static/force/calculation_react.js#L393-L430) calls just after mounting all html's elements. Here we hide all delete, edit buttons, call unread_emails() that allow us to see if there any unread emails we have. Finally we create an options for select element [399-423](force/static/force/calculation_react.js#L399-L423), [calculate a forces](force/static/force/calculation_react.js#L436-L539) based on initial values and assign expand function for parameter fields.
+Function [componentDidMount()](force/static/force/calculation_react.js#L393-L430) runs just after mounting all html's elements. Here we hide all "delete" and "edit" buttons, starting unread_emails() function that allows us to see if there are any unread emails left. Finally we create options for input element in lines [399-423](force/static/force/calculation_react.js#L399-L423), [calculate forces](force/static/force/calculation_react.js#L436-L539) based on initial values and assign expand function for parameter fields.
 
-[forces()](force/static/force/calculation_react.js#L436-L539) takes all values from react states passes it to [get_forces()](force/static/force/calculation_get.js#L22-L50) and recieve a response of calculated forces after that passes this answer to [draw](force/static/force/calculation_canvas.js#L315-1058) function that visualizes that forces on canvas. 
+[forces()](force/static/force/calculation_react.js#L436-L539) takes all values from "React" states, transfers them to [get_forces()](force/static/force/calculation_get.js#L22-L50) and receives calculated forces, after which passes this result to [draw](force/static/force/calculation_canvas.js#L315-1058) function that visualizes these forces on canvas. 
 
-All other functions is aimed to do regular work like retrieving parameter's data after choosing an option, clearing validator's tooltips, updating inputs on fields, elaboration of all button's click events.
+All other functions are aimed to do regular work like retrieving parameter's data after choosing an option, clearing validator's tooltips, updating fields' input, processing all buttons' click events.
 
-At the end of the calculation_react.js we define a 2d canvas [1148-1149](force/static/force/calculation_react.js#L1148-L1149), make initial scales for canvas and draw initial drawing [1152-1167](force/static/force/calculation_react.js#L1152-L1167)
+At the end of the calculation_react.js we create 2d canvas [1148-1149](force/static/force/calculation_react.js#L1148-L1149), define initial scales for canvas and make initial drawing [1152-1167](force/static/force/calculation_react.js#L1152-L1167)
 
  - [calculations_canvas.js](force/static/force/calculation_canvas.js)
 
-Is figuring out a canvas with mechanical scheme and forces showing on that scheme.
+It draws mechanical scheme and forces attached to the latter on canvas.
 
-When mouse is over the canvas scroll function should be disabled [1-7](force/static/force/calculation_canvas.js#L1-L7), because scroll defines a scaling on the canvas.
+When mouse moves over the canvas, scroll function is disabled [1-7](force/static/force/calculation_canvas.js#L1-L7), because mouse scroll zooms drawing on the canvas.
 
-First function draws scheme based on initial calculation_react states and defines a responsivness of canvas while resizing.
+After that we define scrolling event [65-99](force/static/force/calculation_canvas.js#L65-L99), to be able to perform "zoom" function.
 
-After that we define a scrolling event [65-99](force/static/force/calculation_canvas.js#L65-L99), 'zoom' on wheel scroll event.
+By detecting cursor's position over canvas [101-143](force/static/force/calculation_canvas.js#L101-L143) we can voluntarily move the drawing while mouse's left button is clicked and on hold [148-167](force/static/force/calculation_canvas.js#L148-L167).
 
-Next is detecting the cursor while its over canvas [101-143](force/static/force/calculation_canvas.js#L101-L143) and translating a content of the canvas while mouse left button is pushing [148-167](force/static/force/calculation_canvas.js#L148-L167).
-
-Next functions [multiply](force/static/force/calculation_canvas.js#L280-L299) and [rotate](force/static/force/calculation_canvas.js#L301-L313) represent mathematical [Matrix Multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) and [Rotation_matrix](https://en.wikipedia.org/wiki/Rotation Matrix) that allow us to rotate our force vectors.
+Further functions [multiply](force/static/force/calculation_canvas.js#L280-L299) and [rotate](force/static/force/calculation_canvas.js#L301-L313) represent mathematical [Matrix Multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) and [Rotation_matrix](https://en.wikipedia.org/wiki/Rotation Matrix) that allow us to rotate our force vectors.
 
 [draw](force/static/force/calculation_canvas.js#L315-L1058) function draws all content on the canvas.
 
  - [style.css](force/static/force/styles.css)
 
-In styles.css we describe layout on the site, dimensioning (box-sizing: border-box) and flex type of the elements [1-52](force/static/force/styles.css#L1-L52). Also we define a level of responsiveness:
- - first level - is up to 970px of screen width [454-506](force/static/force/styles.css#L454-L506);
- - second - is from 540px to 970px [508-555](force/static/force/styles.css#L508-L555);
- - third - is from 285px to 540px [557-561](force/static/force/styles.css#L557-L561).
+In styles.css we define layout of the site, dimension rules (box-sizing: border-box) and display types of elements, viz. "flex" [1-52](force/static/force/styles.css#L1-L52). 
+
+The level of responsiveness is also defined here:
+ - first level is up to 970px of screen width [454-506](force/static/force/styles.css#L454-L506);
+ - second is from 540px to 970px [508-555](force/static/force/styles.css#L508-L555);
+ - third is from 285px to 540px [557-561](force/static/force/styles.css#L557-L561).
 
 # Distinctiveness and Complexity
 
