@@ -98,7 +98,7 @@ function draw_initialization() {
         );
     })
 
-// detecting cursor
+// detecting cursor and transfering context
     canvas.addEventListener('mouseover', () => {
         disableScroll();
         canvas.addEventListener('mousemove', function(event) {
@@ -145,7 +145,7 @@ function draw_initialization() {
         enableScroll();
     })
 
-// translate context
+// save last coord
     canvas.addEventListener('mousedown', (event)=> {
         if (event.button === 0) {
             event.preventDefault();
