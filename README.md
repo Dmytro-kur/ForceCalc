@@ -340,6 +340,8 @@ this.setState({
 }, () => {this.func();})
 ```
 
-Using this construction _this.func_ receives already updated states. Example in lines [617-622](force/static/force/calculation_react.js#L617-L622).
+Using this construction, _this.func_ receives already updated states. Example in lines [617-622](force/static/force/calculation_react.js#L617-L622).
 
-5. 
+5. Canvas is a new for this project. For use a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas was used `let ctx = canvas.getContext('2d');`.
+
+6. For form's fields validation bootstrap tooltips. Forms include "needs-validation"
