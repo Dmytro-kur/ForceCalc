@@ -294,21 +294,21 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-1. Building an gradient.
-2. csrf token from JavaScript.
-3. using react styling
-4. working with setState function async bihaviour
-5. Using a canvas
-6. Using bootstrap tooltips
-7. textarea scaling.
-8. Creating a text that can't be overlapped.
-9. Radio buttons in react
-10. Mobile responsiveness by changing a flex parameters
-11. mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
-12. Style waves for buttons
-13. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
-14. Make a resizes rescaled rezoomed grid for canvas
-15. Creating an interactive canvas with different coordinates for cursor
+Building an gradient.
+csrf token from JavaScript.
+using react styling
+working with setState function async bihaviour
+Using a canvas
+Using bootstrap tooltips
+textarea scaling.
+Creating a text that can't be overlapped.
+Radio buttons in react
+Mobile responsiveness by changing a flex parameters
+mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
+Style waves for buttons
+Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
+Make a resizes rescaled rezoomed grid for canvas
+Creating an interactive canvas with different coordinates for cursor
 
 1. For "login", "register" and "user menu" buttons Linear Gradient in css was added:
 ```
