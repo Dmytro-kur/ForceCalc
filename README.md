@@ -491,7 +491,7 @@ Using [getCoords](force/static/force/waves.js#L1-L10) function we find current c
 
 [is_clicked](force/static/force/waves.js#L37-L52) function is used for correct detection of the element where animation should run.
 
-15. For solving three linear equations of static balance is used numpy python package. There are two main classes:
+15. numpy python package should be used for solving three linear equations of static balance. There are two main classes:
  - _calc_forces_;
  - _calc_torque_.
 
@@ -525,7 +525,7 @@ X = np.linalg.solve(A, B)
 
 The [moment](https://en.wikipedia.org/wiki/Moment_(physics)) of force, often called torque, is the product of a force on an object and the distance from the reference point to the object. Reference point in our case is "purple circle" (origin).
 
-**calc_torque.solver()** function allows us to find third component of moment vector by using numpy.cross() function that represents [cross product](https://en.wikipedia.org/wiki/Cross_product):
+**calc_torque.solver()** function allows us to find third component of moment vector by using numpy.cross() - function that represents [cross product](https://en.wikipedia.org/wiki/Cross_product):
 ```
 # x, y - coordinates of the point where force F was applied
 # F - force
@@ -557,3 +557,4 @@ while (cell < 20) {
 Every time when our cell is higher than 50px or less than 20px we divide init_cell by 2 or multiply by 2 correspondingly.
 
 17. Creating an interactive canvas with different coordinates for cursor
+
