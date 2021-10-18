@@ -294,17 +294,6 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-
-Mobile responsiveness by changing a flex parameters
-mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
-Style waves for buttons
-Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
-Make a resizes rescaled rezoomed grid for canvas
-Creating an interactive canvas with different coordinates for cursor
-
-
-
-
 1. For "login", "register" and "user menu" buttons Linear Gradient in css was added:
 ```
 background-image: linear-gradient(to right bottom, rgb(211, 237, 255), rgba(211, 237, 255, 0.05));
@@ -363,7 +352,7 @@ function refresh_textarea(textArea) {
 };
 ```
 
-8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px in along Y axis. So the minimum distance between two texts in along Y axis is 15px. The logic implemented in calculation_canvas.js [873-887](force/static/force/calculation_canvas.js#L873-L887).
+8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px along Y axis. So the minimum distance between two texts along Y axis is 15px. The logic implemented in calculation_canvas.js [873-887](force/static/force/calculation_canvas.js#L873-L887).
 
 9. Radio buttons on calculation page has special conditions of use, we should:
  - separate the values by two inputs;
@@ -371,4 +360,201 @@ function refresh_textarea(textArea) {
  - add a _checked_ attribute. Button is active while _checked_ is True and inactive while False.
 Example of code in lines [269-275](force/static/force/calculation_react.js#L269-L275).
 
-10. 
+10. Mobile responsiveness achieved by using `display: flex;` and `@media (max-width: *px) {}` function that allows us change page layout:
+
+For example,
+
+view from 970px of screen width
+```
+#container {
+  flex-direction: row;
+}
+```
+view up to 970px of screen width
+```
+#container {
+  flex-direction: row;
+}
+```
+
+12. For drawing vectors were used a number of mathematical functions and objects, such as:
+ - Matrix multiplication:
+ ```
+ function multiply(a, b) {
+    // i.e. input:
+    // let a = [[8, 3], [2, 4], [3, 6]],
+    //     b = [[1, 2, 3], [4, 6, 8]];
+
+    let aNumRows = a.length, aNumCols = a[0].length,
+        bNumRows = b.length, bNumCols = b[0].length,
+        m = new Array(aNumRows);  // initialize array of rows
+
+    for (let r = 0; r < aNumRows; ++r) {
+      m[r] = new Array(bNumCols); // initialize the current row
+      for (let c = 0; c < bNumCols; ++c) {
+        m[r][c] = 0;             // initialize the current cell
+        for (let i = 0; i < aNumCols; ++i) {
+          m[r][c] += a[r][i] * b[i][c];
+        }
+      }
+    }
+    return m;
+}
+ ```
+ - Rotattion Matrix:
+ ```
+ function rotate(theta, x, y) {
+    R = [
+        [Math.cos(-theta*Math.PI/180), -Math.sin(-theta*Math.PI/180)],
+        [Math.sin(-theta*Math.PI/180),  Math.cos(-theta*Math.PI/180)]
+    ]
+
+    m = multiply( R, [[x], [y]] )
+    result = {
+        X: m[0][0],
+        Y: m[1][0],
+    }
+    return result
+}
+ ```
+13. To display vectors in the form of arrows we should rotate each points numbered from 0 to 7 on angle:
+```
+function reaction(P, R, A, s, color, Xshift=0, Yshift=0) {
+    // P - point where force was applied
+    // R - reaction force value
+    // A - direction of force
+    // s - scale for force value
+
+    const S = s * parse_scale
+
+    ctx.fillStyle = color;
+    ctx.lineWidth = W/10;
+    ctx.beginPath();
+
+    const zero = {
+        X: P.x + Xshift,
+        Y: P.y + Yshift,
+    }
+    const one = {
+        X: P.x + Xshift + Math.abs(R) * S,
+        Y: P.y + Yshift,
+    }
+    const two = {
+        X: one.X - 1.449 * S,
+        Y: one.Y + 0.388 * S,
+    }
+    const three = {
+        X: one.X - 1.328 * S,
+        Y: one.Y + 0.2 * S,
+    }
+    const four = {
+        X: zero.X,
+        Y: zero.Y + 0.2 * S,
+    }
+    const five = {
+        X: zero.X,
+        Y: zero.Y - 0.2 * S,
+    }
+    const six = {
+        X: three.X,
+        Y: one.Y - 0.2 * S,
+    }
+    const seven = {
+        X: two.X,
+        Y: one.Y - 0.388 * S,
+    }
+
+    transform1 = rotate(A, one.X - zero.X, one.Y - zero.Y)
+    transform2 = rotate(A, two.X - zero.X, two.Y - zero.Y)
+    transform3 = rotate(A, three.X - zero.X, three.Y - zero.Y)
+    transform4 = rotate(A, four.X - zero.X, four.Y - zero.Y)
+    transform5 = rotate(A, five.X - zero.X, five.Y - zero.Y)
+    transform6 = rotate(A, six.X - zero.X, six.Y - zero.Y)
+    transform7 = rotate(A, seven.X - zero.X, seven.Y - zero.Y)
+
+    ctx.moveTo(zero.X + transform1.X, zero.Y + transform1.Y);
+    ctx.lineTo(zero.X + transform2.X, zero.Y + transform2.Y);
+    ctx.lineTo(zero.X + transform3.X, zero.Y + transform3.Y);
+    ctx.lineTo(zero.X + transform4.X, zero.Y + transform4.Y);
+    ctx.lineTo(zero.X + transform5.X, zero.Y + transform5.Y);
+    ctx.lineTo(zero.X + transform6.X, zero.Y + transform6.Y);
+    ctx.lineTo(zero.X + transform7.X, zero.Y + transform7.Y);
+    ctx.closePath();
+
+```
+
+14. In waves.js file we define functions that allow us to control "wave effect" (as seen in Google pages) when buttons are pushed. 
+
+Button consists of two elements: one is a visible button, another is a circle but we see this circle only while running an animation [wave](force/static/force/styles.css#L167-L177), [user-menu-wave](force/static/force/styles.css#L209-L219), [sidebar-wave](force/static/force/styles.css#L747-L757).
+
+Using [getCoords](force/static/force/waves.js#L1-L10) function we find current coordinates of certain buttons while [waves](force/static/force/waves.js#L12-L35) function runs animation that is aimed at continuosly increasing circle's diameter after the click. Center of this radial distribution is where user clicks inside button's boundary. But this won't work without last [dummy operations](force/static/force/waves.js#L26-L35) refreshing css animation. Without this operation the animation runs only once and stops unless we reload the page.
+
+[is_clicked](force/static/force/waves.js#L37-L52) function is used for correct detection of the element where animation should run.
+
+15. numpy python package should be used for solving three linear equations of static balance. There are two main classes:
+ - _calc_forces_;
+ - _calc_torque_.
+
+In calc_forces.solver() we construct two Matrices A and B and put it to _numpy.linalg.solve()_ function as arguments, as output we get three unknowns _Ra_, _Rb_, _NR_:
+```
+A = np.array([
+    [
+        f * cos( ALPHA_FRICTION[0] ),
+        f * cos( ALPHA_FRICTION[1] ),
+        cos( ALPHA_REACTION[2] ) + mu * cos( ALPHA_FRICTION[2] )
+    ],
+    [
+        sin( ALPHA_REACTION[0] ), 
+        sin( ALPHA_REACTION[1] ), 
+        sin( ALPHA_REACTION[2] ) + mu * sin( .ALPHA_FRICTION[2] ) 
+    ],
+    [ 
+        (a + b),
+        (a),
+        0
+    ]
+])
+
+B = np.array(
+    [ load, 0, 0 ]
+)
+
+X = np.linalg.solve(A, B)
+
+```
+
+The [moment](https://en.wikipedia.org/wiki/Moment_(physics)) of force, often called torque, is the product of a force on an object and the distance from the reference point to the object. Reference point in our case is "purple circle" (origin).
+
+**calc_torque.solver()** function allows us to find third component of moment vector by using numpy.cross() - function that represents [cross product](https://en.wikipedia.org/wiki/Cross_product):
+```
+# x, y - coordinates of the point where force F was applied
+# F - force
+# alpha - force direction
+
+torque = np.cross(
+    [x             , y             , 0],
+    [F * cos(alpha), F * sin(alpha), 0]
+)
+torque[2] # we are interested in third component
+```
+
+16. On the canvas we have a grid that rebuilds as we go out of range [20px, 50px]. The cell size has minimum 20px and maximum 50px. This property is achieved by **while** loop:
+```
+# init_cell - absolute value in mm;
+
+let cell = init_cell * scale;
+while (cell > 50) {
+    init_cell /= 2;
+    cell = init_cell * scale;
+}
+
+while (cell < 20) {
+    init_cell *= 2;
+    cell = init_cell * scale;
+}
+```
+
+Every time when our cell is higher than 50px or less than 20px we divide init_cell by 2 or multiply by 2 correspondingly.
+
+17. Creating an interactive canvas with different coordinates for cursor
+
