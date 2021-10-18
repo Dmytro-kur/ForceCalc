@@ -294,17 +294,6 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-
-Mobile responsiveness by changing a flex parameters
-mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
-Style waves for buttons
-Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
-Make a resizes rescaled rezoomed grid for canvas
-Creating an interactive canvas with different coordinates for cursor
-
-
-
-
 1. For "login", "register" and "user menu" buttons Linear Gradient in css was added:
 ```
 background-image: linear-gradient(to right bottom, rgb(211, 237, 255), rgba(211, 237, 255, 0.05));
@@ -371,4 +360,10 @@ function refresh_textarea(textArea) {
  - add a _checked_ attribute. Button is active while _checked_ is True and inactive while False.
 Example of code in lines [269-275](force/static/force/calculation_react.js#L269-L275).
 
-10. 
+10. Mobile responsiveness by changing a flex parameters
+11. mathimetical functions multiply, and rotate in calculation_canvas.js and Building 
+12. an arrows for force vectors
+13. Style waves for buttons
+14. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
+15. Make a resizes rescaled rezoomed grid for canvas
+16. Creating an interactive canvas with different coordinates for cursor
