@@ -294,21 +294,15 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-1. Building an gradient.
-2. csrf token from JavaScript.
-3. using react styling
-4. working with setState function async bihaviour
-5. Using a canvas
-6. Using bootstrap tooltips
-7. textarea scaling.
-8. Creating a text that can't be overlapped.
-9. Radio buttons in react
-10. Mobile responsiveness by changing a flex parameters
-11. mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
-12. Style waves for buttons
-13. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
-14. Make a resizes rescaled rezoomed grid for canvas
-15. Creating an interactive canvas with different coordinates for cursor
+
+Creating a text that can't be overlapped.
+Radio buttons in react
+Mobile responsiveness by changing a flex parameters
+mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
+Style waves for buttons
+Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
+Make a resizes rescaled rezoomed grid for canvas
+Creating an interactive canvas with different coordinates for cursor
 
 1. For "login", "register" and "user menu" buttons Linear Gradient in css was added:
 ```
@@ -339,9 +333,33 @@ this.setState({
     ...
 }, () => {this.func();})
 ```
-
 Using this construction, _this.func_ receives already updated states. Example in lines [617-622](force/static/force/calculation_react.js#L617-L622).
 
-5. Canvas is a new for this project. For use a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas was used `let ctx = canvas.getContext('2d');`.
+5. Canvas is a new for this project. For use a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas `let ctx = canvas.getContext('2d');` command was used.
 
-6. For form's fields validation bootstrap tooltips. Forms include "needs-validation"
+6. For form validation bootstrap style was used. Form includes "needs-validation" class. Ddirectly after each field empty div element with class "invalid-tooltip" should be added:
+```
+<form class="needs-validation" novalidate>
+    <div class="position-relative">
+        {{ Form.field_name }}
+        <div class="invalid-tooltip">
+        </div>
+    </div>
+</form>
+```
+By adding or removing 'is-valid', 'is-invalid' classes to input fields we control the status of the fields, Ok or not Ok. For example:
+```
+document.querySelector('#field_id').classList.remove('is-invalid')
+document.querySelector('#field_id').classList.add('is-valid')
+
+```
+
+7. As default, textarea element can't be resized depending on content within, an uncomfortable scroll bar appears at the right side. To improve it, we detect a number of lines by regular expression and set a calculated height to textarea every time content changed:
+```
+function refresh_textarea(textArea) {
+  let current_num_lines = textArea.value.split(/\r\n|\r|\n/).length;
+  textArea.style.height = (current_num_lines * 24 + 24) + 'px';
+};
+```
+
+8. 
