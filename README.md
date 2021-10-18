@@ -352,7 +352,7 @@ function refresh_textarea(textArea) {
 };
 ```
 
-8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px in along Y axis. So the minimum distance between two texts in along Y axis is 15px. The logic implemented in calculation_canvas.js [873-887](force/static/force/calculation_canvas.js#L873-L887).
+8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px along Y axis. So the minimum distance between two texts along Y axis is 15px. The logic implemented in calculation_canvas.js [873-887](force/static/force/calculation_canvas.js#L873-L887).
 
 9. Radio buttons on calculation page has special conditions of use, we should:
  - separate the values by two inputs;
