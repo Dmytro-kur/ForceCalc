@@ -295,14 +295,15 @@ The level of responsiveness is also defined here:
 # Distinctiveness and Complexity
 
 
-Creating a text that can't be overlapped.
-Radio buttons in react
 Mobile responsiveness by changing a flex parameters
 mathimetical functions multiply, and rotate in calculation_canvas.js and Building an arrows for force vectors
 Style waves for buttons
 Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
 Make a resizes rescaled rezoomed grid for canvas
 Creating an interactive canvas with different coordinates for cursor
+
+
+
 
 1. For "login", "register" and "user menu" buttons Linear Gradient in css was added:
 ```
@@ -362,4 +363,12 @@ function refresh_textarea(textArea) {
 };
 ```
 
-8. 
+8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px in along Y axis. So the minimum distance between two texts in along Y axis is 15px. The logic implemented in calculation_canvas.js [873-887](force/static/force/calculation_canvas.js#L873-L887).
+
+9. Radio buttons on calculation page has special conditions of use, we should:
+ - separate the values by two inputs;
+ - define a _name_ for two inputs to make them mutually exclusive;
+ - add a _checked_ attribute. Button is active while _checked_ is True and inactive while False.
+Example of code in lines [269-275](force/static/force/calculation_react.js#L269-L275).
+
+10. 
