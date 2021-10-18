@@ -879,8 +879,8 @@ function draw(ctx, scale, posX, posY,
             if (i !== j) {
                 if (Math.abs(text_list[i].x - text_list[j].x) < Xthreshold &&
                     Math.abs(text_list[i].y - text_list[j].y) < Ythreshold) {
-                        text_list[i].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(7.5)
-                        text_list[j].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(-7.5)
+                        text_list[i].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(Ythreshold/2)
+                        text_list[j].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(-Ythreshold/2)
                 }
             }
         }
