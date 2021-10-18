@@ -294,13 +294,7 @@ The level of responsiveness is also defined here:
 
 # Distinctiveness and Complexity
 
-Building an gradient.
-csrf token from JavaScript.
-using react styling
-working with setState function async bihaviour
-Using a canvas
-Using bootstrap tooltips
-textarea scaling.
+
 Creating a text that can't be overlapped.
 Radio buttons in react
 Mobile responsiveness by changing a flex parameters
@@ -353,10 +347,19 @@ Using this construction, _this.func_ receives already updated states. Example in
     </div>
 </form>
 ```
-By adding or removing 'is-valid', 'is-invalid' classes to input fields we control the status of the field, Ok or not Ok. For example:
+By adding or removing 'is-valid', 'is-invalid' classes to input fields we control the status of the fields, Ok or not Ok. For example:
 ```
 document.querySelector('#field_id').classList.remove('is-invalid')
 document.querySelector('#field_id').classList.add('is-valid')
 
 ```
 
+7. As default, textarea element can't be resized depending on content within, an uncomfortable scroll bar appears at the right side. To improve it, we detect a number of lines by regular expression and set a calculated height to textarea every time content changed:
+```
+function refresh_textarea(textArea) {
+  let current_num_lines = textArea.value.split(/\r\n|\r|\n/).length;
+  textArea.style.height = (current_num_lines * 24 + 24) + 'px';
+};
+```
+
+8. 
