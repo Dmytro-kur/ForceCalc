@@ -339,9 +339,24 @@ this.setState({
     ...
 }, () => {this.func();})
 ```
-
 Using this construction, _this.func_ receives already updated states. Example in lines [617-622](force/static/force/calculation_react.js#L617-L622).
 
-5. Canvas is a new for this project. For use a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas was used `let ctx = canvas.getContext('2d');`.
+5. Canvas is a new for this project. For use a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas `let ctx = canvas.getContext('2d');` command was used.
 
-6. For form's fields validation bootstrap tooltips. Forms include "needs-validation"
+6. For form validation bootstrap style was used. Form includes "needs-validation" class. Ddirectly after each field empty div element with class "invalid-tooltip" should be added:
+```
+<form class="needs-validation" novalidate>
+    <div class="position-relative">
+        {{ Form.field_name }}
+        <div class="invalid-tooltip">
+        </div>
+    </div>
+</form>
+```
+By adding or removing 'is-valid', 'is-invalid' classes to input fields we control the status of the field, Ok or not Ok. For example:
+```
+document.querySelector('#field_id').classList.remove('is-invalid')
+document.querySelector('#field_id').classList.add('is-valid')
+
+```
+
