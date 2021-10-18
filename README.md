@@ -491,6 +491,69 @@ Using [getCoords](force/static/force/waves.js#L1-L10) function we find current c
 
 [is_clicked](force/static/force/waves.js#L37-L52) function is used for correct detection of the element where animation should run.
 
-15. Force, torque, distance calculation in models.py. Using a recalculation for torque. numpy
-16. Make a resizes rescaled rezoomed grid for canvas
+15. For solving three linear equations of static balance is used numpy python package. There are two main classes:
+ - _calc_forces_;
+ - _calc_torque_.
+
+In calc_forces.solver() we construct two Matrices A and B and put it to _numpy.linalg.solve()_ function as arguments, as output we get three unknowns _Ra_, _Rb_, _NR_:
+```
+A = np.array([
+    [
+        f * cos( ALPHA_FRICTION[0] ),
+        f * cos( ALPHA_FRICTION[1] ),
+        cos( ALPHA_REACTION[2] ) + mu * cos( ALPHA_FRICTION[2] )
+    ],
+    [
+        sin( ALPHA_REACTION[0] ), 
+        sin( ALPHA_REACTION[1] ), 
+        sin( ALPHA_REACTION[2] ) + mu * sin( .ALPHA_FRICTION[2] ) 
+    ],
+    [ 
+        (a + b),
+        (a),
+        0
+    ]
+])
+
+B = np.array(
+    [ load, 0, 0 ]
+)
+
+X = np.linalg.solve(A, B)
+
+```
+
+The [moment](https://en.wikipedia.org/wiki/Moment_(physics)) of force, often called torque, is the product of a force on an object and the distance from the reference point to the object. Reference point in our case is "purple circle" (origin).
+
+**calc_torque.solver()** function allows us to find third component of moment vector by using numpy.cross() function that represents [cross product](https://en.wikipedia.org/wiki/Cross_product):
+```
+# x, y - coordinates of the point where force F was applied
+# F - force
+# alpha - force direction
+
+torque = np.cross(
+    [x             , y             , 0],
+    [F * cos(alpha), F * sin(alpha), 0]
+)
+torque[2] # we are interested in third component
+```
+
+16. On the canvas we have a grid that rebuilds as we go out of range [20px, 50px]. The cell size has minimum 20px and maximum 50px. This property is achieved by **while** loop:
+```
+# init_cell - absolute value in mm;
+
+let cell = init_cell * scale;
+while (cell > 50) {
+    init_cell /= 2;
+    cell = init_cell * scale;
+}
+
+while (cell < 20) {
+    init_cell *= 2;
+    cell = init_cell * scale;
+}
+```
+
+Every time when our cell is higher than 50px or less than 20px we divide init_cell by 2 or multiply by 2 correspondingly.
+
 17. Creating an interactive canvas with different coordinates for cursor
