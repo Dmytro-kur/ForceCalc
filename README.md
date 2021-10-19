@@ -303,7 +303,7 @@ background-image: linear-gradient(to right bottom, rgb(211, 237, 255), rgba(211,
 ```
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 const request = new Request(
-    '_some_url_',
+    'some_url',
     {headers: {'X-CSRFToken': csrftoken}}
 );
 
