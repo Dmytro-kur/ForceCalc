@@ -854,54 +854,81 @@ function draw(ctx, scale, posX, posY,
 
     // distance text
 
+    let O_ = JSON.parse(JSON.stringify(_O));
     let text_D = {
-        x: _O.x + (new_TIX - _O.x)/2,
-        y: _O.y - (_O.y - new_TIY)/2,
+        x: O_.x + (new_TIX - O_.x)/2,
+        y: O_.y - (O_.y - new_TIY)/2,
         Xshift: 0,
         Yshift: 0,
     };
     let Val_TI = Math.sqrt( Math.pow(TIX, 2) + Math.pow(TIY, 2) );
 
     let text_FD = {
-        x: _O.x + (new_FTIX - _O.x)/2,
-        y: _O.y - (_O.y - new_FTIY)/2,
+        x: O_.x + (new_FTIX - O_.x)/2,
+        y: O_.y - (O_.y - new_FTIY)/2,
         Xshift: 0,
         Yshift: 0,
     } 
     const Val_FTI = Math.sqrt( Math.pow(FTIX, 2) + Math.pow(FTIY, 2) );
 
-    let text_list = [text_NR, text_NR_mu, text_Na, text_Na_f, text_Nb, text_Nb_f, _LOAD, _O, text_D, text_FD];
     const Xthreshold = 125;
     const Ythreshold = 15;
-
-    for (let i = 0; i < text_list.length; i++) {
-        for (let j = 0; j < text_list.length; j++) {
-            if (i !== j) {
-                if (Math.abs(text_list[i].x - text_list[j].x) < Xthreshold &&
-                    Math.abs(text_list[i].y - text_list[j].y) < Ythreshold) {
-                        text_list[i].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(Ythreshold/2)
-                        text_list[j].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(-Ythreshold/2)
+    function text_overlapping(n) {
+        // n - number of repetitions
+        i = 0
+        let text_list = [text_NR, text_NR_mu, text_Na, text_Na_f, text_Nb, text_Nb_f, _LOAD, O_, text_D, text_FD];
+        while (i <= n) {
+            for (let i = 0; i < text_list.length; i++) {
+                for (let j = 0; j < text_list.length; j++) {
+                    if (i !== j) {
+                        if (Math.abs(text_list[i].x - text_list[j].x) < Xthreshold &&
+                            Math.abs(text_list[i].y - text_list[j].y) < Ythreshold) {
+                                text_list[i].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(Ythreshold/2)
+                                text_list[j].Yshift = Math.sign(text_list[i].y - text_list[j].y)*(-Ythreshold/2)
+                                text_list[i].y += text_list[i].Yshift;
+                                text_list[j].y += text_list[j].Yshift;
+                        }
+                    }
                 }
             }
+            i++;
         }
     }
+    text_overlapping(3);
 
+    // // Force text
+    //     // Point      // Force magnitude // Angle // X shifting      // Y shifting      // mode
+    // text( text_NR,    NR,                NRD,     text_NR.Xshift,    text_NR.Yshift,    0);
+    // text( text_NR_mu, NR*mu,             NRFD,    text_NR_mu.Xshift, text_NR_mu.Yshift, 0);
+    // text( text_Na,    Na,                NaD,     text_Na.Xshift,    text_Na.Yshift,    0);
+    // text( text_Na_f,  Math.abs(Na*f),    NaFD,    text_Na_f.Xshift,  text_Na_f.Yshift,  0);
+    // text( text_Nb,    Nb,                NbD,     text_Nb.Xshift,    text_Nb.Yshift,    0);
+    // text( text_Nb_f,  Math.abs(Nb*f),    NbFD,    text_Nb_f.Xshift,  text_Nb_f.Yshift,  0);
+    // text( _LOAD,      Math.abs(_LOAD.R), _LOAD.A, _LOAD.Xshift,      _LOAD.Yshift,      0);
+    
+    // // Torque text
+    // text( _O,         (NRT + NRFT),      0,       _O.Xshift,         _O.Yshift,         1);
+    
+    // // Distance text
+    // text( text_D,     Val_TI,            0,       text_D.Xshift,     text_D.Yshift,     2);
+    // text( text_FD,    Val_FTI,           0,       text_FD.Xshift,    text_FD.Yshift,    2);
+    
     // Force text
-        // Point      // Force magnitude // Angle // X shifting      // Y shifting      // mode
-    text( text_NR,    NR,                NRD,     text_NR.Xshift,    text_NR.Yshift,    0);
-    text( text_NR_mu, NR*mu,             NRFD,    text_NR_mu.Xshift, text_NR_mu.Yshift, 0);
-    text( text_Na,    Na,                NaD,     text_Na.Xshift,    text_Na.Yshift,    0);
-    text( text_Na_f,  Math.abs(Na*f),    NaFD,    text_Na_f.Xshift,  text_Na_f.Yshift,  0);
-    text( text_Nb,    Nb,                NbD,     text_Nb.Xshift,    text_Nb.Yshift,    0);
-    text( text_Nb_f,  Math.abs(Nb*f),    NbFD,    text_Nb_f.Xshift,  text_Nb_f.Yshift,  0);
-    text( _LOAD,      Math.abs(_LOAD.R), _LOAD.A, _LOAD.Xshift,      _LOAD.Yshift,      0);
-    
-    // Torque text
-    text( _O,         (NRT + NRFT),      0,       _O.Xshift,         _O.Yshift,         1);
-    
-    // Distance text
-    text( text_D,     Val_TI,            0,       text_D.Xshift,     text_D.Yshift,     2);
-    text( text_FD,    Val_FTI,           0,       text_FD.Xshift,    text_FD.Yshift,    2);
+        // Point          // Force magnitude // Angle // X shifting      // Y shifting // mode
+        text( text_NR,    NR,                NRD,     text_NR.Xshift,    0,            0);
+        text( text_NR_mu, NR*mu,             NRFD,    text_NR_mu.Xshift, 0,            0);
+        text( text_Na,    Na,                NaD,     text_Na.Xshift,    0,            0);
+        text( text_Na_f,  Math.abs(Na*f),    NaFD,    text_Na_f.Xshift,  0,            0);
+        text( text_Nb,    Nb,                NbD,     text_Nb.Xshift,    0,            0);
+        text( text_Nb_f,  Math.abs(Nb*f),    NbFD,    text_Nb_f.Xshift,  0,            0);
+        text( _LOAD,      Math.abs(_LOAD.R), _LOAD.A, _LOAD.Xshift,      0,            0);
+        
+        // Torque text
+        text( O_,         (NRT + NRFT),      0,       O_.Xshift,         0,            1);
+        
+        // Distance text
+        text( text_D,     Val_TI,            0,       text_D.Xshift,     0,            2);
+        text( text_FD,    Val_FTI,           0,       text_FD.Xshift,    0,            2);
 
 // Grid
 
