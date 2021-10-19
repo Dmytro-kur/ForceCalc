@@ -556,5 +556,29 @@ while (cell < 20) {
 
 Every time when our cell is higher than 50px or less than 20px we divide init_cell by 2 or multiply by 2 correspondingly.
 
-17. Creating an interactive canvas with different coordinates for cursor
+17. Drawing on the canvas has a "dragging and drop" feature. We can capture drawing by left mouse button clicking and drag it to somewhere on the canvas and in any time we can drop it down. 
 
+For that we define three parameter:
+ - coordinate of starting point when mouse was clicked at first:
+ ```
+coord.X = 0;
+coord.Y = 0;
+ ```
+ - cursor position in canvas coordinate system:
+ ```
+mouse.X = 0;
+mouse.Y = 0;
+ ```
+ - shift of the drawing:
+```
+pos.X   = 0;
+pos.Y   = 0;
+```
+
+_pos_ parameter goes to main _draw_ function as argument:
+```
+draw(ctx, scale, pos.X, pos.Y, ...)
+
+```
+
+Every time mouse moves through canvas, _mouse_ parameter is calculating
