@@ -538,7 +538,7 @@ torque = np.cross(
 torque[2] # we are interested in third component
 ```
 
-15. On the canvas we have a grid that rebuilds as we go out of range [20px, 50px]. The cell size has minimum 20px and maximum 50px. This property is achieved by **while** loop:
+15. On the canvas we have a grid that rebuilds as we go out of range [20px, 50px] for cell size. Cell has minimum 20px and maximum 50px. This property is achieved by **while** loop:
 ```
 # init_cell - absolute value in mm;
 
