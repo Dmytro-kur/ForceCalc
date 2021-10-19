@@ -556,10 +556,10 @@ while (cell < 20) {
 
 Every time when our cell is higher than 50px or less than 20px we divide init_cell by 2 or multiply by 2 correspondingly.
 
-17. Drawing on the canvas has a "dragging and drop" feature. We can capture drawing by left mouse button clicking and drag it to somewhere on the canvas and in any time we can drop it down. 
+17. Drawing on the canvas has a "dragging and drop" feature. We can capture drawing by left mouse button click and drag it to somewhere on the canvas and in any time we can drop it down. 
 
-For that we define three parameter:
- - coordinate of starting point when mouse was clicked at first:
+We define three parameter:
+ - coordinate of the point where mouse was clicked before capture and after drop:
  ```
 coord.X = 0;
 coord.Y = 0;
@@ -581,4 +581,43 @@ draw(ctx, scale, pos.X, pos.Y, ...)
 
 ```
 
-Every time mouse moves through canvas, _mouse_ parameter is calculating
+Every time mouse moves through canvas, _mouse_ parameter is calculating:
+```
+canvas.addEventListener('mouseover', () => {
+    disableScroll();
+    canvas.addEventListener('mousemove', function(event) {
+        var rect = canvas.getBoundingClientRect();
+        mouse.X = event.clientX - rect.left;
+        mouse.Y = event.clientY - rect.top;
+```
+
+Once left button is clicked we calculate _pos_ parameter and send it to _draw_ function:
+```
+if (mouseState === 'mousedown') {
+    pos.X = mouse.X - coord.X;
+    pos.Y = mouse.Y - coord.Y;
+    draw(ctx, scale, pos.X, pos.Y, ...)
+```
+For updating _coord_ parameter, every time mouse is clicked we do next:
+```
+canvas.addEventListener('mousedown', (event)=> {
+    if (event.button === 0) {
+        event.preventDefault();
+        mouseState = 'mousedown'
+        
+        coord.X = mouse.X - pos.X;
+        coord.Y = mouse.Y - pos.Y;
+
+        document.body.addEventListener('mouseup', (event) => {
+            if (event.button === 0) {
+                event.preventDefault();
+                mouseState = 'mouseup'
+
+                coord.X = mouse.X - pos.X;
+                coord.Y = mouse.Y - pos.Y;
+            }
+        })
+    }
+})
+```
+Second event listener applies to document.body not to canvas. This allows us to drop draw outside of the canvas.
