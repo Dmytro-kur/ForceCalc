@@ -314,9 +314,9 @@ fetch(request, {
 })
 ```
 
-3. Its usable sometimes to add styling and html code in one place. But its a new to add styling for this project in React component. In calculation_react.js was added a styling settings before returned html elements: lines [48-72](force/static/force/calculation_react.js#L48-L72).
+3. Its usable sometimes to put styling and html code in one place. But its a new to add styling for this project in React component. In calculation_react.js a styling settings was added before returned html elements: lines [48-72](force/static/force/calculation_react.js#L48-L72).
 
-4. Synchronous execution of operations. Each time when we update react states by using _setState_ we can not do another operations further in current function because states aren't updated yet and to solve this issue we use next syntax:
+4. Synchronous execution of operations. Every time when we update react states by using _setState_, we can't do another operations further in current function because states aren't updated yet and to solve this issue we use next syntax:
 ```
 this.setState({
     key: value,
@@ -325,9 +325,9 @@ this.setState({
 ```
 Using this construction, _this.func_ receives already updated states. Example in lines [617-622](force/static/force/calculation_react.js#L617-L622).
 
-5. Canvas is a new for this project. For use a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas `let ctx = canvas.getContext('2d');` command was used.
+5. Canvas is a new for this project. For using a canvas, html element was created `<canvas id="canvas" aria-label="Force calculation" role="img"></canvas>`. For returning a drawing context on the canvas `let ctx = canvas.getContext('2d');` command was used.
 
-6. For form validation bootstrap style was used. Form includes "needs-validation" class. Ddirectly after each field empty div element with class "invalid-tooltip" should be added:
+6. Bootstrap style was applied for form's validation. Form includes "needs-validation" class. Ddirectly after each field we add empty div element with class "invalid-tooltip":
 ```
 <form class="needs-validation" novalidate>
     <div class="position-relative">
@@ -337,14 +337,14 @@ Using this construction, _this.func_ receives already updated states. Example in
     </div>
 </form>
 ```
-By adding or removing 'is-valid', 'is-invalid' classes to input fields we control the status of the fields, Ok or not Ok. For example:
+By adding or removing 'is-valid' or 'is-invalid' classes to or from input fields we control the status of the fields, Ok or not Ok. For example:
 ```
 document.querySelector('#field_id').classList.remove('is-invalid')
 document.querySelector('#field_id').classList.add('is-valid')
 
 ```
 
-7. As default, textarea element can't be resized depending on content within, an uncomfortable scroll bar appears at the right side. To improve it, we detect a number of lines by regular expression and set a calculated height to textarea every time content changed:
+7. As default, textarea element can't be resized depending on content within, an uncomfortable scroll bar appears at the right side. To improve it, we find lines by regular expression and set a calculated height to textarea every time content changed:
 ```
 function refresh_textarea(textArea) {
   let current_num_lines = textArea.value.split(/\r\n|\r|\n/).length;
