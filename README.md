@@ -598,7 +598,7 @@ if (mouseState === 'mousedown') {
     pos.Y = mouse.Y - coord.Y;
     draw(ctx, scale, pos.X, pos.Y, ...)
 ```
-For updating _coord_ parameter, every time mouse is clicked we do next:
+Every time mouse is clicked we update _coord_ parameter:
 ```
 canvas.addEventListener('mousedown', (event)=> {
     if (event.button === 0) {
