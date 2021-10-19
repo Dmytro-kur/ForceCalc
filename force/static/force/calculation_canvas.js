@@ -153,7 +153,7 @@ function draw_initialization() {
 
             coord.X = mouse.X - pos.X;
             coord.Y = mouse.Y - pos.Y;
-
+            
             document.body.addEventListener('mouseup', (event) => {
                 if (event.button === 0) {
                     event.preventDefault();
