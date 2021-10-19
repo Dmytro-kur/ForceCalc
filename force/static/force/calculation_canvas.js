@@ -895,23 +895,6 @@ function draw(ctx, scale, posX, posY,
         }
     }
     text_overlapping(3);
-
-    // // Force text
-    //     // Point      // Force magnitude // Angle // X shifting      // Y shifting      // mode
-    // text( text_NR,    NR,                NRD,     text_NR.Xshift,    text_NR.Yshift,    0);
-    // text( text_NR_mu, NR*mu,             NRFD,    text_NR_mu.Xshift, text_NR_mu.Yshift, 0);
-    // text( text_Na,    Na,                NaD,     text_Na.Xshift,    text_Na.Yshift,    0);
-    // text( text_Na_f,  Math.abs(Na*f),    NaFD,    text_Na_f.Xshift,  text_Na_f.Yshift,  0);
-    // text( text_Nb,    Nb,                NbD,     text_Nb.Xshift,    text_Nb.Yshift,    0);
-    // text( text_Nb_f,  Math.abs(Nb*f),    NbFD,    text_Nb_f.Xshift,  text_Nb_f.Yshift,  0);
-    // text( _LOAD,      Math.abs(_LOAD.R), _LOAD.A, _LOAD.Xshift,      _LOAD.Yshift,      0);
-    
-    // // Torque text
-    // text( _O,         (NRT + NRFT),      0,       _O.Xshift,         _O.Yshift,         1);
-    
-    // // Distance text
-    // text( text_D,     Val_TI,            0,       text_D.Xshift,     text_D.Yshift,     2);
-    // text( text_FD,    Val_FTI,           0,       text_FD.Xshift,    text_FD.Yshift,    2);
     
     // Force text
         // Point          // Force magnitude // Angle // X shifting      // Y shifting // mode

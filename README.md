@@ -263,7 +263,7 @@ There are also three states for parameter fields:
 
 Function [componentDidMount()](force/static/force/calculation_react.js#L393-L430) runs just after mounting all html's elements. Here we hide all "delete" and "edit" buttons, starting unread_emails() function that allows us to see if there are any unread emails left. Finally we create options for input element in lines [399-423](force/static/force/calculation_react.js#L399-L423), [calculate forces](force/static/force/calculation_react.js#L436-L539) based on initial values and assign expand function for parameter fields.
 
-[forces()](force/static/force/calculation_react.js#L436-L539) takes all values from "React" states, transfers them to [get_forces()](force/static/force/calculation_get.js#L22-L50) and receives calculated forces, after which passes this result to [draw](force/static/force/calculation_canvas.js#L315-1058) function that visualizes these forces on canvas. 
+[forces()](force/static/force/calculation_react.js#L436-L539) takes all values from "React" states, transfers them to [get_forces()](force/static/force/calculation_get.js#L22-L50) and receives calculated forces, after which passes this result to [draw](force/static/force/calculation_canvas.js#L315-1068) function that visualizes these forces on canvas. 
 
 All other functions are aimed to do regular work like retrieving parameter's data after choosing an option, clearing validator's tooltips, updating fields' input, processing all buttons' click events.
 
@@ -281,7 +281,7 @@ By detecting cursor's position over canvas [101-143](force/static/force/calculat
 
 Further functions [multiply](force/static/force/calculation_canvas.js#L280-L299) and [rotate](force/static/force/calculation_canvas.js#L301-L313) represent mathematical [Matrix Multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) and [Rotation_matrix](https://en.wikipedia.org/wiki/Rotation Matrix) that allow us to rotate our force vectors.
 
-[draw](force/static/force/calculation_canvas.js#L315-L1058) function draws all content on the canvas.
+[draw](force/static/force/calculation_canvas.js#L315-L1068) function draws all content on the canvas.
 
  - [style.css](force/static/force/styles.css)
 
@@ -352,7 +352,7 @@ function refresh_textarea(textArea) {
 };
 ```
 
-8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px along Y axis. So the minimum distance between two texts along Y axis is 15px. The logic implemented in calculation_canvas.js [873-887](force/static/force/calculation_canvas.js#L873-L887).
+8. Problem is a text overlapping on the canvas. When two texts close to each other they programatically shift by 15px along Y axis. So the minimum distance between two texts along Y axis is 15px. The logic implemented in calculation_canvas.js [874-897](force/static/force/calculation_canvas.js#L874-L897).
 
 9. Radio buttons on calculation page has special conditions of use, we should:
  - separate the values by two inputs;
