@@ -417,7 +417,7 @@ view up to 970px of screen width
     return result
 }
  ```
-12. To display vectors in the form of arrows we should rotate each points numbered from 0 to 7 on angle:
+12. To display vectors in the form of arrows we should rotate every 8 points on angle:
 ```
 function reaction(P, R, A, s, color, Xshift=0, Yshift=0) {
     // P - point where force was applied
