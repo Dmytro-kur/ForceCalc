@@ -377,7 +377,7 @@ view up to 970px of screen width
 }
 ```
 
-12. For drawing vectors were used a number of mathematical functions and objects, such as:
+11. For drawing vectors were used a number of mathematical functions and objects, such as:
  - Matrix multiplication:
  ```
  function multiply(a, b) {
@@ -417,7 +417,7 @@ view up to 970px of screen width
     return result
 }
  ```
-13. To display vectors in the form of arrows we should rotate each points numbered from 0 to 7 on angle:
+12. To display vectors in the form of arrows we should rotate each points numbered from 0 to 7 on angle:
 ```
 function reaction(P, R, A, s, color, Xshift=0, Yshift=0) {
     // P - point where force was applied
@@ -483,7 +483,7 @@ function reaction(P, R, A, s, color, Xshift=0, Yshift=0) {
 
 ```
 
-14. In waves.js file we define functions that allow us to control "wave effect" (as seen in Google pages) when buttons are pushed. 
+13. In waves.js file we define functions that allow us to control "wave effect" (as seen in Google pages) when buttons are pushed. 
 
 Button consists of two elements: one is a visible button, another is a circle but we see this circle only while running an animation [wave](force/static/force/styles.css#L167-L177), [user-menu-wave](force/static/force/styles.css#L209-L219), [sidebar-wave](force/static/force/styles.css#L747-L757).
 
@@ -491,7 +491,7 @@ Using [getCoords](force/static/force/waves.js#L1-L10) function we find current c
 
 [is_clicked](force/static/force/waves.js#L37-L52) function is used for correct detection of the element where animation should run.
 
-15. numpy python package should be used for solving three linear equations of static balance. There are two main classes:
+14. numpy python package should be used for solving three linear equations of static balance. There are two main classes:
  - _calc_forces_;
  - _calc_torque_.
 
@@ -538,7 +538,7 @@ torque = np.cross(
 torque[2] # we are interested in third component
 ```
 
-16. On the canvas we have a grid that rebuilds as we go out of range [20px, 50px]. The cell size has minimum 20px and maximum 50px. This property is achieved by **while** loop:
+15. On the canvas we have a grid that rebuilds as we go out of range [20px, 50px]. The cell size has minimum 20px and maximum 50px. This property is achieved by **while** loop:
 ```
 # init_cell - absolute value in mm;
 
@@ -556,7 +556,7 @@ while (cell < 20) {
 
 Every time when our cell is higher than 50px or less than 20px we divide init_cell by 2 or multiply by 2 correspondingly.
 
-17. Drawing on the canvas has a "dragging and drop" feature. We can capture drawing by left mouse button click and drag it to somewhere on the canvas and in any time we can drop it down. 
+16. Drawing on the canvas has a "dragging and drop" feature. We can capture drawing by left mouse button click and drag it to somewhere on the canvas and in any time we can drop it down. 
 
 We define three parameter:
  - coordinate of the point where mouse was clicked before capture and after drop:
