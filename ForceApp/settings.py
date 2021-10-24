@@ -21,10 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# with open('SECRET_KEY/ForceCalc.txt') as f:
-#     SECRET_KEY = f.read().strip()
-
-SECRET_KEY = input('SECRET_KEY:\n')
+SECRET_KEY = '4k09c#cmiub+-t$s1&4+jq=wvl2el9n-udw+9b*z1^kcub=9lk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
