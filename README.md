@@ -1,3 +1,5 @@
+Button for hiding text
+
 # ForceCalc
 
 ## Description
